@@ -44,6 +44,9 @@ function doExam(){
 <input type=hidden name=act value="list">
 <input type=hidden name=requery> 
 <html:hidden property="formNo"/>
+<html:hidden property="manuId"/>
+<html:hidden property="prodId"/>
+<html:hidden property="applyAttr"/>
 <%=ViewUtil.getTitle("发行加工单")%>
 	<table width="98%" class="dtPanel_Line1" border="0" cellspacing="1"
 		align="center" cellpadding="0">
