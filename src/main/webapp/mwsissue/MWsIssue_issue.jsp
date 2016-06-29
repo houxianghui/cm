@@ -241,7 +241,8 @@ if (pageResultLsInfo != null) {%>
 			<%}else{ %>
 			<input type="button" value="发行完成" class="Button" onClick="doIssueDone()"/>
 			<%} %>
-			
+			&nbps;&nbps;&nbps;
+			<input type="button" value="检测" class="Button" onClick="doExam()"/>
 			</td>
 		</tr>
 	</table>
