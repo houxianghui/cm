@@ -1,0 +1,514 @@
+/*
+ * @# ProjectDistributeAction.java 2008-11-21 houxh
+ *
+ * Copyright  (c)  2003 	Huateng. All Right Reserv
+ */
+ 
+package com.projectmaintain;
+
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.blue.enums.ProjectType;
+import com.blue.enums.Steps;
+import com.blue.enums.YesOrNo;
+import com.blue.mile.MileStoneBO;
+import com.blue.product.ModuleDefBO;
+import com.blue.project.ProjectList;
+import com.blue.projectdistribute.ProjectDistribute;
+import com.blue.scale.Scale;
+import com.blue.scale.ScaleDef;
+import com.blue.scale.ScaleDefBO;
+import com.eis.base.BaseForm;
+import com.eis.base.IbatisBaseAction;
+import com.eis.cache.ReDefSDicMap;
+import com.eis.cache.RedefSDicCodes;
+import com.eis.cache.SingleDic;
+import com.eis.cache.SingleDicMap;
+import com.eis.exception.MessageException;
+import com.eis.portal.UserContext;
+import com.eis.portal.role.RoleBO;
+import com.eis.portal.user.UserBO;
+import com.eis.util.CheckUtil;
+import com.eis.util.DateUtil;
+import com.eis.util.StringUtil;
+import com.huateng.blue.work.WorkDistributeBO;
+import com.itextpdf.text.xml.XMLUtil;
+import com.thoughtworks.xstream.XStream;
+
+
+public class ProjectDistributeAction extends IbatisBaseAction {
+	private WorkDistributeBO workDistributeBO;
+	private RoleBO roleBO;
+	@Autowired
+	private MileStoneBO mileStoneBO;
+	@Autowired
+	private ProjectMaintainBO projectMaintainBO;
+	@Autowired
+	private ScaleDefBO scaleDefBO;
+	@Autowired
+	private ModuleDefBO moduleDefBO;
+	@Autowired
+	private UserBO userBO;
+	
+	public WorkDistributeBO getWorkDistributeBO() {
+		return workDistributeBO;
+	}
+	public void setWorkDistributeBO(WorkDistributeBO workDistributeBO) {
+		this.workDistributeBO = workDistributeBO;
+	}
+	/* 
+	 * @see com.eis.base.BaseAction#process(org.apache.struts.action.ActionMapping, com.eis.base.BaseForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.eis.portal.UserContext)
+	 */
+	public ActionForward process(ActionMapping mapping, BaseForm form, HttpServletRequest request, HttpServletResponse response, UserContext user) throws Exception {
+		String act=form.getAct();
+		if("gd".equals(act)){
+			return getDistributeInit(form,request,mapping);
+		}
+		if("gmp".equals(act)){//我的任务列表
+			return getMyProjects(mapping,user,request);
+		}
+		if("gmpPop".equals(act)){//我的任务列表
+			return getMyProjectsPop(mapping,user,request);
+		}
+		if("queryUserDist".equals(act)){
+			return queryUserDist(mapping,user,request);
+		}
+		if("gdp".equals(act)){
+			return getDoneProjects(request,mapping,user);
+		}
+		if("ud".equals(act)){
+			return updateDistribute(form,mapping,request,user);
+		}
+		if("qd".equals(act)){
+			return getProjectDistribute(request,mapping);
+		}
+		if("dl".equals(act)){//项目分配列表
+			return getProjectDistributeList(request,mapping);
+		}
+		if("edit".equals(act)){
+			return editProjectDistribute(form,request, mapping,user);			
+		}
+		if("new".equals(act)){//新增项目分配
+			return addProjectDistribute(form,request,mapping,user); 
+		}
+		if("add".equals(act)){//保存项目分配信息
+			return insertProjectDistribute(form,request,mapping,response,user);
+		}
+		if("update".equals(act)){
+			return updateProjectDistribute(form,request,mapping,user,response);
+		}
+		if("detail".equals(act)){
+			return getDetail(form,request,mapping);
+		}
+		if("delete".equals(act)){	//移除项目分配
+			return delete(form,request,mapping,response);
+		}
+		if("display".equals(act)){
+			return displayWorkTable(request,mapping,form);
+		}
+		if("doFinish".equals(act)){
+			return doFinished(form,mapping,request,user);
+		}
+		if("addTask".equals(act)){
+			return addTask(form);
+		}
+		if("check".equals(act)){
+			return checkMyProjects(mapping,user,request);
+		}
+		if("score".equals(act)){
+			return getScoreInfo(form,mapping,user,request);
+		}
+		if("issueRecord".equals(act)){
+			return issueRecord(form,mapping,request);
+		}
+		if("getNotDoneWorks".equals(act)){
+			return getNotDoneWorks(form,mapping,request);
+		}
+		if("getDoneWorks".equals(act)){
+			return getDownWorks(form,mapping,request);
+		}
+		if("getNotSelectedStuff".equals(act)){
+			getNotSelectedStuff(request,response);
+			return null;
+		}
+		if("getSelectedStaff".equalsIgnoreCase(act)){
+			getSelectedStaff(request,response);
+			return null;
+		}
+		return null;
+	}
+	private ActionForward queryUserDist(ActionMapping mapping, UserContext user, HttpServletRequest request)throws Exception {
+		
+		setPageResult(request,((ProjectDistributeBO)bo).getMyProjects(request.getParameter("userId")));
+		return mapping.findForward("queryUserDist");
+	}
+	private ActionForward getDownWorks(BaseForm form, ActionMapping mapping, HttpServletRequest request)throws Exception {
+		ProjectDistributeForm f = (ProjectDistributeForm)form;
+		if(CheckUtil.isEmptry(f.getEndDate_f())){
+			f.setEndDate_f(DateUtil.getDTStr());
+		}
+		if(CheckUtil.isEmptry(f.getDay())){
+			f.setDay("0");
+		}
+		setPageResult(request,((ProjectDistributeBO)bo).getDoneWorks(form));
+		return mapping.findForward("getDoneWorks");
+	}
+	public ActionForward getNotDoneWorks(BaseForm form,ActionMapping mapping,HttpServletRequest request)throws Exception{
+		ProjectDistributeForm f = (ProjectDistributeForm)form;
+		if(CheckUtil.isEmptry(f.getEndDate_f())){
+			f.setEndDate_f(DateUtil.getDTStr());
+		}
+		if(CheckUtil.isEmptry(f.getDay())){
+			f.setDay("0");
+		}
+		setPageResult(request,((ProjectDistributeBO)bo).getNotDoneWorks(form));
+		return mapping.findForward("getNotDoneWorks");
+	}
+	public ActionForward getScoreInfo(BaseForm form,ActionMapping mapping,UserContext user,HttpServletRequest request)throws Exception{
+		ProjectDistributeVO vo = (ProjectDistributeVO)((ProjectDistributeBO)bo).getProjectDistributeDetail(((ProjectDistributeForm)form).getId());
+		StringBuffer url = new StringBuffer("ScoreInfo.do?act=init&projectId=");
+		url.append(vo.getProjectId());
+		url.append("&userId=");
+		url.append(vo.getUserId());
+		url.append("&status=");
+		url.append(vo.getStep());
+		return new ActionRedirect(url.toString());
+	}
+	public ActionForward issueRecord(BaseForm form,ActionMapping mapping,HttpServletRequest request)throws Exception{
+//		ProjectDistributeVO vo = (ProjectDistributeVO)((ProjectDistributeBO)bo).getProjectDistributeDetail(form);
+		StringBuffer url = new StringBuffer("IssueRecord.do?act=list&projectId=");
+		url.append(request.getParameter("projectId"));
+		url.append("&distributeId=");
+		url.append(request.getParameter("id"));
+		return new ActionRedirect(url.toString());
+	}
+	public ActionForward editProjectDistribute(BaseForm form,HttpServletRequest request, ActionMapping mapping,UserContext user)throws Exception{
+		
+		if(!userBO.hasRole("PM",user)){
+			throw new MessageException("只有项目管理人员才能修改项目计划");
+		}
+		int id = ((ProjectDistributeForm)form).getId();
+		ProjectDistribute vo = (ProjectDistribute)((ProjectDistributeBO)bo).getProjectDistributeDetail(id);
+		copyProperties(form,vo);
+		ProjectList pl = projectMaintainBO.queryForObject(vo.getProjectId());
+		request.setAttribute("scaleId", pl.getScaleId());
+		return mapping.findForward("edit");
+	}
+	public ActionForward doFinished(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		String type = request.getParameter("type");
+		if(!"T".equalsIgnoreCase(type)){
+//			((ProjectDistributeBO)bo).validateStatus(form);
+//			((ProjectDistributeBO)bo).validateWork(form,user);
+			((ProjectDistributeBO)bo).finishMyProject(request.getParameter("id"),user);
+		}else{
+			workDistributeBO.finishMyWork(Integer.parseInt(request.getParameter("id")));
+		}
+		
+		return forwardSuccessPage(request,mapping,"修改成功","ProjectDistribute.do?act=gmp");
+	}
+	public ActionForward addTask(BaseForm form)throws Exception{
+		((ProjectDistributeBO)bo).validateStatus(form);
+		return new ActionForward("/TASK_LIST.do?act=c&project_no="+((ProjectDistributeForm)form).getProjectId()+"&curr_step="+((ProjectDistributeForm)form).getStatus()+"&id="+((ProjectDistributeForm)form).getId());
+	}
+	public ActionForward displayWorkTable(HttpServletRequest request,ActionMapping mapping,ActionForm form)throws Exception{
+		String flag = request.getParameter("flag");
+		String date = request.getParameter("date");
+		ProjectDistributeForm f = (ProjectDistributeForm)form;
+		request.setAttribute("checkbox", SingleDicMap.getCheckBox("ids", SingleDic.DEPART,f.getIds()));
+//		String unit = request.getParameter("unit");
+		
+		if("next".equals(flag)){
+			date = DateUtil.getNextModayStr(date);;			
+		}else if("pre".equals(flag)){
+			date = DateUtil.getPreMondayStr(date);
+		}else{
+			if(date == null || date.trim().length() == 0){
+				date = DateUtil.getDTStr();
+			}
+		}
+		request.setAttribute("date",date);
+		request.setAttribute("worktable",((ProjectDistributeBO)bo).getDisplay(date,f.getIds()));		
+		return mapping.findForward("display");
+	}
+	
+	public ActionForward delete(BaseForm form ,HttpServletRequest request,ActionMapping mapping,HttpServletResponse response)throws Exception{
+		String id = request.getParameter("id");
+		String projectId = request.getParameter("projectId");
+		if(CheckUtil.isEmptry(id)){
+			writeMessage("没有选择人员",response);
+		}
+		String[] ids = id.split(",");
+		((ProjectDistributeBO)bo).transRemove(ids);
+		if(!CheckUtil.isEmptry(request.getParameter("oper"))){
+			writeSuccessMsg(response);
+			return null;
+		}else{
+			return forwardSuccessPage(request, mapping, "删除成功","ProjectDistribute.do?act=dl&projectId="+projectId);
+		}
+	}	
+	public ActionForward getDetail(BaseForm form ,HttpServletRequest request,ActionMapping mapping)throws Exception{
+		ProjectDistribute vo = (ProjectDistribute)((ProjectDistributeBO)bo).getProjectDistributeDetail(Integer.parseInt(request.getParameter("id")));
+		copyProperties(form,vo);
+		return mapping.findForward("detail");
+	}
+	public ActionForward updateProjectDistribute(BaseForm form ,HttpServletRequest request,ActionMapping mapping,UserContext user,HttpServletResponse response)throws Exception{
+		ProjectDistribute vo = new ProjectDistribute();
+		copyProperties(vo,form);
+		boolean isAjax = !CheckUtil.isEmptry(request.getParameter("oper"));
+		
+//		ValidateUtil.rejectIfEmpty(vo.getReason(),"修改原因");
+		ProjectDistributeVO v = new ProjectDistributeVO();
+		copyProperties(v, vo);
+		try{
+			((ProjectDistributeBO)bo).checkBusy(v);
+		}catch(MessageException e){
+			if(isAjax){
+				writeMessage(e.getMessage(), response);
+			}else{
+				throw e;
+			}
+		}
+		
+		vo.setIsDone(YesOrNo.N.toString());
+		((ProjectDistributeBO)bo).update(vo,user);
+		if(!CheckUtil.isEmptry(request.getParameter("oper"))){
+			writeSuccessMsg(response);
+			return null;
+		}else{
+			return forwardSuccessPage(request, mapping, "修改成功","ProjectDistribute.do?act=dl&projectId="+vo.getProjectId());
+		}
+	}	
+	public ActionForward addProjectDistribute(BaseForm form ,HttpServletRequest request,ActionMapping mapping,UserContext user)throws Exception{
+		String projectId = request.getParameter("projectId");
+		ProjectList p = projectMaintainBO.queryForObject(projectId);
+		
+//		if("1".equals(p.getMainPlanDis())){
+//			if(!user.getUserID().equals(p.getProjectManager())){
+//				throw new MessageException("此项目由项目经理完成主计划分配，您不是该项目项目经理，无权执行此操作");
+//			}
+//		}else{
+//			if(!user.getUserID().equals(p.getUserId())){
+//				throw new MessageException("此项目不是您录入的，您无权执行此操作");
+//			}
+//		}
+		
+		if(!userBO.hasRole("PM",user) && !user.getUserID().equals(p.getUserId())){
+			throw new MessageException("只有项目管理人员才能修改项目计划");
+		}
+		
+		if(ProjectType.valueOf(p.getProjectClass()).isHasScale()){
+			
+			if(p.getScaleId() == null){
+				throw new MessageException("项目缺少项目规模信息，请先修改项目信息");
+			}
+			ScaleDef scaleDef = scaleDefBO.queryForObject(p.getScaleId());
+			if(scaleDef == null){
+				throw new MessageException("项目缺少项目规模信息，请先修改项目信息");
+			}
+			XStream x = new XStream();
+			Scale scale =  (Scale)x.fromXML(scaleDef.getScale()); 
+			
+			request.setAttribute("scale", scale.makeHtml(((ProjectDistributeBO)bo).getProjectDistributeMap(projectId)));
+			request.setAttribute("modules", moduleDefBO.queryForAllModule());
+			return mapping.findForward("mainPlan");
+		}else{
+			List<String> staffs = roleBO.getUsersByRole("stuff");
+			
+			request.setAttribute("miles", mileStoneBO.queryForList(request.getParameter("projectId")));
+			request.setAttribute("notSelectedStuff",((ProjectDistributeBO)bo).getNotSelectedStuff(request,staffs));
+			return mapping.findForward("new");
+		}
+	}
+	
+	public ActionForward insertProjectDistribute(BaseForm form,HttpServletRequest request,ActionMapping mapping,HttpServletResponse response,UserContext user)throws Exception{
+		String ids = request.getParameter("id");
+		if(CheckUtil.isEmptry(ids)){
+			writeMessage("没有分配人员",response);
+			return null;
+		}
+		String userIds[] = ids.split(",");
+		String step = request.getParameter("step");
+		String actionId = request.getParameter("actionId");
+		if(CheckUtil.isEmptry(step)){
+			writeMessage("请选择阶段", response);
+			return null;
+		}else if(Steps.valueOf(step) == Steps.A){
+			writeMessage("不可以对“全部”进行分配",response);
+			return null;
+		}
+		ProjectDistribute pd =((ProjectDistributeBO)bo).getLatestStartDate(request.getParameter("projectId"), step);
+		String today = DateUtil.getDTStr();
+		ProjectDistribute vos[] = new ProjectDistribute[userIds.length];
+		for(int i = 0;i < userIds.length;i++){
+			vos[i] = new ProjectDistribute();	
+			if(pd != null){
+				vos[i].setStartDate(pd.getStartDate());
+				vos[i].setEndDate(pd.getEndDate());
+			}else{
+				vos[i].setStartDate(today);
+				vos[i].setEndDate(today);
+			}
+			vos[i].setPercent(100);
+			vos[i].setStep(step);
+			vos[i].setProjectId(request.getParameter("projectId"));
+			vos[i].setIsDone(YesOrNo.N.toString());
+			vos[i].setUserId(userIds[i]);
+			vos[i].setActionId(StringUtil.parseInt(actionId));
+			if(!CheckUtil.isEmptry(request.getParameter("moduleId"))){
+				vos[i].setModuleId(request.getParameter("moduleId"));
+			}
+//				((ProjectDistributeBO)bo).checkBusy(vos[i]);
+		}
+		((ProjectDistributeBO)bo).transOperation(vos,user);
+		writeMessage("success", response);
+		return null;
+//		return forwardSuccessPage(request,mapping,"保存成功","ProjectDistribute.do?act=dl&projectId="+projectId);
+	}
+	public ActionForward insertActionDistribute(BaseForm form,HttpServletRequest request,ActionMapping mapping,HttpServletResponse response,UserContext user)throws Exception{
+		String ids = request.getParameter("id");
+		if(CheckUtil.isEmptry(ids)){
+			writeMessage("没有分配人员",response);
+			return null;
+		}
+		String userIds[] = ids.split(",");
+		String step = request.getParameter("step");
+		String actionId = request.getParameter("actionId");
+		ProjectDistribute pd =((ProjectDistributeBO)bo).getLatestStartDateByActionId(request.getParameter("projectId"), actionId);
+		String today = DateUtil.getDTStr();
+		ProjectDistribute vos[] = new ProjectDistribute[userIds.length];
+		for(int i = 0;i < userIds.length;i++){
+			vos[i] = new ProjectDistribute();	
+			if(pd != null){
+				vos[i].setStartDate(pd.getStartDate());
+				vos[i].setEndDate(pd.getEndDate());
+			}else{
+				vos[i].setStartDate(today);
+				vos[i].setEndDate(today);
+			}
+			vos[i].setPercent(100);
+			vos[i].setStep(step);
+			vos[i].setProjectId(request.getParameter("projectId"));
+			vos[i].setIsDone(YesOrNo.N.toString());
+			vos[i].setUserId(userIds[i]);
+//				((ProjectDistributeBO)bo).checkBusy(vos[i]);
+		}
+		((ProjectDistributeBO)bo).transOperation(vos,user);
+		writeMessage("success", response);
+		return null;
+//		return forwardSuccessPage(request,mapping,"保存成功","ProjectDistribute.do?act=dl&projectId="+projectId);
+	}
+	/**
+	 * 获得指定项目的分配情况
+	 * 
+	 * @param form
+	 * @param request
+	 * @param mapping
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward getProjectDistributeList(HttpServletRequest request,ActionMapping mapping)throws Exception{
+		String projectId = request.getParameter("projectId");
+		
+		request.setAttribute("projectId",projectId);
+		request.setAttribute("step",request.getParameter("step"));
+		setPageResult(request,((ProjectDistributeBO)bo).queryForProjectDistributeList(projectId));
+		return mapping.findForward("al");
+	}
+	public ActionForward getProjectDistribute(HttpServletRequest request,ActionMapping mapping)throws Exception{
+		setPageResult(request,((ProjectDistributeBO)bo).queryForProjectDistributeList(request.getParameter("projectId")));
+		return mapping.findForward("view");
+	}
+	public void getNotSelectedStuff(HttpServletRequest request,HttpServletResponse response)throws Exception{
+		List<String> staffs = roleBO.getUsersByRole("stuff");
+		List l = ((ProjectDistributeBO)bo).getAllStuff(request,staffs);
+		writeList(request, response, l);
+	}
+	private void getSelectedStaff(HttpServletRequest request,HttpServletResponse response)throws Exception{
+		List<ProjectDistribute> l = ((ProjectDistributeBO)bo).getSelectedStaff(request,true);
+		List<ProjectDistributeForm> formList = new ArrayList<ProjectDistributeForm>();
+		for(ProjectDistribute p:l){
+			ProjectDistributeForm form = new ProjectDistributeForm();
+			copyProperties(form, p);
+			form.setUserName(ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, form.getUserId()));
+			formList.add(form);
+		}
+		if(!CheckUtil.isEmptry(request.getParameter("oper"))){
+			writeMessage(makeDisInfo(formList), response);
+		}else{
+			writeList(request, response, formList);
+		}
+	}
+	private String makeDisInfo(List<ProjectDistributeForm> formList) {
+		StringBuffer sb = new StringBuffer();
+		for(ProjectDistributeForm f : formList){
+			sb.append(f.getUserName());
+			sb.append("<br>");
+		}
+		return sb.toString();
+	}
+	public ActionForward getDistributeInit(BaseForm form ,HttpServletRequest request,ActionMapping mapping)throws Exception{
+		String projectId = request.getParameter("projectId");
+		((ProjectDistributeForm)form).setProjectId(projectId);
+//		
+//		request.setAttribute("selectedStuff",((ProjectDistributeBO)bo).getSelectedStuff(projectId));
+//		request.setAttribute("notSelectedStuff",((ProjectDistributeBO)bo).getNotSelectedStuff(projectId));
+		return mapping.findForward("ed");
+	}
+	public ActionForward getMyProjects(ActionMapping mapping,UserContext user,HttpServletRequest request)throws Exception{
+
+		setPageResult(request,((ProjectDistributeBO)bo).getMyProjects(user.getUserID()));
+		return mapping.findForward("list");
+	}
+	public ActionForward getMyProjectsPop(ActionMapping mapping,UserContext user,HttpServletRequest request)throws Exception{
+
+		setPageResult(request,((ProjectDistributeBO)bo).getMyProjectsPop(user.getUserID()));
+		return mapping.findForward("poplist");
+	}
+	public ActionForward getDoneProjects(HttpServletRequest request,ActionMapping mapping,UserContext user)throws Exception{
+		setPageResult(request,((ProjectDistributeBO)bo).getDoneProjectDistributes(user.getUserID()));
+		return mapping.findForward("doneList");
+	}
+	public ActionForward updateDistribute(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		String userIds[] = request.getParameterValues("rolesRight");
+		if(userIds == null || userIds.length == 0){
+			ProjectDistributeVO vo = new ProjectDistributeVO();
+			vo.setProjectId(((ProjectDistributeForm)form).getProjectId());
+			bo.delete(vo);
+		}else{
+			String projectId = request.getParameter("projectId");
+			ProjectDistributeVO vos[] = new ProjectDistributeVO[userIds.length];
+			for(int i = 0;i < userIds.length;i++){
+				vos[i] = new ProjectDistributeVO();
+				vos[i].setProjectId(projectId);
+				vos[i].setUserId(userIds[i]);
+			}
+			((ProjectDistributeBO)bo).transOperation(vos,user);
+		}
+		return forwardSuccessPage(request,mapping,"更新成功","ProjectMaintain.do?act=qpl");
+	}
+	public ActionForward checkMyProjects(ActionMapping mapping,UserContext user,HttpServletRequest request)throws Exception{
+		request.setAttribute("flag","n");//传到页面的信息，标志是否显示提示
+		if(((ProjectDistributeBO)bo).checkBlankWork(user)){
+			request.setAttribute("flag","y");
+		}
+		return mapping.findForward("note");
+	}
+	public RoleBO getRoleBO() {
+		return roleBO;
+	}
+	public void setRoleBO(RoleBO roleBO) {
+		this.roleBO = roleBO;
+	}
+}

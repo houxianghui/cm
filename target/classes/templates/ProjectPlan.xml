@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+	<sheetName>项目计划表</sheetName>
+	<cells>
+		<cell rowIndex="0" colIndex="0" value="贷记卡项目开发实施计划表" fontSize="18" font="黑体" colSpan="8" bolder="true"/>
+		<cell rowIndex="1" colIndex="0" value="项目名称" bolder="true"/>
+		<cell rowIndex="2" colIndex="0" value="项目编号" bolder="true"/>
+		<cell rowIndex="2" colIndex="4" value="立项时间" bolder="true"/>
+		<cell rowIndex="3" colIndex="0" value="项目经理" bolder="true"/>
+		<cell rowIndex="3" colIndex="4" value="需求部门" bolder="true"/>
+		<cell rowIndex="4" colIndex="0" value="开发总体计划" colSpan="8" bolder="true" bgColor="PALE_BLUE"/>
+		<cell rowIndex="5" colIndex="0" value="计划开始时间" bolder="true"/>
+		<cell rowIndex="5" colIndex="4" value="预计完成时间" bolder="true"/>
+		<cell rowIndex="6" colIndex="0" value="实施阶段" bolder="true"/>
+		<cell rowIndex="6" colIndex="1" value="开始日期" bolder="true" wordWrap="true"/>
+		<cell rowIndex="6" colIndex="2" value="结束日期" bolder="true" wordWrap="true"/>
+		<cell rowIndex="6" colIndex="3" value="预计工作量(人天)" bolder="true" wordWrap="true"/>
+		<cell rowIndex="6" colIndex="4" value="各阶段负责人" bolder="true"/>
+		<cell rowIndex="6" colIndex="5" value="计划参与人员名单" bolder="true" colSpan="3"/>
+		<cell rowIndex="7" colIndex="0" value="需求分析阶段(包括需求分析，需求评审）" wordWrap="true"></cell>
+		<cell rowIndex="8" colIndex="0" value="方案设计阶段(包括功能设计，功能评审）" wordWrap="true"></cell>
+		<cell rowIndex="9" colIndex="0" value="代码开发、单元测试阶段" wordWrap="true"></cell>
+		<cell rowIndex="10" colIndex="0" value="集成测试阶段" wordWrap="true"></cell>
+		<cell rowIndex="11" colIndex="0" value="用户测试阶段" wordWrap="true"></cell>
+		<cell rowIndex="12" colIndex="0" value="投产阶段" wordWrap="true" ></cell>
+		<cell rowIndex="13" colIndex="0" value="工作量总计" wordWrap="true" bolder="true"></cell>
+		<cell rowIndex="13" colIndex="3" value="计划投产日期" wordWrap="true" bolder="true"></cell>
+		<cell rowIndex="13" colIndex="4" value=" " wordWrap="true" bolder="true" colSpan="4"></cell>
+		<cell rowIndex="14" colIndex="0" value="备注" wordWrap="true" ></cell>
+	</cells>
+	<properties>	
+		<cell property="projectName" rowIndex="1" colIndex="1" bgColor="yellow" colSpan="7"/>
+		<cell property="projectId" rowIndex="2" colIndex="1" bgColor="yellow" colSpan="3"></cell>
+		<cell property="setupDate" rowIndex="2" colIndex="5" bgColor="yellow" colSpan="3"/>
+		<cell property="manager" rowIndex="3" colIndex="1" bgColor="yellow" colSpan="3"/>
+		<cell property="require" rowIndex="3" colIndex="5" bgColor="yellow" colSpan="3"/>
+		<cell property="planStartDate" rowIndex="5" colIndex="1" bgColor="yellow" colSpan="3"/>
+		<cell property="planEndDate" rowIndex="5" colIndex="5" bgColor="yellow" colSpan="3"/>
+		<cell property="detail" rowIndex="7" colIndex="1"></cell>
+		<cell property="total" rowIndex="14" colIndex="1" colSpan="2"/>
+		<cell property="memo" rowIndex="16" colIndex="1" colSpan="7"/> 
+	</properties>
+</report>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+	<sheetName>项目信息</sheetName>
+	<cells>
+		<cell rowIndex="0" colIndex="0" value="项目编号" bgColor="yellow" fontSize="9"/>
+		<cell rowIndex="0" colIndex="1" value="项目名称" bgColor="yellow"/>
+		<cell rowIndex="0" colIndex="2" value="项目经理" bgColor="yellow"/>
+		<cell rowIndex="0" colIndex="3" value="需求经理" bgColor="yellow"/>
+		<cell rowIndex="0" colIndex="4" value="当前阶段" bgColor="yellow"/>
+		<cell rowIndex="0" colIndex="5" value="项目状态" bgColor="yellow"/>
+		<cell rowIndex="0" colIndex="6" value="立项时间" bgColor="yellow"/>
+		<cell rowIndex="0" colIndex="7" value="计划开始时间" bgColor="yellow"/>
+		<cell rowIndex="0" colIndex="8" value="计划结束时间" bgColor="yellow"/>
+		<cell rowIndex="0" colIndex="9" value="延期天数" bgColor="yellow"/>
+		<cell rowIndex="0" colIndex="10" value="计划工作量（天）" bgColor="yellow"/>
+		<cell rowIndex="0" colIndex="11" value="实际工作量（小时）" bgColor="yellow"/>
+		<cell rowIndex="0" colIndex="12" value="备注" bgColor="yellow"/>
+	</cells>
+	<properties>	
+		<cell property="list" rowIndex="1"	colIndex="0"/>			
+	</properties>
+</report>

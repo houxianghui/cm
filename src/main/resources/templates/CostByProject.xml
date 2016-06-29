@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+	<sheetName>工时统计报表</sheetName>
+	<cells>
+		<cell rowIndex="1" colIndex="0" value="员工编号"  bgColor="PALE_BLUE" rowSpan="2"/>
+		<cell rowIndex="1" colIndex="1" value="员工姓名"  bgColor="PALE_BLUE" rowSpan="2"/>
+		<cell rowIndex="1" colIndex="2" value="所属部门"  bgColor="PALE_BLUE" rowSpan="2"/>
+		<cell rowIndex="3" colIndex="0" value="项目经理"  bgColor="PALE_BLUE" colSpan="3"/>
+	</cells>
+	<properties>
+		<cell property="title" rowIndex = "0" colIndex="0"  bolder="true"></cell>
+		<cell property="types" rowIndex="1" colIndex="3"/>
+		
+		<cell property="detail" rowIndex="4" colIndex="0" />
+		<cell property="totalInfo" rowOffSet="1" rowIndex="-1" colIndex="0" value="人员合计" bgColor="yellow"></cell>
+		<cell property="userCount" rowOffSet="1" rowIndex="-1" colIndex="1" ></cell>
+		<cell property="costTotal" rowOffSet="1" rowIndex="-1" colIndex="2" value="工时合计" bgColor="yellow"></cell>
+		<cell property="NUL" rowOffSet="1" rowIndex="-1" colIndex="0" value=" " colSpan="2"></cell>
+		<cell property="totalOfAll" rowOffSet="1" rowIndex="-1" colIndex="2" value="总计" bgColor="yellow"></cell>
+		<cell property="total" rowOffSet="1" rowIndex="-1" colIndex="3" ></cell>
+	
+		<cell property="projects" rowIndex="-1" rowOffSet="1" colIndex="0" ></cell>
+	</properties>
+</report>

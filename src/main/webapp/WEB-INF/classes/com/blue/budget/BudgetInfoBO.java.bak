@@ -1,0 +1,463 @@
+package com.blue.budget;
+
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.struts.chain.contexts.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.blue.budget.BudgetInfoExample.Criteria;
+import com.blue.budget.detail.BudgetDetail;
+import com.blue.budget.detail.BudgetDetailDAO;
+import com.blue.budget.detail.BudgetDetailExample;
+import com.blue.project.ProjectList;
+import com.blue.project.ProjectListDAO;
+import com.blue.project.ProjectListExample;
+import com.blue.userdepartauth.UserDepartAuth;
+import com.blue.userdepartauth.UserDepartAuthBO;
+import com.blue.userdepartauth.UserDepartAuthDAO;
+import com.blue.userdepartauth.UserDepartAuthExample;
+import com.eis.base.BaseBO;
+import com.eis.base.BaseDAO;
+import com.eis.base.BaseForm;
+import com.eis.base.BaseVO;
+import com.eis.base.IbatisBaseBO;
+import com.eis.base.PageObject;
+import com.eis.exception.MessageException;
+import com.eis.portal.UserContext;
+import com.eis.util.CheckUtil;
+import com.eis.util.DateUtil;
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
+import com.sun.msv.datatype.xsd.datetime.ParseException;
+
+public class BudgetInfoBO{
+	@Autowired
+	private BudgetInfoDAO budgetInfoDao;
+	@Autowired
+	private UserDepartAuthDAO userDepartAuthDAO;
+	@Autowired
+	private ProjectListDAO projectListDAO;
+	@Autowired
+	private BudgetDetailDAO budgetDetailDAO;
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
+
+	public List queryForReport(Object obj, UserContext user) throws Exception {
+		BudgetInfoExample e = new BudgetInfoExample();
+		Criteria ca = e.createCriteria();
+		if(!CheckUtil.isEmptry(((BudgetInfoForm)obj).getProject_f())){
+			ca.andProjectNoLike(((BudgetInfoForm)obj).getProject_f());
+		}
+		if(!CheckUtil.isEmptry(((BudgetInfoForm)obj).getDepart_f())){
+			ca.andDepartEqualTo(((BudgetInfoForm)obj).getDepart_f());
+		}
+		if(!CheckUtil.isEmptry(((BudgetInfoForm)obj).getRegDate_from())){
+			ca.andRegDateGreaterThanOrEqualTo(((BudgetInfoForm)obj).getRegDate_from());
+		}
+		if(!CheckUtil.isEmptry(((BudgetInfoForm)obj).getFeeKind_f())){
+			ca.andFeeKindEqualTo(((BudgetInfoForm)obj).getFeeKind_f());
+		}
+		return budgetInfoDao.selectByExample(e);
+	}
+	
+	public List<BudgetInfo> getSelectedStaff(HttpServletRequest request,boolean sort,UserContext user)throws Exception{
+		BudgetInfoExample e  = new BudgetInfoExample();
+		BudgetInfoExample.Criteria c = e.createCriteria();
+		String depart = request.getParameter("depart");
+		String feeKind = request.getParameter("feeKind");
+		String budgetKind = request.getParameter("budgetKind");
+		String year = request.getParameter("year");
+		if(CheckUtil.isEmptry(budgetKind))
+			return new ArrayList<BudgetInfo>();
+		else
+			c.andBudgetKindEqualTo(budgetKind);
+		if(!CheckUtil.isEmptry(depart)){
+			c.andDepartEqualTo(depart);
+		}
+		if(!CheckUtil.isEmptry(feeKind)){
+			c.andFeeKindEqualTo(feeKind);
+		}
+		if(!CheckUtil.isEmptry(year)){
+			c.andYearEqualTo(year);
+		}
+		if(user.getRoleName().equals("部门负责人")||user.getRoleName().equals("分管领导")||user.getRoleName().equals("行政助理")) {
+			UserDepartAuthExample uda = new UserDepartAuthExample();
+			uda.createCriteria().andUserIdEqualTo(user.getUserID());
+			List<UserDepartAuth> userlist = userDepartAuthDAO.selectByExample(uda);
+			List departIdList = new ArrayList();
+			for(UserDepartAuth r : userlist){
+				departIdList.add(r.getDepartId());
+			}
+			c.andDepartIn(departIdList);
+		}	
+		else if(user.getRoleName().equals("项目经理")){	
+			ProjectListExample ple = new ProjectListExample();
+			ple.createCriteria().andProjectManagerEqualTo(user.getUserID());
+			List<ProjectList> projectList = projectListDAO.selectByExample(ple);
+			List projectIdList = new ArrayList();
+			for(ProjectList p : projectList){
+				projectIdList.add(p.getProjectId());
+			}
+			c.andProjectNoIn(projectIdList);
+		}	
+		return budgetInfoDao.selectByExample(e);
+	}
+	
+	public void update(Object obj) throws Exception {
+		budgetInfoDao.updateByPrimaryKeySelective((BudgetInfo)obj);
+		dealWithFeeUp((BudgetInfo)obj);
+		//getTotalProjectWithDept((BudgetInfo)obj);
+	}
+
+	
+	public void insert(Object obj,UserContext user) throws Exception {
+		String departinfo = ((BudgetInfo)obj).getDepart();
+		String budgetkind = ((BudgetInfo)obj).getBudgetKind();
+		String project = ((BudgetInfo)obj).getProjectNo();
+		
+		UserDepartAuthExample uda = new UserDepartAuthExample();
+		uda.createCriteria().andUserIdEqualTo(user.getUserID());
+		List<UserDepartAuth> userlist = userDepartAuthDAO.selectByExample(uda);
+		List departIdList = new ArrayList();
+		for(UserDepartAuth r : userlist){
+			departIdList.add(r.getDepartId());
+		}
+		ProjectListExample ple = new ProjectListExample();
+		ple.createCriteria().andProjectManagerEqualTo(user.getUserID());
+		List<ProjectList> projectList = projectListDAO.selectByExample(ple);
+		List projectIdList = new ArrayList();
+		for(ProjectList p : projectList){
+			projectIdList.add(p.getProjectId());
+		}
+		
+		if(!departIdList.contains(departinfo))
+			throw new MessageException("您不能填写该部门的预算");
+		if(user.getRoleName().equals("项目经理")){
+			if(budgetkind.equals("1")) throw new MessageException("您不能填写该部门的预算");
+			if(budgetkind.equals("0")&&(!projectIdList.contains(project)) )
+					throw new MessageException("您不能填写该项目预算");
+		}
+		budgetInfoDao.insert((BudgetInfo)obj);	
+		dealWithFee((BudgetInfo)obj);
+		//getTotalProjectWithDept((BudgetInfo)obj);
+	}
+	
+	public void dealWithFee(BudgetInfo bi){
+		BudgetDetail bd = new BudgetDetail();
+		bd.setBudgetId(bi.getBudgetId());
+		BudgetDetailExample example = new BudgetDetailExample();
+		example.createCriteria().andBudgetIdEqualTo(bi.getBudgetId());
+		budgetDetailDAO.deleteByExample(example);
+		bd.setBudgetKind(bi.getBudgetKind());
+		bd.setDepart(bi.getDepart());
+		bd.setFeeKind(bi.getFeeKind());
+		bd.setProjectNo(bi.getProjectNo());
+		bd.setProjectName(bi.getProjectName());
+		bd.setFeeAmt(bi.getFeeAmt01());
+		bd.setYearmonth(bi.getYear()+"01");
+		bd.setFeeBal(0.0);
+		budgetDetailDAO.insert(bd);
+		bd.setFeeAmt(bi.getFeeAmt02());
+		bd.setYearmonth(bi.getYear()+"02");
+		bd.setFeeBal(0.0);
+		budgetDetailDAO.insert(bd);
+		bd.setFeeAmt(bi.getFeeAmt03());
+		bd.setYearmonth(bi.getYear()+"03");
+		bd.setFeeBal(0.0);
+		budgetDetailDAO.insert(bd);
+		bd.setFeeAmt(bi.getFeeAmt04());
+		bd.setYearmonth(bi.getYear()+"04");
+		bd.setFeeBal(0.0);
+		budgetDetailDAO.insert(bd);
+		bd.setFeeAmt(bi.getFeeAmt05());
+		bd.setYearmonth(bi.getYear()+"05");
+		bd.setFeeBal(0.0);
+		budgetDetailDAO.insert(bd);
+		bd.setFeeAmt(bi.getFeeAmt06());
+		bd.setYearmonth(bi.getYear()+"06");
+		bd.setFeeBal(0.0);
+		budgetDetailDAO.insert(bd);
+		bd.setFeeAmt(bi.getFeeAmt07());
+		bd.setYearmonth(bi.getYear()+"07");
+		bd.setFeeBal(0.0);
+		budgetDetailDAO.insert(bd);
+		bd.setFeeAmt(bi.getFeeAmt08());
+		bd.setYearmonth(bi.getYear()+"08");
+		bd.setFeeBal(0.0);
+		budgetDetailDAO.insert(bd);
+		bd.setFeeAmt(bi.getFeeAmt09());
+		bd.setYearmonth(bi.getYear()+"09");
+		bd.setFeeBal(0.0);
+		budgetDetailDAO.insert(bd);
+		bd.setFeeAmt(bi.getFeeAmt10());
+		bd.setYearmonth(bi.getYear()+"10");
+		bd.setFeeBal(0.0);
+		budgetDetailDAO.insert(bd);
+		bd.setFeeAmt(bi.getFeeAmt11());
+		bd.setYearmonth(bi.getYear()+"11");
+		bd.setFeeBal(0.0);
+		budgetDetailDAO.insert(bd);
+		bd.setFeeAmt(bi.getFeeAmt12());
+		bd.setYearmonth(bi.getYear()+"12");
+		bd.setFeeBal(0.0);
+		budgetDetailDAO.insert(bd);
+	}
+	
+	public void dealWithFeeUp(BudgetInfo bi) throws MessageException{
+		BudgetDetail bd = new BudgetDetail();
+		bd.setBudgetId(bi.getBudgetId());
+		bd.setProjectNo(bi.getProjectNo());
+		bd.setProjectName(bi.getProjectName());
+		BudgetDetailExample example = new BudgetDetailExample();
+		com.blue.budget.detail.BudgetDetailExample.Criteria ca = example.createCriteria();
+		ca.andBudgetIdEqualTo(bi.getBudgetId());
+		ca.andYearmonthEqualTo(bi.getYear()+"01");
+		bd.setFeeAmt(bi.getFeeAmt01());
+		budgetDetailDAO.updateByExampleSelective(bd, example);
+
+		example.clear();
+		ca = example.createCriteria();
+		ca.andBudgetIdEqualTo(bi.getBudgetId());
+		ca.andYearmonthEqualTo(bi.getYear()+"02");
+		bd.setFeeAmt(bi.getFeeAmt02());
+		budgetDetailDAO.updateByExampleSelective(bd, example);
+		
+		example.clear();
+		ca = example.createCriteria();
+		ca.andBudgetIdEqualTo(bi.getBudgetId());
+		ca.andYearmonthEqualTo(bi.getYear()+"03");
+		bd.setFeeAmt(bi.getFeeAmt03());
+		budgetDetailDAO.updateByExampleSelective(bd, example);
+		
+		example.clear();
+		ca = example.createCriteria();
+		ca.andBudgetIdEqualTo(bi.getBudgetId());
+		ca.andYearmonthEqualTo(bi.getYear()+"04");
+		bd.setFeeAmt(bi.getFeeAmt04());
+		budgetDetailDAO.updateByExampleSelective(bd, example);
+		example.clear();
+		ca = example.createCriteria();
+		ca.andBudgetIdEqualTo(bi.getBudgetId());
+		ca.andYearmonthEqualTo(bi.getYear()+"05");
+		bd.setFeeAmt(bi.getFeeAmt05());
+		budgetDetailDAO.updateByExampleSelective(bd, example);
+		example.clear();
+		ca = example.createCriteria();
+		ca.andBudgetIdEqualTo(bi.getBudgetId());
+		ca.andYearmonthEqualTo(bi.getYear()+"06");
+		bd.setFeeAmt(bi.getFeeAmt06());
+		budgetDetailDAO.updateByExampleSelective(bd, example);
+		example.clear();
+		ca = example.createCriteria();
+		ca.andBudgetIdEqualTo(bi.getBudgetId());
+		ca.andYearmonthEqualTo(bi.getYear()+"07");
+		bd.setFeeAmt(bi.getFeeAmt07());
+		budgetDetailDAO.updateByExampleSelective(bd, example);
+		example.clear();
+		ca = example.createCriteria();
+		ca.andBudgetIdEqualTo(bi.getBudgetId());
+		ca.andYearmonthEqualTo(bi.getYear()+"08");
+		bd.setFeeAmt(bi.getFeeAmt08());
+		budgetDetailDAO.updateByExampleSelective(bd, example);
+		example.clear();
+		ca = example.createCriteria();
+		ca.andBudgetIdEqualTo(bi.getBudgetId());
+		ca.andYearmonthEqualTo(bi.getYear()+"09");
+		bd.setFeeAmt(bi.getFeeAmt09());
+		budgetDetailDAO.updateByExampleSelective(bd, example);
+		example.clear();
+		ca = example.createCriteria();
+		ca.andBudgetIdEqualTo(bi.getBudgetId());
+		ca.andYearmonthEqualTo(bi.getYear()+"10");
+		bd.setFeeAmt(bi.getFeeAmt10());
+		budgetDetailDAO.updateByExampleSelective(bd, example);
+		example.clear();
+		ca = example.createCriteria();
+		ca.andBudgetIdEqualTo(bi.getBudgetId());
+		ca.andYearmonthEqualTo(bi.getYear()+"11");
+		bd.setFeeAmt(bi.getFeeAmt11());
+		budgetDetailDAO.updateByExampleSelective(bd, example);
+		example.clear();
+		ca = example.createCriteria();
+		ca.andBudgetIdEqualTo(bi.getBudgetId());
+		ca.andYearmonthEqualTo(bi.getYear()+"12");
+		bd.setFeeAmt(bi.getFeeAmt12());
+		budgetDetailDAO.updateByExampleSelective(bd, example);
+		
+	}
+	
+	public void transInsert(Object[] obj) throws Exception {
+		if(obj.length  == 0){
+			return;
+		}
+		for(int i = 0;i < obj.length;i++){
+			budgetInfoDao.insert((BudgetInfo)obj[i]);
+		}
+	}
+
+	
+	public Object queryForObject(Object obj) throws Exception {
+		return budgetInfoDao.selectByPrimaryKey(Long.parseLong(obj.toString()));
+	}
+
+	
+	public List queryForList(Object obj,UserContext user) throws Exception {
+		BudgetInfoExample e = new BudgetInfoExample();
+		Criteria cr = e.createCriteria();
+		String depart_f = ((BudgetInfoForm)obj).getDepart_f();
+		String project_f = ((BudgetInfoForm)obj).getProject_f();
+		if(!CheckUtil.isEmptry(depart_f)){
+			cr.andDepartEqualTo(depart_f);
+		}
+		if(!CheckUtil.isEmptry(project_f)){
+			cr.andProjectNoEqualTo(project_f);
+		}
+		UserDepartAuthExample uda = new UserDepartAuthExample();
+		uda.createCriteria().andUserIdEqualTo(user.getUserID());
+		List<UserDepartAuth> userlist = userDepartAuthDAO.selectByExample(uda);
+		List departIdList = new ArrayList();
+		for(UserDepartAuth r : userlist){
+			departIdList.add(r.getDepartId());
+		}
+		ProjectListExample ple = new ProjectListExample();
+		ple.createCriteria().andProjectManagerEqualTo(user.getUserID());
+		List<ProjectList> projectList = projectListDAO.selectByExample(ple);
+		List projectIdList = new ArrayList();
+		for(ProjectList p : projectList){
+			projectIdList.add(p.getProjectId());
+		}
+		if(user.getRoleName().equals("项目经理")){
+			cr.andProjectNoIn(projectIdList);
+		}
+		cr.andDepartIn(departIdList);
+		return budgetInfoDao.selectByExample(e);
+	}
+	
+	
+	public List queryAllList(BudgetInfo vo ,UserContext user) throws Exception {
+		BudgetInfoExample e = new BudgetInfoExample();
+		Criteria cr = e.createCriteria();
+		//年份+费用类型+预算类型+部门+项目唯一性
+		cr.andDepartEqualTo(vo.getDepart()).andProjectNoEqualTo(vo.getProjectNo()).andYearEqualTo(vo.getYear()).
+		andFeeKindEqualTo(vo.getFeeKind()).andBudgetKindEqualTo(vo.getBudgetKind());
+		return budgetInfoDao.selectByExample(e);
+	}
+	
+	public void getTotalProjectWithDept(BudgetInfo vo) throws Exception {
+		double deptBudget[] = {0,0,0,0,0,0,0,0,0,0,0,0,0};
+		double procBudget[] = {0,0,0,0,0,0,0,0,0,0,0,0,0};
+		
+		BudgetInfoExample e = new BudgetInfoExample();
+		e.createCriteria().andDepartEqualTo(vo.getDepart()).andYearEqualTo(vo.getYear()).
+		andFeeKindEqualTo(vo.getFeeKind()).andBudgetKindEqualTo("1");
+		List<BudgetInfo> deptBudgetList = budgetInfoDao.selectByExample(e);
+		
+		e = new BudgetInfoExample();
+		e.createCriteria().andDepartEqualTo(vo.getDepart()).andYearEqualTo(vo.getYear()).
+		andFeeKindEqualTo(vo.getFeeKind()).andBudgetKindEqualTo("0");
+		List<BudgetInfo> procBudgetList = budgetInfoDao.selectByExample(e);
+		
+		for(BudgetInfo bid : deptBudgetList){
+			deptBudget[1]+=bid.getFeeAmt01();
+			deptBudget[2]+=bid.getFeeAmt02();
+			deptBudget[3]+=bid.getFeeAmt03();
+			deptBudget[4]+=bid.getFeeAmt04();
+			deptBudget[5]+=bid.getFeeAmt05();
+			deptBudget[6]+=bid.getFeeAmt06();
+			deptBudget[7]+=bid.getFeeAmt07();
+			deptBudget[8]+=bid.getFeeAmt08();
+			deptBudget[9]+=bid.getFeeAmt09();
+			deptBudget[10]+=bid.getFeeAmt10();
+			deptBudget[11]+=bid.getFeeAmt11();
+			deptBudget[12]+=bid.getFeeAmt12();
+		}
+		
+		for(BudgetInfo bid : procBudgetList){
+			procBudget[1]+=bid.getFeeAmt01();
+			procBudget[2]+=bid.getFeeAmt02();
+			procBudget[3]+=bid.getFeeAmt03();
+			procBudget[4]+=bid.getFeeAmt04();
+			procBudget[5]+=bid.getFeeAmt05();
+			procBudget[6]+=bid.getFeeAmt06();
+			procBudget[7]+=bid.getFeeAmt07();
+			procBudget[8]+=bid.getFeeAmt08();
+			procBudget[9]+=bid.getFeeAmt09();
+			procBudget[10]+=bid.getFeeAmt10();
+			procBudget[11]+=bid.getFeeAmt11();
+			procBudget[12]+=bid.getFeeAmt12();
+		}
+		
+		
+		for(int i=1;i<=12;i++){
+			if(deptBudget[i]<procBudget[i]){
+				throw new MessageException(i+"月项目总预算超过部门预算");
+			}
+		}
+	}
+
+	
+	public void delete(Object obj) throws Exception {
+		budgetInfoDao.deleteByPrimaryKey(Long.parseLong(obj.toString()));
+		BudgetDetailExample example = new BudgetDetailExample();
+		example.createCriteria().andBudgetIdEqualTo(Long.parseLong(obj.toString()));
+		budgetDetailDAO.deleteByExample(example);
+	}
+	public Boolean doExcel(String path,List objs,Class formClass,String filename) throws Exception{
+		Date dte = new Date();
+		DateFormat dfm = new SimpleDateFormat("yyyyMMddHHmmss");// 设置显示格式
+
+        InputStream in = null;
+        OutputStream out = null;
+        HSSFWorkbook workbook;
+        try 
+        {
+
+            return true;
+        }
+        catch(Exception e)
+        {
+        	e.printStackTrace();
+        }
+        finally 
+        {
+            if (in != null) 
+            {
+                try 
+                {
+					in.close();
+				} catch (IOException e) 
+				{
+					throw e;
+				}
+            }
+            if (out != null) 
+            {
+                try 
+                {
+                	out.close();
+				} catch (IOException e) 
+				{
+					throw e;
+				}
+            }
+        }
+		return false;
+	}
+
+}
+

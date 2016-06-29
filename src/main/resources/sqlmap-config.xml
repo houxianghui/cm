@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings
+	cacheModelsEnabled="false"
+	enhancementEnabled="true"
+	lazyLoadingEnabled="true"
+	maxRequests="512"
+	maxSessions="128"
+	maxTransactions="32"
+	useStatementNamespaces="true"
+	/>
+  <typeHandler  jdbcType="BLOB" javaType="[B" callback="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler"/>
+  <sqlMap resource="/sqlmap/ProjectMaintainMap.xml"/>  
+  <sqlMap resource="/sqlmap/ScoreInfoMap.xml"/>  
+  <sqlMap resource="/sqlmap/work_distribute_SqlMap.xml"/>
+  <sqlMap resource="/sqlmap/work_list_SqlMap.xml"/>
+  <sqlMap resource="/sqlmap/work_daily_SqlMap.xml"/>
+  <sqlMap resource="/sqlmap/WorkListSqlMap.xml"/>
+  <sqlMap resource="/sqlmap/WorkDistributeSqlMap.xml"/>
+  <sqlMap resource="/sqlmap/daily_achieve_SqlMap.xml"/>
+  <sqlMap resource="/sqlmap/daily_issue_SqlMap.xml"/>
+  <sqlMap resource="/sqlmap/main_problem_SqlMap.xml"/>
+  <sqlMap resource="/sqlmap/sign_record_SqlMap.xml"/>
+  <sqlMap resource="/sqlmap/project_list_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/mile_stone_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/project_distribute_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/ep_user_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/project_files_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/project_chg_record_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/change_detail_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/risk_record_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/review_record_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/function_def_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/mail_config_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/daily_record_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/other_daily_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/change_record_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/version_his_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/database_chg_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/batch_chg_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/report_chg_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/update_step_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/code_chg_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/data_chg_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/sub_sys_version_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/param_chg_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/role_depart_auth_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/user_depart_auth_SqlMap.xml"></sqlMap>  
+  <sqlMap resource="/sqlmap/achieve_def_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/action_def_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/module_def_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/product_def_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/scale_def_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/participate_list_SqlMap.xml"></sqlMap>
+  <sqlMap resource="sqlmap/main_plan_job_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/expenses_info_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/taxi_info_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/travel_info_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/expenses_detail_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/travel_detail_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/budget_info_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/budget_detail_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/presscardapptb_SqlMap.xml"></sqlMap>
+  <sqlMap resource="/sqlmap/stoappinfo_SqlMap.xml"></sqlMap>  
+  <sqlMap resource="/sqlmap/lsissuetb_SqlMap.xml"></sqlMap>  
+  <sqlMap resource="/sqlmap/issuetask_SqlMap.xml"></sqlMap>  
+  <sqlMap resource="/sqlmap/issuetaskctrl_SqlMap.xml"></sqlMap>  
+  <sqlMap resource="/sqlmap/issueapp_SqlMap.xml"></sqlMap>    
+  <sqlMap resource="/sqlmap/biunitinfotb_SqlMap.xml"></sqlMap>   
+  <sqlMap resource="/sqlmap/stoproduct_SqlMap.xml"></sqlMap>        
+  <sqlMap resource="/sqlmap/mwsissuetb_SqlMap.xml"></sqlMap>             
+  <sqlMap resource="/sqlmap/applytypeinfo_SqlMap.xml"></sqlMap>             
+  <sqlMap resource="/sqlmap/lsinfo_SqlMap.xml"></sqlMap>             
+  <sqlMap resource="/sqlmap/disproduct_SqlMap.xml"></sqlMap>             
+  <sqlMap resource="/sqlmap/storeuse_SqlMap.xml"></sqlMap>             
+  <sqlMap resource="/sqlmap/callfuncconf_SqlMap.xml"></sqlMap>     
+  
+</sqlMapConfig>

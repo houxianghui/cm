@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+	<sheetName>周报</sheetName>
+	<cells>
+		<cell rowIndex="0" colIndex="0" colSpan="7" value="项目周报" fontName="宋体" bolder="true" hight="841" fontSize="20" bgColor="PALE_BLUE"/>
+		<cell rowIndex="1" colIndex="0" value="周报起止日期"  />
+		<cell rowIndex="1" colIndex="2" value="至"  />
+		<cell rowIndex="2" colIndex="0" value="部门名称"/>
+		<cell rowIndex="2" colIndex="1" value="研发中心研发二部" colSpan="6" align="left"/>
+		<cell rowIndex="3" colIndex="0" value="报告人" />
+		<cell rowIndex="3" colIndex="1" value="" colSpan="6" align="left"/>
+		
+		<cell rowIndex="4" colIndex="0" colSpan="7" value="本周完成事项" bgColor="PALE_BLUE" align="left"/>
+		<cell rowIndex="5" colIndex="0" colSpan="2" value="工作内容描述" bolder="true"/>
+		<cell rowIndex="5" colIndex="2"  value="成果物" bolder="true"/>
+		<cell rowIndex="5" colIndex="3"  value="任务计划起止时间" bolder="true"/>
+		<cell rowIndex="5" colIndex="4"  colSpan="3" value="说明" align="left" bolder="true"/>
+		
+		
+	</cells>
+	<properties>
+		<cell property="reportStartDate" rowIndex="1" colIndex="1" colSpan="1" bolder="true"/>
+		<cell property="reportEndDate" rowIndex="1" colIndex="3" colSpan="4" bolder="true" align="left"/>
+		
+		<cell property="startDate" rowIndex="4" colIndex="1" colSpan="1" bolder="true"/>
+		<cell property="endDate" rowIndex="4" colIndex="3" colSpan="4" bolder="true" align="left"/>
+		
+		<cell property="report" rowIndex="6" colIndex="0"/>
+		
+		<cell property="plan" rowOffSet="1" rowIndex="-1" colIndex="0" colSpan="7" value="下周计划完成事项" bgColor="PALE_BLUE" align="left">
+			<cell rowOffSet="1" rowIndex="-1" colIndex="0"  value="工作内容描述" colSpan="2" bolder="true"/>
+			<cell rowOffSet="1" rowIndex="-1" colIndex="2"  value="成果物" bolder="true"/>
+			<cell rowOffSet="1" rowIndex="-1" colIndex="3"  value="任务计划起止时间" bolder="true"/>
+			<cell rowOffSet="1" rowIndex="-1" colIndex="4" colSpan="3" value="说明" bolder="true"/>
+		</cell>
+		
+		
+		<cell property="solution" rowOffSet="1" rowIndex="-1" colIndex="0" colSpan="7" value="项目运行问题及解决建议" bgColor="PALE_BLUE" align="left">
+			<cell rowOffSet="1" rowIndex="-1" colIndex="0"  value="编号" bolder="true"/>
+			<cell rowOffSet="1" rowIndex="-1" colIndex="1" colSpan="2" value="问题或风险描述" bolder="true"/>
+			<cell rowOffSet="1" rowIndex="-1" colIndex="3"  value="当前采取的措施" bolder="true"/>
+			<cell rowOffSet="1" rowIndex="-1" colIndex="4"  value="需要的支持" bolder="true"/>
+			<cell rowOffSet="1" rowIndex="-1" colIndex="5"  value="提出日期" bolder="true"/>
+			<cell rowOffSet="1" rowIndex="-1" colIndex="6"  value="说明" bolder="true"/>
+		</cell>
+		
+	</properties>
+</report>

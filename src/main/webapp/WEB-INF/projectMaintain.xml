@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="gb2312"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+	<context:annotation-config></context:annotation-config>
+	<aop:config>
+		<aop:pointcut id="projectMaintainBoOperation" expression="execution(* com.projectmaintain.ProjectMaintainBO.*(..))"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="projectMaintainBoOperation"/>		
+	</aop:config>
+	<aop:config>				
+		<aop:pointcut id="projectDistributeBoOperation" expression="execution(* com.projectmaintain.ProjectDistributeBO.*(..))"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="projectDistributeBoOperation"/>
+	</aop:config>
+	<aop:config>
+		<aop:pointcut id="budgetBoOperation" expression="execution(* com.blue.budget.BudgetInfoBO.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="budgetBoOperation" />
+	</aop:config>
+	<aop:config>
+		<aop:pointcut id="taxiBoOperation" expression="execution(* com.blue.taxi.TaxiInfoBO.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="taxiBoOperation" />
+	</aop:config>
+	<aop:config>
+		<aop:pointcut id="eDetailBoOperation" expression="execution(* com.blue.expenses.detail.ExpensesDetailBO.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="eDetailBoOperation" />
+	</aop:config>
+	<aop:config>
+		<aop:pointcut id="tDetailBoOperation" expression="execution(* com.blue.travel.detail.TravelDetailBO.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="tDetailBoOperation" />
+	</aop:config>
+	<aop:config>
+		<aop:pointcut id="expensesBoOperation" expression="execution(* com.blue.expenses.ExpensesInfoBO.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="expensesBoOperation" />
+	</aop:config>
+	<aop:config>
+		<aop:pointcut id="travelBoOperation" expression="execution(* com.blue.travel.TravelInfoBO.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="travelBoOperation" />
+	</aop:config>
+	<bean id="ibatisBO" class="com.abc.logic.IbatisBO" abstract="true">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<bean id="baseDAO" abstract="true">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="epUserDao" class="com.blue.user.EpUserDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="projectMaintainBO" class="com.projectmaintain.ProjectMaintainBO">
+		<property name="projectListDAO" ref="projectListDao"></property>
+		<property name="dao" ref="commonDao" />
+		<property name="namespace" value="ProjectMaintain"></property>
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="mailConfigBO" ref="mailConfigBO"></property>
+		<property name="authBO" ref="roleDepartAuthBO"></property>
+		<property name="functionDefDAO" ref="functionDefDAO"></property>
+		<property name="mainPlanJobDAO" ref="mainPlanJobDAO"></property>
+	</bean>
+	<bean id="projectValidator" class="com.projectmaintain.ProjectValidator"></bean>
+	<bean name="/ProjectMaintain" class="com.projectmaintain.ProjectMaintainAction">
+		<property name="bo" ref="projectMaintainBO" />
+		<property name="validator" ref="projectValidator"></property>
+	</bean>
+	<bean name="/ProjectMaintainUpdate" class="com.projectmaintain.ProjectMaintainAction">
+		<property name="bo" ref="projectMaintainBO" />
+		<property name="validator" ref="projectValidator"></property>
+	</bean>
+	<bean name="/ProjectMaintainAdd" class="com.projectmaintain.ProjectMaintainAction">
+		<property name="bo" ref="projectMaintainBO" />
+		<property name="validator" ref="projectValidator"></property>
+	</bean>
+	<bean id="programMaintainBO" class="com.projectmaintain.ProgramMaintainBO">
+		<property name="dao" ref="commonDao" />
+		<property name="namespace" value="ProjectMaintain"></property>
+	</bean>
+	<bean name="/ProgramMaintain" class="com.projectmaintain.ProgramMaintainAction">
+		<property name="bo" ref="programMaintainBO" />
+	</bean>
+	<bean id="projectDistributeDao" class="com.blue.projectdistribute.ProjectDistributeDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="projectDistributeBO" class="com.projectmaintain.ProjectDistributeBO" parent="ibatisBO">
+		<property name="dao" ref="commonDao" />
+		<property name="namespace" value="ProjectMaintain"></property>
+		<property name="projectDistributeDAO" ref="projectDistributeDao"></property>
+		<property name="projectListDao" ref="projectListDao"></property>
+		<property name="epUserDAO" ref="epUserDao"></property>
+	</bean>
+	<bean name="/ProjectDistributeInit" class="com.projectmaintain.ProjectDistributeAction">
+		<property name="bo" ref="projectDistributeBO"/>
+		<property name="roleBO" ref="role_bo"></property>
+	</bean>
+	<bean name="/ProjectDistribute" class="com.projectmaintain.ProjectDistributeAction">
+		<property name="bo" ref="projectDistributeBO"/>
+		<property name="workDistributeBO" ref="workDistributeBO"></property>
+		<property name="roleBO" ref="role_bo"></property>
+	</bean>
+	<alias name="/ExpensesDetail" alias="/ExpensesDetail_UTF"/>
+	<alias name="/TravelDetail" alias="/TravelDetail_UTF"/>
+	<alias name="/TaxiInfo" alias="/TaxiInfo_UTF"/>
+		
+	<alias name="/BudgetInfo" alias="/BudgetInfo_UTF"/>
+	<alias name="/ProjectDistribute" alias="/ProjectDistribute_UTF"/>
+	<bean name="/ProjectDistributeAdd" class="com.projectmaintain.ProjectDistributeAction">
+		<property name="bo" ref="projectDistributeBO"/>
+		<property name="roleBO" ref="role_bo"></property>
+	</bean>
+	<bean name="/ProjectDistributeUpdate" class="com.projectmaintain.ProjectDistributeAction">
+		<property name="bo" ref="projectDistributeBO"/>
+		<property name="roleBO" ref="role_bo"></property>
+	</bean>
+	<!-- zhengpy  20090212 -->
+	<bean id="reportProjectDataListBO" class="com.projectmaintain.ReportProjectDataListBO">
+		<property name="dao" ref="commonDao" />
+		<property name="namespace" value="ProjectMaintain"></property>
+	</bean>
+	<bean name="/ReportProjectDataList" class="com.projectmaintain.ReportProjectDataListAction">
+		<property name="bo" ref="reportProjectDataListBO"/>
+	</bean>
+	<!-- zhengpy  20090212 end-->
+	<bean id="getNotWriteNoteStuffBO" class="com.projectmaintain.GetNotWriteNoteStuffBO">
+		<property name="dao" ref="commonDao" />
+		<property name="namespace" value="ProjectMaintain"></property>
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<bean name="/NotWriteNoteStuff" class="com.projectmaintain.GetNotWriteNoteStuffAction">
+		<property name="bo" ref="getNotWriteNoteStuffBO"></property>
+	</bean>
+	<bean id="scoreInfoBO" class="com.projectmaintain.ScoreInfoBO">
+		<property name="dao" ref="commonDao" />
+		<property name="namespace" value="scoreManage"></property>
+	</bean>
+	<bean name="/ScoreInfo" class="com.projectmaintain.ScoreInfoAction">
+		<property name="bo" ref="scoreInfoBO"></property>
+	</bean>
+	<bean name="issueRecordBO" class="com.projectmaintain.IssueRecordBO">
+		<property name="dao" ref="commonDao"/>
+		<property name="namespace" value="ProjectMaintain"></property>
+	</bean>
+	<bean name="/IssueRecord" class="com.projectmaintain.IssueRecordAction">
+		<property name="bo" ref="issueRecordBO"></property>
+	</bean>
+		<bean name="requireChangeBO" class="com.projectmaintain.RequireChangeBO">
+		<property name="dao" ref="commonDao"/>
+		<property name="namespace" value="ProjectMaintain"></property>
+	</bean>
+	<bean name="/RequireChange" class="com.projectmaintain.RequireChangeAction">
+		<property name="bo" ref="requireChangeBO"></property>
+	</bean>
+	<bean id="projectListDao" class="com.blue.project.ProjectListDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	
+	<bean id="mileStoneDao" class="com.blue.mile.MileStoneDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="mileStoneBO" class="com.blue.mile.MileStoneBO">
+		<property name="mileStoneDao" ref="mileStoneDao"></property>
+	</bean>
+	<bean name="/MileStone" class="com.blue.mile.MileStoneAction">
+		<property name="bo" ref="mileStoneBO"></property>
+	</bean>
+	<bean id="projectFilesDao" class="com.blue.projectfiles.ProjectFilesDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="projectFilesBO" class="com.blue.projectfiles.ProjectFilesBO">
+		<property name="projectFilesDAO" ref="projectFilesDao"></property>
+		<property name="jdbcTemplate" ref="dataSource"></property>
+		<property name="lobHandler" ref="lobHandler"></property>
+	</bean>
+	<bean name="/ProjectFiles" class="com.blue.projectfiles.ProjectFilesAction">
+		<property name="bo" ref="projectFilesBO"></property>
+	</bean>
+	<bean id="projectChgRecordDao" class="com.blue.projectchgrecord.ProjectChgRecordDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="projectChgRecordBO" class="com.blue.projectchgrecord.ProjectChgRecordBO">
+		<property name="projectChgRecordDao" ref="projectChgRecordDao"></property>
+	</bean>
+	<bean name="/ProjectChgRecord" class="com.blue.projectchgrecord.ProjectChgRecordAction">
+		<property name="bo" ref="projectChgRecordBO"></property>
+	</bean>
+	<bean id="changeDetailDao" class="com.blue.projectchgrecord.ChangeDetailDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="changeDetailBO" class="com.blue.projectchgrecord.ChangeDetailBO">
+		<property name="changeDetailDao" ref="changeDetailDao"></property>
+	</bean>
+	<bean name="/ChangeDetail" class="com.blue.projectchgrecord.ChangeDetailAction">
+		<property name="bo" ref="changeDetailBO"></property>
+	</bean>
+	<bean id="riskRecordDao" class="com.blue.project.riskrecord.RiskRecordDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="riskRecordBO" class="com.blue.project.riskrecord.RiskRecordBO" parent="ibatisBO">
+		<property name="riskRecordDAO" ref="riskRecordDao"></property>
+	</bean>
+	<bean name="/RiskRecord" class="com.blue.project.riskrecord.RiskRecordAction">
+		<property name="bo" ref="riskRecordBO"></property>
+	</bean>
+	<bean id="reviewRecordDao" class="com.blue.project.reviewrecord.ReviewRecordDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="reviewRecordBO" class="com.blue.project.reviewrecord.ReviewRecordBO">
+		<property name="reviewRecordDAO" ref="reviewRecordDao"></property>
+	</bean>
+	<bean name="/ReviewRecord" class="com.blue.project.reviewrecord.ReviewRecordAction">
+		<property name="bo" ref="reviewRecordBO"></property>
+	</bean>
+	<bean id="mailConfigDAO" class="com.blue.mailconfig.MailConfigDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="functionDefDAO" class="com.blue.functiondef.FunctionDefDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="mailConfigBO" class="com.blue.mailconfig.MailConfigBO">
+		<property name="mailConfigDAO" ref="mailConfigDAO"></property>
+		<property name="functionDefDAO" ref="functionDefDAO"></property>
+		<property name="roleDAO" ref="role_dao"></property>
+		<property name="userDAO" ref="user_dao"></property>
+	</bean>
+	<bean name="/MailConfig" class="com.blue.mailconfig.MailConfigAction">
+		<property name="bo" ref="mailConfigBO"></property>
+	</bean>
+	<bean id="projectInfoBO" class="com.blue.report.projectinfo.ProjectInfoBO">
+		<property name="projectListDAO" ref="projectListDao"></property>
+		<property name="mileStoneDAO" ref="mileStoneDao"></property>
+		<property name="projectDistributeDAO" ref="projectDistributeDao"></property>
+	</bean>
+	<bean name="/ProjectInfo" class="com.blue.report.projectinfo.ProjectInfoAction">
+		<property name="bo" ref="projectInfoBO"></property>
+	</bean>
+	
+	<bean id="dailyRecordDAO" class="com.blue.dailyrecord.DailyRecordDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="dailyRecordBO" class="com.blue.dailyrecord.DailyRecordBO" parent="ibatisBO">
+		<property name="dailyRecordDAO" ref="dailyRecordDAO"></property>
+		<property name="projectDistributeDAO" ref="projectDistributeDao"></property>
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<bean name="/DailyRecord" class="com.blue.dailyrecord.DailyRecordAction" autowire="byName">
+		<property name="bo" ref="dailyRecordBO"></property>
+	</bean>
+	<bean name="/Info" class="com.blue.info.InfoAction"></bean>
+	<bean name="/WeeklyReport" class="com.blue.report.weekly.WeeklyReportAction"></bean>
+	<!-- report -->
+	<bean id="projectReport" class="com.blue.report.projectinfo.ProjectInfoReport">
+		<property name="config" value="ProjectInfo.xml"></property>
+	</bean>
+	<bean id="weeklyReport" class="com.blue.report.weekly.WeeklyReport">
+		<property name="config" value="WeeklyReport.xml"></property>
+	</bean>
+	<bean id="workLoadReport" class="com.blue.report.costoftype.WorkLoadReport">
+		<property name="config" value="CostByType.xml"></property>
+	</bean>
+	<bean id="projectCostReport" class="com.blue.report.costofproject.ProjectCostReport">
+		<property name="config" value="CostByProject.xml"></property>
+	</bean>
+	<bean id="projectPlanReport" class="com.blue.report.projectplan.ProjectPlanReport">
+		<property name="config" value="ProjectPlan.xml"></property>
+	</bean>
+	<!-- report end -->
+	<bean id="weeklyReportBO" class="com.blue.report.weekly.WeeklyReportBO">
+	</bean>
+	<bean id="otherDailyDAO" class="com.blue.otherdaily.OtherDailyDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="otherDailyBO" class="com.blue.otherdaily.OtherDailyBO"/>
+	<bean name="/OtherDaily" class="com.blue.otherdaily.OtherDailyAction"></bean>
+	
+	<bean class="com.blue.project.changerecord.ChangeRecordDAOImpl" parent="baseDAO"></bean>
+	<bean name="/ChangeRecord" class="com.blue.project.changerecord.ChangeRecordAction"></bean>
+	<bean class="com.blue.project.changerecord.ChangeRecordBO" parent="ibatisBO"></bean>
+	
+	<bean id="WorkLoadBO" class="com.blue.report.costoftype.WorkLoadBO"></bean>
+	<bean name="/WorkLoad" class="com.blue.report.costoftype.WorkLoadAction"></bean>
+	
+	<bean id="projectLoadBO" class="com.blue.report.costofproject.ProjectCostBO"></bean>
+	<bean name="/ProjectLoad" class="com.blue.report.costofproject.ProjectCostAction"></bean>
+	
+	<bean id="projectPlanBO" class="com.blue.report.projectplan.ProjectPlanBO"></bean>
+	<bean name="/ProjectPlan" class="com.blue.report.projectplan.ProjectPlanAction"></bean>
+	
+	<bean name="/VersionHis" class="com.blue.version.versionhis.VersionHisAction"></bean>
+	<bean class="com.blue.version.versionhis.VersionHisDAOImpl" parent="baseDAO"></bean>
+	<bean class="com.blue.version.versionhis.VersionHisBO"/>
+	<bean class="com.blue.version.versionhis.VersionHisValidator"/>
+	
+	<bean name="/SubSysVersion" class="com.blue.version.subsysversion.SubSysVersionAction"/>
+	<bean class="com.blue.version.subsysversion.SubSysVersionBO"/>
+	<bean class="com.blue.version.subsysversion.SubSysVersionDAOImpl" parent="baseDAO"></bean>
+	
+	<bean name="/CodeChg" class="com.blue.version.codechg.CodeChgAction"/>
+	<bean class="com.blue.version.codechg.CodeChgBO"/>
+	<bean class="com.blue.version.codechg.CodeChgDAOImpl" parent="baseDAO"></bean>
+	
+	<bean name="/DatabaseChg" class="com.blue.version.databasechg.DatabaseChgAction"/>
+	<bean class="com.blue.version.databasechg.DatabaseChgBO"/>
+	<bean class="com.blue.version.databasechg.DatabaseChgDAOImpl" parent="baseDAO"></bean>
+	
+	<bean name="/BatchChg" class="com.blue.version.batchchg.BatchChgAction"/>
+	<bean class="com.blue.version.batchchg.BatchChgBO"/>
+	<bean class="com.blue.version.batchchg.BatchChgDAOImpl" parent="baseDAO"></bean>
+	
+	<bean name="/ReportChg" class="com.blue.version.reportchg.ReportChgAction"/>
+	<bean class="com.blue.version.reportchg.ReportChgBO"/>
+	<bean class="com.blue.version.reportchg.ReportChgDAOImpl" parent="baseDAO"></bean>
+	
+	<bean name="/ParamChg" class="com.blue.version.paramchg.ParamChgAction"/>
+	<bean class="com.blue.version.paramchg.ParamChgBO"/>
+	<bean class="com.blue.version.paramchg.ParamChgDAOImpl" parent="baseDAO"></bean>
+	
+	<bean name="/DataChg" class="com.blue.version.datachg.DataChgAction"/>
+	<bean class="com.blue.version.datachg.DataChgBO"/>
+	<bean class="com.blue.version.datachg.DataChgDAOImpl" parent="baseDAO"></bean>
+	
+	<bean name="/UpdateStep" class="com.blue.version.updatestep.UpdateStepAction"/>
+	<bean class="com.blue.version.updatestep.UpdateStepBO"/>
+	<bean class="com.blue.version.updatestep.UpdateStepDAOImpl" parent="baseDAO"></bean>
+	
+	<bean name="/RoleDepartAuth" class="com.blue.roledepartauth.RoleDepartAuthAction"/>
+	<bean id="roleDepartAuthBO" class="com.blue.roledepartauth.RoleDepartAuthBO"/>
+	<bean class="com.blue.roledepartauth.RoleDepartAuthDAOImpl" parent="baseDAO"></bean>
+	
+
+	<bean name="/TaxiInfo" class="com.blue.taxi.TaxiInfoAction"/>
+	<bean id="taxiInfoBO" class="com.blue.taxi.TaxiInfoBO"/>
+	<bean class="com.blue.taxi.TaxiInfoDAOImpl" parent="baseDAO"/>
+	
+	<bean name="/TravelInfo" class="com.blue.travel.TravelInfoAction"/>
+	<bean id="travelInfoBO" class="com.blue.travel.TravelInfoBO"/>
+	<bean class="com.blue.travel.TravelInfoDAOImpl" parent="baseDAO"></bean>
+	
+	<bean name="/BudgetInfo" class="com.blue.budget.BudgetInfoAction"/>
+	<bean id="budgetInfoBO" class="com.blue.budget.BudgetInfoBO" />
+	<bean class="com.blue.budget.BudgetInfoDAOImpl" parent="baseDAO"></bean>	
+	
+	<bean name="/BudgetDetail" class="com.blue.budget.detail.BudgetDetailAction"/>
+	<bean id="budgetDetailBO" class="com.blue.budget.detail.BudgetDetailBO" />
+	<bean class="com.blue.budget.detail.BudgetDetailDAOImpl" parent="baseDAO"></bean>
+	
+	<bean name="/ExpensesInfo" class="com.blue.expenses.ExpensesInfoAction"/>
+	<bean id="expensesInfoBO" class="com.blue.expenses.ExpensesInfoBO"/>
+	<bean class="com.blue.expenses.ExpensesInfoDAOImpl" parent="baseDAO"></bean>
+	
+	<bean name="/TravelDetail" class="com.blue.travel.detail.TravelDetailAction"/>
+	<bean id="travelDetailBO" class="com.blue.travel.detail.TravelDetailBO"/>
+	<bean class="com.blue.travel.detail.TravelDetailDAOImpl" parent="baseDAO"></bean>
+		
+	
+	<bean name="/ExpensesDetail" class="com.blue.expenses.detail.ExpensesDetailAction"/>
+	<bean id="expensesDetailBO" class="com.blue.expenses.detail.ExpensesDetailBO"/>
+	<bean class="com.blue.expenses.detail.ExpensesDetailDAOImpl" parent="baseDAO"></bean>
+		
+	<bean name="/UserDepartAuth" class="com.blue.userdepartauth.UserDepartAuthAction"/>
+	<bean id="userDepartAuthBO" class="com.blue.userdepartauth.UserDepartAuthBO"/>
+	<bean class="com.blue.userdepartauth.UserDepartAuthDAOImpl" parent="baseDAO"></bean>
+	
+	<bean name="/ProductDef" class="com.blue.product.ProductDefAction"/>
+	<bean id="productDefBO" class="com.blue.product.ProductDefBO"/>
+	<bean class="com.blue.product.ProductDefDAOImpl" parent="baseDAO"></bean>
+	
+	<bean name="/ModuleDef" class="com.blue.product.ModuleDefAction"/>
+	<bean id="moduleDefBO" class="com.blue.product.ModuleDefBO"/>
+	<bean class="com.blue.product.ModuleDefDAOImpl" parent="baseDAO"></bean>
+	
+	<bean name="/ScaleDef" class="com.blue.scale.ScaleDefAction"/>
+	<bean id="scaleDefBO" class="com.blue.scale.ScaleDefBO"/>
+	<bean class="com.blue.scale.ScaleDefDAOImpl" parent="baseDAO"></bean>
+	
+	<bean class="com.blue.product.ParticipateListDAOImpl" parent="baseDAO"></bean>
+	
+	<bean name="/MainPlanJob" class="com.blue.pm.mainplanjob.MainPlanJobAction"/>
+	<bean id="mainPlanJobBO" class="com.blue.pm.mainplanjob.MainPlanJobBO"/>
+	<bean id="mainPlanJobDAO" class="com.blue.pm.mainplanjob.MainPlanJobDAOImpl" parent="baseDAO"></bean>
+	
+	
+	<!-- TASK -->
+	<bean id="mailNoticeTask" class="com.eis.timer.MailNoticeTask"></bean>
+ 	<bean id="methodInvokingJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+       <property name="targetObject">
+           <ref bean="mailNoticeTask" />
+       </property>
+       <property name="targetMethod">
+           <value>send</value>
+       </property>
+    </bean>
+
+	
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+       <property name="jobDetail" ref="methodInvokingJobDetail"/>
+       <property name="cronExpression">
+          <value>0 30 21 * * ?</value>
+       </property>
+    </bean>
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+       <!-- 添加触发器 -->
+       <property name="triggers">
+           <list>
+              <ref local="cronTrigger" />
+           </list>
+       </property>
+    </bean>
+	
+</beans>

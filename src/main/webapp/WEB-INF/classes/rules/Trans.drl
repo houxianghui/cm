@@ -1,0 +1,30 @@
+//created on: 2015-7-3
+package com.blue.trans
+
+//list any import classes here.
+import com.sample.tran.Trans;
+
+
+//declare any global variables here
+global com.sample.tran.TmLoan tmLoan;
+global com.sample.tran.TmSchedule tmSchedule;
+
+
+
+rule "Your First Rule"
+
+    when
+        t:Trans(txnCode == "L837")
+        Trans( dbCr == "D" )
+    then
+		tmLoan.setBal(tmLoan.getBal()+ t.getAmt());
+		tmSchedule.setBal(t.getAmt()+tmSchedule.getBal()); 
+
+end
+
+rule "r1023"
+	when t:Trans(subject matches ".*?1023[0-9]{5}")
+		Trans(dbCr == "D")
+	then 
+		tmLoan.setBal(tmLoan.getBal()+ t.getAmt());
+end

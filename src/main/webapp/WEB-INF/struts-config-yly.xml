@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+"http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+	<!--
+		===================== data sources =================================
+	-->
+	<data-sources></data-sources>
+	<!--
+		========================= beans ====================================
+	-->
+	<!-- Bean -->
+	<form-beans>
+		<form-bean name="pressCardForm" type="com.yly.presscard.PressCardForm" />
+		<form-bean name="stoAppForm" type="com.yly.stor.StoAppInfoForm" />
+		<form-bean name="issueappForm" type="com.yly.issue.IssueappForm" />
+		<form-bean name="biunitinfoForm" type="com.yly.info.BiunitinfotbForm" />		
+		<form-bean name="issuetaskForm" type="com.yly.issue.IssuetaskForm" />		
+		<form-bean name="issuetaskctrlForm" type="com.yly.issue.IssuetaskctrlForm" />	
+		<form-bean name="stoproductForm" type="com.yly.exstore.StoproductForm" />				
+		<form-bean name="mwsissuetbForm" type="com.yly.issue.MWsIssuetbForm" />	
+		<form-bean name="applytypeinfoForm" type="com.yly.para.ApplytypeinfoForm" />	
+		<form-bean name="lsinfoForm" type="com.yly.ls.LsinfoForm" />			
+		<form-bean name="disproductForm" type="com.yly.discard.DisproductForm" />			
+		<form-bean name="storeuseForm" type="com.yly.reuse.StoreuseForm" />			
+		<form-bean name="secpkitbForm" type="com.yly.pki.SecpkitbForm" />			
+		<form-bean name="callfuncconfForm" type="com.yly.conf.CallfuncconfForm" />			
+		
+	</form-beans>
+
+	<action-mappings>
+		<action path="/PressCard" type="org.springframework.web.struts.DelegatingActionProxy" name="pressCardForm"
+			scope="request" validate="false">
+			<forward name="new" path="/presscard/PressCard_new.jsp" />
+			<forward name="list" path="/presscard/PressCard_list.jsp" />
+			<forward name="new_ereader" path="/presscard/EreaderCard_new.jsp" />
+			<forward name="list_ereader" path="/presscard/EreaderCard_list.jsp" />		
+			<forward name="list_cardno" path="/presscard/CardNo_list.jsp" />		
+		</action>
+		<action path="/StoApp" type="org.springframework.web.struts.DelegatingActionProxy" name="stoAppForm"
+			scope="request" validate="false">
+			<forward name="new" path="/stor/StorApp_new.jsp" />
+			<forward name="edit" path="/stor/StorApp_edit.jsp" />
+			<forward name="list" path="/stor/StorApp_list.jsp" />
+			<forward name="listresult" path="/stor/pickStorpop.jsp" />
+			<forward name="ql" path="/stor/StorApp_qlist.jsp" />			
+			<forward name="view" path="/stor/StorApp_view.jsp" />		
+			<forward name="makeupList" path="/stor/StorApp_makeupList.jsp" />								
+		</action>
+		<action path="/Issueapp" type="org.springframework.web.struts.DelegatingActionProxy" name="issueappForm"
+			scope="request" validate="false">
+			<forward name="new" path="/issue/IssueApp_new.jsp" />
+			<forward name="edit" path="/issue/IssueApp_edit.jsp" />
+			<forward name="show" path="/issue/IssueApp_showEdit.jsp" />
+			<forward name="list" path="/issue/IssueApp_list.jsp" />
+			<forward name="popList" path="/issue/IssueApp_popList.jsp" />
+			<forward name="w_queryList" path="/issue/IssueTaskCtrl_wlist.jsp" />
+			<forward name="ex_new" path="/exstore/ExStore_new.jsp" />
+			<forward name="exlist" path="/exstore/ExStore_list.jsp" />
+			<forward name="exbacklist" path="/exstore/ExBackStore_list.jsp" />		
+			<forward name="exdown" path="/exstore/ExStore_down.jsp" />
+			<forward name="exchange_new" path="/exchange/ExChange_new.jsp" />				
+			<forward name="makeup_new" path="/makeup/MakeUp_new.jsp" />	
+			<forward name="makeuplist" path="/makeup/MakeUp_list.jsp" />				
+			
+		</action>		
+		<action path="/Issuetask" type="org.springframework.web.struts.DelegatingActionProxy" name="issuetaskForm"
+			scope="request" validate="false">
+			<forward name="list" path="/issue/IssueTask_list.jsp" />			
+		</action>
+		<action path="/Issuetaskctrl" type="org.springframework.web.struts.DelegatingActionProxy" name="issuetaskctrlForm"
+			scope="request" validate="false">
+			<forward name="new" path="/issue/IssueApp_new.jsp" />
+			<forward name="edit" path="/issue/IssueApp_edit.jsp" />
+			<forward name="listpop" path="/issue/Issuetaskctrlpop.jsp" />
+			<forward name="list" path="/issue/IssueTaskCtrl_list.jsp" />
+			
+		</action>
+		<action path="/Biunitinfo" type="org.springframework.web.struts.DelegatingActionProxy" name="biunitinfoForm"
+			scope="request" validate="false">
+			<forward name="list" path="/info/Biunitinfo_popList.jsp" />
+		</action>
+		<action path="/Stoproduct" type="org.springframework.web.struts.DelegatingActionProxy" name="stoproductForm"
+			scope="request" validate="false">
+			<forward name="ql" path="/exstore/Stoproduct_list.jsp" />
+			<forward name="discard_wlist" path="/discard/Discard_wlist.jsp" />
+			<forward name="discard_wlist" path="/discard/Discard_wlist.jsp" />		
+			
+		</action>
+		<action path="/Mwsissuetb" type="org.springframework.web.struts.DelegatingActionProxy" name="mwsissuetbForm"
+			scope="request" validate="false">
+			<forward name="list" path="/mwsissue/MWsIssue_wlist.jsp" />
+			<forward name="issue" path="/mwsissue/MWsIssue_issue.jsp" />
+			
+		</action>
+		<action path="/Applytypeinfo" type="org.springframework.web.struts.DelegatingActionProxy" name="applytypeinfoForm"
+			scope="request" validate="false">
+			<forward name="list" path="/para/ApplyTypeConf_list.jsp" />
+			<forward name="new" path="/para/ApplyTypeConf_new.jsp" />
+		</action>
+		<action path="/Lsinfo" type="org.springframework.web.struts.DelegatingActionProxy" name="lsinfoForm"
+			scope="request" validate="false">
+			<forward name="list" path="/lsinfo/LsInfo_list.jsp" />
+		</action>
+		<action path="/Disproduct" type="org.springframework.web.struts.DelegatingActionProxy" name="disproductForm"
+			scope="request" validate="false">
+			<forward name="list" path="/discard/Discard_list.jsp" />
+		</action>
+		<action path="/Storeuse" type="org.springframework.web.struts.DelegatingActionProxy" name="storeuseForm"
+			scope="request" validate="false">
+			<forward name="list" path="/reuse/Storeuse_list.jsp" />
+		</action>
+		<action path="/Secpkitb" type="org.springframework.web.struts.DelegatingActionProxy" name="secpkitbForm"
+			scope="request" validate="false">
+			<forward name="list" path="/reuse/Storeuse_list.jsp" />
+		</action>	
+		<action path="/Callfuncconf" type="org.springframework.web.struts.DelegatingActionProxy" name="callfuncconfForm"
+			scope="request" validate="false">
+			<forward name="list" path="/conf/CallFuncConf_list.jsp" />
+			<forward name="new" path="/conf/CallFuncConf_new.jsp" />
+		</action>			
+	</action-mappings>
+	
+
+</struts-config>
