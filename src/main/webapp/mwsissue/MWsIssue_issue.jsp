@@ -31,6 +31,11 @@ function doIssueDone(){
 	document.forms[0].submit();
 	
 } 
+function doExam(){ 
+	document.forms[0].act.value = "E";
+	document.forms[0].submit();
+	
+} 
 </script>
 </head>
 <body>
