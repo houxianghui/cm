@@ -7,9 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+
+
+
+
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
@@ -19,14 +25,12 @@ import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
 import com.eis.util.StringUtil;
-
 import com.yly.conf.CallfuncconfBO;
 import com.yly.drools.FunDrools;
 import com.yly.drools.Func;
 import com.yly.exstore.Stoproduct;
 import com.yly.exstore.StoproductBO;
 import com.yly.func.CallFunc;
-
 import com.yly.func.Para;
 import com.yly.func.ParaTools;
 import com.yly.ls.Lsinfo;
@@ -99,6 +103,10 @@ public class MWsIssueAction extends IbatisBaseAction {
 	/* 
 	 * @see com.eis.base.BaseAction#process(org.apache.struts.action.ActionMapping, com.eis.base.BaseForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.eis.portal.UserContext)
 	 */
+	
+	@Autowired
+	FunDrools funDrools;
+	@Override
 	public ActionForward process(ActionMapping mapping, BaseForm form, HttpServletRequest request, HttpServletResponse response, UserContext user) throws Exception {
 		String act = form.getAct();
 		if("add".equals(act)){		//add 		
@@ -111,6 +119,9 @@ public class MWsIssueAction extends IbatisBaseAction {
 			return issue(form,mapping,request,user);
 		}else if("closePort".equals(act)){		//query active projects 
 			return closePort(form,mapping,request,user);
+		}else if("E".equals(act)){		//query active projects 
+			exam(form,mapping,request,response);
+			return null;
 		}else return null;
 	}
 	
@@ -300,30 +311,19 @@ public class MWsIssueAction extends IbatisBaseAction {
 			para.setCardtype(1);
 		else para.setCardtype(0);
 		int result=CallFunc.callId(func, para);
-		if(result!=0){
-			throw new MessageException("读卡器端口操作失败!");
-		}
 	}
 	public ActionForward issue(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		MWsIssuetbForm f = (MWsIssuetbForm)form;	
-		Mwsissuetb vo=((MWsIssueBO)bo).queryForObject(f.getFormNo());
+		Mwsissuetb vo=((MWsIssueBO)bo).queryIssueTaskCtrl(f.getFormNo());
 		copyProperties(f,vo);
 		initMwsissueToPara(f);
 		Func func=new Func();
 		Para para=new Para();
-		FunDrools fun =new FunDrools();
 		setFunc(vo, func);
-		Lsinfo lsvo= new Lsinfo();
-		lsvo.setCurrDate(DateUtil.getTimeStr());
-		lsvo.setDetectSign((short)0);
-		lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("LsInfo")),16));
-		lsvo.setFormNo(vo.getFormNo());
-		lsvo.setOperationType(vo.getOperationType());
-		lsvo.setOperId(user.getUserID());
-		lsvo.setSamId(vo.getSamId());
+		Lsinfo lsvo = setLsInfo(user, vo);
 		for(int i=1;i<4;i++){
 			setOperAct(vo,func,i);//读卡\洗卡\发行
-			fun.getFunc(func);
+			funDrools.getFunc(func);
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
 		//	int result=CallFunc.callId(func, para);
@@ -357,8 +357,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 							vo.setSamId(vo.getSamIdEnd().substring(0,7)+StringUtil.addZero(String.valueOf(cardno), 5));
 						}
 					}
-					((MWsIssueBO)bo).updateBySelective(vo);
-					lsinfoBO.insert(lsvo);
+					Stoproduct sto = setSto(vo, lsvo);
+					((MWsIssueBO)bo).transThreeTb(vo,sto,lsvo);
 				}
 			}else{
 				lsvo.setErrorCode((short)result);
@@ -376,6 +376,36 @@ public class MWsIssueAction extends IbatisBaseAction {
         request.setAttribute("pageResultLsInfo", request.getAttribute("pageResult"));
 		copyProperties(form, vo);
 		return mapping.findForward("issue");
+	}
+
+	private Stoproduct setSto(Mwsissuetb vo, Lsinfo lsvo) throws Exception {
+		Stoproduct sto= new Stoproduct();
+		copyProperties(sto, vo);
+		sto.setAppTypeId(vo.getApplyAttr());
+		sto.setIssueTime(DateUtil.getTimeStr());
+		sto.setDetectSign((short)0);
+		sto.setSamCSN(lsvo.getSamCSN());
+		sto.setOAappNo(vo.getAppNo());
+		sto.setWkState((short)12);//已发行
+		sto.setCardPhyStat((short)1);//好卡
+		return sto;
+	}
+
+	private Lsinfo setLsInfo(UserContext user, Mwsissuetb vo) throws Exception {
+		Lsinfo lsvo= new Lsinfo();
+		lsvo.setCurrDate(DateUtil.getTimeStr());
+		lsvo.setDetectSign((short)0);
+		lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("LsInfo")),16));
+		lsvo.setFormNo(vo.getFormNo());
+		lsvo.setOperationType(vo.getOperationType());
+		lsvo.setSamId(vo.getSamId());
+		lsvo.setOperId(user.getUserID());
+		lsvo.setErrorCode((short)0);
+		lsvo.setSamCSNOld("");
+		lsvo.setSamIdOld("");
+		lsvo.setSamCSN("");
+		lsvo.setSamId("");
+		return lsvo;
 	}
 
 	private void initMwsissueToPara(MWsIssuetbForm f) {
@@ -434,6 +464,58 @@ public class MWsIssueAction extends IbatisBaseAction {
 				func.setOperAct("W");
 			}else if(step==3){
 				func.setOperAct("I");
+			}
+		}
+	}
+	
+	public void exam(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response)throws Exception{
+		MWsIssuetbForm f = (MWsIssuetbForm)form;
+		Mwsissuetb vo= new Mwsissuetb();
+		copyProperties(vo, f);
+		initMwsissueToPara(f);
+		Func func=new Func();
+		Para para=new Para();
+		setFunc(vo,func);
+		String res="";
+		Stoproduct prod = new Stoproduct();
+		Lsinfo lsvo = new Lsinfo();
+		for(int i=1;i<3;i++){
+			if(i==1)
+				func.setOperAct("R");
+			else if(i==2)
+				func.setOperAct("RV");
+			funDrools.getFunc(func);
+			String[] paras=func.getPara().split(",");
+			ParaTools.setPara(para, paras, f);
+		//	int result=CallFunc.callId(func, para);
+			int result=0;
+			para.setSamId("12001119");
+			if(result!=0){
+				throw new MessageException("请联系系统维护人员!错误代码"+func.getFunc()+result);
+			}else{
+				if(i==1){
+					prod = stoproductBO.queryForObject(para.getSamId());
+					lsvo.setSamCSN(prod.getSamCSN());
+					lsvo.setSamId(prod.getSamId());
+					lsvo = lsinfoBO.queryLastObject(lsvo);
+					lsvo.setDetectSign((short)1);		
+					prod.setDetectSign((short)1);
+					prod.setDetectTime(DateUtil.getTimeStr());
+					res = "{\"flowNo\":\""+lsvo.getFlowNo()+"\",\"detectSign\":\""+lsvo.getDetectSign()+"\",\"msg\":\"samId"+para.getSamId()+"samCSN"+prod.getSamCSN();
+					if(!vo.getProdId().equals("4")){		
+						res =  res+"\"}";
+						stoproductBO.transLsUpdate(prod,lsvo);
+						writeAjaxResponse(response, res);
+						break;
+					}else{
+						continue;
+					} 
+				}else{
+					res = res+"ver"+para.getVersion()+"\"}";
+					stoproductBO.transLsUpdate(prod,lsvo);
+					writeAjaxResponse(response, res);
+				}
+			
 			}
 		}
 	}

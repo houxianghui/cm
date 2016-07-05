@@ -1,46 +1,35 @@
-/*
- * @# ProjectMaintainAction.java 2008-11-6 houxh
- *
- * Copyright  (c)  2003 	Huateng. All Right Reserv
- */
- 
-package com.yly.ls;
+ package com.yly.ls;
 
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
+
+
+
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.taglib.nested.bean.NestedDefineTei;
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
-import com.eis.cache.SingleDic;
-import com.eis.cache.SingleDicMap;
-import com.eis.exception.MessageException;
 import com.eis.portal.UserContext;
-import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
-import com.eis.util.ValidateUtil;
-import com.ibm.icu.text.DecimalFormat;
-import com.yly.stor.StoAppInfoBO;
-import com.yly.stor.Stoappinfo;
+import com.yly.exstore.Stoproduct;
+import com.yly.exstore.StoproductBO;
+import com.yly.exstore.StoproductForm;
 
 
 public class LsinfoAction extends IbatisBaseAction {
+	private StoproductBO stoproductBO;
+
+	public StoproductBO getStoproductBO() {
+		return stoproductBO;
+	}
+
+	public void setStoproductBO(StoproductBO stoproductBO) {
+		this.stoproductBO = stoproductBO;
+	}
 
 	/* 
 	 * @see com.eis.base.BaseAction#process(org.apache.struts.action.ActionMapping, com.eis.base.BaseForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.eis.portal.UserContext)
@@ -58,7 +47,9 @@ public class LsinfoAction extends IbatisBaseAction {
 		if("list".equals(act)){		//query active projects
 			return queryList(form,mapping,request,user);
 		}
-	
+		if("E".equals(act)){		//query active projects
+			return exam(form,mapping,request,user);
+		}
 
 		return forwardError(request,mapping,"页面未找到,错误发生在"+this.getClass().getName());
 	}
@@ -74,7 +65,20 @@ public class LsinfoAction extends IbatisBaseAction {
 		return forwardSuccessPage(request,mapping,"保存成功","Applytypeinfo.do?act=list");
 		
 	}
-	
+	public ActionForward exam(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		Lsinfo vo = new Lsinfo();
+		LsinfoForm f = (LsinfoForm)form;
+		copyProperties(vo,f);
+		vo.setOperId(user.getUserID());
+		vo.setCurrDate(DateUtil.getDTStr());
+		Stoproduct prod = new Stoproduct();
+		StoproductForm sf= new StoproductForm();
+		copyProperties(sf,vo);
+		prod = stoproductBO.queryForObjByKey(sf);
+		((LsinfoBO)bo).insert(vo); 
+		return forwardSuccessPage(request,mapping,"保存成功","Applytypeinfo.do?act=list");
+		
+	}
 	public ActionForward queryList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		LsinfoForm f = (LsinfoForm)form;
 		Lsinfo vo= new Lsinfo();

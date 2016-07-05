@@ -18,15 +18,15 @@ public class ParaTools {
 	public static void setPara(Para P,String[] paras,MWsIssuetbForm form) {
         try {
         	for(String s : paras){
-        		String v;
                 Field f = FieldUtils.getField(form.getClass(), s, true);
-                if(f.getType()==String.class){
-                	v=(String)FieldUtils.readField(f, form);
-                }else{
-                	v=String.valueOf(FieldUtils.readField(f, form));
-                }
                 Field targetF = FieldUtils.getField(P.getClass(),s,true);
-                ReflectionUtils.setField(targetF, P, v);
+                if(f.getType()==String.class){
+                	String v=(String)FieldUtils.readField(f, form);
+                    ReflectionUtils.setField(targetF, P, v);
+                }else{
+                	int v=(int)FieldUtils.readField(f, form);
+                    ReflectionUtils.setField(targetF, P, v);
+                }
             }
         }
         catch (Throwable t) {

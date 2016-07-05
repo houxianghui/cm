@@ -36,6 +36,24 @@ function doExam(){
 	document.forms[0].submit();
 	
 } 
+function setPKey(samId_var,samCSN_var,detectSign_var,errorCode_var,flowNo_var) { 
+
+	document.forms[0].samId.value=samId_var; 
+	document.forms[0].samCSN.value=samCSN_var; 
+	document.forms[0].detectSign.value=detectSign_var; 
+	document.forms[0].errorCode.value=errorCode_var; 
+	document.forms[0].flowNo.value=flowNo_var; 	
+} 
+
+$(function(){
+	$.get("Mwsissuetb.do?act=E&applyAttr="+$("#applyAttr").val()+"&prodId="+$("#prodId").val()+"&manufacId="+$("#manufacId").val(),function(result){
+		var json = $.parseJSON(result);
+		$("#msg").append(json.msg);
+		$("#flowNo").append(json.flowNo);
+		$("#detectSign").append(json.detectSign);
+		return;
+	});
+});
 </script>
 </head>
 <body>
@@ -44,9 +62,11 @@ function doExam(){
 <input type=hidden name=act value="list">
 <input type=hidden name=requery> 
 <html:hidden property="formNo"/>
-<html:hidden property="manuId"/>
+<html:hidden property="manufacId"/>
 <html:hidden property="prodId"/>
+<html:hidden property="operationType"/>
 <html:hidden property="applyAttr"/>
+
 <%=ViewUtil.getTitle("发行加工单")%>
 	<table width="98%" class="dtPanel_Line1" border="0" cellspacing="1"
 		align="center" cellpadding="0">
@@ -187,8 +207,7 @@ function doExam(){
 
 
 </table>
-
- <%=ViewUtil.getTitle("已发行列表")%> 		
+ <%=ViewUtil.getTitle("发行流水信息")%> 		
 	<table width="98%" border="0" cellspacing="1" align="center"
 		cellpadding="0">
 		<tr>
@@ -203,7 +222,7 @@ function doExam(){
 					<td width="10%">原SAM号</td>	
 					<td width="10%">原SAM印刷号</td>
 					<td width="10%">发行员</td>	
-					<td width="10%">发行时间</td>						
+					<td width="10%">发行时间</td>					
 				</tr>
 				<%List list = pageResultLsInfo.getList();
 
@@ -215,7 +234,7 @@ if (list != null) {
 					<td><%=vo.getFlowNo()%></td>	
 					<td><%=vo.getSamId()%></td>
 					<td><%=vo.getSamCSN()%></td>
-					<td><%=vo.getDetectSign()%></td>
+					<td><div id="detectSign"></div><%=vo.getDetectSign()%></td>
 					<td><%=vo.getErrorCode()%></td>
 					<td><%=vo.getSamIdOld()%></td>
 					<td><%=vo.getSamCSNOld()%></td>			
@@ -249,7 +268,6 @@ if (pageResultLsInfo != null) {%>
 			<%}else{ %>
 			<input type="button" value="发行完成" class="Button" onClick="doIssueDone()"/>
 			<%} %>
-			&nbps;&nbps;
 			<input type="button" value="检测" class="Button" onClick="doExam()"/>
 			</td>
 		</tr>

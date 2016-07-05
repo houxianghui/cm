@@ -46,6 +46,7 @@ import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoBO;
 import com.yly.exstore.Stoproduct;
 import com.yly.exstore.StoproductBO;
+import com.yly.exstore.StoproductForm;
 import com.yly.stor.StoAppInfoBO;
 import com.yly.stor.StoAppInfoForm;
 import com.yly.stor.Stoappinfo;
@@ -408,17 +409,25 @@ public class IssueappAction extends IbatisBaseAction {
 
 	}
 	private void ExamOANo(IssueappForm f)throws Exception{
-		if(f.getOperationType()==31)
-		{
-			List list=stoproductBO.queryForList(f.getOAappNo());
+		int opertype=f.getOperationType();
+		if(opertype==31 ||opertype==33){
+			List list=null;
+			if(opertype==31){
+				list=stoproductBO.queryForList(f.getOAappNo());
+			}else{ 	
+				StoproductForm stf=new StoproductForm();
+				stf.setOperationType(f.getOperationType());
+				list=stoproductBO.queryForListAsc(stf);
+			}
 			if(list==null || list.size()==0)
-				throw new MessageException("不存在可以出库的成品记录!"); 
-		}
+				throw new MessageException("不存在可以出库的记录!"); 
+		}else return;
+
 	}
 	private String getExTypeUrl(IssueappForm f)throws Exception{
 		int operType=f.getOperationType();
 		String url="";
-		if(operType!=53){
+		if(operType==31 ||operType==33){
 			url="Stoproduct.do?act=ql";
 		}else if(operType==32 ||operType==34){
 			url="StoApp.do?act=ql";

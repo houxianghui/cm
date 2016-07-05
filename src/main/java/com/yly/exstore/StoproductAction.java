@@ -89,7 +89,7 @@ public class StoproductAction extends IbatisBaseAction {
 		((StoproductBO)bo).insert(vo);		
 		return forwardSuccessPage(request,mapping,"保存成功","Stoproduct.do?act=c");
 		
-	}
+	}    
 	public ActionForward queryList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 
 		String pageNo = request.getParameter("pageNO");		
@@ -105,11 +105,12 @@ public class StoproductAction extends IbatisBaseAction {
 	public ActionForward list(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoproductForm f = (StoproductForm)form;
 		List<Stoproduct> prodList= ((StoproductBO)bo).queryForList(f);
-		if(prodList!=null && prodList.size()>0){
+		if(prodList!=null && prodList.size()>0){   
 			setPageResult(request, prodList);
 		}else{
 			throw new MessageException("没有可以操作的记录");
 		}
+		asdasd
 		return mapping.findForward("ql");
 	}	
 	public ActionForward disCard_wlist(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
@@ -122,7 +123,7 @@ public class StoproductAction extends IbatisBaseAction {
 		StoproductForm f = (StoproductForm)form;
 		setPageResult(request, ((StoproductBO)bo).queryForListAsc(f));
 		return mapping.findForward("discard_wlist");
-	}	
+	}	   
 	public ActionForward qlEx(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoproductForm f = (StoproductForm)form;
 		List<Stoproduct> prodList= ((StoproductBO)bo).queryForList(f);
@@ -183,31 +184,22 @@ public class StoproductAction extends IbatisBaseAction {
 			int opertype, List<Stoproduct> issueCard, List<Lsinfo> lsList,
 			StoproductForm sf) throws Exception,
 			MessageException {
-		List l=((StoproductBO)bo).queryForList(sf);	
-
-		Stoproduct vo = new Stoproduct();
-
+		
+		
+		Stoproduct vo = ((StoproductBO)bo).queryForObjByKey(sf);
 		Lsinfo lsvo = new Lsinfo();
 		lsvo.setAppNo(f.getAppNo());
 		lsvo.setCurrDate(DateUtil.getTimeStr());
 		lsvo.setOperId(user.getUserID());
 		lsvo.setOperationType((short)opertype);
 		
-		if (l != null) {
-		    Iterator iter = l.iterator();
-		    while (iter.hasNext()) {//只选择发行日期最近的一个记录出库
-		    	
-		    	vo = (Stoproduct)iter.next();			    	
-		    	vo.setIOState((short)2);//出库
-		    	vo.setIOStateChgDate(DateUtil.getTimeStr());
-		    	vo.setReuseTime((short)(vo.getReuseTime()==null?1:vo.getReuseTime()+1));
-		    	
-				lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
-				lsvo.setSamCSN(vo.getSamCSN());
-				lsvo.setSamId(vo.getSamId());
-
-		    	break;
-		    }
+		if (vo!= null) {
+		    vo.setIOState((short)2);//出库
+		    vo.setIOStateChgDate(DateUtil.getTimeStr());
+		    vo.setReuseTime((short)(vo.getReuseTime()==null?1:vo.getReuseTime()+1));	 	
+			lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
+			lsvo.setSamCSN(vo.getSamCSN());
+			lsvo.setSamId(vo.getSamId());
 		 }else{
 				throw new MessageException(sf.getSamId()+"该产品异常,请联系选择其他产品!");
 		 }

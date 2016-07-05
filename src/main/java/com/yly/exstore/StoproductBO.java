@@ -78,6 +78,18 @@ public class StoproductBO extends IbatisBO {
 		e.setOrderByClause("IssueTime desc");
 		return stoproductDAO.selectByExample(e);
 	}
+	public Stoproduct queryForObjByKey(StoproductForm sto) throws Exception{
+		Stoproduct vo = new Stoproduct();
+		List l=queryForList(sto);
+		if (l != null) {
+		    Iterator iter = l.iterator();
+		    while (iter.hasNext()) {//只选择发行日期最近的一个记录出库		 
+		    	vo = (Stoproduct)iter.next();	
+		    	break;
+		    }
+		}
+		return vo;
+	}
 	public List queryForListAsc(StoproductForm sto) throws Exception{
 		StoproductExample e = queryForListByEx(sto);			
 		e.setOrderByClause("IssueTime asc");
@@ -170,6 +182,15 @@ public class StoproductBO extends IbatisBO {
 			for(Lsinfo vo:lsl){
 				lsinfoDAO.insert(vo);
 			}
+		}
+		
+	}
+	public void transLsUpdate(Stoproduct sto,Lsinfo ls) throws Exception {
+		if(sto != null){		
+			stoproductDAO.updateByPrimaryKeySelective(sto);		
+		}
+		if(ls!=null){
+			lsinfoDAO.updateByPrimaryKeySelective(ls);			
 		}
 		
 	}

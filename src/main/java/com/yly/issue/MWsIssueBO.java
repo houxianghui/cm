@@ -10,7 +10,11 @@ import com.eis.cache.ReDefSDicMap;
 import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
+import com.yly.exstore.Stoproduct;
+import com.yly.exstore.StoproductDAO;
 import com.yly.issue.MwsissuetbExample.Criteria;
+import com.yly.ls.Lsinfo;
+import com.yly.ls.LsinfoDAO;
 import com.yly.stor.StoAppInfoBO;
 import com.yly.stor.Stoappinfo;
 import com.yly.stor.StoappinfoDAO;
@@ -22,6 +26,25 @@ public class MWsIssueBO extends IbatisBO {
 	private MwsissuetbDAO mwsissuetbDAO;
 	private StoappinfoDAO stoappinfoDAO;
 	private IssuetaskctrlDAO issuetaskctrlDAO;	
+	private LsinfoDAO lsinfoDAO;	
+	private StoproductDAO stoproductDAO;
+	
+	public LsinfoDAO getLsinfoDAO() {
+		return lsinfoDAO;
+	}
+
+	public void setLsinfoDAO(LsinfoDAO lsinfoDAO) {
+		this.lsinfoDAO = lsinfoDAO;
+	}
+
+
+	public StoproductDAO getStoproductDAO() {
+		return stoproductDAO;
+	}
+
+	public void setStoproductDAO(StoproductDAO stoproductDAO) {
+		this.stoproductDAO = stoproductDAO;
+	}
 
 	public StoappinfoDAO getStoappinfoDAO() {
 		return stoappinfoDAO;
@@ -125,12 +148,18 @@ public class MWsIssueBO extends IbatisBO {
 		}
 		
 	}
-
+	public void transThreeTb(Mwsissuetb mtb,Stoproduct s,Lsinfo ls) throws Exception {
+		stoproductDAO.insert(s);
+		lsinfoDAO.insert(ls);
+		mwsissuetbDAO.updateByPrimaryKeySelective(mtb);
+	}
 	@Override
 	public List queryForList(Object obj) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
+	public Mwsissuetb queryIssueTaskCtrl(String formNo) throws Exception{
+		return mwsissuetbDAO.queryIssueTaskCtrl(formNo);
+	}
 }

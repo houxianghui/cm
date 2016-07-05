@@ -92,4 +92,5 @@ public interface MwsissuetbDAO {
      * @ibatorgenerated Tue May 10 13:31:14 CST 2016
      */
     int updateByPrimaryKey(Mwsissuetb record);
+    Mwsissuetb queryIssueTaskCtrl(String formNo);
 }

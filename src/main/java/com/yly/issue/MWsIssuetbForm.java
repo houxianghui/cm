@@ -858,5 +858,67 @@ public class MWsIssuetbForm  extends BaseForm {
 	public void setIsHTCard(int isHTCard) {
 		this.isHTCard = isHTCard;
 	}
-    
+    private String appNo;
+    private String taskNo;
+	private Integer unitId;
+	private Short consumeType;
+	private Short paymentType;
+	private Long unitPrice;
+	private Short taskState;
+
+	public String getAppNo() {
+		return appNo;
+	}
+
+	public void setAppNo(String appNo) {
+		this.appNo = appNo;
+	}
+
+	public String getTaskNo() {
+		return taskNo;
+	}
+
+	public void setTaskNo(String taskNo) {
+		this.taskNo = taskNo;
+	}
+
+	public Integer getUnitId() {
+		return unitId;
+	}
+
+	public void setUnitId(Integer unitId) {
+		this.unitId = unitId;
+	}
+
+	public Short getConsumeType() {
+		return consumeType;
+	}
+
+	public void setConsumeType(Short consumeType) {
+		this.consumeType = consumeType;
+	}
+
+	public Short getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(Short paymentType) {
+		this.paymentType = paymentType;
+	}
+
+	public Long getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(Long unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+
+	public Short getTaskState() {
+		return taskState;
+	}
+
+	public void setTaskState(Short taskState) {
+		this.taskState = taskState;
+	}
 }
