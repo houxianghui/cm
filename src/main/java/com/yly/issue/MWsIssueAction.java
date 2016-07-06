@@ -351,12 +351,13 @@ public class MWsIssueAction extends IbatisBaseAction {
 					if(vo.getIssueDoneAmt()==vo.getWorkSheetAmt()){
 						vo.setFormState(DONE);
 					}
-					if(vo.getIssueDoneAmt()<vo.getWorkSheetAmt()){
-						if(vo.getSamIdEnd().compareTo(vo.getSamId())>0){
-							int cardno=Integer.parseInt(vo.getSamId().substring(7))+vo.getIssueDoneAmt().intValue();
-							vo.setSamId(vo.getSamIdEnd().substring(0,7)+StringUtil.addZero(String.valueOf(cardno), 5));
-						}
+					if(vo.getSamIdEnd().compareTo(vo.getSamId())>0){
+						int cardno=Integer.parseInt(vo.getSamId().substring(7))+1;
+						vo.setSamId(vo.getSamIdEnd().substring(0,7)+StringUtil.addZero(String.valueOf(cardno), 5));
+					}else{
+						vo.setSamId(vo.getSamIdEnd());
 					}
+					lsvo.setSamId(vo.getSamId());
 					Stoproduct sto = setSto(vo, lsvo);
 					((MWsIssueBO)bo).transThreeTb(vo,sto,lsvo);
 				}
@@ -469,7 +470,11 @@ public class MWsIssueAction extends IbatisBaseAction {
 	}
 	
 	public void exam(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response)throws Exception{
-		MWsIssuetbForm f = (MWsIssuetbForm)form;
+		MWsIssuetbForm f = new MWsIssuetbForm();
+		f.setOperationType(Short.valueOf(request.getParameter("operationType")));
+		f.setProdId(request.getParameter("prodId"));
+		f.setManufacId(request.getParameter("manufacId"));
+		f.setApplyAttr(request.getParameter("applyAttr"));
 		Mwsissuetb vo= new Mwsissuetb();
 		copyProperties(vo, f);
 		initMwsissueToPara(f);
@@ -489,7 +494,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 			ParaTools.setPara(para, paras, f);
 		//	int result=CallFunc.callId(func, para);
 			int result=0;
-			para.setSamId("12001119");
+			para.setSamId("11001100");
 			if(result!=0){
 				throw new MessageException("请联系系统维护人员!错误代码"+func.getFunc()+result);
 			}else{

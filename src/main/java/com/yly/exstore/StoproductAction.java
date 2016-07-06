@@ -110,7 +110,7 @@ public class StoproductAction extends IbatisBaseAction {
 		}else{
 			throw new MessageException("没有可以操作的记录");
 		}
-		asdasd
+		
 		return mapping.findForward("ql");
 	}	
 	public ActionForward disCard_wlist(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{

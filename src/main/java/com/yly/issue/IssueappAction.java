@@ -44,6 +44,7 @@ import com.yly.info.BiunitinfoBO;
 import com.yly.info.Biunitinfotb;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoBO;
+import com.yly.StreamGobbler.StreamGobbler;
 import com.yly.exstore.Stoproduct;
 import com.yly.exstore.StoproductBO;
 import com.yly.exstore.StoproductForm;
@@ -169,6 +170,9 @@ public class IssueappAction extends IbatisBaseAction {
 			return makeUpList(form,mapping,request,user);
 		}else if("makeupMainTain".equals(act)){		//query active projects
 			return makeupMainTain(form,mapping,request,user);
+		}else if("down".equals(act)){		//query active projects
+			 down(form,mapping,request,user);
+			 return null;
 		}else {		//query active projects
 			return queryList(form,mapping,request,user);
 		}
@@ -248,6 +252,14 @@ public class IssueappAction extends IbatisBaseAction {
 		IssueappForm f = (IssueappForm)form;
 		setPageResult(request, ((IssueappBO)bo).getExBackList(f));
 		return mapping.findForward("exbacklist");
+	}
+	public void down(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+	    Process proc = Runtime.getRuntime().exec( "IAP.exe");  
+	    StreamGobbler errorGobbler = new StreamGobbler(proc.getErrorStream(), "Error");  
+	    StreamGobbler outputGobbler = new StreamGobbler(proc.getInputStream(), "Output");  
+	    errorGobbler.start();  
+	    outputGobbler.start();  
+	    proc.waitFor();  
 	}
 	//原料出库\补办
 	public ActionForward exOver(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{

@@ -32,8 +32,15 @@ function doIssueDone(){
 	
 } 
 function doExam(){ 
-	document.forms[0].act.value = "E";
-	document.forms[0].submit();
+	$.get("Mwsissuetb.do?act=E&operationType=<%=mwsissuetbForm.getOperationType()%>&applyAttr=<%=mwsissuetbForm.getApplyAttr()%>&prodId=<%=mwsissuetbForm.getProdId()%>&manufacId=<%=mwsissuetbForm.getManufacId()%>",function(result){
+		var json = $.parseJSON(result);
+		$("#msg").append(json.msg);
+		$("#flowNo").append(json.flowNo);
+		$("#detectSign"+json.flowNo).append(json.detectSign);
+		$("#detect"+json.flowNo).hide();	
+		alert(json.msg);
+		return;
+	});
 	
 } 
 function setPKey(samId_var,samCSN_var,detectSign_var,errorCode_var,flowNo_var) { 
@@ -45,15 +52,6 @@ function setPKey(samId_var,samCSN_var,detectSign_var,errorCode_var,flowNo_var) {
 	document.forms[0].flowNo.value=flowNo_var; 	
 } 
 
-$(function(){
-	$.get("Mwsissuetb.do?act=E&applyAttr="+$("#applyAttr").val()+"&prodId="+$("#prodId").val()+"&manufacId="+$("#manufacId").val(),function(result){
-		var json = $.parseJSON(result);
-		$("#msg").append(json.msg);
-		$("#flowNo").append(json.flowNo);
-		$("#detectSign").append(json.detectSign);
-		return;
-	});
-});
 </script>
 </head>
 <body>
@@ -61,10 +59,10 @@ $(function(){
 <html:form method="post" action="Mwsissuetb.do">
 <input type=hidden name=act value="list">
 <input type=hidden name=requery> 
+<input type=hidden name=operationType> 
 <html:hidden property="formNo"/>
 <html:hidden property="manufacId"/>
 <html:hidden property="prodId"/>
-<html:hidden property="operationType"/>
 <html:hidden property="applyAttr"/>
 
 <%=ViewUtil.getTitle("发行加工单")%>
@@ -234,7 +232,7 @@ if (list != null) {
 					<td><%=vo.getFlowNo()%></td>	
 					<td><%=vo.getSamId()%></td>
 					<td><%=vo.getSamCSN()%></td>
-					<td><div id="detectSign"></div><%=vo.getDetectSign()%></td>
+					<td><div id="detectSign<%=vo.getFlowNo()%>"></div><div id="detect<%=vo.getFlowNo()%>"><%=vo.getDetectSign()%></div></td>
 					<td><%=vo.getErrorCode()%></td>
 					<td><%=vo.getSamIdOld()%></td>
 					<td><%=vo.getSamCSNOld()%></td>			

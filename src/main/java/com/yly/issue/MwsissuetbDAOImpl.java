@@ -96,9 +96,7 @@ public class MwsissuetbDAOImpl extends SqlMapClientDaoSupport implements Mwsissu
         return record;
     }
     public Mwsissuetb queryIssueTaskCtrl(String formNo) {
-        Mwsissuetb key = new Mwsissuetb();
-        key.setFormNo(formNo);
-        Mwsissuetb record = (Mwsissuetb) getSqlMapClientTemplate().queryForObject("mwsissuetb.queryIssueTaskCtrl", key);
+        Mwsissuetb record = (Mwsissuetb) getSqlMapClientTemplate().queryForObject("mwsissuetb.queryIssueTaskCtrl", formNo);
         return record;
     }
 

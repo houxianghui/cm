@@ -14,9 +14,13 @@ if (pageResult != null)
 <title>POS原料出库</title>
 <script language="javascript"> 
 
-
-	reader.OpenSystemPort("12345",1); 
-
+function doDownProgram() {  
+	$.get("Issueapp.do?act=down&taskAmtLeft="+$("#taskAmtLeft").val(),function(result){
+		var json = $.parseJSON(result);
+		$("#taskAmtLeft").append(json.taskAmtLeft);
+		return;
+	});
+} 
 
 </script>
 </head>
@@ -32,7 +36,8 @@ if (pageResult != null)
 	
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
 		align="center" cellpadding="0">
-		<%=ViewUtil.getTitle("批次号:"+issueappForm.getFormNo()+"出库总数:"+issueappForm.getTaskAmt()+"还未完成:"+issueappForm.getTaskAmtLeft())%>	
+		<%=ViewUtil.getTitle("批次号:"+issueappForm.getFormNo()+"出库总数:"+issueappForm.getTaskAmt())%>	
+		还未完成:<div id="taskAmtLeft" ></div><%=issueappForm.getTaskAmtLeft()%>	
 	</table>
  
 

@@ -51,8 +51,10 @@ public class LsinfoBO extends IbatisBO {
 	public Lsinfo queryLastObject(Lsinfo vo) throws Exception {
 		LsinfoExample e = new LsinfoExample();
 		Criteria c = e.createCriteria();
-		if(!CheckUtil.isEmptry(vo.getAppNo()))
-			c.andAppNoEqualTo(vo.getAppNo());
+		if(!CheckUtil.isEmptry(vo.getSamCSN()))
+			c.andSamCSNEqualTo(vo.getSamCSN());
+		if(!CheckUtil.isEmptry(vo.getSamId()))
+			c.andSamIdEqualTo(vo.getSamId());
 		if(!CheckUtil.isEmptry(vo.getFlowNo()))
 			c.andFlowNoEqualTo(vo.getFlowNo());
 		if(vo.getOperationType()!=null && vo.getOperationType()!=0)
