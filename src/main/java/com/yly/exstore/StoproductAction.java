@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -104,13 +105,18 @@ public class StoproductAction extends IbatisBaseAction {
 	}	
 	public ActionForward list(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoproductForm f = (StoproductForm)form;
-		List<Stoproduct> prodList= ((StoproductBO)bo).queryForList(f);
+		if(request.getParameter("requery")==null){
+			f.setOAappNo_f(f.getOAappNo());
+			f.setOAappNo(((StoproductBO)bo).changeOAappNo(f.getOAappNo_f()));
+		}
+		List<Stoproduct> prodList=null;
+		prodList= ((StoproductBO)bo).queryForList(f);
 		if(prodList!=null && prodList.size()>0){   
 			setPageResult(request, prodList);
 		}else{
 			throw new MessageException("没有可以操作的记录");
 		}
-		
+	
 		return mapping.findForward("ql");
 	}	
 	public ActionForward disCard_wlist(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{

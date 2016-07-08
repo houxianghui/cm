@@ -92,4 +92,6 @@ public interface StoproductDAO {
      * @ibatorgenerated Fri May 13 17:34:02 CST 2016
      */
     int updateByPrimaryKey(Stoproduct record);
+    
+    List queryCardListByOa(String appNo);
 }

@@ -7,9 +7,11 @@ import java.util.List;
 import com.abc.logic.IbatisBO;
 import com.eis.base.IbatisBaseBO;
 import com.eis.cache.ReDefSDicMap;
+import com.eis.key.KeyGenerator;
 import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
+import com.eis.util.StringUtil;
 import com.yly.exstore.StoproductExample.Criteria;
 import com.yly.issue.Issueapp;
 import com.yly.issue.IssueappDAO;
@@ -136,6 +138,9 @@ public class StoproductBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(sto.getAppTypeId())){
 			c.andAppTypeIdEqualTo(sto.getAppTypeId());
 		}
+		if(!CheckUtil.isEmptry(sto.getProdId())){
+			c.andProdIdEqualTo(sto.getProdId());
+		}
 		return e;
 	}
 	/* 
@@ -148,9 +153,13 @@ public class StoproductBO extends IbatisBO {
 	 * @see com.eis.base.IbatisBaseBO#queryForList(java.lang.Object)
 	 */
 	public List queryForList(String oaAppNo) throws Exception {
-		return dao.queryForList("stoproduct.queryCardListByOa",oaAppNo);
+		String appNo=issueappDAO.selectByOA(oaAppNo);
+		return dao.queryForList("stoproduct.queryCardListByOa",appNo);
 	}
-
+	public String changeOAappNo(String oaAppNo) throws Exception {
+		String appNo=issueappDAO.selectByOA(oaAppNo);
+		return appNo;
+	}
 	/* 
 	 * @see com.eis.base.IbatisBaseBO#delete(java.lang.Object)
 	 */
@@ -194,5 +203,16 @@ public class StoproductBO extends IbatisBO {
 		}
 		
 	}
+	public int countIssueByExample(Stoproduct sto){
+		StoproductExample e = new StoproductExample();
+		Criteria c = e.createCriteria();
+
+		if(!CheckUtil.isEmptry(sto.getOAappNo())){
+			c.andOAappNoEqualTo(sto.getOAappNo());
+		}
+		c.andWkStateEqualTo((short)12);
+		return stoproductDAO.countByExample(e);
+	}
+
 
 }

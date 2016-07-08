@@ -156,7 +156,11 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		apply=(Applytypeinfo)applytypeinfoBO.queryForObject(apply);
 		f.setIsPki(apply.getIsPki()==null?"0":apply.getIsPki());
 		f.setIsHTCard(apply.getIsHLCard());	
-		setPageResult(request, ((StoAppInfoBO)bo).getAppList(f));
+		List list= ((StoAppInfoBO)bo).getAppList(f);
+		if(list==null ||list.size()==0)
+			throw new MessageException("不存在可以操作的记录!");
+		else 
+			setPageResult(request,list);
 		return mapping.findForward("listresult");
 	}	
 	public ActionForward makeUpList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{

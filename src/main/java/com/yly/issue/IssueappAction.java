@@ -254,7 +254,7 @@ public class IssueappAction extends IbatisBaseAction {
 		return mapping.findForward("exbacklist");
 	}
 	public void down(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
-	    Process proc = Runtime.getRuntime().exec( "IAP.exe");  
+	    Process proc = Runtime.getRuntime().exec("IAP.exe");  
 	    StreamGobbler errorGobbler = new StreamGobbler(proc.getErrorStream(), "Error");  
 	    StreamGobbler outputGobbler = new StreamGobbler(proc.getInputStream(), "Output");  
 	    errorGobbler.start();  
@@ -411,31 +411,15 @@ public class IssueappAction extends IbatisBaseAction {
 		Issueapp vo = new Issueapp();
 		IssueappForm f = (IssueappForm)form;
 		copyProperties(vo,f);
-		ExamOANo(f);
 		vo.setOperId(user.getUserID());
 		vo.setCurrDate(DateUtil.getTimeStr());
 		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("IssueApp")),16));
 		String url=getExTypeUrl(f);
 		((IssueappBO)bo).insert(vo);
-		return forwardSuccessPage(request,mapping,"保存成功",url+"&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+f.getTaskAmt()+"&taskAmtLeft="+f.getTaskAmt()+"&operationType="+f.getOperationType());
+		return new ActionRedirect(url+"&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+f.getTaskAmt()+"&taskAmtLeft="+f.getTaskAmt()+"&operationType="+f.getOperationType());
 
 	}
-	private void ExamOANo(IssueappForm f)throws Exception{
-		int opertype=f.getOperationType();
-		if(opertype==31 ||opertype==33){
-			List list=null;
-			if(opertype==31){
-				list=stoproductBO.queryForList(f.getOAappNo());
-			}else{ 	
-				StoproductForm stf=new StoproductForm();
-				stf.setOperationType(f.getOperationType());
-				list=stoproductBO.queryForListAsc(stf);
-			}
-			if(list==null || list.size()==0)
-				throw new MessageException("不存在可以出库的记录!"); 
-		}else return;
 
-	}
 	private String getExTypeUrl(IssueappForm f)throws Exception{
 		int operType=f.getOperationType();
 		String url="";

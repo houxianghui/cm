@@ -135,6 +135,7 @@ function doExStore(){
 <input type=hidden name=requery > 
 <html:hidden property="appNo"/>
 <html:hidden property="OAappNo"/>
+<html:hidden property="OAappNo_f"/>
 <html:hidden property="taskAmt"/>
 <html:hidden property="taskAmtLeft"/>
 <html:hidden property="operationType"/>
@@ -175,7 +176,6 @@ function doExStore(){
 		<tr align="center" class="dtPanel_Top01" height="28">
 			<td>多选</td>	
 			<td>SAM卡号</td>
-			<td>OA申请号</td>
 			<td>申请单位</td>
 			<td>产品类型</td>
 			<td>产品通信速率</td>
@@ -200,7 +200,6 @@ function doExStore(){
 			<input type="checkbox" name="cx" value="<%=vo.getSamId()+","+vo.getSamCSN()%>"> 
 			</label></td> 
 			<td><a href="Stoproduct.do?act=r&SamId=<%=vo.getSamId()%>&SamCSN=<%=vo.getSamCSN()%>"><%=vo.getSamId() %></a></td>	
-			<td><%=vo.getOAappNo()%></td>	
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.ALL_UNITID, String.valueOf(vo.getUnitId()))%></td>			
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.PROD_ID, vo.getProdId())%></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, vo.getPhiTypeId())%></td>					
@@ -234,6 +233,8 @@ if (pageResult != null) {%>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td height="25" align="center">
+			<input type="button" name="check_all" class="Button" value="全选" onClick="checkAll(document.forms[0].cx);"/>  
+			<input type="button" name="check2" class="Button" value="取消全选" onClick="cancelCheckAll(document.forms[0].cx);"/>  
 			<input type="button" value="出库" class="Button" onClick="doExStore()"/>
 			
 			</td>

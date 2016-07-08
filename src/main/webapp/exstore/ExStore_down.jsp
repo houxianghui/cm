@@ -15,7 +15,7 @@ if (pageResult != null)
 <script language="javascript"> 
 
 function doDownProgram() {  
-	$.get("Issueapp.do?act=down&taskAmtLeft="+$("#taskAmtLeft").val(),function(result){
+	$.get("Issueapp.do?act=down",function(result){
 		var json = $.parseJSON(result);
 		$("#taskAmtLeft").append(json.taskAmtLeft);
 		return;

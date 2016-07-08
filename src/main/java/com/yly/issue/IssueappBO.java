@@ -7,9 +7,12 @@ import java.util.List;
 import com.abc.logic.IbatisBO;
 import com.eis.base.IbatisBaseBO;
 import com.eis.cache.ReDefSDicMap;
+import com.eis.exception.MessageException;
 import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
+import com.yly.exstore.StoproductDAO;
+import com.yly.exstore.StoproductForm;
 import com.yly.issue.IssueappExample.Criteria;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoDAO;
@@ -21,6 +24,15 @@ import com.yly.stor.StoappinfoDAO;
 public class IssueappBO extends IbatisBO {
 	private IssueappDAO issueappDAO;
 	private IssuetaskCtrlBO issuetaskctrlBO;
+	private StoproductDAO stoproductDAO;
+	public StoproductDAO getStoproductDAO() {
+		return stoproductDAO;
+	}
+
+	public void setStoproductDAO(StoproductDAO stoproductDAO) {
+		this.stoproductDAO = stoproductDAO;
+	}
+
 	public IssuetaskCtrlBO getIssuetaskctrlBO() {
 		return issuetaskctrlBO;
 	}

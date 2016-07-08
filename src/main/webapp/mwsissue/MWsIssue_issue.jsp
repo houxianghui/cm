@@ -34,9 +34,7 @@ function doIssueDone(){
 function doExam(){ 
 	$.get("Mwsissuetb.do?act=E&operationType=<%=mwsissuetbForm.getOperationType()%>&applyAttr=<%=mwsissuetbForm.getApplyAttr()%>&prodId=<%=mwsissuetbForm.getProdId()%>&manufacId=<%=mwsissuetbForm.getManufacId()%>",function(result){
 		var json = $.parseJSON(result);
-		$("#msg").append(json.msg);
-		$("#flowNo").append(json.flowNo);
-		$("#detectSign"+json.flowNo).append(json.detectSign);
+ 		$("#detectSign"+json.flowNo).text(json.detectSign);
 		$("#detect"+json.flowNo).hide();	
 		alert(json.msg);
 		return;

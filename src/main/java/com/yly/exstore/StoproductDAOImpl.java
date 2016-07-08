@@ -160,4 +160,8 @@ public class StoproductDAOImpl extends SqlMapClientDaoSupport implements Stoprod
             return record;
         }
     }
+    public List queryCardListByOa(String appNo){
+    	List list = getSqlMapClientTemplate().queryForList("stoproduct.queryCardListByOa",appNo);
+        return list;
+    }
 }

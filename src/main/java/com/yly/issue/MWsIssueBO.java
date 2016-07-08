@@ -28,7 +28,15 @@ public class MWsIssueBO extends IbatisBO {
 	private IssuetaskctrlDAO issuetaskctrlDAO;	
 	private LsinfoDAO lsinfoDAO;	
 	private StoproductDAO stoproductDAO;
-	
+	private IssueappDAO issueappDAO;
+	public IssueappDAO getIssueappDAO() {
+		return issueappDAO;
+	}
+
+	public void setIssueappDAO(IssueappDAO issueappDAO) {
+		this.issueappDAO = issueappDAO;
+	}
+
 	public LsinfoDAO getLsinfoDAO() {
 		return lsinfoDAO;
 	}
@@ -152,6 +160,13 @@ public class MWsIssueBO extends IbatisBO {
 		stoproductDAO.insert(s);
 		lsinfoDAO.insert(ls);
 		mwsissuetbDAO.updateByPrimaryKeySelective(mtb);
+	}
+	public void transFourTb(Mwsissuetb mtb,Stoproduct s,Lsinfo ls,Issueapp issue) throws Exception {
+		stoproductDAO.insert(s);
+		lsinfoDAO.insert(ls);
+		mwsissuetbDAO.updateByPrimaryKeySelective(mtb);
+		if(issue!=null && issue.getFormState()==3)
+			issueappDAO.updateByPrimaryKeySelective(issue);
 	}
 	@Override
 	public List queryForList(Object obj) throws Exception {
