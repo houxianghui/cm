@@ -16,6 +16,8 @@ import com.yly.exstore.StoproductForm;
 import com.yly.issue.IssueappExample.Criteria;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoDAO;
+import com.yly.stor.StoAppInfoBO;
+import com.yly.stor.StoAppInfoForm;
 import com.yly.stor.Stoappinfo;
 import com.yly.stor.StoappinfoDAO;
 

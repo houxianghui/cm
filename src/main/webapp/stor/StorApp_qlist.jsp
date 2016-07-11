@@ -14,11 +14,16 @@ if (pageResult != null)
 <title>入库批次选择</title>
 <script language="javascript"> 
 function doAdd(){ 
+
+
+	if(document.forms[0].formNo.value == null ||document.forms[0].formNo.value == "") { 
+		alert('请选择批次号'); 
+		return; 
+	} 
 	//进行确认提示 
 	if(!confirm('确定此批次原料进行操作吗?')) { 
 		return; 
 	}
-
 	window.location="Issueapp.do?act=exOver&appNo="+document.forms[0].appNo.value+"&formNo="+document.forms[0].formNo.value+"&operationType=<%=String.valueOf(stoAppForm.getOperationType())%>&taskAmt=<%=String.valueOf(stoAppForm.getCurrPeriodAmt())%>";
 
 }

@@ -334,5 +334,12 @@ public class IssueappForm  extends BaseForm {
 	public void setIsHTCard(Integer isHTCard) {
 		this.isHTCard = isHTCard;
 	}
+	private String batchIdParts;
+	public String getBatchIdParts() {
+		return batchIdParts;
+	}
+	public void setBatchIdParts(String batchIdParts) {
+		this.batchIdParts = batchIdParts;
+	}
 	
 }

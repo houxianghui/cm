@@ -171,8 +171,8 @@ public class IssueappAction extends IbatisBaseAction {
 		}else if("makeupMainTain".equals(act)){		//query active projects
 			return makeupMainTain(form,mapping,request,user);
 		}else if("down".equals(act)){		//query active projects
-			 down(form,mapping,request,user);
-			 return null;
+			down(form,mapping,request,response,user);
+			return null;
 		}else {		//query active projects
 			return queryList(form,mapping,request,user);
 		}
@@ -253,13 +253,27 @@ public class IssueappAction extends IbatisBaseAction {
 		setPageResult(request, ((IssueappBO)bo).getExBackList(f));
 		return mapping.findForward("exbacklist");
 	}
-	public void down(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
-	    Process proc = Runtime.getRuntime().exec("IAP.exe");  
-	    StreamGobbler errorGobbler = new StreamGobbler(proc.getErrorStream(), "Error");  
-	    StreamGobbler outputGobbler = new StreamGobbler(proc.getInputStream(), "Output");  
-	    errorGobbler.start();  
-	    outputGobbler.start();  
-	    proc.waitFor();  
+	public void down(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response,UserContext user)throws Exception{
+		IssueappForm f = (IssueappForm)form;
+		Stoappinfo svo = new Stoappinfo();
+		svo=stoAppBO.queryForObject(f.getBatchIdParts());
+		svo.setCurrPeriodAmt(svo.getCurrPeriodAmt()-f.getTaskAmt());		
+ 		stoAppBO.update(svo);
+ 		Issueapp vo=((IssueappBO)bo).queryForObject(f.getAppNo());
+ 		vo.setFormState((short)3);//任务完成
+ 		Lsinfo lsvo = new Lsinfo();
+		lsvo.setFormNo(svo.getFormNo());
+		lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
+ 		((IssueappBO)bo).tranUpdate(vo,svo,lsvo);
+ 	    String url="E:\\work\\code\\design-eclipse\\projectmanage-1.0\\MFC\\IAP.exe";
+		Process proc = Runtime.getRuntime().exec(url);  
+		String res="";
+		writeAjaxResponse(response, res);
+//	    StreamGobbler errorGobbler = new StreamGobbler(proc.getErrorStream(), "Error");  
+//	    StreamGobbler outputGobbler = new StreamGobbler(proc.getInputStream(), "Output");  
+//	    errorGobbler.start();  
+//	    outputGobbler.start();  
+//	    proc.waitFor();  
 	}
 	//原料出库\补办
 	public ActionForward exOver(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
@@ -276,21 +290,25 @@ public class IssueappAction extends IbatisBaseAction {
 		}
 		vo.setOperId(user.getUserID());		
 		vo.setCurrDate(DateUtil.getTimeStr());
+		Lsinfo lsvo = new Lsinfo();
+		copyProperties(lsvo, vo);
+		lsvo.setFormNo(sto.getFormNo());
+		lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
+ 
 		if(vo.getOperationType()==34 || vo.getOperationType()==52){ //pos原料出库,需下载程序
-			((IssueappForm)form).setTaskAmtLeft(((IssueappForm)form).getTaskAmt());
+			((IssueappBO)bo).tranUpdate(vo,sto,lsvo);
+			StoAppInfoForm f = new StoAppInfoForm();
+			f.setCurrPeriodAmt(((IssueappForm)form).getTaskAmt().longValue());
+			f.setProdId("3");
+			setPageResult(request, stoAppBO.getExList(f));
 			return mapping.findForward("exdown");	
 		}else{
 			vo.setFormState((short)3);//任务完成
-			Lsinfo lsvo = new Lsinfo();
-			copyProperties(lsvo, vo);
-			lsvo.setFormNo(sto.getFormNo());
-			lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
+
 			((IssueappBO)bo).tranUpdate(vo,sto,lsvo);
 			String url=getUrl(vo);
 			return forwardSuccessPage(request,mapping,"操作成功","Issueapp.do?act="+url);
 		}
-
-		
 	}
 	private String getUrl(Issueapp vo){
 		String url="";

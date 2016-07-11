@@ -609,7 +609,7 @@
       WsSnr, ProdId, KeyType, BinFileVer, PhiTypeId, ApplyAttr,
       AuthSign, W2Sign, BatchId, PressCardScale, WorkSheetAmt, mwsissuetb.SamIdBegin, mwsissuetb.SamIdEnd, SamId,
       mwsissuetb.IssueDoneAmt, FormState, IssueOperID,ManufacId,OperationType,W2limit,ZeroExauthFlag,IsPki,IsHTCard,mwsissuetb.Remarks
-      from IssueTaskCtrl,mwsissuetb
+      from IssueTaskCtrl, mwsissuetb
       where mwsissuetb.TaskCtrlNo=IssueTaskCtrl.TaskCtrlNo and FormNo = #formNo:VARCHAR#
   </select>
 </sqlMap>

@@ -4,6 +4,13 @@ import java.util.Date;
 
 public class Mwsissuetb {
 	private Short operationType;
+    private String appNo;
+    private String taskNo;
+    private Integer unitId;
+    private Short consumeType;
+	private Short paymentType;
+	private Long unitPrice;
+	private Short taskState;
     public Short getOperationType() {
 		return operationType;
 	}
@@ -772,11 +779,5 @@ public class Mwsissuetb {
 	public void setTaskState(Short taskState) {
 		this.taskState = taskState;
 	}
-    private String appNo;
-    private String taskNo;
-    private Integer unitId;
-    private Short consumeType;
-	private Short paymentType;
-	private Long unitPrice;
-	private Short taskState;
+
 }
