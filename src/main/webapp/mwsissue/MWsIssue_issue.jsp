@@ -121,7 +121,7 @@ function setPKey(samId_var,samCSN_var,detectSign_var,errorCode_var,flowNo_var) {
 		产品应用属性:
 		</td>
 		<td class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getDicItemVal(SingleDic.APPLY_ATTR, String.valueOf(mwsissuetbForm.getApplyAttr()))%> 
+		<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.APPTYPEID, String.valueOf(mwsissuetbForm.getApplyAttr()))%> 
 		</td>		
 	</tr>	
 

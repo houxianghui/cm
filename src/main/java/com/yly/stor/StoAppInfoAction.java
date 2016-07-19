@@ -181,7 +181,7 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		Issueapp vo = new Issueapp();
 		vo.setOperId(user.getUserID());
 		vo.setCurrDate(DateUtil.getTimeStr());
-		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("IssueApp")),16));
+		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
 		issueappBO.insert(vo);
 		return vo;
 	}	

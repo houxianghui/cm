@@ -328,8 +328,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 			funDrools.getFunc(func);
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
-		//	int result=CallFunc.callId(func, para);
-			int result=0;para.setCardcsn("111111");
+			int result=CallFunc.callId(func, para);
+		//	int result=0;para.setCardcsn("111111");
 			if(result==0){
 				if(i==1){
 					if(func.getOperAct().equals("RC")){
@@ -371,13 +371,12 @@ public class MWsIssueAction extends IbatisBaseAction {
 			}else{
 				lsvo.setErrorCode((short)result);
 				lsinfoBO.insert(lsvo);
-				if(lsvo.getSamCSN()==null)
-					throw new MessageException("请联系系统维护人员!错误代码"+func.getFunc()+result);
-				else {
+				if(!CheckUtil.isEmptry(lsvo.getSamCSN())){
 					request.setAttribute("samCSN", lsvo.getSamCSN());
 					return popConfirmClosePage(request, mapping, lsvo.getSamCSN()+"是否标记为坏卡错误代码"+func.getFunc()+result,"");
 
 				}
+				break;
 			}
 		}
 		setPageResult(request, lsinfoBO.queryForListByFormNo(vo.getFormNo()));
@@ -433,7 +432,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		}
 		f.setSJL05IP(0);        
 		f.setSJL05PORT("");               
-		f.setFivePara("");       
+		f.setFivePara("10100");       
 		f.setEf15("");           
 		f.setEf16("");           
 		f.setEf17("");           

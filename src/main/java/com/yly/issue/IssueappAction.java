@@ -194,7 +194,7 @@ public class IssueappAction extends IbatisBaseAction {
 		copyProperties(vo,f);
 		vo.setOperId(user.getUserID());
 		vo.setCurrDate(DateUtil.getTimeStr());
-		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("IssueApp")),16));
+		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
 		((IssueappBO)bo).insert(vo);
 		return forwardSuccessPage(request,mapping,"保存成功","Issueapp.do?act=u&appNo="+vo.getAppNo());
 		
@@ -269,11 +269,6 @@ public class IssueappAction extends IbatisBaseAction {
 		Process proc = Runtime.getRuntime().exec(url);  
 		String res="";
 		writeAjaxResponse(response, res);
-//	    StreamGobbler errorGobbler = new StreamGobbler(proc.getErrorStream(), "Error");  
-//	    StreamGobbler outputGobbler = new StreamGobbler(proc.getInputStream(), "Output");  
-//	    errorGobbler.start();  
-//	    outputGobbler.start();  
-//	    proc.waitFor();  
 	}
 	//原料出库\补办
 	public ActionForward exOver(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
@@ -431,7 +426,7 @@ public class IssueappAction extends IbatisBaseAction {
 		copyProperties(vo,f);
 		vo.setOperId(user.getUserID());
 		vo.setCurrDate(DateUtil.getTimeStr());
-		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("IssueApp")),16));
+		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
 		String url=getExTypeUrl(f);
 		((IssueappBO)bo).insert(vo);
 		return new ActionRedirect(url+"&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+f.getTaskAmt()+"&taskAmtLeft="+f.getTaskAmt()+"&operationType="+f.getOperationType());
@@ -457,7 +452,7 @@ public class IssueappAction extends IbatisBaseAction {
 		copyProperties(vo,f);
 		vo.setOperId(user.getUserID());
 		vo.setCurrDate(DateUtil.getTimeStr());
-		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("IssueApp")),16));
+		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
 		String url=getExChangeUrl(f);
 		((IssueappBO)bo).insert(vo);
 		return forwardSuccessPage(request,mapping,"保存成功",url+"&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+f.getTaskAmt()+"&taskAmtLeft="+f.getTaskAmt()+"&operationType="+f.getOperationType());
@@ -485,7 +480,7 @@ public class IssueappAction extends IbatisBaseAction {
 		}else{
 			vo.setOperId(user.getUserID());
 			vo.setCurrDate(DateUtil.getTimeStr());
-			vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("IssueApp")),16));
+			vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
 			((IssueappBO)bo).insert(vo);
 			return forwardSuccessPage(request,mapping,"保存成功","Issueapp.do?act=u&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+f.getTaskAmt()+"&operationType="+f.getOperationType());
 		}

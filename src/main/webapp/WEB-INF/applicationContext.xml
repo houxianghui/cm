@@ -60,8 +60,21 @@
 	<bean id="commonDao" class="com.eis.base.CommonSqlMapDao">
 		<property name="sqlMapClient" ref="sqlMapClient" />
 	</bean>
-	
+	<bean id="keyVDatagram" class="com.eis.util.KeyVDatagram">
+	<property name="mainKeyMap">
+		<map>
+			<entry key="WQ_KEY" value="57415443484441544154696D65434F53"/>
+			<entry key="BMAC_KEY" value="7DAB542DD72A6F591F32FA0D4149739E"/>
+			<entry key="JSB_KEY" value="A2787475473F3B0CFBFDBBA2379261BF"/>
+			<entry key="ALLONE_KEY" value="11111111111111111111111111111111"/>
+			<entry key="ALLZERO_KEY" value="00000000000000000000000000000000"/>
+			<entry key="ABCD_KEY" value="11223344556677889900AABBCCDDEEFF"/>
+			<entry key="ALLF_KEY" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"/>
+		</map>
+	</property>
+</bean>
 	<import resource="classpath:bean-config.xml"/>
 	<import resource="classpath:kmoduleStateless.xml"/>
 	<import resource="WorkManage.xml"/>
+	
 </beans>

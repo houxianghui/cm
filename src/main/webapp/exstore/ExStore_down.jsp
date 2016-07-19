@@ -19,8 +19,7 @@ function doDownProgram() {
 		alert('请选择配件批次号'); 
 		return; 
 	} 
-	var id=1111;
-	$.get("Issueapp.do?act=down&appNo=<%=issueappForm.getAppNo()%>&taskAmt=<%=issueappForm.getTaskAmt()%>&batchIdParts=",function(result){
+	$.get("Issueapp.do?act=down&appNo=<%=issueappForm.getAppNo()%>&taskAmt=<%=issueappForm.getTaskAmt()%>&batchIdParts="+document.forms[0].batchIdParts.value,function(result){
 		var json = $.parseJSON(result);
  		$("#buttonDown").hide();	
  		$("#buttonExOver").show();	

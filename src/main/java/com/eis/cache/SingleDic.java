@@ -39,8 +39,6 @@ public interface SingleDic {
 	String CLASS_ID="0315"; //产品区分E,K
 	String PROD_ID="0316"; //产品类型
 	String OPERATIONTYPE="0010"; //业务类型
-	String UNITID="0318"; //申请单位	
-	String ISSUETYPE="0319"; //发行类型:申领,换损,补办,不使用.
 	String KEYTYPE = "0320";//密钥类型
 	String BINFILEVER = "0321";//模块程序版本
 	String FORMTYPE = "0322";//单据状态
@@ -49,7 +47,7 @@ public interface SingleDic {
 	String DETECSIGN = "0325";//检测结果
 	String WKSTATE="0323";//产品状态
 	String ERRORCODE="0328";//错误代码
-	String FUNCID="0330";//函数	
+	String AUTHKEY="0330";//主控密钥	
 	
 	
 }

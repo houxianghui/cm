@@ -57,14 +57,14 @@ public class CallfuncconfForm extends BaseForm {
 	}
 
 	public Collection getFuncId1collection() {
-		return SingleDicMap.getOptionCollection(SingleDic.FUNCID);
+		return SingleDicMap.getOptionCollection(SingleDic.AUTHKEY);
 	}
 
 	public void setFuncId1collection(Collection funcIdcollection) {
 		this.funcId1collection = funcIdcollection;
 	}
     public Collection getFuncId2collection() {
-		return SingleDicMap.getOptionCollection(SingleDic.FUNCID);
+		return SingleDicMap.getOptionCollection(SingleDic.AUTHKEY);
 	}
 
 	public void setFuncId2collection(Collection funcId2collection) {
@@ -72,7 +72,7 @@ public class CallfuncconfForm extends BaseForm {
 	}
 
 	public Collection getFuncId3collection() {
-		return SingleDicMap.getOptionCollection(SingleDic.FUNCID);
+		return SingleDicMap.getOptionCollection(SingleDic.AUTHKEY);
 	}
 
 	public void setFuncId3collection(Collection funcId3collection) {
@@ -80,7 +80,7 @@ public class CallfuncconfForm extends BaseForm {
 	}
 
 	public Collection getFuncId4collection() {
-		return SingleDicMap.getOptionCollection(SingleDic.FUNCID);
+		return SingleDicMap.getOptionCollection(SingleDic.AUTHKEY);
 	}
 
 	public void setFuncId4collection(Collection funcId4collection) {

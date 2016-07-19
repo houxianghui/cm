@@ -55,7 +55,19 @@ public class StoproductBO extends IbatisBO {
 	 * @see com.eis.base.IbatisBaseBO#update(java.lang.Object)
 	 */
 	public void update(Object obj) throws Exception {
-		stoproductDAO.updateByPrimaryKeySelective((Stoproduct)obj);
+		
+		int i=0;
+		if(CheckUtil.isEmptry(((Stoproduct)obj).getSamId())){
+			((Stoproduct)obj).setSamId(getMaxBadCard());
+			i=stoproductDAO.updateBySamCSN((Stoproduct)obj);
+		}else{
+			i=stoproductDAO.updateByPrimaryKeySelective((Stoproduct)obj);
+		}
+		if(i<1){
+			
+			stoproductDAO.insert(((Stoproduct)obj));
+		}
+		
 	}
 
 	/* 
@@ -213,6 +225,24 @@ public class StoproductBO extends IbatisBO {
 		c.andWkStateEqualTo((short)12);
 		return stoproductDAO.countByExample(e);
 	}
-
-
+	//77777Ô­ÁÏÐÞ¸´»µ¿¨ samid
+	public String getMaxBadCard(){
+		String samId="";
+		StoproductExample e = new StoproductExample();
+		Criteria c = e.createCriteria();
+		c.andSamIdLike("77777%");
+		e.setOrderByClause("SamId desc");
+		List<Stoproduct> il=stoproductDAO.selectByExample(e);
+		if(il != null && il.size()>0){
+			for(Stoproduct vo:il){
+				samId=vo.getSamCSN();
+				break;
+			}	
+		}else{
+			samId="777770000000";
+		}
+		Long tmp=Long.parseLong(samId)+1;
+		samId=String.valueOf(tmp);
+		return samId;
+	}
 }
