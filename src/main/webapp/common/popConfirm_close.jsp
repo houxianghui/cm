@@ -7,7 +7,7 @@
 	String prodId =  (String)request.getAttribute("prodId");
 	String manufacId =  (String)request.getAttribute("manufacId");
 	String url =  (String)request.getAttribute("backurl");
-	String url1 = "Stoproduct.do?act=u&wkState=13&samCSN="+samCSN+"&prodId="+prodId+"&manufacId="+manufacId;
+	String url1 = "Stoproduct.do?act=u&wkState=13&samCSN="+samCSN+"&prodId="+prodId+"&manufacId="+manufacId+"&url="+url;
 %>
 
 <HTML>

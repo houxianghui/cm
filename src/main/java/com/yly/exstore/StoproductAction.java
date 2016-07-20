@@ -217,7 +217,8 @@ public class StoproductAction extends IbatisBaseAction {
 		StoproductForm f = (StoproductForm)form;
 		copyProperties(vo,f);
 		((StoproductBO)bo).update(vo);
-		return forwardSuccessPage(request,mapping,"更新成功","Repair.do?act=repairInit");
+		String url=request.getParameter("url");
+		return forwardSuccessPage(request,mapping,"更新成功",url);
 	}
 
 	public ActionForward disCard(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
