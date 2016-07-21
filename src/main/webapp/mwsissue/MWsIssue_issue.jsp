@@ -34,9 +34,13 @@ function doIssueDone(){
 function doExam(){ 
 	$.get("Mwsissuetb.do?act=E&operationType=<%=mwsissuetbForm.getOperationType()%>&applyAttr=<%=mwsissuetbForm.getApplyAttr()%>&prodId=<%=mwsissuetbForm.getProdId()%>&manufacId=<%=mwsissuetbForm.getManufacId()%>",function(result){
 		var json = $.parseJSON(result);
- 		$("#detectSign"+json.flowNo).text(json.detectSign);
-		$("#detect"+json.flowNo).hide();	
-		alert(json.msg);
+		if(json.error!=null){
+			alert(json.error);
+		}else{
+	 		$("#detectSign"+json.flowNo).text(json.detectSign);
+			$("#detect"+json.flowNo).hide();	
+			alert(json.msg);
+		}
 		return;
 	});
 	
@@ -112,10 +116,17 @@ function setPKey(samId_var,samCSN_var,detectSign_var,errorCode_var,flowNo_var) {
 
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
+		<%if(mwsissuetbForm.getProdId().equals("4")){%>
+		模块版本:
+		</td>
+		<td class="dtPanel_Main2">&nbsp;
+		<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.MODULEVERSION, mwsissuetbForm.getBinFileVer())%> 
+		<%}else{%>
 		产品通信速率:
 		</td>
 		<td class="dtPanel_Main2">&nbsp;
 		<%=SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, String.valueOf(mwsissuetbForm.getPhiTypeId()))%> 
+		<%}%>
 		</td>
 		<td width="16%" align="left" class="dtPanel_Left">
 		产品应用属性:

@@ -87,6 +87,22 @@ function doShow(){
 	document.forms[0].submit(); 
 
 }
+function doRead(){ 
+	$.get("Mwsissuetb.do?act=R&prodId="+document.forms[1].prodId.value+"&operationType=<%=issueappForm.getOperationType()%>",function(result){
+		var json = $.parseJSON(result);
+		if(json.error!=null){
+			alert(json.error);
+		}else{
+			document.forms[1].origSamId.value=json.origSamId;
+			if(document.forms[1].prodId.value==1){
+				$("#module").text(json.module);
+			}
+		 		
+		}
+		return;
+	});
+
+}
 function doQuery(){ 
 	document.forms[0].act.value='list';
 	document.forms[0].submit(); 
@@ -191,8 +207,10 @@ function doQuery(){
 		<%=ViewUtil.must()%>SAM卡号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<html:text property="origSamId" styleClass="Textfield"  size="12" maxlength="12"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  />
+		<html:text property="origSamId" styleClass="Textfield"  size="12" maxlength="12"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  />&nbsp; 
+		
 		<input	name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> &nbsp; 
+		<input	name="read" type="button" class="Button" value="读取SAMID" onClick="doRead()"> &nbsp; <div id=module></div>
 		
 	</td>
 	</tr>	
@@ -243,7 +261,9 @@ function doQuery(){
 		<%=ViewUtil.must()%>模块程序版本:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("binFileVer", SingleDic.BINFILEVER, "1")%> 
+		<html:select property="binFileVer" styleClass="Select">
+				<html:optionsCollection name="issuetaskForm" property="moduleVerEffcollection"/>
+		</html:select>
 		</td>	
 	</tr>	
 </table>

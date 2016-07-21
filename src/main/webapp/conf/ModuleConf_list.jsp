@@ -1,4 +1,4 @@
-<%@page import="com.yly.conf.Callfuncconf"%>
+<%@page import="com.yly.conf.Moduleconf"%>
 <%@ include file = "/includes/common.jsp" %>
 <%@ page  contentType="text/html; charset=GBK" %>
 
@@ -15,7 +15,7 @@ if (pageResult != null)
 <script language="javascript"> 
 function doAdd(){ 
 	//增加 
-	window.location="Callfuncconf.do?act=c"; 
+	window.location="Moduleconf.do?act=c"; 
 } 
 
 function doQuery() {  
@@ -33,17 +33,17 @@ function turnPage( pagenm ) {
 </head>
 <body>
 <script type="text/javascript" src="js/calendar.js"></script>
-<html:form method="post" action="Callfuncconf.do">
+<html:form method="post" action="Moduleconf.do">
 <input type=hidden name=act value="list">
 
-<%=ViewUtil.getTitle("调用函数配置")%>
+<%=ViewUtil.getTitle("模块程序版本配置")%>
 	
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
 		align="center" cellpadding="0">
          <tr > 
-          <td>业务类型：
-			<html:select property="operationType" styleClass="Select">
-				<html:optionsCollection name="callfuncconfForm" property="operationTypecollection"/>
+          <td>模块程序版本：
+			<html:select property="moduleId" styleClass="Select">
+				<html:optionsCollection name="moduleconfForm" property="moduleVersioncollection"/>
 			</html:select>
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
   		  </td> 
@@ -53,15 +53,13 @@ function turnPage( pagenm ) {
 	<table width="98%" class="dtPanel_Line1" border="0" cellspacing="1"
 		align="center" cellpadding="0">
 		<tr align="center" class="dtPanel_Top01" height="28">
-			<td>调用函数编号</td>
-			<td>业务类型</td>
-			<td>厂商</td>
-			<td>产品类型</td>
-			<td>应用类型</td>
-			<td>函数1</td>						
-			<td>函数2</td>
-			<td>函数3</td>
-			<td>函数4</td>
+			<td>模块程序代码</td>
+			<td>模块程序名称</td>
+			<td>模块程序版本</td>
+			<td>应用行业</td>
+			<td>适用硬件型号</td>
+			<td>程序作者</td>						
+			<td>发布日期</td>
 			<td>操作员</td>
 			<td>录入日期</td>
 			<td>备注</td>
@@ -71,17 +69,15 @@ function turnPage( pagenm ) {
 	if (list != null) {
 		Iterator iter = list.iterator();
 		while (iter.hasNext()) {
-			Callfuncconf vo = (Callfuncconf) iter.next();%>
+			Moduleconf vo = (Moduleconf) iter.next();%>
 		<tr align="left" class="dtPanel_Main" onclick="_clickTr( this )">			
-			<td><%=vo.getCallerId() %></td>	
-			<td><%=SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(vo.getOperationType()))%></td>			
-			<td><%=SingleDicMap.getDicItemVal(SingleDic.MAUN_ID, vo.getManufacId()) %></td>
-			<td><%=SingleDicMap.getDicItemVal(SingleDic.PROD_ID, vo.getProdId()) %></td>
-			<td><%=vo.getApplyTypeId()!=null?ReDefSDicMap.getDicItemVal(RedefSDicCodes.APPTYPEID, vo.getApplyTypeId()):"/"%></td>
-			<td><%=SingleDicMap.getDicItemVal(SingleDic.FUNCID, vo.getFunc1()) %></td>						
-			<td><%=vo.getFunc2()==null?"/":SingleDicMap.getDicItemVal(SingleDic.FUNCID, vo.getFunc2()) %></td>
-			<td><%=vo.getFunc3()==null?"/":SingleDicMap.getDicItemVal(SingleDic.FUNCID, vo.getFunc3()) %></td>		
-			<td><%=vo.getFunc4()==null?"/":SingleDicMap.getDicItemVal(SingleDic.FUNCID, vo.getFunc4()) %></td>
+			<td><%=vo.getModuleId() %></td>	
+			<td><%=vo.getModuleName()%></td>	
+			<td><%=vo.getModuleVersion()%></td>		
+			<td><%=vo.getApplyHy()%></td>		
+			<td><%=vo.getFitHardId()%></td>		
+			<td><%=vo.getOwner()%></td>		
+			<td><%=vo.getIssueDate()%></td>						
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, vo.getOperId()) %></td>
 			<td><%=vo.getCurrDate()%></td>		
 			<td><%=vo.getRemarks()%></td>				
@@ -107,7 +103,7 @@ if (pageResult != null) {%>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td height="25" align="center">
-			<input type="button" value="增加调用函数配置" class="Button" onClick="doAdd()"/>
+			<input type="button" value="增加模块程序版本" class="Button" onClick="doAdd()"/>
 			</td>
 		</tr>
 	</table>

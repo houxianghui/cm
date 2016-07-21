@@ -10,6 +10,7 @@ import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
 
 public class IssueappForm  extends BaseForm {
+	
 	private Collection makeupTypecollection;
 	public Collection getMakeupTypecollection() {
 		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.MAKEUPTYPE);

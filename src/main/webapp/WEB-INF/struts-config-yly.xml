@@ -25,7 +25,7 @@
 		<form-bean name="disproductForm" type="com.yly.discard.DisproductForm" />			
 		<form-bean name="storeuseForm" type="com.yly.reuse.StoreuseForm" />			
 		<form-bean name="secpkitbForm" type="com.yly.pki.SecpkitbForm" />			
-		<form-bean name="callfuncconfForm" type="com.yly.conf.CallfuncconfForm" />		
+		<form-bean name="moduleconfForm" type="com.yly.conf.ModuleconfForm" />		
 		<form-bean name="repairForm" type="com.yly.repair.RepairForm"/>					
 		
 	</form-beans>
@@ -115,10 +115,10 @@
 			scope="request" validate="false">
 			<forward name="list" path="/reuse/Storeuse_list.jsp" />
 		</action>	
-		<action path="/Callfuncconf" type="org.springframework.web.struts.DelegatingActionProxy" name="callfuncconfForm"
+		<action path="/Moduleconf" type="org.springframework.web.struts.DelegatingActionProxy" name="moduleconfForm"
 			scope="request" validate="false">
-			<forward name="list" path="/conf/CallFuncConf_list.jsp" />
-			<forward name="new" path="/conf/CallFuncConf_new.jsp" />
+			<forward name="list" path="/conf/ModuleConf_list.jsp" />
+			<forward name="new" path="/conf/ModuleConf_new.jsp" />
 		</action>			
 		<action path="/Repair" type="org.springframework.web.struts.DelegatingActionProxy" name="repairForm"
 			scope="request" validate="false">

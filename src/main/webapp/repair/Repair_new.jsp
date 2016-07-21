@@ -25,7 +25,6 @@ function doRead(){
 	});
 } 
 function doRepair(){ 
- 	alert(document.forms[0].cardcsn.value);
 	document.forms[0].submit(); 
 } 
 </script> 

@@ -11,14 +11,12 @@ import org.apache.struts.action.ActionMapping;
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
-import com.eis.key.KeyGenerator;
 import com.eis.portal.UserContext;
 import com.eis.util.DateUtil;
-import com.eis.util.StringUtil;
 
 
 
-public class CallfuncconfAction extends IbatisBaseAction {
+public class ModuleconfAction extends IbatisBaseAction {
 
 	/* 
 	 * @see com.eis.base.BaseAction#process(org.apache.struts.action.ActionMapping, com.eis.base.BaseForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.eis.portal.UserContext)
@@ -43,14 +41,13 @@ public class CallfuncconfAction extends IbatisBaseAction {
 	
 	public ActionForward addApply(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		
-		Callfuncconf vo = new Callfuncconf();
-		CallfuncconfForm f = (CallfuncconfForm)form;
+		Moduleconf vo = new Moduleconf();
+		ModuleconfForm f = (ModuleconfForm)form;
 		copyProperties(vo,f);
 		vo.setOperId(user.getUserID());
 		vo.setCurrDate(DateUtil.getDTStr());
-		vo.setCallerId(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("callfuncconf")),6));
-		((CallfuncconfBO)bo).insert(vo);		
-		return forwardSuccessPage(request,mapping,"保存成功","Callfuncconf.do?act=list");
+		((ModuleconfBO)bo).insert(vo);		
+		return forwardSuccessPage(request,mapping,"保存成功","Moduleconf.do?act=list");
 		
 	}
 	
@@ -61,8 +58,8 @@ public class CallfuncconfAction extends IbatisBaseAction {
 		if (pageNo == null && requery == null) {			
 			return mapping.findForward("list");
 	    }
-		CallfuncconfForm f = (CallfuncconfForm)form;
-		setPageResult(request, ((CallfuncconfBO)bo).queryForList(f));
+		ModuleconfForm f = (ModuleconfForm)form;
+		setPageResult(request, ((ModuleconfBO)bo).queryForList(f));
 		return mapping.findForward("list");
 	}
 

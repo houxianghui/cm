@@ -76,6 +76,6 @@
   <sqlMap resource="/sqlmap/lsinfo_SqlMap.xml"></sqlMap>             
   <sqlMap resource="/sqlmap/disproduct_SqlMap.xml"></sqlMap>             
   <sqlMap resource="/sqlmap/storeuse_SqlMap.xml"></sqlMap>             
-  <sqlMap resource="/sqlmap/callfuncconf_SqlMap.xml"></sqlMap>     
+  <sqlMap resource="/sqlmap/moduleconf_SqlMap.xml"></sqlMap>     
   
 </sqlMapConfig>

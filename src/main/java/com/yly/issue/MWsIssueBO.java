@@ -4,12 +4,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.abc.logic.IbatisBO;
 import com.eis.base.IbatisBaseBO;
 import com.eis.cache.ReDefSDicMap;
+import com.eis.key.KeyGenerator;
 import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
+import com.eis.util.KeyVDatagram;
+import com.eis.util.StringUtil;
+import com.yly.drools.Func;
 import com.yly.exstore.Stoproduct;
 import com.yly.exstore.StoproductDAO;
 import com.yly.issue.MwsissuetbExample.Criteria;
@@ -176,5 +183,118 @@ public class MWsIssueBO extends IbatisBO {
 
 	public Mwsissuetb queryIssueTaskCtrl(String formNo) throws Exception{
 		return mwsissuetbDAO.queryIssueTaskCtrl(formNo);
+	}
+	
+	@Autowired
+	KeyVDatagram keyVDatagram;
+	public void initMwsissueToPara(MWsIssuetbForm f) {
+		f.setAuthSign(0);
+		f.setW2Sign(0);
+		f.setW2Limits(0);
+		f.setIsPki(0);
+		f.setIsHTCard(0);
+		f.setZeroExauthFlag(0);
+		short operType=f.getOperationType();
+		if(operType==21||operType==24){
+			f.setOldTranskey(keyVDatagram.getMainKeyMap(getMainKey(f)));
+			f.setNewTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));    
+		}else if(operType==22 || operType==23||operType==25||operType==26){
+			f.setOldTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));
+			f.setNewTranskey(keyVDatagram.getMainKeyMap(getMainKey(f)));    
+		}else{
+			f.setOldTranskey("");
+			f.setNewTranskey("");    
+		}
+		f.setSJL05IP(0);        
+		f.setSJL05PORT("");               
+		f.setFivePara("10100");       
+		f.setEf15("");           
+		f.setEf16("");           
+		f.setEf17("");           
+		f.setRetpki("");         
+		f.setInpki("");          
+		f.setMotEf17("");        
+		f.setSamId("");       
+		f.setModelflag(0);      
+		f.setVersion("");        
+		f.setAuthkey("");        
+		f.setResult("");         
+		f.setCardcsn(""); 
+		f.setCardtype(0);
+	}
+	private String getMainKey(MWsIssuetbForm f) {
+		String KEY;
+		if(CheckUtil.isEmptry(f.getManufacId())){
+			return "BMAC_KEY";
+		}else{
+			if(f.getProdId().equals("4"))
+				KEY="JSB_KEY";
+			else{
+				if(f.getManufacId().equals("WQ"))
+					KEY="WQ_KEY";
+				else
+					KEY="ALLF_KEY";
+			}
+		}
+		
+		return KEY;
+	}
+	public Stoproduct setSto(Mwsissuetb vo, Lsinfo lsvo) throws Exception {
+		Stoproduct sto= new Stoproduct();
+		copyProperties(sto, vo);
+		sto.setAppTypeId(vo.getApplyAttr());
+		sto.setIssueTime(DateUtil.getTimeStr());
+		sto.setDetectSign((short)0);
+		sto.setSamCSN(lsvo.getSamCSN());
+		sto.setOAappNo(vo.getAppNo());
+		sto.setWkState((short)12);//已发行
+		sto.setCardPhyStat((short)1);//好卡
+		sto.setSamId(lsvo.getSamId());
+		sto.setOAappNo(lsvo.getAppNo());
+		sto.setIOState((short)1);
+		return sto;
+	}
+	public void copyProperties(Object dest,Object origin) throws Exception {
+		new BeanUtilsBean().copyProperties(dest,origin);
+	}
+	public Lsinfo setLsInfo(UserContext user, Mwsissuetb vo) throws Exception {
+		Lsinfo lsvo= new Lsinfo();
+		copyProperties(lsvo, vo);
+		lsvo.setCurrDate(DateUtil.getTimeStr());
+		lsvo.setDetectSign((short)0);
+		lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("LsInfo")),16));
+		lsvo.setOperId(user.getUserID());
+		lsvo.setErrorCode((short)0);
+		lsvo.setSamCSNOld("");
+		lsvo.setSamIdOld("");
+		lsvo.setSamCSN("");
+		return lsvo;
+	}
+	public void setFunc(Mwsissuetb vo, Func func) {
+		func.setApplyAttr(vo.getApplyAttr());
+		func.setManufacId(vo.getManufacId());
+		func.setProdId(vo.getProdId());
+	}
+
+	public void setOperAct(Mwsissuetb vo, Func func,int step) {
+		short operType=vo.getOperationType();
+		if(operType==21||operType==24){
+			if(step==1){
+				func.setOperAct("RC");
+			}else if(step==2){
+				func.setOperAct("W");
+			}else if(step==3){
+				func.setOperAct("I");
+			}
+			
+		}else if(operType==22 || operType==23||operType==25||operType==26){	
+			if(step==1){
+				func.setOperAct("R");
+			}else if(step==2){
+				func.setOperAct("W");
+			}else if(step==3){
+				func.setOperAct("I");
+			}
+		}
 	}
 }

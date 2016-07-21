@@ -9,7 +9,16 @@ import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
 
 public class IssuetaskForm  extends BaseForm {
+	private Collection moduleVerEffcollection;
 	
+	public Collection getModuleVerEffcollection() {
+		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.EFFMODULEVER);
+	}
+
+
+	public void setModuleVerEffcollection(Collection moduleVerEffcollection) {
+		this.moduleVerEffcollection = moduleVerEffcollection;
+	}
 	private String origSamId;
     public String getOrigSamId() {
 		return origSamId;
