@@ -38,6 +38,12 @@ function doAdd(){
  
 	document.forms[0].submit(); 
 } 
+function alert_fun(obj){
+	if(obj.value==25){
+		alert('请在修复发行菜单进行此操作'); 
+	}
+	 
+}
 
 </script> 
 </head>
@@ -62,7 +68,7 @@ function doAdd(){
 		<%=ViewUtil.must()%>业务类型:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=ReDefSDicMap.getRadio("operationType", RedefSDicCodes.ISSOPERATIONTYPE, "21")%> 
+		<%=ReDefSDicMap.getRadioWithFun("operationType", RedefSDicCodes.ISSOPERATIONTYPE, "21","alert_fun(this)")%> 
 		</td>
 	</tr>	
  	<tr>

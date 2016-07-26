@@ -20,6 +20,8 @@
     <result column="LeadStore" property="leadStore" jdbcType="DECIMAL" />
     <result column="Unitlevel" property="unitlevel" jdbcType="VARCHAR" />
     <result column="rsvd" property="rsvd" jdbcType="VARCHAR" />
+    <result column="OperId" property="operId" jdbcType="VARCHAR" />
+    <result column="CurrDate" property="currDate" jdbcType="VARCHAR" />   
   </resultMap>
   <sql id="ibatorgenerated_Example_Where_Clause" >
     <!--
@@ -57,7 +59,7 @@
       This element was generated on Fri Mar 25 15:05:16 CST 2016.
     -->
     select Unitid, Hyid, HyName, Unittype, Unitstat, Unitdes, Chnshort, unitperson, Unittel,
-      Unitaddr, unittestflag, LeadStore, Unitlevel, rsvd
+      Unitaddr, unittestflag, LeadStore, Unitlevel, rsvd,OperId, CurrDate
     from biunitinfotb
     <isParameterPresent >
       <include refid="biunitinfotb.ibatorgenerated_Example_Where_Clause" />
@@ -72,7 +74,8 @@
       This element was generated on Fri Mar 25 15:05:16 CST 2016.
     -->
     select Unitid, Hyid, HyName, Unittype, Unitstat, Unitdes, Chnshort, unitperson, Unittel,
-      Unitaddr, unittestflag, LeadStore, Unitlevel, rsvd
+      Unitaddr, unittestflag, LeadStore, Unitlevel, rsvd, OperId,
+      CurrDate
     from biunitinfotb
     where Unitid = #unitid:DECIMAL#
   </select>
@@ -98,11 +101,12 @@
       This element was generated on Fri Mar 25 15:05:16 CST 2016.
     -->
     insert into biunitinfotb (Unitid, Hyid, HyName, Unittype, Unitstat, Unitdes, Chnshort,
-      unitperson, Unittel, Unitaddr, unittestflag, LeadStore, Unitlevel, rsvd)
+      unitperson, Unittel, Unitaddr, unittestflag, LeadStore, Unitlevel, rsvd, OperId, CurrDate)
     values (#unitid:DECIMAL#, #hyid:DECIMAL#, #hyName:VARCHAR#, #unittype:DECIMAL#,
       #unitstat:DECIMAL#, #unitdes:VARCHAR#, #chnshort:VARCHAR#, #unitperson:VARCHAR#,
       #unittel:VARCHAR#, #unitaddr:VARCHAR#, #unittestflag:VARCHAR#, #leadStore:DECIMAL#,
-      #unitlevel:VARCHAR#, #rsvd:VARCHAR#)
+      #unitlevel:VARCHAR#, #rsvd:VARCHAR#, #operId:VARCHAR#,
+      #currDate:VARCHAR#)
   </insert>
   <insert id="ibatorgenerated_insertSelective" parameterClass="com.yly.info.Biunitinfotb" >
     <!--
@@ -153,6 +157,12 @@
       <isNotNull prepend="," property="rsvd" >
         rsvd
       </isNotNull>
+       <isNotNull prepend="," property="operId" >
+        OperId
+      </isNotNull>
+      <isNotNull prepend="," property="currDate" >
+        CurrDate
+      </isNotNull>
       )
     </dynamic>
     values
@@ -198,6 +208,12 @@
       </isNotNull>
       <isNotNull prepend="," property="rsvd" >
         #rsvd:VARCHAR#
+      </isNotNull>
+       <isNotNull prepend="," property="operId" >
+        #operId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="currDate" >
+        #currDate:VARCHAR#
       </isNotNull>
       )
     </dynamic>
@@ -259,6 +275,12 @@
       <isNotNull prepend="," property="record.rsvd" >
         rsvd = #record.rsvd:VARCHAR#
       </isNotNull>
+     <isNotNull prepend="," property="record.operId" >
+        OperId = #record.operId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.currDate" >
+        CurrDate = #record.currDate:VARCHAR#
+      </isNotNull>      
     </dynamic>
     <isParameterPresent >
       <include refid="biunitinfotb.ibatorgenerated_Example_Where_Clause" />
@@ -283,7 +305,9 @@
       unittestflag = #record.unittestflag:VARCHAR#,
       LeadStore = #record.leadStore:DECIMAL#,
       Unitlevel = #record.unitlevel:VARCHAR#,
-      rsvd = #record.rsvd:VARCHAR#
+      rsvd = #record.rsvd:VARCHAR#,
+      OperId = #record.operId:VARCHAR#,
+      CurrDate = #record.currDate:VARCHAR# 
     <isParameterPresent >
       <include refid="biunitinfotb.ibatorgenerated_Example_Where_Clause" />
     </isParameterPresent>
@@ -334,6 +358,12 @@
       <isNotNull prepend="," property="rsvd" >
         rsvd = #rsvd:VARCHAR#
       </isNotNull>
+       <isNotNull prepend="," property="operId" >
+        OperId = #operId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="currDate" >
+        CurrDate = #currDate:VARCHAR#
+      </isNotNull>     
     </dynamic>
     where Unitid = #unitid:DECIMAL#
   </update>
@@ -355,7 +385,9 @@
       unittestflag = #unittestflag:VARCHAR#,
       LeadStore = #leadStore:DECIMAL#,
       Unitlevel = #unitlevel:VARCHAR#,
-      rsvd = #rsvd:VARCHAR#
+      rsvd = #rsvd:VARCHAR#,
+      OperId = #operId:VARCHAR#,
+      CurrDate = #currDate:VARCHAR#
     where Unitid = #unitid:DECIMAL#
   </update>
 </sqlMap>

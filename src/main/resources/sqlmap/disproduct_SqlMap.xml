@@ -92,7 +92,7 @@
       DetectSign, DetectTime, PaymentType, ConsumeType, W2Sign, AuthSign, UnitPrice, PurchuseDate,
       CardPhyStat,BatchIdParts, Remarks
     from disproduct
-    where SamId = #samId:VARCHAR#
+   where SamId = #samId:VARCHAR# and   SamCSN = #samCSN:VARCHAR# 
   </select>
   <delete id="ibatorgenerated_deleteByPrimaryKey" parameterClass="com.yly.discard.Disproduct" >
     <!--
@@ -100,7 +100,7 @@
       This element was generated on Thu May 26 17:56:20 CST 2016.
     -->
     delete from disproduct
-    where SamId = #samId:VARCHAR#
+   where SamId = #samId:VARCHAR# and   SamCSN = #samCSN:VARCHAR# 
   </delete>
   <delete id="ibatorgenerated_deleteByExample" parameterClass="com.yly.discard.DisproductExample" >
     <!--
@@ -540,7 +540,7 @@
         Remarks = #remarks:VARCHAR#
       </isNotNull>
     </dynamic>
-    where SamId = #samId:VARCHAR#
+   where SamId = #samId:VARCHAR# and   SamCSN = #samCSN:VARCHAR# 
   </update>
   <update id="ibatorgenerated_updateByPrimaryKey" parameterClass="com.yly.discard.Disproduct" >
     <!--
@@ -575,6 +575,6 @@
       CardPhyStat = #cardPhyStat:DECIMAL#,
       BatchIdParts = #batchIdParts:VARCHAR#,      
       Remarks = #remarks:VARCHAR#
-    where SamId = #samId:VARCHAR#
+   where SamId = #samId:VARCHAR# and   SamCSN = #samCSN:VARCHAR# 
   </update>
 </sqlMap>

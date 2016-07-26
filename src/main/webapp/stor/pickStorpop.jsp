@@ -109,7 +109,7 @@ function turnPage( pagenm ) {
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(vo.getOperationType())) %></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO,vo.getIsHTCard())%></td>			
 			<td><%=vo.getUnitPrice()%></td>
-			<td><%=SingleDicMap.getDicItemVal(SingleDic.MAUN_ID, vo.getManufacId()) %></td>
+			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.MAUN_ID, vo.getManufacId()) %></td>
 			<%if(vo.getProdId().equals("4")) {%>
 			<td><%=vo.getModuleBatchId()%></td>			
 			<td><%=vo.getModuleVersion()%></td>					

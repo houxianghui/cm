@@ -537,7 +537,7 @@ public class StoAppInfoForm  extends BaseForm {
 	}
 
 	public Collection getManufacIdCollection() {
-		return SingleDicMap.getOptionCollection(SingleDic.MAUN_ID);
+		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.MAUN_ID);
 	}
 
 	public void setManufacIdCollection(Collection manufacIdCollection) {

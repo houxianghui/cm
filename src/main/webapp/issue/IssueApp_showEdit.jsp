@@ -77,10 +77,40 @@ function doShow(){
 	document.forms[0].act.value='show';
 	document.forms[0].submit(); 
 }
+function doRead(){ 
+	$.get("Mwsissuetb.do?act=R&prodId="+document.forms[1].prodId.value+"&operationType=<%=issueappForm.getOperationType()%>",function(result){
+		var json = $.parseJSON(result);
+		if(json.error!=null){
+			alert(json.error);
+		}else{
+			document.forms[1].origSamId.value=json.origSamId;
+			if(document.forms[1].prodId.value==4){
+				$("#module").text(json.module);
+			}
+		 		
+		}
+		return;
+	});
+
+}
 function doQuery(){ 
 	document.forms[0].act.value='list';
 	document.forms[0].submit(); 
 
+}
+function prodType_fun(obj){
+	if(obj.value==4){
+		document.getElementById("modulename").style.display="";
+		document.getElementById("moduleval").style.display="";
+		document.getElementById("cardname").style.display="none";
+		document.getElementById("cardval").style.display="none";
+	}else{
+		document.getElementById("modulename").style.display="none";
+		document.getElementById("moduleval").style.display="none";
+		document.getElementById("cardname").style.display="";
+		document.getElementById("cardval").style.display="";
+	}
+	 
 }
 </script> 
 </head>
@@ -170,7 +200,6 @@ function doQuery(){
 	<input type=hidden name=appNo value="<%=issueappForm.getAppNo()%>">
 	<input type=hidden name=operationType value="<%=issueappForm.getOperationType()%>">
 	<input type=hidden name=taskAmt>
-	<input type=hidden name=authSign value="1">		
 	<input type=hidden name=taskNo>		
  <%=ViewUtil.getTitle("增加发行任务")%> 
 
@@ -181,8 +210,9 @@ function doQuery(){
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<html:text property="origSamId" styleClass="Textfield"  size="12" maxlength="12"  onblur="onlyNum(this)" onkeyup="onlyNum(this)" value="<%=issueappForm.getOrigSamId()%>"/>
+		<input	name="read" type="button" class="Button" value="读取SAMID" onClick="doRead()"> &nbsp; <div id=module></div>
 		<input	name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> &nbsp; 
-		
+
 	</td>
 	</tr>	
 
@@ -211,14 +241,24 @@ function doQuery(){
 		</td>	
 	</tr>	
 	<tr>
+	
      <tr>
 		<td width="16%" align="left" class="dtPanel_Left">
+		<%if(issueappForm.getProdId().equals("4")){%>
+		<%=ViewUtil.must()%>模块程序版本:
+		</td>
+		<td colspan="3"  class="dtPanel_Main2">&nbsp;
+		<html:select property="binFileVer" styleClass="Select">
+			<html:optionsCollection name="issuetaskForm" property="moduleVerEffcollection"/>
+		</html:select>
+		<%}else{%>
 		<%=ViewUtil.must()%>产品通信速率:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
 		<%=SingleDicMap.getRadio("phiTypeId", SingleDic.COMM_RATE, issueappForm.getPhiTypeId())%> 
+		<%}%>
 		</td>	
-	</tr>	
+	</tr>		
 	 <tr>
 		<td width="16%" align="left" class="dtPanel_Left">
 		<%=ViewUtil.must()%>产品应用类型:
@@ -227,30 +267,6 @@ function doQuery(){
 		<%=ReDefSDicMap.getRadio("appTypeId", RedefSDicCodes.APPTYPEID, String.valueOf(issueappForm.getAppTypeId())) %>
 		</td>	
 	</tr>
-	<tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>模块程序版本:
-		</td>
-		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("binFileVer", SingleDic.BINFILEVER, issueappForm.getBinFileVer())%> 
-		</td>	
-	</tr>	
-	 <tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		认证方式:
-		</td>
-		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("authSign", SingleDic.YES_OR_NO, String.valueOf(issueappForm.getAuthSign()))%> 
-		</td>	
-	</tr>
-	 <tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>是否装载维护密钥二:
-		</td>
-		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("w2Sign", SingleDic.YES_OR_NO,String.valueOf(issueappForm.getW2Sign()))%>
-		</td>	
-	</tr>	
 </table>
     <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
         <tr> 

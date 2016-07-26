@@ -10,6 +10,24 @@ import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
 
 public class MWsIssuetbForm  extends BaseForm {
+	public Collection getModuleVerEffcollection() {
+		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.EFFMODULEVER);
+	}
+
+	public void setModuleVerEffcollection(Collection moduleVerEffcollection) {
+		this.moduleVerEffcollection = moduleVerEffcollection;
+	}
+	private String origSamId;
+ 
+	
+	public String getOrigSamId() {
+		return origSamId;
+	}
+
+	public void setOrigSamId(String origSamId) {
+		this.origSamId = origSamId;
+	}
+	private Collection moduleVerEffcollection;
 	private String cardcsn;
 	private String oldTranskey;
 	private String newTranskey;
@@ -27,9 +45,18 @@ public class MWsIssuetbForm  extends BaseForm {
 	private String inpki;
 	private String motEf17;
 	private Short operationType;
+	private Integer appTypeId;
 
 	public Short getOperationType() {
 		return operationType;
+	}
+
+	public Integer getAppTypeId() {
+		return appTypeId;
+	}
+
+	public void setAppTypeId(Integer appTypeId) {
+		this.appTypeId = appTypeId;
 	}
 
 	public void setOperationType(Short operationType) {
@@ -249,7 +276,7 @@ public class MWsIssuetbForm  extends BaseForm {
 	}
 
 	public Collection getUnitIdcollection() {
-		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.UNITID);	}
+		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.ALL_UNITID);	}
 
 	public void setUnitIdcollection(Collection unitIdcollection) {
 		this.unitIdcollection = unitIdcollection;

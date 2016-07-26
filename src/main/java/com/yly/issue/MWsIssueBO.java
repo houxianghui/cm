@@ -22,6 +22,8 @@ import com.yly.exstore.StoproductDAO;
 import com.yly.issue.MwsissuetbExample.Criteria;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoDAO;
+import com.yly.pki.Secpkitb;
+import com.yly.pki.SecpkitbDAO;
 import com.yly.stor.StoAppInfoBO;
 import com.yly.stor.Stoappinfo;
 import com.yly.stor.StoappinfoDAO;
@@ -36,6 +38,15 @@ public class MWsIssueBO extends IbatisBO {
 	private LsinfoDAO lsinfoDAO;	
 	private StoproductDAO stoproductDAO;
 	private IssueappDAO issueappDAO;
+	private SecpkitbDAO secpkitbDAO;
+	public SecpkitbDAO getSecpkitbDAO() {
+		return secpkitbDAO;
+	}
+
+	public void setSecpkitbDAO(SecpkitbDAO secpkitbDAO) {
+		this.secpkitbDAO = secpkitbDAO;
+	}
+
 	public IssueappDAO getIssueappDAO() {
 		return issueappDAO;
 	}
@@ -168,12 +179,19 @@ public class MWsIssueBO extends IbatisBO {
 		lsinfoDAO.insert(ls);
 		mwsissuetbDAO.updateByPrimaryKeySelective(mtb);
 	}
-	public void transFourTb(Mwsissuetb mtb,Stoproduct s,Lsinfo ls,Issueapp issue) throws Exception {
+	public void transFiveTb(Mwsissuetb mtb,Stoproduct s,Lsinfo ls,Issueapp issue,Secpkitb sec) throws Exception {
 		stoproductDAO.insert(s);
 		lsinfoDAO.insert(ls);
+		secpkitbDAO.insert(sec);
 		mwsissuetbDAO.updateByPrimaryKeySelective(mtb);
 		if(issue!=null && issue.getFormState()==3)
 			issueappDAO.updateByPrimaryKeySelective(issue);
+	}
+	
+	
+	public void transRepairTb(Lsinfo ls,Secpkitb sec) throws Exception {
+		lsinfoDAO.insert(ls);
+		secpkitbDAO.updateBySamIdAndSamCsn(sec);
 	}
 	@Override
 	public List queryForList(Object obj) throws Exception {
@@ -230,7 +248,7 @@ public class MWsIssueBO extends IbatisBO {
 			if(f.getProdId().equals("4"))
 				KEY="JSB_KEY";
 			else{
-				if(f.getManufacId().equals("WQ"))
+				if(f.getManufacId().equals("1"))
 					KEY="WQ_KEY";
 				else
 					KEY="ALLF_KEY";
@@ -270,10 +288,10 @@ public class MWsIssueBO extends IbatisBO {
 		lsvo.setSamCSN("");
 		return lsvo;
 	}
-	public void setFunc(Mwsissuetb vo, Func func) {
-		func.setApplyAttr(vo.getApplyAttr());
-		func.setManufacId(vo.getManufacId());
-		func.setProdId(vo.getProdId());
+	public void setFunc(MWsIssuetbForm f, Func func) {
+		func.setApplyAttr(f.getApplyAttr());
+		func.setManufacId(f.getManufacId());
+		func.setProdId(f.getProdId());
 	}
 
 	public void setOperAct(Mwsissuetb vo, Func func,int step) {

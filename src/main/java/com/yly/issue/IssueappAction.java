@@ -191,6 +191,9 @@ public class IssueappAction extends IbatisBaseAction {
 		
 		Issueapp vo = new Issueapp();
 		IssueappForm f = (IssueappForm)form;
+		if(f.getOperationType().equals("25")){
+			throw new MessageException("请选择'修复发行'菜单操作!");
+		}
 		copyProperties(vo,f);
 		vo.setOperId(user.getUserID());
 		vo.setCurrDate(DateUtil.getTimeStr());
@@ -352,7 +355,7 @@ public class IssueappAction extends IbatisBaseAction {
 		IssueappForm f = (IssueappForm)form;
 		Stoproduct prodvo = new Stoproduct();
 		prodvo.setSamId(f.getOrigSamId());
-		prodvo = stoproductBO.queryForObject(prodvo.getSamId());
+		prodvo = stoproductBO.queryObjectBySamId(prodvo.getSamId());
 		if(prodvo==null){
 			throw new MessageException("此SAM号找不到原发行记录");
 		}
@@ -412,7 +415,7 @@ public class IssueappAction extends IbatisBaseAction {
 	}
 	/*原料发行,同号同属性,同号不同属性,对于isam,esam,psam,小模块进行批次的选择*/
 	private boolean needPickBatch(IssueappForm f){
-		if(f.getOperationType()==21 || f.getOperationType()==24 || f.getOperationType()==25 ){
+		if(f.getOperationType()==21 || f.getOperationType()==24){
     		if(!f.getProdId().equals("5"))
     			return true;
     		else return false;

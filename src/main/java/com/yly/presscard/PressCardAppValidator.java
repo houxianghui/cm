@@ -64,8 +64,8 @@ public class PressCardAppValidator {
 				flag=1;
 		}
 		if(flag>0)
-			throw new MessageException("开始卡号不能小于结束卡号");
+			throw new MessageException("开始卡号不能大于结束卡号");
 
 	}
-	
+
 }

@@ -95,7 +95,7 @@ function doAddCards(){
 		≥ß…Ã√˚≥∆:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("manufacId", SingleDic.MAUN_ID, stoAppForm.getManufacId())%> 
+		<%=ReDefSDicMap.getRadio("manufacId", RedefSDicCodes.MAUN_ID, stoAppForm.getManufacId())%> 
 	</td>
 	</tr>
 	

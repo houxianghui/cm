@@ -46,9 +46,12 @@ public class StoreuseBO extends IbatisBO {
 	 * @see com.eis.base.IbatisBaseBO#queryForObject(java.lang.Object)
 	 */
 	public Object queryForObject(Object obj) throws Exception {
-		Storeuse vo=((Storeuse)obj);
-		String samId=((Storeuse)obj).getSamId();
-		return storeuseDAO.selectByPrimaryKey(samId);
+		return storeuseDAO.selectByPrimaryKey((Storeuse)obj);
+	
+	}
+	
+	public Object queryObjectBySamId(String samId) throws Exception {
+		return storeuseDAO.selectBySamId(samId);
 	
 	}
 	/* 

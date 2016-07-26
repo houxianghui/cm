@@ -77,5 +77,7 @@
   <sqlMap resource="/sqlmap/disproduct_SqlMap.xml"></sqlMap>             
   <sqlMap resource="/sqlmap/storeuse_SqlMap.xml"></sqlMap>             
   <sqlMap resource="/sqlmap/moduleconf_SqlMap.xml"></sqlMap>     
+  <sqlMap resource="/sqlmap/bimanufacinfotb_SqlMap.xml"></sqlMap>  
+  <sqlMap resource="/sqlmap/secpkitb_SqlMap.xml"></sqlMap>        
   
 </sqlMapConfig>

@@ -6,17 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
-
-
-
-
-
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.eis.base.BaseForm;
@@ -28,7 +19,6 @@ import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
 import com.eis.util.KeyVDatagram;
 import com.eis.util.StringUtil;
-import com.yly.conf.ModuleconfBO;
 import com.yly.drools.FunDrools;
 import com.yly.drools.Func;
 import com.yly.exstore.Stoproduct;
@@ -38,6 +28,8 @@ import com.yly.func.Para;
 import com.yly.func.ParaTools;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoBO;
+import com.yly.pki.Secpkitb;
+import com.yly.pki.SecpkitbBO;
 import com.yly.reuse.StoreuseBO;
 import com.yly.stor.StoAppInfoBO;
 import com.yly.stor.Stoappinfo;
@@ -52,6 +44,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 	private LsinfoBO lsinfoBO;
 	private StoproductBO stoproductBO;
 	private StoreuseBO storeuseBO;
+
 	public StoreuseBO getStoreuseBO() {
 		return storeuseBO;
 	}
@@ -111,6 +104,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 			return issueInit(form,mapping,request,user);
 		}else if("issue".equals(act)){		//query active projects
 			return issue(form,mapping,request,user);
+		}else if("singleIssue".equals(act)){		//query active projects
+			return singleIssue(form,mapping,request,user);
 		}else if("closePort".equals(act)){		//query active projects 
 			return closePort(form,mapping,request,user);
 		}else if("E".equals(act)){		//query active projects 
@@ -119,6 +114,11 @@ public class MWsIssueAction extends IbatisBaseAction {
 		}else if("R".equals(act)){		//query active projects 
 			read(form,mapping,request,response);
 			return null;
+		}else if("down".equals(act)){		//query active projects 
+			down(form,mapping,request,response);
+			return null;
+		}else if("repair".equals(act)){		//query active projects
+			return repair(form,mapping,request,user);
 		}else return null;
 	}
 	
@@ -317,7 +317,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
 		Para para=new Para();
-		((MWsIssueBO)bo).setFunc(vo, func);
+		((MWsIssueBO)bo).setFunc(f, func);
 		Lsinfo lsvo = ((MWsIssueBO)bo).setLsInfo(user, vo);
 		for(int i=1;i<4;i++){
 			((MWsIssueBO)bo).setOperAct(vo,func,i);//读卡\洗卡\发行
@@ -333,7 +333,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 					}else if(func.getOperAct().equals("R")){
 						f.setSamId(para.getSamId());
 						Stoproduct prod = new Stoproduct();
-						prod = stoproductBO.queryForObject(f.getSamId());
+						prod = stoproductBO.queryObjectBySamId(f.getSamId());
 						if(prod==null){
 							prod =(Stoproduct)storeuseBO.queryForObject(f.getSamId());
 							if(prod==null){
@@ -362,7 +362,10 @@ public class MWsIssueAction extends IbatisBaseAction {
 							issuapp.setFormState((short)3);
 						}
 					}
-					((MWsIssueBO)bo).transFourTb(vo,sto,lsvo,issuapp);
+					Secpkitb sec=new Secpkitb();
+					copyProperties(sec, sto);
+					sec.setPubKey(para.getRetpki());
+					((MWsIssueBO)bo).transFiveTb(vo,sto,lsvo,issuapp,sec);
 				}
 			}else{
 				if(!CheckUtil.isEmptry(lsvo.getSamCSN())){
@@ -394,7 +397,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		copyProperties(vo, f);
 		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
-		((MWsIssueBO)bo).setFunc(vo,func);
+		((MWsIssueBO)bo).setFunc(f,func);
 		String res="";
 		Stoproduct prod = new Stoproduct();
 		Lsinfo lsvo = new Lsinfo();
@@ -416,7 +419,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 				break;
 			}else{
 				if(i==1){
-					prod = stoproductBO.queryForObject(para.getSamId());
+					prod = stoproductBO.queryObjectBySamId(para.getSamId());
 					lsvo.setSamCSN(prod.getSamCSN());
 					lsvo.setSamId(prod.getSamId());
 					lsvo = lsinfoBO.queryLastObject(lsvo);
@@ -469,12 +472,12 @@ public class MWsIssueAction extends IbatisBaseAction {
 			}else{
 				if(i==1){
 					res = "{\"origSamId\":\""+para.getSamId()+"";
-					if(!f.getProdId().equals("1")){		
+					if(!f.getProdId().equals("4")){		
 						res =  res+"\"}";
 						writeAjaxResponse(response, res);
 						operSysPort(f.getProdId(),"close");
 						break;
-					}else{
+					}else{//模块修复需要读出卡号和模块版本
 						continue;
 					} 
 				}else{
@@ -486,5 +489,72 @@ public class MWsIssueAction extends IbatisBaseAction {
 			}
 		}
 	}
+	public ActionForward repair(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		String requery = request.getParameter("requery");
+		if (requery == null ) {			
+			return mapping.findForward("repair");
+	    }
+		MWsIssuetbForm f = (MWsIssuetbForm)form;
+		Stoproduct prodvo = new Stoproduct();
+		prodvo.setSamId(f.getOrigSamId());
+		prodvo = stoproductBO.queryObjectBySamId(prodvo.getSamId());
+		if(prodvo==null){
+			throw new MessageException("此SAM号找不到原发行记录");
+		}
+ 		copyProperties(f, prodvo);
+ 		f.setCardcsn(prodvo.getSamCSN());
+		f.setAppTypeId(Integer.parseInt(prodvo.getAppTypeId()));
+		return mapping.findForward("show");	
+	}
 	
+	
+	public ActionForward singleIssue(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		MWsIssuetbForm f = (MWsIssuetbForm)form;	
+		f.setSamId(f.getOrigSamId());
+		f.setApplyAttr(String.valueOf(f.getAppTypeId()));
+		Mwsissuetb vo = new Mwsissuetb();
+ 		copyProperties(vo,f);
+		Lsinfo lsvo = ((MWsIssueBO)bo).setLsInfo(user, vo);
+		lsvo.setSamId(f.getSamId());
+		lsvo.setSamCSN(f.getCardcsn());
+		lsvo.setOperationType(f.getOperationType());
+		((MWsIssueBO)bo).initMwsissueToPara(f);
+		Func func=new Func();
+		Para para=new Para();
+		((MWsIssueBO)bo).setFunc(f, func);
+		for(int i=2;i<4;i++){
+			((MWsIssueBO)bo).setOperAct(vo,func,i);//\洗卡\发行
+			funDrools.getFunc(func);
+			String[] paras=func.getPara().split(",");
+			ParaTools.setPara(para, paras, f);
+		//	int result=CallFunc.callId(func, para);
+			int result=0;
+			if(result==0){
+				 if (i==3){
+					 Secpkitb sec = new Secpkitb();
+					 copyProperties(sec, lsvo);
+					 sec.setKeyType((short)(f.getKeyType()));
+					 sec.setPubKey(para.getRetpki());
+					 sec.setCurrPeriod(DateUtil.getCurrDate());
+					((MWsIssueBO)bo).transRepairTb(lsvo,sec);
+				}
+			}else{
+				lsvo.setErrorCode((short)result);
+				lsinfoBO.insert(lsvo);
+				request.setAttribute("samCSN", lsvo.getSamCSN());
+				request.setAttribute("prodId", lsvo.getSamCSN());
+				request.setAttribute("manufacId", lsvo.getSamCSN());	
+				request.setAttribute("backurl","MWsIssueAction.do?act=repair");	
+				return popConfirmClosePage(request, mapping, lsvo.getSamCSN()+"是否标记为坏卡,错误代码"+func.getFunc()+result,"");
+
+			}
+		}
+		return forwardSuccessPage(request,mapping,"修复成功","Mwsissuetb.do?act=repair");
+	}
+	public void down(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response)throws Exception{
+ 	    String url="E:\\work\\code\\design-eclipse\\projectmanage-1.0\\MFC\\IAP.exe";
+		Process proc = Runtime.getRuntime().exec(url);  
+		String res="";
+		writeAjaxResponse(response, res);
+	}
 }

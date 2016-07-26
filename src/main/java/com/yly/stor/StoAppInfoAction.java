@@ -30,6 +30,8 @@ import org.apache.struts.taglib.nested.bean.NestedDefineTei;
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
 import com.eis.base.PageObject;
+import com.eis.cache.ReDefSDicMap;
+import com.eis.cache.RedefSDicCodes;
 import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
 import com.eis.exception.MessageException;
@@ -110,7 +112,7 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		vo.setCurrDate(DateUtil.getTimeStr());
 		vo.setCurrPeriodAmt(vo.getPurchaseAmt());
         //获得批次号 
-		vo.setFormNo(vo.getManufacId().substring(0, 1)+StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("StoAppInfo")),15));
+		vo.setFormNo((ReDefSDicMap.getDicItemLogicID(RedefSDicCodes.MAUN_ID, vo.getManufacId()).trim())+StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("StoAppInfo")),14));
 		((StoAppInfoBO)bo).insert(vo);		
 		return forwardSuccessPage(request,mapping,"保存成功","StoApp.do?act=c");
 		
@@ -147,14 +149,17 @@ public class StoAppInfoAction extends IbatisBaseAction {
 	public ActionForward queryListResult(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		
 		StoAppInfoForm f = (StoAppInfoForm)form;
-		f.setPhiTypeId(request.getParameter("phiTypeId"));
 		f.setCurrPeriodAmt(Long.parseLong(request.getParameter("currPeriodAmt")));
 		f.setProdId(request.getParameter("prodId"));
+		if(f.getProdId().equals("4")){
+			f.setPhiTypeId("");//模块速率不设置
+		}else{
+			f.setPhiTypeId(request.getParameter("phiTypeId"));
+		}
 		f.setTaskCtrlNo(request.getParameter("taskCtrlNo"));
 		Applytypeinfo apply = new Applytypeinfo();
 		apply.setApplyTypeId(request.getParameter("appTypeId"));
 		apply=(Applytypeinfo)applytypeinfoBO.queryForObject(apply);
-		f.setIsPki(apply.getIsPki()==null?"0":apply.getIsPki());
 		f.setIsHTCard(apply.getIsHLCard());	
 		List list= ((StoAppInfoBO)bo).getAppList(f);
 		if(list==null ||list.size()==0)
@@ -231,4 +236,5 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		copyProperties(form,vo);
 		return mapping.findForward("view");
 	}
+
 }

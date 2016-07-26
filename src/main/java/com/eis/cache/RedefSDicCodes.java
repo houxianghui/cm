@@ -29,5 +29,6 @@ public interface RedefSDicCodes {
 	String APPTYPEID = "0012";//产品应用类型	
 	String MODULEVERSION = "0013";//模块版本	
 	String EFFMODULEVER = "0014";//有效模块版本	
+	String MAUN_ID = "0015"; //厂商信息
 	
 }

@@ -77,7 +77,7 @@ function prodAttr_fun(obj){
 		≥ß…Ã√˚≥∆:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("manufacId", SingleDic.MAUN_ID, "WQ")%> 
+		<%=ReDefSDicMap.getRadio("manufacId", RedefSDicCodes.MAUN_ID, "1")%> 
 	</td>
 	</tr>
 	

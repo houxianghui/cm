@@ -36,6 +36,9 @@ import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
 import com.eis.util.ValidateUtil;
 import com.ibm.icu.text.DecimalFormat;
+import com.yly.presscard.PressCardBO;
+import com.yly.presscard.PressCardForm;
+import com.yly.presscard.Presscardapptb;
 
 
 public class SecpkitbAction extends IbatisBaseAction {
@@ -47,9 +50,9 @@ public class SecpkitbAction extends IbatisBaseAction {
 		String act = form.getAct();
 		if("list".equals(act)){		//query active projects
 			return List(form,mapping,request,user);
+		}else if("cardDown".equals(act)){		//query active projects
+			return cardDown(form,request,response);
 		}
-	
-
 		return forwardError(request,mapping,"Ò³ÃæÎ´ÕÒµ½,´íÎó·¢ÉúÔÚ"+this.getClass().getName());
 	}
 	
@@ -60,14 +63,36 @@ public class SecpkitbAction extends IbatisBaseAction {
 		
 		String pageNo = request.getParameter("pageNO");		
 		String requery = request.getParameter("requery");
-		if (pageNo == null && requery == null) {			
-			return mapping.findForward("list");
+		if (pageNo == null || requery == null) {			
+			return mapping.findForward("qlist");
 	    }
 		SecpkitbForm f = (SecpkitbForm)form;
-		setPageResult(request, ((SecpkitbBO)bo).queryForList(f));
-		return mapping.findForward("list");
+		((SecpkitbBO)bo).querySamIdValidate(f);
+		setPageResult(request, ((SecpkitbBO)bo).queryForListByScale(f));
+		return mapping.findForward("qlist");
 	}
-
+	private ActionForward cardDown(BaseForm form,HttpServletRequest request, HttpServletResponse response)throws Exception{
+		SecpkitbForm f = (SecpkitbForm)form;
+		((SecpkitbBO)bo).querySamIdValidate(f);
+		String scale="";
+		List pkiList = ((SecpkitbBO)bo).queryForListByScale(f);
+		response.setContentType("application/octet-stream");
+		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
+			scale = new String((f.getSamId_min()+"_"+f.getSamId_max()).getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
+		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
+			scale = URLEncoder.encode((f.getSamId_min()+"_"+f.getSamId_max()), "UTF-8");
+		}
+		response.addHeader("Content-Disposition", "attachment; filename="+scale+".txt");
+		OutputStream out = response.getOutputStream();
+		for(int i=0;i<pkiList.size();i++){
+			Secpkitb tmp=(Secpkitb)pkiList.get(i);
+			byte[] b= (tmp.getSamId()+","+tmp.getSamCSN()+","+tmp.getPubKey()).getBytes();
+			out.write(b);
+			out.write("\n".getBytes());
+		}
+		out.close();
+		return null;
+	}
 
 
 }

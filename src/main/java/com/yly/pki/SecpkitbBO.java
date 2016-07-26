@@ -1,16 +1,11 @@
 package com.yly.pki;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
 import com.abc.logic.IbatisBO;
-import com.eis.base.IbatisBaseBO;
-import com.eis.cache.ReDefSDicMap;
-import com.eis.portal.UserContext;
+import com.eis.exception.MessageException;
 import com.eis.util.CheckUtil;
-import com.eis.util.DateUtil;
 import com.yly.pki.SecpkitbExample.Criteria;
+
 
 
 public class SecpkitbBO extends IbatisBO {
@@ -59,16 +54,38 @@ public class SecpkitbBO extends IbatisBO {
 			c.andSamCSNEqualTo(vo.getSamCSN());
 		if(!CheckUtil.isEmptry(vo.getSamId()))
 			c.andSamIdEqualTo(vo.getSamId());	
-		e.setOrderByClause("WkStateChgDate asc");
+		e.setOrderByClause("IssueTime desc");
 		return secpkitbDAO.selectByExample(e);
 	}
-
+	public List queryForListByScale(SecpkitbForm f) throws Exception {
+		SecpkitbExample e = new SecpkitbExample();
+		Criteria c = e.createCriteria();
+		if(!CheckUtil.isEmptry(f.getSamId_min()))
+			c.andSamIdGreaterThanOrEqualTo(f.getSamId_min());
+		if(!CheckUtil.isEmptry(f.getSamId_max()))
+			c.andSamIdLessThanOrEqualTo(f.getSamId_max());
+		e.setOrderByClause("IssueTime desc");
+		return secpkitbDAO.selectByExample(e);
+	}
 	/* 
 	 * @see com.eis.base.IbatisBaseBO#delete(java.lang.Object)
 	 */
 	public void delete(Object obj) throws Exception {
 
 	}
-
+	public void querySamIdValidate(SecpkitbForm p)throws MessageException{
+		if(CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max())){	
+			throw new MessageException("开始卡号和结束卡号必须填写");
+		}
+		if(p.getSamId_min().length()!=p.getSamId_max().length()){
+			throw new MessageException("开始卡号长度和结束卡号长度必须一致");
+		}
+		if(p.getSamId_min().length()!=12 ){
+			throw new MessageException("卡号长度必须满足12位");
+		}
+		if(p.getSamId_min().compareTo(p.getSamId_max())>0)
+			throw new MessageException("开始卡号不能大于结束卡号");
+		
+	}
 
 }

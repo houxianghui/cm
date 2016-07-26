@@ -48,6 +48,7 @@ public interface SingleDic {
 	String WKSTATE="0323";//产品状态
 	String ERRORCODE="0328";//错误代码
 	String AUTHKEY="0330";//主控密钥	
+	String UNIT_LEVEL="0331";//单位等级
 	
 	
 }

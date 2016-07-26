@@ -27,7 +27,7 @@
 		<form-bean name="secpkitbForm" type="com.yly.pki.SecpkitbForm" />			
 		<form-bean name="moduleconfForm" type="com.yly.conf.ModuleconfForm" />		
 		<form-bean name="repairForm" type="com.yly.repair.RepairForm"/>					
-		
+		<form-bean name="manuinfoForm" type="com.yly.manu.BimanufacinfotbForm"/>	
 	</form-beans>
 
 	<action-mappings>
@@ -81,6 +81,8 @@
 		<action path="/Biunitinfo" type="org.springframework.web.struts.DelegatingActionProxy" name="biunitinfoForm"
 			scope="request" validate="false">
 			<forward name="list" path="/info/Biunitinfo_popList.jsp" />
+			<forward name="qlist" path="/info/Biunitinfo_list.jsp" />
+			<forward name="new" path="/info/Biunitinfo_new.jsp" />
 		</action>
 		<action path="/Stoproduct" type="org.springframework.web.struts.DelegatingActionProxy" name="stoproductForm"
 			scope="request" validate="false">
@@ -92,7 +94,8 @@
 			scope="request" validate="false">
 			<forward name="list" path="/mwsissue/MWsIssue_wlist.jsp" />
 			<forward name="issue" path="/mwsissue/MWsIssue_issue.jsp" />
-			
+			<forward name="repair" path="/mwsissue/MWsIssue_repair.jsp" />
+			<forward name="show" path="/mwsissue/MWsIssue_repairshow.jsp" />
 		</action>
 		<action path="/Applytypeinfo" type="org.springframework.web.struts.DelegatingActionProxy" name="applytypeinfoForm"
 			scope="request" validate="false">
@@ -114,6 +117,7 @@
 		<action path="/Secpkitb" type="org.springframework.web.struts.DelegatingActionProxy" name="secpkitbForm"
 			scope="request" validate="false">
 			<forward name="list" path="/reuse/Storeuse_list.jsp" />
+			<forward name="qlist" path="/pki/Pki_list.jsp" />
 		</action>	
 		<action path="/Moduleconf" type="org.springframework.web.struts.DelegatingActionProxy" name="moduleconfForm"
 			scope="request" validate="false">
@@ -123,7 +127,12 @@
 		<action path="/Repair" type="org.springframework.web.struts.DelegatingActionProxy" name="repairForm"
 			scope="request" validate="false">
 			<forward name="new" path="/repair/Repair_new.jsp" />
-		</action>				
+		</action>	
+		<action path="/Manuinfo" type="org.springframework.web.struts.DelegatingActionProxy" name="manuinfoForm"
+			scope="request" validate="false">
+			<forward name="list" path="/conf/Manuinfo_list.jsp" />
+			<forward name="new" path="/conf/Manuinfo_new.jsp" />
+		</action>					
 	</action-mappings>
 	
 

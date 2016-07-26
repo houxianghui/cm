@@ -48,7 +48,7 @@
 		<%=ViewUtil.must()%>≥ß…Ã√˚≥∆:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getDicItemVal(SingleDic.MAUN_ID, stoAppForm.getManufacId())%> 
+		<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.MAUN_ID, stoAppForm.getManufacId())%> 
 	</td>
 	</tr>
 		<tr>

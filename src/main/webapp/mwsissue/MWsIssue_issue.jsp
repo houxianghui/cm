@@ -22,6 +22,7 @@ function turnPage( pagenm ) {
     	document.forms[0].submit(); 
 }
 function doIssue(){ 
+    document.getElementById('issue').style.color="red"; 
 	document.forms[0].act.value = "issue";
 	document.forms[0].submit();
 	
@@ -32,6 +33,7 @@ function doIssueDone(){
 	
 } 
 function doExam(){ 
+    document.getElementById('exam').style.color="red"; 
 	$.get("Mwsissuetb.do?act=E&operationType=<%=mwsissuetbForm.getOperationType()%>&applyAttr=<%=mwsissuetbForm.getApplyAttr()%>&prodId=<%=mwsissuetbForm.getProdId()%>&manufacId=<%=mwsissuetbForm.getManufacId()%>",function(result){
 		var json = $.parseJSON(result);
 		if(json.error!=null){
@@ -45,14 +47,19 @@ function doExam(){
 	});
 	
 } 
-function setPKey(samId_var,samCSN_var,detectSign_var,errorCode_var,flowNo_var) { 
-
-	document.forms[0].samId.value=samId_var; 
-	document.forms[0].samCSN.value=samCSN_var; 
-	document.forms[0].detectSign.value=detectSign_var; 
-	document.forms[0].errorCode.value=errorCode_var; 
-	document.forms[0].flowNo.value=flowNo_var; 	
+function doDown1() {  
+    document.getElementById('down1').style.color="red"; 
+	$.get("Mwsissuetb.do?act=down",function(result){
+ 		return;
+	});
 } 
+function doDown2() {  
+    document.getElementById('down2').style.color="red"; 
+	$.get("Mwsissuetb.do?act=down",function(result){
+ 		return;
+	});
+} 
+
 
 </script>
 </head>
@@ -157,7 +164,7 @@ function setPKey(samId_var,samCSN_var,detectSign_var,errorCode_var,flowNo_var) {
 		厂商代码:
 		</td>
 		<td class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getDicItemVal(SingleDic.MAUN_ID, String.valueOf(mwsissuetbForm.getManufacId()))%> 
+		<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.MAUN_ID, String.valueOf(mwsissuetbForm.getManufacId())) %>							
 		</td>
 		<td width="16%" align="left" class="dtPanel_Left">
 		批次号:
@@ -270,12 +277,18 @@ if (pageResultLsInfo != null) {%>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td height="25" align="center">
-			<%if(mwsissuetbForm.getFormState()!=3){ %>
-			<input type="button" value="发行" class="Button" onClick="doIssue()"/>
-			<%}else{ %>
-			<input type="button" value="发行完成" class="Button" onClick="doIssueDone()"/>
+			<%if(mwsissuetbForm.getProdId().equals("4")){%>
+			<input type="button" id="down1" value="下载" class="Button" onClick="doDown1()" />-->
 			<%} %>
-			<input type="button" value="检测" class="Button" onClick="doExam()"/>
+			<%if(mwsissuetbForm.getFormState()!=3){%>
+			<input type="button" id="issue" value="发行" class="Button" onClick="doIssue()"/>-->
+			<%}else{ %>
+			<input type="button" value="发行完成" class="Button" onClick="doIssueDone()"/>-->
+			<%} %>
+			<%if(mwsissuetbForm.getProdId().equals("4") && mwsissuetbForm.getApplyAttr().equals("302")){%>
+			<input type="button"  id="down2" value="下载" class="Button" onClick="doDown2()" />-->
+			<%} %>
+			<input type="button"  id="exam" value="检测" class="Button" onClick="doExam()"/>
 			</td>
 		</tr>
 	</table>

@@ -94,7 +94,7 @@ function doRead(){
 			alert(json.error);
 		}else{
 			document.forms[1].origSamId.value=json.origSamId;
-			if(document.forms[1].prodId.value==1){
+			if(document.forms[1].prodId.value==4){
 				$("#module").text(json.module);
 			}
 		 		
@@ -107,6 +107,20 @@ function doQuery(){
 	document.forms[0].act.value='list';
 	document.forms[0].submit(); 
 
+}
+function prodType_fun(obj){
+	if(obj.value==4){
+		document.getElementById("modulename").style.display="";
+		document.getElementById("moduleval").style.display="";
+		document.getElementById("cardname").style.display="none";
+		document.getElementById("cardval").style.display="none";
+	}else{
+		document.getElementById("modulename").style.display="none";
+		document.getElementById("moduleval").style.display="none";
+		document.getElementById("cardname").style.display="";
+		document.getElementById("cardval").style.display="";
+	}
+	 
 }
 </script> 
 </head>
@@ -196,22 +210,19 @@ function doQuery(){
 	<input type=hidden name=appNo value="<%=issueappForm.getAppNo()%>">
 	<input type=hidden name=operationType value="<%=issueappForm.getOperationType()%>">
 	<input type=hidden name=taskAmt>
-	<input type=hidden name=authSign value="1">		
 	<input type=hidden name=taskNo>	
  <%=ViewUtil.getTitle("增加发行任务")%> 
 
  <table id="issue" align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0">
-	<%if(issueappForm.getOperationType()>23){%>
+	<%if(issueappForm.getOperationType()==24 ||issueappForm.getOperationType()==26){%>
 		<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
 		<%=ViewUtil.must()%>SAM卡号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<html:text property="origSamId" styleClass="Textfield"  size="12" maxlength="12"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  />&nbsp; 
-		
-		<input	name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> &nbsp; 
 		<input	name="read" type="button" class="Button" value="读取SAMID" onClick="doRead()"> &nbsp; <div id=module></div>
-		
+		&nbsp;<input name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> 
 	</td>
 	</tr>	
 	<%} %>
@@ -228,7 +239,7 @@ function doQuery(){
 		<%=ViewUtil.must()%>产品类型:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("prodId", SingleDic.PROD_ID, "1")%>
+		<%=SingleDicMap.getRadio_WithFun("prodId", SingleDic.PROD_ID, "1","prodType_fun(this)")%>
 		</td>
 	</tr>	   
      <tr>
@@ -242,10 +253,22 @@ function doQuery(){
 	<tr>
      <tr>
 		<td width="16%" align="left" class="dtPanel_Left">
+		<div  id="cardname" >
 		<%=ViewUtil.must()%>产品通信速率:
+		</div>
+		<div  id="modulename" style="display:none">
+		<%=ViewUtil.must()%>模块程序版本:
+		</div>
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
+		<div  id="cardval" >
 		<%=SingleDicMap.getRadio("phiTypeId", SingleDic.COMM_RATE, "1")%> 
+		</div>
+		<div  id="moduleval"  style="display:none">
+		<html:select property="binFileVer" styleClass="Select">
+				<html:optionsCollection name="issuetaskForm" property="moduleVerEffcollection"/>
+		</html:select>
+		</div>
 		</td>	
 	</tr>	
 	 <tr>
@@ -254,16 +277,6 @@ function doQuery(){
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
 		<%=ReDefSDicMap.getRadio("appTypeId", RedefSDicCodes.APPTYPEID, "101") %>
-		</td>	
-	</tr>
-	<tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>模块程序版本:
-		</td>
-		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<html:select property="binFileVer" styleClass="Select">
-				<html:optionsCollection name="issuetaskForm" property="moduleVerEffcollection"/>
-		</html:select>
 		</td>	
 	</tr>	
 </table>

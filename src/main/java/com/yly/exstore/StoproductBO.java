@@ -82,8 +82,11 @@ public class StoproductBO extends IbatisBO {
 	public Object queryForObject(Object obj) throws Exception {
 		return null;
 	}
-	public Stoproduct queryForObject(String sto) throws Exception{
+	public Stoproduct queryForObject(Stoproduct sto) throws Exception{
 		return stoproductDAO.selectByPrimaryKey(sto);
+	}
+	public Stoproduct queryObjectBySamId(String sto) throws Exception{
+		return stoproductDAO.selectBySamId(sto);
 	}
 	public List queryForList(StoproductForm sto) throws Exception{
 		StoproductExample e = queryForListByEx(sto);			

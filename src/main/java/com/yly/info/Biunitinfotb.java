@@ -448,4 +448,25 @@ public class Biunitinfotb {
     public void setRsvd(String rsvd) {
         this.rsvd = rsvd == null ? null : rsvd.trim();
     }
+    public String getOperId() {
+ 		return operId;
+ 	}
+
+ 	public void setOperId(String operId) {
+ 		this.operId = operId;
+ 	}
+
+ 	public String getCurrDate() {
+ 		return currDate;
+ 	}
+
+ 	public void setCurrDate(String currDate) {
+ 		this.currDate = currDate;
+ 	}
+
+
+ 	private String operId;
+
+   	private String currDate;
+
 }
