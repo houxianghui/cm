@@ -9,6 +9,40 @@ import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
 
 public class StoproductForm extends BaseForm {
+	private Collection manufacIdCollection;
+	public Collection getManufacIdCollection() {
+		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.MAUN_ID);
+	}
+
+	public void setManufacIdCollection(Collection manufacIdCollection) {
+		this.manufacIdCollection = manufacIdCollection;
+	}
+	private Collection prodIdCollection;
+	public Collection getProdIdCollection() {
+		return SingleDicMap.getOptionCollection(SingleDic.PROD_ID);
+	}
+
+	public void setProdIdCollection(Collection prodIdCollection) {
+		this.prodIdCollection = prodIdCollection;
+	}
+	private Collection IOStatecollection;
+	public Collection getIOStatecollection() {
+		return SingleDicMap.getOptionCollection(SingleDic.IO_STATE);
+	}
+
+	public void setIOStatecollection(Collection iOStatecollection) {
+		IOStatecollection = iOStatecollection;
+	}
+
+	private Collection wkStatecollection;
+	public Collection getWkStatecollection() {
+		return SingleDicMap.getOptionCollection(SingleDic.WKSTATE);
+	}
+
+	public void setWkStatecollection(Collection wkStatecollection) {
+		this.wkStatecollection = wkStatecollection;
+	}
+
 	private String appNo;
 	private Integer taskAmt;
 	private Integer taskAmtLeft;
@@ -35,6 +69,16 @@ public class StoproductForm extends BaseForm {
 	private Collection prodIdcollection;
 	private Collection phiTypeIdcollection;
 	private Collection appTypeIdcollection;
+	private Collection moduleVerEffcollection;
+
+	public Collection getModuleVerEffcollection() {
+		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.MODULEVERSION);
+	}
+
+	public void setModuleVerEffcollection(Collection moduleVerEffcollection) {
+		this.moduleVerEffcollection = moduleVerEffcollection;
+	}
+
 	public Collection getAppTypeIdcollection() {
 		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.APPTYPEID);
 	}

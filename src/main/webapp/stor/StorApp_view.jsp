@@ -111,7 +111,7 @@
 <%if(stoAppForm.getProdId().equals("5")) {%>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>采购类型:</div>
+		<%=ViewUtil.must()%>采购类型:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		&nbsp;<%=SingleDicMap.getDicItemVal(SingleDic.PURCH_TYPE, stoAppForm.getPurchaseType())%></div>
@@ -120,7 +120,15 @@
 <%}else if(stoAppForm.getProdId().equals("4")) {%>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>模块版本号:</div>
+		<%=ViewUtil.must()%>模块配件批次号:
+		</td>
+		<td colspan="3" class="dtPanel_Main2">&nbsp;
+		<%=stoAppForm.getRsvd()%>
+		</td>
+	</tr>		
+	<tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		<%=ViewUtil.must()%>模块版本号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=stoAppForm.getModuleVersion()%>
@@ -128,12 +136,13 @@
 	</tr>		
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>模块批次号:</div>
+		<%=ViewUtil.must()%>模块批次号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=stoAppForm.getModuleBatchId()%>
 	</td>
-	</tr>				
+	</tr>
+			
 <%} %>
 	
   </table> 

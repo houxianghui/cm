@@ -53,6 +53,8 @@ function prodAttr_fun(obj){
 		document.getElementById("moduver1").style.display="";
 		document.getElementById("modubatId").style.display="";
 		document.getElementById("modubatId1").style.display="";
+		document.getElementById("batchIdParts").style.display="";
+		document.getElementById("batchIdParts1").style.display="";		
 		
 	}else{
 		document.getElementById("purchtype").style.display="none";
@@ -61,7 +63,8 @@ function prodAttr_fun(obj){
 		document.getElementById("moduver1").style.display="none";
 		document.getElementById("modubatId").style.display="none";
 		document.getElementById("modubatId1").style.display="none";
-		
+		document.getElementById("batchIdParts").style.display="none";
+		document.getElementById("batchIdParts1").style.display="none";		
 	}
 	 
 }
@@ -75,7 +78,10 @@ function operType_fun(obj){
 	 
 }
 function dofindExFormNo(){
-	openWin("Issueapp.do?act=popList&formState=1&operationType="+document.forms[0].operationType.value+"","issueapp_pop");
+	openWin("Issueapp.do?act=popList&formState=3&operationType="+document.forms[0].operationType.value+"","issueapp_pop");
+}
+function dofindBatchIdParts(){
+	openWin("StoApp.do?act=popList&operationType=92&currPeriodAmt="+document.forms[0].purchaseAmt.value+"","issueapp_pop");
 }
 </script> 
 </head>
@@ -199,6 +205,17 @@ function dofindExFormNo(){
 	</tr>
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
+		<div id="batchIdParts" style="display:none">
+		<%=ViewUtil.must()%>模块配件批次号:</div>
+		</td>
+		<td colspan="3" class="dtPanel_Main2">&nbsp;
+		<div id="batchIdParts1" style="display:none">
+		&nbsp;<html:text property="rsvd" styleClass="Textfield"  size="16" maxlength="16" />
+		<input	name="findBatchIdParts" type="button" class="Button" value="查找" onClick="dofindBatchIdParts()"></div>
+	</td>
+	</tr>	
+	<tr>
+		<td width="16%" align="left" class="dtPanel_Left">
 		<div id="moduver" style="display:none">
 		<%=ViewUtil.must()%>模块版本号:</div>
 		</td>
@@ -217,7 +234,7 @@ function dofindExFormNo(){
 		&nbsp;<html:text property="moduleBatchId" styleClass="Textfield"  size="20" maxlength="20" /></div>
 	</td>
 	</tr>				
-
+	
 	
   </table> 
  

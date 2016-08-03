@@ -10,12 +10,15 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -138,6 +141,14 @@ public class IssueappAction extends IbatisBaseAction {
 				return addMakeup(form,mapping,request,user);
 			}
 			
+		}else if("storeuse_new".equals(act)){		//add apply
+			if (null == request.getParameter("step")) { 
+				return mapping.findForward("storeuse_new");
+			}
+			else{
+				return addStoreuse(form,mapping,request,user);
+			}
+			
 		}else if ("u".equals(act)) { 								//修改申请资料信息 
             String step = request.getParameter("step");
             if (null == step) { 									//初始化阶段，查询明细信息并跳转到修改页面 
@@ -158,18 +169,24 @@ public class IssueappAction extends IbatisBaseAction {
 			return batch_assign(form,mapping,request,user);
 		}else if("exlist".equals(act)){		//query active projects
 			return exList(form,mapping,request,user);
-		}else if("exOver".equals(act)){		//原料出库
-			return exOver(form,mapping,request,user);
+		}else if("partDown".equals(act)){		//原料出库
+			return partDown(form,mapping,request,user);
 		}else if("back".equals(act)){		//query active projects
 			return back(form,mapping,request,user);
-		}else if("exbacklist".equals(act)){		//query active projects
-			return exBackList(form,mapping,request,user);
 		}else if("exmaintain".equals(act)){		//query active projects
 			return exMainTain(form,mapping,request,user);
 		}else if("makeupList".equals(act)){		//query active projects
 			return makeUpList(form,mapping,request,user);
 		}else if("makeupMainTain".equals(act)){		//query active projects
 			return makeupMainTain(form,mapping,request,user);
+		}else if("exchangeList".equals(act)){		//query active projects
+			return exchangeList(form,mapping,request,user);
+		}else if("exchangeMainTain".equals(act)){		//query active projects
+			return exchangeMainTain(form,mapping,request,user);
+		}else if("storeuseList".equals(act)){		//query active projects
+			return storeuseList(form,mapping,request,user);
+		}else if("storeuseMainTain".equals(act)){		//query active projects
+			return storeuseMainTain(form,mapping,request,user);
 		}else if("down".equals(act)){		//query active projects
 			down(form,mapping,request,response,user);
 			return null;
@@ -186,6 +203,26 @@ public class IssueappAction extends IbatisBaseAction {
 		IssueappForm f = (IssueappForm)form;
 		setPageResult(request, ((IssueappBO)bo).getMakeUpList(f));
 		return mapping.findForward("makeuplist");
+	}
+	public ActionForward exchangeList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		String pageNo = request.getParameter("pageNO");		
+		String requery = request.getParameter("requery");
+		if (CheckUtil.isEmptry(pageNo)  && requery == null ) {			
+			return mapping.findForward("exchangeList");
+	    }
+		IssueappForm f = (IssueappForm)form;
+		setPageResult(request, ((IssueappBO)bo).getExChangeList(f));
+		return mapping.findForward("exchangeList");
+	}
+	public ActionForward storeuseList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		String pageNo = request.getParameter("pageNO");		
+		String requery = request.getParameter("requery");
+		if (CheckUtil.isEmptry(pageNo)  && requery == null ) {			
+			return mapping.findForward("storeuselist");
+	    }
+		IssueappForm f = (IssueappForm)form;
+		setPageResult(request, ((IssueappBO)bo).getAppListByOperType(f));
+		return mapping.findForward("storeuselist");
 	}
 	public ActionForward addApply(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		
@@ -246,99 +283,79 @@ public class IssueappAction extends IbatisBaseAction {
 		return mapping.findForward("exlist");
 	}
 
-	public ActionForward exBackList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
-		String pageNo = request.getParameter("pageNO");		
-		String requery = request.getParameter("requery");
-		if (CheckUtil.isEmptry(pageNo)  && requery == null ) {			
-			return mapping.findForward("exbacklist");
-	    }
-		IssueappForm f = (IssueappForm)form;
-		setPageResult(request, ((IssueappBO)bo).getExBackList(f));
-		return mapping.findForward("exbacklist");
-	}
+
 	public void down(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response,UserContext user)throws Exception{
-		IssueappForm f = (IssueappForm)form;
-		Stoappinfo svo = new Stoappinfo();
-		svo=stoAppBO.queryForObject(f.getBatchIdParts());
-		svo.setCurrPeriodAmt(svo.getCurrPeriodAmt()-f.getTaskAmt());		
- 		stoAppBO.update(svo);
- 		Issueapp vo=((IssueappBO)bo).queryForObject(f.getAppNo());
- 		vo.setFormState((short)3);//任务完成
- 		Lsinfo lsvo = new Lsinfo();
-		lsvo.setFormNo(svo.getFormNo());
-		lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
- 		((IssueappBO)bo).tranUpdate(vo,svo,lsvo);
  	    String url="E:\\work\\code\\design-eclipse\\projectmanage-1.0\\MFC\\IAP.exe";
 		Process proc = Runtime.getRuntime().exec(url);  
 		String res="";
 		writeAjaxResponse(response, res);
 	}
 	//原料出库\补办
-	public ActionForward exOver(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
-		Issueapp vo = new Issueapp();
-		vo=((IssueappBO)bo).queryForObject(((IssueappForm)form).getAppNo());
-		
-		Stoappinfo sto=new Stoappinfo();
-		sto=stoAppBO.queryForObject(((IssueappForm)form).getFormNo());
-		
-		if(vo.getTaskAmt()>sto.getCurrPeriodAmt()){
-			throw new MessageException("当前批次可用数量不足!");
-		}else{
-			sto.setCurrPeriodAmt(sto.getCurrPeriodAmt()-vo.getTaskAmt());  //更新批次剩余可用数量
-		}
-		vo.setOperId(user.getUserID());		
-		vo.setCurrDate(DateUtil.getTimeStr());
-		Lsinfo lsvo = new Lsinfo();
-		copyProperties(lsvo, vo);
-		lsvo.setFormNo(sto.getFormNo());
-		lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
- 
-		if(vo.getOperationType()==34 || vo.getOperationType()==52){ //pos原料出库,需下载程序
-			((IssueappBO)bo).tranUpdate(vo,sto,lsvo);
-			StoAppInfoForm f = new StoAppInfoForm();
-			f.setCurrPeriodAmt(((IssueappForm)form).getTaskAmt().longValue());
-			f.setProdId("3");
-			setPageResult(request, stoAppBO.getExList(f));
-			return mapping.findForward("exdown");	
-		}else{
-			vo.setFormState((short)3);//任务完成
+	public ActionForward partDown(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		IssueappForm f = (IssueappForm)form;
+		StoAppInfoForm sf = new StoAppInfoForm();
+		sf.setCurrPeriodAmt(f.getTaskAmt().longValue());
+		sf.setProdId("3");
+		setPageResult(request, stoAppBO.getExList(sf));
+		return mapping.findForward("exdown");	
+	}
 
-			((IssueappBO)bo).tranUpdate(vo,sto,lsvo);
-			String url=getUrl(vo);
-			return forwardSuccessPage(request,mapping,"操作成功","Issueapp.do?act="+url);
-		}
-	}
-	private String getUrl(Issueapp vo){
-		String url="";
-		if(vo.getOperationType()==51)
-			url="makeupList";
-		else url="exlist";
-		return url;
-	}
 				
 	public ActionForward back(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
-		Issueapp vo = new Issueapp();
-		vo=((IssueappBO)bo).queryForObject(((IssueappForm)form).getAppNo());
-		Lsinfo lsvo = new Lsinfo();
-		lsvo.setOperationType(vo.getOperationType());
-		lsvo.setAppNo(vo.getAppNo());
-		lsvo =lsinfoBO.queryLastObject(lsvo);	
-
-		vo.setOperId(user.getUserID());		
-		vo.setCurrDate(DateUtil.getTimeStr());
-		vo.setFormState((short)3);//任务完成
-		vo.setOperationType((short)92); //冲回
+		IssueappForm f= (IssueappForm)form;
 		
-		copyProperties(lsvo, vo);
-		lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
-		((IssueappBO)bo).tranUpdate(vo,null,lsvo);
+		
+		Issueapp vo = new Issueapp();
+		vo=((IssueappBO)bo).queryForObject(f.getAppNo());
+		f.setOAappNo(f.getAppNo()); //关联出库单号
+		
+		
+		Lsinfo ls= new Lsinfo();
+		ls.setAppNo(f.getAppNo());
+		ls.setOperationType(f.getOperationType().shortValue());
+		ls=lsinfoBO.queryLastObject(ls);
+		
+		StoAppInfoForm sf=new StoAppInfoForm();
+		sf.setOperationType((long)92);
+		sf.setFormNo(ls.getFormNo());
+		List<Stoappinfo> backlist=stoAppBO.getAppList(sf);
+			
+		if(backlist!=null && backlist.size()>0){
+			long tot=0;
+			for(Stoappinfo backapp:backlist){
+				tot=tot+backapp.getPurchaseAmt();
+			}
+			if(vo.getTaskAmt()<(tot+f.getTaskAmt())){
+				throw new MessageException("冲回数量超过原出库单总数");
+			}
+		}
+		
+		Stoappinfo backnew = new Stoappinfo();
+		Stoappinfo out = stoAppBO.queryForObject(ls.getFormNo());	
+		
+		copyProperties(backnew, out);
+		backnew.setOperId(user.getUserID());		
+		backnew.setCurrDate(DateUtil.getTimeStr());
+		backnew.setOperationType((short)92); //冲回
+		backnew.setPurchaseAmt((long)f.getTaskAmt());
+		backnew.setCurrPeriodAmt((long)f.getTaskAmt());
+		backnew.setFormNo("CH"+StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("StoAppInfo")),14));
+		
+		Lsinfo lsnew= new Lsinfo();
+		copyProperties(lsnew, backnew);		
+		lsnew.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
+		lsnew.setAppNo(f.getAppNo());
+		lsnew.setFormNo(backnew.getFormNo());
+		
+		stoAppBO.tranInsert(backnew,lsnew);
+		
 		return forwardSuccessPage(request,mapping,"提交成功","Issueapp.do?act=exlist");
 	}
 	public ActionForward popList(BaseForm form,ActionMapping mapping,HttpServletRequest request)throws Exception{
 		IssueappForm f = (IssueappForm)form;
 		if(f.getOperationType()==13)//更换入库
 			f.setOperationType(33);//坏卡出库
-		setPageResult(request, ((IssueappBO)bo).getAppList(f));
+		setPageResult(request, ((IssueappBO)bo).getAppListByOperType(f));
 		return mapping.findForward("popList");
 	}
 	
@@ -443,6 +460,8 @@ public class IssueappAction extends IbatisBaseAction {
 			url="Stoproduct.do?act=ql";
 		}else if(operType==32 ||operType==34){
 			url="StoApp.do?act=ql";
+		}else if(operType==35){
+			url="Storeuse.do?act=exlist&unitId="+f.getUnitId();
 		}else{
 			throw new MessageException("业务类型有误!");
 		}
@@ -464,13 +483,14 @@ public class IssueappAction extends IbatisBaseAction {
 	private String getExChangeUrl(IssueappForm f)throws Exception{
 		int operType=f.getOperationType();
 		String url="";
-		if(operType==31 ||operType==33){
-			url="Stoproduct.do?act=ql";
-		}else if(operType==32 ||operType==34){
-			url="StoApp.do?act=ql";
-		}else{
-			throw new MessageException("业务类型有误!");
-		}
+		url="Stoproduct.do?act=exchange";
+//		if(operType==43){
+//			url="Stoproduct.do?act=ql";
+//		}else if(operType==41 ||operType==42){
+//			url="StoApp.do?act=ql";
+//		}else{
+//			throw new MessageException("业务类型有误!");
+//		}
 		return url;
 	}	
 	public ActionForward addMakeup(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{		
@@ -479,7 +499,7 @@ public class IssueappAction extends IbatisBaseAction {
 		copyProperties(vo,f);
 		int opertype=f.getOperationType();
 		if(opertype!=53){
-			return new ActionRedirect("StoApp.do?act=makeUpList&OAappNo="+vo.getOAappNo()+"&currPeriodAmt="+f.getTaskAmt()+"&operationType="+f.getOperationType());
+			return new ActionRedirect("StoApp.do?act=makeUpList&appNo="+vo.getAppNo()+"&currPeriodAmt="+f.getTaskAmt()+"&operationType="+f.getOperationType());
 		}else{
 			vo.setOperId(user.getUserID());
 			vo.setCurrDate(DateUtil.getTimeStr());
@@ -488,21 +508,16 @@ public class IssueappAction extends IbatisBaseAction {
 			return forwardSuccessPage(request,mapping,"保存成功","Issueapp.do?act=u&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+f.getTaskAmt()+"&operationType="+f.getOperationType());
 		}
 	}
-	private List ExamStor(IssueappForm f)throws Exception{
-		StoAppInfoForm form=new StoAppInfoForm();
-		form.setCurrPeriodAmt(f.getTaskAmt().longValue());
-		List list=null;
-		if(f.getOperationType()==51)
-		{	
-			form.setProdId("3");//esam卡
-		}else if(f.getOperationType()==52){
-			form.setProdId("4");//小模块卡
-		}
-		list=stoAppBO.getAppList(form);
-		if(list==null || list.size()==0)
-			throw new MessageException("不存在满足补办数量的原料!"); 
-		return list;
-	}
+	public ActionForward addStoreuse(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{		
+		Issueapp vo = new Issueapp();
+		IssueappForm f = (IssueappForm)form;
+		copyProperties(vo,f);
+		vo.setOperId(user.getUserID());
+		vo.setCurrDate(DateUtil.getTimeStr());
+		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
+		((IssueappBO)bo).insert(vo);
+		return forwardSuccessPage(request,mapping,"保存成功","Storeuse.do?act=Back_init&appNo="+vo.getAppNo());
+	}	
 
 	public ActionForward exMainTain(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		IssueappForm f = (IssueappForm)form;
@@ -527,9 +542,25 @@ public class IssueappAction extends IbatisBaseAction {
 			ls.setOperationType(vo.getOperationType());
 			int finishAmt=lsinfoBO.countByExample(ls);
 			int lastAmt=vo.getTaskAmt().shortValue()-finishAmt;
-			return forwardSuccessPage(request,mapping,"保存成功","Issueapp.do?act=u&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+lastAmt+"&operationType="+vo.getOperationType());
-
+			copyProperties(f, vo);
+			f.setTaskAmt(lastAmt);
+			return initEdit(form,mapping, request); 
 		}
 
+	}
+	public ActionForward exchangeMainTain(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		IssueappForm f = (IssueappForm)form;
+		Issueapp vo=((IssueappBO)bo).queryForObject(f.getAppNo());
+		return new ActionRedirect(getExChangeUrl(f)+"&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+vo.getTaskAmt()+"&taskAmtLeft="+vo.getTaskAmt()+"&operationType="+vo.getOperationType());
+
+
+	}
+	public ActionForward storeuseMainTain(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		IssueappForm f = (IssueappForm)form;
+		Issueapp vo=((IssueappBO)bo).queryForObject(f.getAppNo());
+		Lsinfo ls = new Lsinfo();
+		ls.setAppNo(f.getAppNo());
+		setPageResult(request,lsinfoBO.queryForList(ls));
+		return new ActionRedirect("Storeuse.do?act=back_init&appNo="+vo.getAppNo());
 	}
 }

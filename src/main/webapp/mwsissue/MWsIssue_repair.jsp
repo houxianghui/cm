@@ -26,7 +26,7 @@ function doRead(){
 			alert(json.error);
 		}else{
 			document.forms[0].origSamId.value=json.origSamId;
-			if(document.forms[0].prodId.value==1){
+			if(document.forms[0].prodId.value==4){
 				$("#module").text(json.module);
 			}
 		 		
@@ -36,7 +36,7 @@ function doRead(){
 
 }
 function doExam(){ 
-	$.get("Mwsissuetb.do?act=E&operationType=25&applyAttr="+document.forms[0].applyAttr.value+"&prodId="+document.forms[0].prodId.value+"&manufacId="+document.forms[0].manufacId.value+"",function(result){
+	$.get("Mwsissuetb.do?act=E&operationType=25&applyAttr="+document.forms[0].appTypeId.value+"&prodId="+document.forms[0].prodId.value+"&manufacId="+document.forms[0].manufacId.value+"",function(result){
 		var json = $.parseJSON(result);
 		if(json.error!=null){
 			alert(json.error);
@@ -54,7 +54,32 @@ function doIssue(){
 	document.forms[0].submit();
 	
 } 
-
+function prodAttr_fun(obj){
+	if(obj.value==4){
+		document.getElementById("button_module1").style.display="";
+	}else{
+		document.getElementById("button_module1").style.display="none";
+	}
+}
+function doDown1() {  
+    document.getElementById('down1').style.color="red"; 
+	$.get("Mwsissuetb.do?act=down",function(result){
+ 		return;
+	});
+} 
+function doDown2() {  
+    document.getElementById('down2').style.color="red"; 
+	$.get("Mwsissuetb.do?act=down",function(result){
+ 		return;
+	});
+}
+function applyAttr_fun(obj){
+	if(obj.value==302){
+		document.getElementById("button_module2").style.display="";
+	}else{
+		document.getElementById("button_module2").style.display="none";
+	}
+}
 </script> 
 </head>
 <body> 
@@ -90,7 +115,7 @@ function doIssue(){
 		<%=ViewUtil.must()%>产品类型:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("prodId", SingleDic.PROD_ID, "1")%>
+		<%=SingleDicMap.getRadioWithFun("prodId", SingleDic.PROD_ID, "1","prodAttr_fun(this)")%>
 		</td>
 	</tr>	   
 	<tr>
@@ -132,7 +157,7 @@ function doIssue(){
 		<%=ViewUtil.must()%>产品应用类型:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=ReDefSDicMap.getRadio("appTypeId", RedefSDicCodes.APPTYPEID, "101") %>
+		<%=ReDefSDicMap.getRadioWithFun("appTypeId", RedefSDicCodes.APPTYPEID, "101","applyAttr_fun(this)") %>
 		</td>	
 	</tr>
 	<tr>
@@ -163,9 +188,17 @@ function doIssue(){
     <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
         <tr> 
 				<td height="25" align="center" class="dtPanel_Bottom"> 
-					<input type="button" value="发行" class="Button" onClick="doIssue()"/> &nbsp; 	
-					<input type="button" value="检测" class="Button" onClick="doExam()"/>
+					<div id="button_module1"  style="display:none"><input type="button" id="down1" value="下载" class="Button" onClick="doDown1()" />--></div>
 		 		</td> 
+		 		<td height="25" align="center" class="dtPanel_Bottom"> 
+					<input type="button" value="修复发行" class="Button" onClick="doIssue()"/>--> 
+		 		</td> 
+		 		<td height="25" align="center" class="dtPanel_Bottom"> 
+					<div id="button_module2"  style="display:none"><input type="button"  id="down2" value="下载" class="Button" onClick="doDown2()" />--> </div>
+		 		</td> 
+		 		<td height="25" align="center" class="dtPanel_Bottom"> 
+					<input type="button" value="检测" class="Button" onClick="doExam()"/> 
+		 		</td>
 	    </tr> 
   </table> 
 </body> 

@@ -47,7 +47,10 @@
 			<forward name="listresult" path="/stor/pickStorpop.jsp" />
 			<forward name="ql" path="/stor/StorApp_qlist.jsp" />			
 			<forward name="view" path="/stor/StorApp_view.jsp" />		
-			<forward name="makeupList" path="/stor/StorApp_makeupList.jsp" />								
+			<forward name="makeupList" path="/stor/StorApp_makeupList.jsp" />	
+			<forward name="exbackList" path="/stor/StorApp_exbackList.jsp" />	
+			<forward name="exbackPopList" path="/stor/StorApp_exbackPopList.jsp" />					
+										
 		</action>
 		<action path="/Issueapp" type="org.springframework.web.struts.DelegatingActionProxy" name="issueappForm"
 			scope="request" validate="false">
@@ -59,11 +62,13 @@
 			<forward name="w_queryList" path="/issue/IssueTaskCtrl_wlist.jsp" />
 			<forward name="ex_new" path="/exstore/ExStore_new.jsp" />
 			<forward name="exlist" path="/exstore/ExStore_list.jsp" />
-			<forward name="exbacklist" path="/exstore/ExBackStore_list.jsp" />		
 			<forward name="exdown" path="/exstore/ExStore_down.jsp" />
 			<forward name="exchange_new" path="/exchange/ExChange_new.jsp" />				
+			<forward name="exchangeList" path="/exchange/ExChange_list.jsp" />				
 			<forward name="makeup_new" path="/makeup/MakeUp_new.jsp" />	
-			<forward name="makeuplist" path="/makeup/MakeUp_list.jsp" />				
+			<forward name="makeuplist" path="/makeup/MakeUp_list.jsp" />	
+			<forward name="storeuselist" path="/storeuse/Storeuse_list.jsp" />
+			<forward name="storeuse_new" path="/storeuse/Storeuse_new.jsp" />			
 			
 		</action>		
 		<action path="/Issuetask" type="org.springframework.web.struts.DelegatingActionProxy" name="issuetaskForm"
@@ -88,7 +93,9 @@
 			scope="request" validate="false">
 			<forward name="ql" path="/exstore/Stoproduct_list.jsp" />
 			<forward name="discard_wlist" path="/discard/Discard_wlist.jsp" />
-			
+			<forward name="cardlist" path="/stoproduct/Stoproduct_cardlist.jsp" />
+			<forward name="cardview" path="/stoproduct/Stoproduct_cardview.jsp" />
+			<forward name="exchange" path="/stoproduct/Stoproduct_exchange.jsp" />
 		</action>
 		<action path="/Mwsissuetb" type="org.springframework.web.struts.DelegatingActionProxy" name="mwsissuetbForm"
 			scope="request" validate="false">
@@ -112,11 +119,14 @@
 		</action>
 		<action path="/Storeuse" type="org.springframework.web.struts.DelegatingActionProxy" name="storeuseForm"
 			scope="request" validate="false">
-			<forward name="list" path="/reuse/Storeuse_list.jsp" />
+			<forward name="back" path="/storeuse/Storeuse_back.jsp" />
+			<forward name="show" path="/storeuse/Storeuse_backshow.jsp" />
+			<forward name="cardlist" path="/storeuse/Storeuse_cardlist.jsp" />
+			<forward name="cardview" path="/storeuse/Storeuse_cardview.jsp" />
+			<forward name="exlist" path="/storeuse/Storeuse_exlist.jsp" />
 		</action>
 		<action path="/Secpkitb" type="org.springframework.web.struts.DelegatingActionProxy" name="secpkitbForm"
 			scope="request" validate="false">
-			<forward name="list" path="/reuse/Storeuse_list.jsp" />
 			<forward name="qlist" path="/pki/Pki_list.jsp" />
 		</action>	
 		<action path="/Moduleconf" type="org.springframework.web.struts.DelegatingActionProxy" name="moduleconfForm"

@@ -42,7 +42,11 @@
 			expression="execution(* com.projectmaintain.*BO.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="projectBO" />
 	</aop:config>
-
+	<aop:config>
+		<aop:pointcut id="keyBO"
+			expression="execution(* com.yly.*.*BO.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="keyBO" />
+	</aop:config>
 
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName">

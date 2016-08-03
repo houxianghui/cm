@@ -89,6 +89,12 @@ public class IssueappBO extends IbatisBO {
 		if(lsvo!=null)
 			lsinfoDAO.insert(lsvo);
 	}
+	public void tranInsert(Issueapp vo,Lsinfo lsvo) throws Exception {
+		if(vo!=null)
+			issueappDAO.insert(vo);
+		if(lsvo!=null)
+			lsinfoDAO.insert(lsvo);
+	}
 	/* 
 	 * @see com.eis.base.IbatisBaseBO#insert(java.lang.Object)
 	 */
@@ -143,9 +149,29 @@ public class IssueappBO extends IbatisBO {
 		if(obj.getFormState()!=null && obj.getFormState()>0){
 			c.andFormStateEqualTo(obj.getFormState().shortValue());
 		}
+		if(!CheckUtil.isEmptry(obj.getAppNo())){
+			c.andAppNoEqualTo(obj.getAppNo());
+		}
 	}
 	
-	
+	public List getAppListByOperType(IssueappForm obj)throws Exception {
+		
+		IssueappExample e = new IssueappExample();
+		Criteria c = e.createCriteria();
+		queryListByExample(obj, c);
+		return issueappDAO.selectByExample(e);
+	}
+	public List getExChangeList(IssueappForm obj)throws Exception {
+		
+		IssueappExample e = new IssueappExample();
+		Criteria c = e.createCriteria();
+		c.andOperationTypeBetween((short)41, (short)43);//换损业务
+		if(obj.getOperationType_f()!=null &&obj.getOperationType_f()>0 ){
+			obj.setOperationType(obj.getOperationType());
+		}
+		queryListByExample(obj, c);
+		return issueappDAO.selectByExample(e);
+	}		
 	public List getExList(IssueappForm obj)throws Exception {
 		
 		IssueappExample e = new IssueappExample();
@@ -159,6 +185,9 @@ public class IssueappBO extends IbatisBO {
 		IssueappExample e = new IssueappExample();
 		Criteria c = e.createCriteria();
 		c.andOperationTypeBetween((short)51, (short)59);//出库业务
+		if(obj.getOperationType_f()!=null &&obj.getOperationType_f()>0 ){
+			obj.setOperationType(obj.getOperationType());
+		}
 		queryListByExample(obj, c);
 		return issueappDAO.selectByExample(e);
 	}	
@@ -167,6 +196,8 @@ public class IssueappBO extends IbatisBO {
 		IssueappExample e = new IssueappExample();
 		Criteria c = e.createCriteria();
 		c.andOperationTypeEqualTo((short)92);//冲回业务
+		if(CheckUtil.isEmptry(obj.getOAappNo()))
+			c.andOAappNoEqualTo(obj.getOAappNo());
 		queryListByExample(obj, c);
 		return issueappDAO.selectByExample(e);
 	}	

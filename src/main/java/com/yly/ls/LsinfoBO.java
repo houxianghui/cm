@@ -57,6 +57,8 @@ public class LsinfoBO extends IbatisBO {
 			c.andSamIdEqualTo(vo.getSamId());
 		if(!CheckUtil.isEmptry(vo.getFlowNo()))
 			c.andFlowNoEqualTo(vo.getFlowNo());
+		if(!CheckUtil.isEmptry(vo.getFormNo()))
+			c.andFormNoEqualTo(vo.getFormNo());
 		if(vo.getOperationType()!=null && vo.getOperationType()!=0)
 			c.andOperationTypeEqualTo(vo.getOperationType());
 		e.setOrderByClause("CurrDate desc");

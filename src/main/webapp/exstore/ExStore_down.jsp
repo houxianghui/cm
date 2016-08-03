@@ -42,7 +42,6 @@ function doOver() {
 <input type=hidden name=act value="exlist">
 <input type=hidden name=requery > 
 <html:hidden property="appNo"/>
-<html:hidden property="formState"/>
 <html:hidden property="batchIdParts"/>
 <input type="hidden" id="selected" value="<%=(String)request.getAttribute("batchIdParts")%>"/>
 <html:hidden property="taskAmt"/>
@@ -50,7 +49,7 @@ function doOver() {
 	
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
 		align="center" cellpadding="0">
-		<%=ViewUtil.getTitle("批次号:"+issueappForm.getFormNo()+"出库总数:"+issueappForm.getTaskAmt())%>	
+		<%=ViewUtil.getTitle("模块批次号:"+issueappForm.getFormNo()+"出库总数:"+issueappForm.getTaskAmt())%>	
 	</table>
 <%=ViewUtil.getTitle("配件原料列表")%> 
 <table width="98%" border="0" cellspacing="1" align="center"

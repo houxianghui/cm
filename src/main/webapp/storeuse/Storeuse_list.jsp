@@ -11,16 +11,15 @@ if (pageResult != null)
 	maxPage = pageResult.getTotalPage();
 %>
 <head>
-<title>补办申请单</title>
+<title>产品退回单管理</title>
 <script language="javascript"> 
-
 function doQuery() {  
-	document.forms[0].act.value = "makeupList";
+	document.forms[0].act.value = "storeuseList";
 	document.forms[0].submit(); 
 }
  
 function turnPage( pagenm ) {   
-    	document.forms[0].act.value = "makeupList";  
+    	document.forms[0].act.value = "storeuseList";  
     	document.forms[0].pageNO.value = pagenm;     
     	document.forms[0].submit(); 
 } 
@@ -28,9 +27,8 @@ function setPKey(appNo_var,formStat_var,oper_var) {
 	document.forms[0].appNo.value=appNo_var; 
 	document.forms[0].formState.value=formStat_var; 
 	document.forms[0].operationType.value=oper_var; 	
-
 } 
-
+ 
 function doEdit(){ 
 	//修改 
 	//检查是否有选中的纪录 
@@ -43,7 +41,7 @@ function doEdit(){
 		return; 
 	}
 	//提交表单 
-	document.forms[0].act.value='makeupMainTain'; 
+	document.forms[0].act.value='storeuseMainTain'; 
 	document.forms[0].submit(); 
 
 } 
@@ -52,30 +50,26 @@ function doEdit(){
 <body>
 <script type="text/javascript" src="js/calendar.js"></script>
 <html:form method="post" action="Issueapp.do">
-<input type=hidden name=act value="makeupList">
+<input type=hidden name=act value="storeuseList">
 <input type=hidden name=requery > 
 <html:hidden property="appNo"/>
 <html:hidden property="formState"/>
-<html:hidden property="operationType"/>
+<input type=hidden name=operationType value="61">
 
-<%=ViewUtil.getTitle("补办申请单列表")%>
+<%=ViewUtil.getTitle("产品退回单管理")%>
 	
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
 		align="center" cellpadding="0">
 		<tr>
 			<td>
-			补办日期:			
+			退回日期:			
 			从<html:text property="beginDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
 			到<html:text property="endDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
  			申请单位:
 			<html:select property="unitId" styleClass="Select">
 				<html:optionsCollection name="issueappForm" property="unitIdcollection"/>
 			</html:select>
-			业务类型:
-			<html:select property="operationType_f" styleClass="Select">
-				<html:optionsCollection name="issueappForm" property="makeupTypecollection"/>
-			</html:select>
-			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
+		 		<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
 			</td>
 		</tr>
 	</table>
@@ -86,8 +80,7 @@ function doEdit(){
 			<td>申请编号</td>
 			<td>OA申请号</td>
 			<td>申请单位</td>
-			<td>补办总数</td>
-			<td>业务类型</td>
+			<td>退回总数</td>
 			<td>单位联系人</td>
 			<td>联系电话</td>
 			<td>操作员</td>
@@ -108,7 +101,6 @@ function doEdit(){
 			<td><%=vo.getOAappNo()%></td>	
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.ALL_UNITID, String.valueOf(vo.getUnitId()))%></td>			
 			<td><%=vo.getTaskAmt() %></td>	
-			<td><%=SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(vo.getOperationType())) %></td>
 			<td><%=vo.getUnitperson()%></td>
 			<td><%=vo.getUnittel()%></td>
 			<td><%=vo.getDirector()%></td>

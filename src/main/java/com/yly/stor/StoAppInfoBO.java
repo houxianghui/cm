@@ -6,15 +6,38 @@ import java.util.List;
 
 import com.abc.logic.IbatisBO;
 import com.eis.base.IbatisBaseBO;
+import com.eis.key.KeyGenerator;
 import com.eis.util.CheckUtil;
+import com.eis.util.StringUtil;
+import com.yly.exstore.Stoproduct;
+import com.yly.exstore.StoproductDAO;
 import com.yly.issue.Issueapp;
 import com.yly.issue.IssueappDAO;
+import com.yly.issue.Issuetaskctrl;
+import com.yly.ls.Lsinfo;
+import com.yly.ls.LsinfoDAO;
 import com.yly.stor.StoappinfoExample.Criteria;
 
 
 public class StoAppInfoBO extends IbatisBO {
 	private StoappinfoDAO stoappinfoDAO;
 	private IssueappDAO issueappDAO;
+	private LsinfoDAO lsinfoDAO;
+	private StoproductDAO stoproductDAO;
+	public StoproductDAO getStoproductDAO() {
+		return stoproductDAO;
+	}
+
+	public void setStoproductDAO(StoproductDAO stoproductDAO) {
+		this.stoproductDAO = stoproductDAO;
+	}
+	public LsinfoDAO getLsinfoDAO() {
+		return lsinfoDAO;
+	}
+
+	public void setLsinfoDAO(LsinfoDAO lsinfoDAO) {
+		this.lsinfoDAO = lsinfoDAO;
+	}
 	public IssueappDAO getIssueappDAO() {
 		return issueappDAO;
 	}
@@ -81,7 +104,34 @@ public class StoAppInfoBO extends IbatisBO {
 	public List queryForList(String formNo) throws Exception {
 		return dao.queryForList("stoappinfo.queryCardList",formNo);
 	}
-
+	public void tranUpdate(Issueapp vo,Stoappinfo sto,List<Lsinfo> ls,List<Stoproduct> il) throws Exception {
+		if(vo!=null)
+			issueappDAO.updateByPrimaryKeySelective(vo);
+		if(sto!=null)
+			stoappinfoDAO.updateByPrimaryKeySelective(sto);
+		if(ls!=null && ls.size()>0){
+			for(Lsinfo lsinfo:ls){
+				lsinfoDAO.insert(lsinfo);
+			}
+		}
+		if(il != null && il.size()>0){
+			for(Stoproduct di:il){
+				stoproductDAO.insert(di);
+			}
+		}
+	}
+	public void tranMain(Stoappinfo sto,Stoappinfo partSto) throws Exception {
+		if(partSto!=null)
+			stoappinfoDAO.updateByPrimaryKeySelective(partSto);
+		if(sto!=null)
+			stoappinfoDAO.insert(sto);
+	}
+	public void tranInsert(Stoappinfo sto,Lsinfo lsvo) throws Exception {
+		if(lsvo!=null)
+			lsinfoDAO.insert(lsvo);
+		if(sto!=null)
+			stoappinfoDAO.insert(sto);
+	}
 	/* 
 	 * @see com.eis.base.IbatisBaseBO#delete(java.lang.Object)
 	 */
@@ -128,18 +178,20 @@ public class StoAppInfoBO extends IbatisBO {
 		
 		StoappinfoExample e = new StoappinfoExample();
 		Criteria c = e.createCriteria();
+
 		if(obj.getOperationType()!=null && obj.getOperationType()>0){
 			long opertype=obj.getOperationType();
-			if(opertype==34 ||opertype==52 ){
+			if(opertype==34 ||opertype==52 ||opertype==42 ){
 				obj.setProdId("4");//Ð¡Ä£¿é
 			}
-			if(opertype==51){
+			if(opertype==51||opertype==41 ){
 				obj.setProdId("3");//esam
 			}
-		}
+		}		
 		if(!CheckUtil.isEmptry(obj.getProdId())){
 			c.andProdIdEqualTo(obj.getProdId());
 		}
+		c.andOperationTypeNotEqualTo((short)92);
 		if(!CheckUtil.isEmptry(obj.getManufacId())){
 			c.andManufacIdEqualTo(obj.getManufacId());
 		}

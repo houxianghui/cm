@@ -86,8 +86,7 @@ public final class StringUtil {
 
 		String tmp = null;
 		try {
-			int number = Integer.parseInt(str);
-			tmp = String.valueOf(number);
+			tmp = str;
 			for (int i = 0; i < len; i++)
 				tmp = "0" + tmp;
 		} catch (Exception ex) {

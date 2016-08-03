@@ -28,23 +28,40 @@ function turnPage( pagenm ) {
     	document.forms[0].pageNO.value = pagenm;     
     	document.forms[0].submit(); 
 } 
-function setPKey(appNo_var,formStat_var,oper_var) { 
+function setPKey(appNo_var,formStat_var,oper_var,unit_var,taskAmt_var) { 
 	document.forms[0].appNo.value=appNo_var; 
 	document.forms[0].formState.value=formStat_var; 
 	document.forms[0].operationType.value=oper_var; 	
+	document.forms[0].unitId.value=unit_var; 		
+	document.forms[0].taskAmt.value=taskAmt_var; 		
 
 } 
 function doBack(){ 
+	
 	//修改 
 	//检查是否有选中的纪录 
 	if(document.forms[0].appNo.value == null ||document.forms[0].appNo.value == "") { 
 		alert('请先选择纪录'); 
 		return; 
 	} 
-	if(document.forms[0].operationType.value!=32 || document.forms[0].formState.value!=3){
-		alert('只能冲回原料出库并且是已完成状态的申请'); 
+	if(document.forms[0].operationType.value!=32 && document.forms[0].operationType.value!=34 && document.forms[0].formState.value!=3){
+		alert('不支持此业务类型的未完成申请冲回'); 
 		return; 
 	}
+	var s = prompt('请输入冲回数量','');
+	if(s == null || s==""||s==0){
+		alert("请输入冲回数量");
+		return;
+	}
+	var s1=document.forms[0].taskAmt.value;
+	if(s>s1){
+		alert("数量必须小于"+s1);
+		return;
+	}
+	s = encodeURI(encodeURI(s));
+	
+	document.forms[0].taskAmt.value =s;
+
 	//提交表单 
 	document.forms[0].act.value='back'; 
 	document.forms[0].submit(); 
@@ -75,6 +92,7 @@ function doEdit(){
 <input type=hidden name=requery > 
 <html:hidden property="appNo"/>
 <html:hidden property="formState"/>
+<html:hidden property="taskAmt"/>
 
 
 <%=ViewUtil.getTitle("出库申请单")%>
@@ -134,7 +152,7 @@ function doEdit(){
 			<td><%=vo.getCurrDate()%></td>	
 			<td><%=vo.getFormState()!=null?SingleDicMap.getDicItemVal(SingleDic.FORMTYPE, vo.getFormState().toString()):"" %></td>
 			<td><%=vo.getRemarks()%></td>	
-			<td align="center"><label><input type="radio" name="param"	onClick="setPKey('<%=vo.getAppNo()%>','<%=vo.getFormState()%>','<%=vo.getOperationType()%>')">
+			<td align="center"><label><input type="radio" name="param"	onClick="setPKey('<%=vo.getAppNo()%>','<%=vo.getFormState()%>','<%=vo.getOperationType()%>','<%=vo.getUnitId()%>','<%=vo.getTaskAmt()%>')">
 			</label></td>			
 		</tr>
 

@@ -223,12 +223,17 @@ public class MWsIssueBO extends IbatisBO {
 			f.setOldTranskey("");
 			f.setNewTranskey("");    
 		}
-		f.setSJL05IP(0);        
-		f.setSJL05PORT("");               
+		f.setSJL05IP(6666);        
+		f.setSJL05PORT("192.168.1.82");               
 		f.setFivePara("10100");       
-		f.setEf15("");           
-		f.setEf16("");           
-		f.setEf17("");           
+		if(f.getSamId()!=null && f.getSamId().length()==12){
+			f.setEf15("00001000"+f.getSamId()+ "01011000");           
+			f.setEf16(f.getSamId());      
+		}else{
+			f.setEf15("");
+			f.setEf16("");
+		}
+		f.setEf17("0101011000000000001101100000000000"+DateUtil.getDTStr()+"20991231");           
 		f.setRetpki("");         
 		f.setInpki("");          
 		f.setMotEf17("");        
@@ -260,8 +265,13 @@ public class MWsIssueBO extends IbatisBO {
 	public Stoproduct setSto(Mwsissuetb vo, Lsinfo lsvo) throws Exception {
 		Stoproduct sto= new Stoproduct();
 		copyProperties(sto, vo);
+		if(vo.getProdId().equals("4")){
+			Stoappinfo stoapp =stoappinfoDAO.selectByPrimaryKey(vo.getBatchId());
+			sto.setBatchIdParts(stoapp.getRsvd());
+		}
 		sto.setAppTypeId(vo.getApplyAttr());
 		sto.setIssueTime(DateUtil.getTimeStr());
+		sto.setWkStateChgDate(DateUtil.getTimeStr());
 		sto.setDetectSign((short)0);
 		sto.setSamCSN(lsvo.getSamCSN());
 		sto.setOAappNo(vo.getAppNo());

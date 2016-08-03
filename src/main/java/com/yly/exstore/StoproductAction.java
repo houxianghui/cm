@@ -1,53 +1,48 @@
-/*
- * @# ProjectMaintainAction.java 2008-11-6 houxh
- *
- * Copyright  (c)  2003 	Huateng. All Right Reserv
- */
- 
 package com.yly.exstore;
 
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
-
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.taglib.nested.bean.NestedDefineTei;
+
+
+
+
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
-import com.eis.cache.SingleDic;
-import com.eis.cache.SingleDicMap;
 import com.eis.exception.MessageException;
 import com.eis.key.KeyGenerator;
 import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
 import com.eis.util.StringUtil;
-import com.eis.util.ValidateUtil;
-import com.ibm.icu.text.DecimalFormat;
 import com.yly.issue.Issueapp;
-import com.yly.issue.Issuetaskctrl;
 import com.yly.ls.Lsinfo;
+import com.yly.ls.LsinfoBO;
+ 
+
 
 
 
 
 public class StoproductAction extends IbatisBaseAction {
+	private LsinfoBO lsinfoBO;
 
+	public LsinfoBO getLsinfoBO() {
+		return lsinfoBO;
+	}
+
+	public void setLsinfoBO(LsinfoBO lsinfoBO) {
+		this.lsinfoBO = lsinfoBO;
+	}
 
 	/* 
 	 * @see com.eis.base.BaseAction#process(org.apache.struts.action.ActionMapping, com.eis.base.BaseForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.eis.portal.UserContext)
@@ -67,7 +62,7 @@ public class StoproductAction extends IbatisBaseAction {
 			return list(form,mapping,request,user);
 		}else if("qlex".equals(act)){		//query active projects
 			return qlEx(form,mapping,request,user);
-		}else if("exStore".equals(act)){		//query active projects
+		}else if("exStore".equals(act)){		//出库
 			return exStore(form,mapping,request,user);
 		}else if("disCard".equals(act)){		//query active projects
 			return disCard(form,mapping,request,user);
@@ -75,6 +70,16 @@ public class StoproductAction extends IbatisBaseAction {
 			return disCard_wlist(form,mapping,request,user);
 		}else if("u".equals(act)){		//query active projects
 			return update(form,mapping,request,user);
+		}else if("r".equals(act)){		//query active projects
+			return retrive(form,mapping,request,user);
+		}else if("cardlist".equals(act)){		//query active projects
+			return CardList(form,mapping,request,user);
+		}else if("cardDown".equals(act)){		//query active projects
+			return cardDown(form,request,response);
+		}else if("exchange".equals(act)){		//query active projects
+			return exChange(form,mapping,request,user);
+		}else if("back".equals(act)){		//query active projects
+			return back(form,mapping,request,user);
 		}
 
 
@@ -270,5 +275,80 @@ public class StoproductAction extends IbatisBaseAction {
 
 	}
 
-
+	public ActionForward CardList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		
+		String pageNo = request.getParameter("pageNO");		
+		String requery = request.getParameter("requery");
+		if (pageNo == null && requery == null) {			
+			return mapping.findForward("cardlist");
+	    }
+		StoproductForm f = (StoproductForm)form;
+		setPageResult(request, ((StoproductBO)bo).queryForList(f));
+		return mapping.findForward("cardlist");
+	}
+	public ActionForward retrive(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		StoproductForm sf = (StoproductForm)form;
+		Stoproduct vo = new Stoproduct();
+		vo.setSamCSN(sf.getSamCSN());
+		vo.setSamId(sf.getSamId());
+		vo = (Stoproduct)((StoproductBO)bo).queryForObject(vo);
+		copyProperties(form, vo);
+		return mapping.findForward("cardview");
+	}
+	private ActionForward cardDown(BaseForm form,HttpServletRequest request, HttpServletResponse response)throws Exception{
+		StoproductForm sf = (StoproductForm)form;
+		((StoproductBO)bo).querySamIdValidate(sf);
+		String scale="";
+		List cardList = ((StoproductBO)bo).queryForListAsc(sf);
+		response.setContentType("application/octet-stream");
+		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
+			scale = new String((sf.getSamId_min()+"_"+sf.getSamId_max()).getBytes("UTF-8"), "ISO8859-1");//firefox浏览器
+		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
+			scale = URLEncoder.encode((sf.getSamId_min()+"_"+sf.getSamId_max()), "UTF-8");
+		}
+		response.addHeader("Content-Disposition", "attachment; filename="+scale+".txt");
+		OutputStream out = response.getOutputStream();
+		for(int i=0;i<cardList.size();i++){
+			Stoproduct tmp=(Stoproduct)cardList.get(i);
+			byte[] b= (tmp.getSamId()+","+tmp.getSamCSN()).getBytes();
+			out.write(b);
+			out.write("\n".getBytes());
+		}
+		out.close();
+		return null;
+	}
+	public ActionForward exChange(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		StoproductForm sf = (StoproductForm)form;
+		if(sf.getOperationType()==41){ //模块换损,esam产品 
+			sf.setProdId("3");
+		}else if(sf.getOperationType()==42){//pos原料换损,模块产品 
+			sf.setProdId("4");
+		}
+		Lsinfo vo=new Lsinfo();
+		vo.setAppNo(sf.getAppNo());
+		setPageResult(request,lsinfoBO.queryForList(vo));
+		return mapping.findForward("exchange");
+	}
+	public ActionForward back(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		StoproductForm sf = (StoproductForm)form;
+		sf.setWkState((short)13);
+		sf.setWkStateChgDate(DateUtil.getTimeStr());
+		sf.setIOState((short)3);
+		sf.setIOStateChgDate(DateUtil.getTimeStr());
+		if(CheckUtil.isEmptry(sf.getSamId()))
+			sf.setSamId("0");
+		if(CheckUtil.isEmptry(sf.getSamCSN()))
+			sf.setSamCSN("0");
+		Lsinfo vo=new Lsinfo();
+		vo.setAppNo(sf.getAppNo());
+		vo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
+		vo.setCurrDate(DateUtil.getTimeStr());
+		vo.setOperId(user.getUserID());
+		Stoproduct sto = new Stoproduct();
+		copyProperties(sto, sf);
+		copyProperties(vo, sf);
+		((StoproductBO)bo).transLsUpdate(sto, vo);
+		setPageResult(request,lsinfoBO.queryForList(vo));
+		return mapping.findForward("exchange");
+	}
 }

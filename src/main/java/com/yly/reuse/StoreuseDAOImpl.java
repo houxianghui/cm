@@ -45,10 +45,8 @@ public class StoreuseDAOImpl extends SqlMapClientDaoSupport implements StoreuseD
      *
      * @ibatorgenerated Mon May 30 14:59:08 CST 2016
      */
-    public int deleteByPrimaryKey(String samId) {
-        Storeuse key = new Storeuse();
-        key.setSamId(samId);
-        int rows = getSqlMapClientTemplate().delete("storeuse.ibatorgenerated_deleteByPrimaryKey", key);
+    public int deleteByPrimaryKey(Storeuse record) {
+        int rows = getSqlMapClientTemplate().delete("storeuse.ibatorgenerated_deleteByPrimaryKey", record);
         return rows;
     }
 

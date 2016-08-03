@@ -1,5 +1,6 @@
 package com.yly.issue;
 
+import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -205,7 +206,6 @@ public class MWsIssueAction extends IbatisBaseAction {
 				vos[i].setApplyAttr(String.valueOf(f.getAppTypeId()));
 				vos[i].setAuthSign(f.getAuthSign());
 				vos[i].setProdId(f.getProdId());			
-				vos[i].setBatchId(request.getParameter("batchId"));
 				vos[i].setBinFileVer(f.getBinFileVer());
 				vos[i].setFormNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("MWsIssueTb")),16));
 				vos[i].setFormState(READY);
@@ -222,7 +222,9 @@ public class MWsIssueAction extends IbatisBaseAction {
 				if(isPickStor){
 					vos[i].setPressCardScale(sto.getPressCardScale()==null?"":sto.getPressCardScale().trim());
 					vos[i].setManufacId(sto.getManufacId());
+					vos[i].setBatchId(request.getParameter("batchId"));
 				}else{
+					vos[i].setBatchId("");
 					vos[i].setPressCardScale("");
 					vos[i].setManufacId("");
 				}
@@ -309,6 +311,9 @@ public class MWsIssueAction extends IbatisBaseAction {
 			para.setCardtype(1);
 		else para.setCardtype(0);
 		int result=CallFunc.callId(func, para);
+		if(result!=0){
+			throw new MessageException("Çë¼ì²é¶ÁÐ´Æ÷");
+		}
 	}
 	public ActionForward issue(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		MWsIssuetbForm f = (MWsIssuetbForm)form;	
@@ -324,8 +329,9 @@ public class MWsIssueAction extends IbatisBaseAction {
 			funDrools.getFunc(func);
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
-			int result=CallFunc.callId(func, para);
-		//	int result=0;para.setCardcsn("111111");
+		//	int result=CallFunc.callId(func, para);
+			int result=0;para.setCardcsn("66666000000000000011");
+			para.setRetpki("A0EF123D8790SDF9233432");
 			if(result==0){
 				if(i==1){
 					if(func.getOperAct().equals("RC")){
@@ -334,7 +340,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 						f.setSamId(para.getSamId());
 						Stoproduct prod = new Stoproduct();
 						prod = stoproductBO.queryObjectBySamId(f.getSamId());
-						if(prod==null){
+						if(prod==null){	
 							prod =(Stoproduct)storeuseBO.queryForObject(f.getSamId());
 							if(prod==null){
 								throw new MessageException("ÎÞ·¨ÕÒµ½Ô­samÓ¡Ë¢¿¨ºÅ!");
@@ -363,8 +369,13 @@ public class MWsIssueAction extends IbatisBaseAction {
 						}
 					}
 					Secpkitb sec=new Secpkitb();
-					copyProperties(sec, sto);
+					sec.setSamId(sto.getSamId());
+					sec.setSamCSN(sto.getSamCSN());
+					sec.setCurrPeriod(DateUtil.getCurrDate());
+					sec.setIssueTime(DateUtil.getCurrDate());
+					sec.setPubExponent("");
 					sec.setPubKey(para.getRetpki());
+					sec.setKeyType((short)(sto.getKeyType()));
 					((MWsIssueBO)bo).transFiveTb(vo,sto,lsvo,issuapp,sec);
 				}
 			}else{
@@ -411,8 +422,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
 		//	int result=CallFunc.callId(func, para);
-			int result=-1;
-			para.setSamId("000000100003");
+			int result=0;
+			para.setSamId("000000100001");
 			if(result!=0){
 				res = "{\"error\":\"´íÎó´úÂë"+func.getFunc()+result+"\"}";
 				writeAjaxResponse(response, res);
@@ -422,13 +433,15 @@ public class MWsIssueAction extends IbatisBaseAction {
 					prod = stoproductBO.queryObjectBySamId(para.getSamId());
 					lsvo.setSamCSN(prod.getSamCSN());
 					lsvo.setSamId(prod.getSamId());
+					lsvo.setFormNo(f.getFormNo());
 					lsvo = lsinfoBO.queryLastObject(lsvo);
-					lsvo.setDetectSign((short)1);		
+					lsvo.setDetectSign((short)1);	
 					prod.setDetectSign((short)1);
 					prod.setDetectTime(DateUtil.getTimeStr());
 					res = "{\"flowNo\":\""+lsvo.getFlowNo()+"\",\"detectSign\":\""+lsvo.getDetectSign()+"\",\"msg\":\"samId"+para.getSamId()+"samCSN"+prod.getSamCSN();
 					if(!vo.getProdId().equals("4")){		
 						res =  res+"\"}";  
+						stoproductBO.transLsUpdate(prod,lsvo);
 						writeAjaxResponse(response, res);
 						break;
 					}else{
@@ -463,7 +476,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 			ParaTools.setPara(para, paras, f);
 			//int result=CallFunc.callId(func, para);
 			int result = 0;
-			para.setSamId("123456789012");
+			para.setSamId("100000100003");
 			para.setVersion("version123456789");
 			if(result!=0){
 				res = "{\"error\":\"´íÎó´úÂë"+func.getFunc()+result+"\"}";
@@ -532,10 +545,13 @@ public class MWsIssueAction extends IbatisBaseAction {
 			if(result==0){
 				 if (i==3){
 					 Secpkitb sec = new Secpkitb();
-					 copyProperties(sec, lsvo);
-					 sec.setKeyType((short)(f.getKeyType()));
-					 sec.setPubKey(para.getRetpki());
+					 sec.setSamId(lsvo.getSamId());
+					 sec.setSamCSN(lsvo.getSamCSN());
 					 sec.setCurrPeriod(DateUtil.getCurrDate());
+					 sec.setIssueTime(DateUtil.getCurrDate());
+					 sec.setPubExponent("");
+					 sec.setPubKey(para.getRetpki());
+					 sec.setKeyType((short)(f.getKeyType()));
 					((MWsIssueBO)bo).transRepairTb(lsvo,sec);
 				}
 			}else{

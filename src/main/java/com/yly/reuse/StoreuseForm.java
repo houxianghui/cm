@@ -30,11 +30,13 @@ public class StoreuseForm extends BaseForm {
 		this.taskAmtLeft = taskAmtLeft;
 	}
 
+
 	private Integer operationType;
 	private Collection unitIdcollection;
 	private Collection prodIdcollection;
 	private Collection phiTypeIdcollection;
 	private Collection appTypeIdcollection;
+	private Collection moduleVerEffcollection;
 	public Collection getAppTypeIdcollection() {
 		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.APPTYPEID);
 	}
@@ -44,7 +46,15 @@ public class StoreuseForm extends BaseForm {
 	}
 
 	public Collection getUnitIdcollection() {
-		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.UNITID);
+		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.ALL_UNITID);
+	}
+
+	public Collection getModuleVerEffcollection() {
+		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.MODULEVERSION);
+	}
+
+	public void setModuleVerEffcollection(Collection moduleVerEffcollection) {
+		this.moduleVerEffcollection = moduleVerEffcollection;
 	}
 
 	public void setUnitIdcollection(Collection unitIdcollection) {

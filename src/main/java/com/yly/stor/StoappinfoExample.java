@@ -205,72 +205,72 @@ public class StoappinfoExample {
         }
 
         public Criteria andFormNoIsNull() {
-            addCriterion("FormNo is null");
+            addCriterion("BatchId is null");
             return this;
         }
 
         public Criteria andFormNoIsNotNull() {
-            addCriterion("FormNo is not null");
+            addCriterion("BatchId is not null");
             return this;
         }
 
         public Criteria andFormNoEqualTo(String value) {
-            addCriterion("FormNo =", value, "formNo");
+            addCriterion("BatchId =", value, "formNo");
             return this;
         }
 
         public Criteria andFormNoNotEqualTo(String value) {
-            addCriterion("FormNo <>", value, "formNo");
+            addCriterion("BatchId <>", value, "formNo");
             return this;
         }
 
         public Criteria andFormNoGreaterThan(String value) {
-            addCriterion("FormNo >", value, "formNo");
+            addCriterion("BatchId >", value, "formNo");
             return this;
         }
 
         public Criteria andFormNoGreaterThanOrEqualTo(String value) {
-            addCriterion("FormNo >=", value, "formNo");
+            addCriterion("BatchId >=", value, "formNo");
             return this;
         }
 
         public Criteria andFormNoLessThan(String value) {
-            addCriterion("FormNo <", value, "formNo");
+            addCriterion("BatchId <", value, "formNo");
             return this;
         }
 
         public Criteria andFormNoLessThanOrEqualTo(String value) {
-            addCriterion("FormNo <=", value, "formNo");
+            addCriterion("BatchId <=", value, "formNo");
             return this;
         }
 
         public Criteria andFormNoLike(String value) {
-            addCriterion("FormNo like", value, "formNo");
+            addCriterion("BatchId like", value, "formNo");
             return this;
         }
 
         public Criteria andFormNoNotLike(String value) {
-            addCriterion("FormNo not like", value, "formNo");
+            addCriterion("BatchId not like", value, "formNo");
             return this;
         }
 
         public Criteria andFormNoIn(List values) {
-            addCriterion("FormNo in", values, "formNo");
+            addCriterion("BatchId in", values, "formNo");
             return this;
         }
 
         public Criteria andFormNoNotIn(List values) {
-            addCriterion("FormNo not in", values, "formNo");
+            addCriterion("BatchId not in", values, "formNo");
             return this;
         }
 
         public Criteria andFormNoBetween(String value1, String value2) {
-            addCriterion("FormNo between", value1, value2, "formNo");
+            addCriterion("BatchId between", value1, value2, "formNo");
             return this;
         }
 
         public Criteria andFormNoNotBetween(String value1, String value2) {
-            addCriterion("FormNo not between", value1, value2, "formNo");
+            addCriterion("BatchId not between", value1, value2, "formNo");
             return this;
         }
 

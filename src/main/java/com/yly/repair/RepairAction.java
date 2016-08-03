@@ -65,6 +65,9 @@ public class RepairAction extends IbatisBaseAction {
 			para.setCardtype(1);
 		else para.setCardtype(0);
 		int result=CallFunc.callId(func, para);
+		if(result!=0){
+			throw new MessageException("Çë¼ì²é¶ÁÐ´Æ÷");
+		}
 	}
 	public void read(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response)throws Exception{
 		RepairForm f = (RepairForm)form;
@@ -77,9 +80,9 @@ public class RepairAction extends IbatisBaseAction {
 		String[] paras=func.getPara().split(",");
 		ParaTools.setRepairPara(para, paras, f);
 		operSysPort(f.getProdId(),"open");
-		// int result=CallFunc.callId(func, para);
-			int result=0;
-			para.setCardcsn("66666000000000000011");
+		//int result=CallFunc.callId(func, para);
+		int result=0;
+		para.setCardcsn("66666000000000000011");
 		if(result==0){
 			f.setCardcsn(para.getCardcsn());
 			res = "{\"csn\":\""+f.getCardcsn()+"\"}";
@@ -107,8 +110,8 @@ public class RepairAction extends IbatisBaseAction {
 		funDrools.getFunc(func);
 		String[] paras=func.getPara().split(",");
 		ParaTools.setRepairPara(para, paras, f);
-	//	int result=CallFunc.callId(func, para);
-		int result=25742;
+	    //int result=CallFunc.callId(func, para);
+		int result=0;
 		if(result==0){
 			operSysPort(f.getProdId(),"close");
 			return forwardSuccessPage(request,mapping,"ÐÞ¸´³É¹¦","Repair.do?act=repairInit");

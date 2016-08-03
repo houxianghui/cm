@@ -7,6 +7,7 @@ import java.util.List;
 import com.abc.logic.IbatisBO;
 import com.eis.base.IbatisBaseBO;
 import com.eis.cache.ReDefSDicMap;
+import com.eis.exception.MessageException;
 import com.eis.key.KeyGenerator;
 import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
@@ -17,6 +18,7 @@ import com.yly.issue.Issueapp;
 import com.yly.issue.IssueappDAO;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoDAO;
+import com.yly.pki.SecpkitbForm;
 
 
 
@@ -130,14 +132,19 @@ public class StoproductBO extends IbatisBO {
 			int opertype=sto.getOperationType();
 			if(opertype==31){
 				sto.setWkState((short)12);
-				c.andDetectSignNotEqualTo((short)2);
+				c.andIOStateNotEqualTo((short)2);
 			}
 			if(opertype==33){
 				sto.setWkState((short)13);
-				c.andDetectSignEqualTo((short)2);
+				c.andIOStateNotEqualTo((short)2);
 			}
+		}
+		
+		if(sto.getWkState()!=null && sto.getWkState()>0){
 			c.andWkStateEqualTo(sto.getWkState());
-			c.andIOStateNotEqualTo((short)2);
+		}
+		if(sto.getIOState()!=null && sto.getIOState()>0){
+			c.andIOStateEqualTo(sto.getIOState());
 		}
 		if(!CheckUtil.isEmptry(sto.getOAappNo())){
 			c.andOAappNoEqualTo(sto.getOAappNo());
@@ -209,10 +216,17 @@ public class StoproductBO extends IbatisBO {
 	}
 	public void transLsUpdate(Stoproduct sto,Lsinfo ls) throws Exception {
 		if(sto != null){		
-			stoproductDAO.updateByPrimaryKeySelective(sto);		
+			int row=stoproductDAO.updateByPrimaryKeySelective(sto);	
+			if(row<1){
+				stoproductDAO.insert(sto);
+			}
 		}
 		if(ls!=null){
-			lsinfoDAO.updateByPrimaryKeySelective(ls);			
+			int row=lsinfoDAO.updateByPrimaryKeySelective(ls);		
+			if(row<1){
+				lsinfoDAO.insert(ls);
+			}
+				
 		}
 		
 	}
@@ -261,5 +275,28 @@ public class StoproductBO extends IbatisBO {
 			}	
 		} 
 		return samId;
+	}
+	public void querySamIdValidate(StoproductForm p)throws MessageException{
+		if(CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max())){	
+			throw new MessageException("开始卡号和结束卡号必须填写");
+		}
+		if(p.getSamId_min().length()!=p.getSamId_max().length()){
+			throw new MessageException("开始卡号长度和结束卡号长度必须一致");
+		}
+		if(p.getSamId_min().length()!=12 ){
+			throw new MessageException("卡号长度必须满足12位");
+		}
+		if(p.getSamId_min().compareTo(p.getSamId_max())>0)
+			throw new MessageException("开始卡号不能大于结束卡号");
+		
+	}
+	public void transInsert(Stoproduct sto,Lsinfo ls) throws Exception {
+		if(sto != null){		
+			stoproductDAO.insert(sto);		
+		}
+		if(ls!=null){
+			lsinfoDAO.insert(ls);			
+		}
+		
 	}
 }

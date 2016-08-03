@@ -27,6 +27,13 @@ public class IssueappForm  extends BaseForm {
 	public void setExOperTypecollection(Collection exOperTypecollection) {
 		this.exOperTypecollection = exOperTypecollection;
 	}
+	private Collection exChangeTypecollection;
+	public Collection getExChangeTypecollection() {
+		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.EXCHANGETYPE);
+	}
+	public void setExChangeTypecollection(Collection exChangeTypecollection) {
+		this.exChangeTypecollection = exChangeTypecollection;
+	}
 	private Collection unitIdcollection;
 	private Collection prodIdcollection;
 	private Collection phiTypeIdcollection;
@@ -46,6 +53,13 @@ public class IssueappForm  extends BaseForm {
 	private Integer appTypeId;
 	private Integer formState;
 	private Integer operationType;
+	private Integer operationType_f;
+	public Integer getOperationType_f() {
+		return operationType_f;
+	}
+	public void setOperationType_f(Integer operationType_f) {
+		this.operationType_f = operationType_f;
+	}
 	private Integer taskAmt;
 	private Integer taskAmtLeft;
 	public Integer getTaskAmtLeft() {

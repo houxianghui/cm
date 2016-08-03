@@ -80,7 +80,7 @@ function turnPage( pagenm ) {
 			<td>生产厂商</td>		
 			<td>模块批次号/采购类型/通信速率</td>
 			<td>模块版本号/Pki存在</td>
-			<td>印刷卡号范围</td>
+			<td>印刷卡号范围/配件批次号</td>
 			<td>选择</td>
 		</tr>
 		<%if (pageResult != null) {
@@ -100,7 +100,7 @@ function turnPage( pagenm ) {
 			<%if(vo.getProdId().equals("4")) {%>
 			<td><%=vo.getModuleBatchId()%></td>			
 			<td><%=vo.getModuleVersion()%></td>					
-			<td></td>	
+			<td><%=vo.getRsvd()%></td>	
 			<%}else if(vo.getProdId().equals("5")){ %>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.PURCH_TYPE,vo.getPurchaseType())%></td>	
 			<td></td>

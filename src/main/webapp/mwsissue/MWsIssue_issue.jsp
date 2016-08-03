@@ -170,7 +170,7 @@ function doDown2() {
 		Åú´ÎºÅ:
 		</td>
 		<td class="dtPanel_Main2">&nbsp;
-		<%=mwsissuetbForm.getBatchId()%>&nbsp;&nbsp;Ó¡Ë¢¿¨ºÅ·¶Î§:<%=mwsissuetbForm.getPressCardScale()%>
+		<a href="StoApp.do?act=r&formNo=<%=mwsissuetbForm.getBatchId()%>"><%=mwsissuetbForm.getBatchId()%>&nbsp;&nbsp;Ó¡Ë¢¿¨ºÅ·¶Î§:<%=mwsissuetbForm.getPressCardScale()%>
 		</td>		
 	</tr>
 
@@ -249,7 +249,7 @@ if (list != null) {
 					<td><%=vo.getSamId()%></td>
 					<td><%=vo.getSamCSN()%></td>
 					<td><div id="detectSign<%=vo.getFlowNo()%>"></div><div id="detect<%=vo.getFlowNo()%>"><%=vo.getDetectSign()%></div></td>
-					<td><%=vo.getErrorCode()%></td>
+					<td><%=vo.getErrorCode()==null?"":SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(vo.getErrorCode()))%></td>
 					<td><%=vo.getSamIdOld()%></td>
 					<td><%=vo.getSamCSNOld()%></td>			
 					<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, String.valueOf(vo.getOperId())) %></td>

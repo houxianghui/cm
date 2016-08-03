@@ -55,7 +55,7 @@ function turnPage( pagenm ) {
 		align="center" cellpadding="0">
 		<tr align="center" class="dtPanel_Top01" height="28">
 			<td>申请编号</td>
-			<td>OA申请号</td>
+			<td>关联出库单号</td>
 			<td>申请单位</td>
 			<td>出库总数</td>
 			<td>业务类型</td>
@@ -75,7 +75,7 @@ function turnPage( pagenm ) {
 			Issueapp vo = (Issueapp) iter.next();%>
 		<tr align="left" class="dtPanel_Main" onclick="_clickTr( this )">			
 			<td><a href="Lsinfo.do?act=list&appNo=<%=vo.getAppNo()%>"><%=vo.getAppNo() %></a></td>	
-			<td><%=vo.getOAappNo()%></td>	
+			<td><a href="Issueapp.do?act=list&appNo=<%=vo.getOAappNo()%>"><%=vo.getOAappNo()%></td>	
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.ALL_UNITID, String.valueOf(vo.getUnitId()))%></td>			
 			<td><%=vo.getTaskAmt() %></td>	
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(vo.getOperationType())) %></td>

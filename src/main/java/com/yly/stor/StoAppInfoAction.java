@@ -11,12 +11,15 @@ import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,8 +45,11 @@ import com.eis.util.DateUtil;
 import com.eis.util.StringUtil;
 import com.eis.util.ValidateUtil;
 import com.ibm.icu.text.DecimalFormat;
+import com.yly.exstore.Stoproduct;
 import com.yly.issue.Issueapp;
 import com.yly.issue.IssueappBO;
+import com.yly.issue.IssueappForm;
+import com.yly.ls.Lsinfo;
 import com.yly.para.Applytypeinfo;
 import com.yly.para.ApplytypeinfoBO;
 import com.yly.para.ApplytypeinfoForm;
@@ -98,6 +104,12 @@ public class StoAppInfoAction extends IbatisBaseAction {
 			return view(form,mapping,request,user);
 		}else if("makeUpList".equals(act)){		//query active projects
 			return makeUpList(form,mapping,request,user);
+		}else if("exCardCSN".equals(act)){		//query active projects
+			return exCardCSN(form,mapping,request,user);
+		}else if("exbackList".equals(act)){		//query active projects
+			return exbackList(form,mapping,request,user);
+		}else if("popList".equals(act)){		//query active projects
+			return popList(form,mapping,request,user);
 		}
 
 
@@ -107,13 +119,20 @@ public class StoAppInfoAction extends IbatisBaseAction {
 	public ActionForward addApply(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		Stoappinfo vo = new Stoappinfo();
 		StoAppInfoForm f = (StoAppInfoForm)form;
+		Stoappinfo partvo = new Stoappinfo();
+		if(f.getProdId().equals("4") && f.getRsvd()!=""){
+			partvo = ((StoAppInfoBO)bo).queryForObject(f.getRsvd());
+			partvo.setCurrPeriodAmt(partvo.getCurrPeriodAmt()-f.getPurchaseAmt());
+			if(partvo.getCurrPeriodAmt()<0)
+				throw new MessageException("配件数量不足以用于此批次入库申请!");
+		}
 		copyProperties(vo,f);
 		vo.setOperId(user.getUserID());
 		vo.setCurrDate(DateUtil.getTimeStr());
 		vo.setCurrPeriodAmt(vo.getPurchaseAmt());
         //获得批次号 
 		vo.setFormNo((ReDefSDicMap.getDicItemLogicID(RedefSDicCodes.MAUN_ID, vo.getManufacId()).trim())+StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("StoAppInfo")),14));
-		((StoAppInfoBO)bo).insert(vo);		
+		((StoAppInfoBO)bo).tranMain(vo,partvo);		
 		return forwardSuccessPage(request,mapping,"保存成功","StoApp.do?act=c");
 		
 	}
@@ -153,6 +172,7 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		f.setProdId(request.getParameter("prodId"));
 		if(f.getProdId().equals("4")){
 			f.setPhiTypeId("");//模块速率不设置
+			f.setOperationType((long)92);//发行小模块必须是冲回过的记录
 		}else{
 			f.setPhiTypeId(request.getParameter("phiTypeId"));
 		}
@@ -173,17 +193,113 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		List list=null;
 		list=((StoAppInfoBO)bo).getExList(f);
 		if(list==null || list.size()==0)
-			throw new MessageException("不存在满足补办数量的原料!");
+			throw new MessageException("不存在满足操作数量的原料!");
 		setPageResult(request, list);
-		if(f.getAppNo()==null){
-			Issueapp vo = insertIssueApp(user);
+		if(f.getAppNo()==null ||f.getAppNo().equals("null")){
+			Issueapp vo = new Issueapp();
+			copyProperties(vo, f);
+			vo = insertIssueApp(vo,user);
 			f.setAppNo(vo.getAppNo());
 		}
-		return mapping.findForward("makeupList");
+		return mapping.findForward("ql");
 	}
-
-	private Issueapp insertIssueApp(UserContext user) throws Exception {
+	public ActionForward exbackList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		StoAppInfoForm f = (StoAppInfoForm)form;
+		f.setOperationType((long)92);//冲回操作
+		List list=((StoAppInfoBO)bo).getAppList(f);
+		setPageResult(request, list);
+		return mapping.findForward("exbackList");
+	}
+	public ActionForward popList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		StoAppInfoForm f = (StoAppInfoForm)form;
+		f.setProdId("3");//esam冲回
+		List list=((StoAppInfoBO)bo).getAppList(f);
+		if(list==null ||list.size()<1){
+			throw new MessageException("没有可以使用的配件!");
+		}
+		setPageResult(request, list);
+		return mapping.findForward("exbackPopList");
+	}
+	public ActionForward exCardCSN(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		StoAppInfoForm f = (StoAppInfoForm)form;
 		Issueapp vo = new Issueapp();
+		vo=issueappBO.queryForObject(f.getAppNo());
+		Stoappinfo sto=new Stoappinfo();
+		sto=((StoAppInfoBO)bo).queryForObject(f.getFormNo());
+		if(vo.getTaskAmt()>sto.getCurrPeriodAmt()){
+			throw new MessageException("当前批次可用数量不足!");
+		}else{
+			sto.setCurrPeriodAmt(sto.getCurrPeriodAmt()-vo.getTaskAmt());  //更新批次剩余可用数量
+		}
+		vo.setOperId(user.getUserID());		
+		vo.setCurrDate(DateUtil.getTimeStr());
+		Lsinfo lsvo = new Lsinfo();
+		copyProperties(lsvo, vo);
+		lsvo.setFormNo(sto.getFormNo());  //出库批次
+		lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
+		
+		Enumeration<String> e =request.getParameterNames();
+		List<Stoproduct> prodlist = new ArrayList<Stoproduct>();
+		List<Lsinfo> lslist = new ArrayList<Lsinfo>();	
+		lslist.add(lsvo);
+		Pattern iPattern = Pattern.compile("ex_\\d+$");
+		int tot=0;
+ 		while(e.hasMoreElements()){
+			String s = e.nextElement();
+			Matcher m = iPattern.matcher(s);
+			if(m.find()){
+				
+				Stoproduct t= new Stoproduct();
+				t.setSamCSN(request.getParameter(s));
+				t.setSamId("0");
+				t.setBatchId(sto.getFormNo());
+				t.setProdId(sto.getProdId());
+				t.setUnitPrice(sto.getUnitPrice());
+				t.setManufacId(sto.getManufacId());
+				t.setOAappNo(vo.getOAappNo());
+				t.setWkState((short)11);
+				t.setIOState((short)2);
+				t.setUnitId(vo.getUnitId());
+				t.setReuseTime((short)1);
+				t.setPhiTypeId(sto.getPhiTypeId());
+				t.setCardPhyStat((short)1);
+				t.setIOStateChgDate(DateUtil.getTimeStr());
+				t.setWkStateChgDate(DateUtil.getTimeStr());
+				t.setBatchIdParts(sto.getRsvd());
+				prodlist.add(t);
+				
+				Lsinfo ls= new Lsinfo();
+				ls.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
+				copyProperties(ls, t);
+				ls.setAppNo(f.getAppNo());  
+				ls.setFormNo(t.getBatchId());
+				ls.setOperationType(vo.getOperationType());
+				ls.setOperId(user.getUserID());
+				ls.setCurrDate(DateUtil.getTimeStr());
+				lslist.add(ls);
+				tot++;
+			}
+ 		}
+		if(tot>0 && tot!=f.getCurrPeriodAmt()){
+			throw new MessageException("出库数量与出库卡号不一致!");
+		}
+		vo.setFormState((short)3);//任务完成
+		((StoAppInfoBO)bo).tranUpdate(vo,sto,lslist,prodlist);
+		String url=getUrl(vo);
+		return forwardSuccessPage(request,mapping,"操作成功","Issueapp.do?act="+url);
+		
+		
+	}
+	private String getUrl(Issueapp vo){
+		String url="";
+		if(vo.getOperationType()==41)
+			url="exchangeList";
+		if(vo.getOperationType()==51)
+			url="makeupList";
+		else url="exlist";
+		return url;
+	}
+	private Issueapp insertIssueApp(Issueapp vo,UserContext user) throws Exception {
 		vo.setOperId(user.getUserID());
 		vo.setCurrDate(DateUtil.getTimeStr());
 		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));

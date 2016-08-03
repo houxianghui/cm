@@ -45,10 +45,8 @@ public class StoproductDAOImpl extends SqlMapClientDaoSupport implements Stoprod
      *
      * @ibatorgenerated Fri May 13 17:34:02 CST 2016
      */
-    public int deleteByPrimaryKey(String samId) {
-        Stoproduct key = new Stoproduct();
-        key.setSamId(samId);
-        int rows = getSqlMapClientTemplate().delete("stoproduct.ibatorgenerated_deleteByPrimaryKey", key);
+    public int deleteByPrimaryKey(Stoproduct record) {
+        int rows = getSqlMapClientTemplate().delete("stoproduct.ibatorgenerated_deleteByPrimaryKey", record);
         return rows;
     }
 
