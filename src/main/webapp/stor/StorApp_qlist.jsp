@@ -79,7 +79,7 @@ function doDownProgram() {
 
 
 
-<%=ViewUtil.getTitle("原料出库批次选择")%>
+<%=ViewUtil.getTitle(SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(stoAppForm.getOperationType()))+"批次选择")%>
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
 		align="center" cellpadding="0">
 		<tr>
@@ -98,7 +98,7 @@ function doDownProgram() {
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
 			</td>
 		</tr>
-		<tr><td>出库类型:<%=SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(stoAppForm.getOperationType()))%>
+		<tr><td>
 		出库数量:<%=stoAppForm.getCurrPeriodAmt()%></td>
 		</tr>
 	</table>

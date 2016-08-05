@@ -24,9 +24,11 @@ function doRead(){
 	$.get("Mwsissuetb.do?act=R&prodId="+document.forms[0].prodId.value+"&operationType="+document.forms[0].operationType.value,function(result){
 		var json = $.parseJSON(result);
 		if(json.error!=null){
+			document.forms[0].detectSign.value=2;
 			alert(json.error);
 		}else{
 			document.forms[0].samId.value=json.origSamId;
+			document.forms[0].detectSign.value=1;
 			if(document.forms[0].prodId.value==4){
 				$("#module").text(json.module);
 			}
@@ -55,7 +57,7 @@ function doBack(){
 <input type=hidden name=requery>
 <input type=hidden name=operationType value="61">
 <html:hidden property="appNo"/>
- <%=ViewUtil.getTitle("产品检测及换损")%> 
+ <%=ViewUtil.getTitle("产品检测及换损,数量"+stoproductForm.getTaskAmt())%> 
 
  <table id="issue" align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0">
 	<tr>
@@ -76,6 +78,14 @@ function doBack(){
 		<html:text property="samCSN" styleClass="Textfield"  size="20" maxlength="20"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  />&nbsp; 	
 		&nbsp;<input name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> 	
 	</td>
+	</tr>	
+     <tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		检测结果:
+		</td>
+		<td colspan="3"  class="dtPanel_Main2">&nbsp;
+		<%=SingleDicMap.getRadio("detectSign", SingleDic.DETECSIGN, "0")%> 
+		</td>	
 	</tr>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">

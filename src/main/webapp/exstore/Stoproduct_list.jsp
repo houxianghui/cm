@@ -176,6 +176,7 @@ function doExStore(){
 		<tr align="center" class="dtPanel_Top01" height="28">
 			<td>多选</td>	
 			<td>SAM卡号</td>
+			<td>SAM印刷卡号</td>
 			<td>申请单位</td>
 			<td>产品类型</td>
 			<td>产品通信速率</td>
@@ -200,17 +201,18 @@ function doExStore(){
 			<input type="checkbox" name="cx" value="<%=vo.getSamId()+","+vo.getSamCSN()%>"> 
 			</label></td> 
 			<td><a href="Stoproduct.do?act=r&SamId=<%=vo.getSamId()%>&SamCSN=<%=vo.getSamCSN()%>"><%=vo.getSamId() %></a></td>	
+			<td><%=vo.getSamCSN()%></td>	
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.ALL_UNITID, String.valueOf(vo.getUnitId()))%></td>			
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.PROD_ID, vo.getProdId())%></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, vo.getPhiTypeId())%></td>					
-			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.APPTYPEID, vo.getAppTypeId()) %></td>
-			<td><%=SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(vo.getKeyType()))%></td>
-			<td><%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, vo.getAuthSign().toString())%></td>
-			<td><%=vo.getIssueTime() %></td>	
-			<td><%=SingleDicMap.getDicItemVal(SingleDic.CONSUTYPE, String.valueOf(vo.getConsumeType()))%></td>	
-			<td><%=SingleDicMap.getDicItemVal(SingleDic.PAYMETYPE, String.valueOf(vo.getPaymentType()))%></td>				
-			<td><%=SingleDicMap.getDicItemVal(SingleDic.DETECSIGN, String.valueOf(vo.getDetectSign()))%></td>	
-			<td><%=SingleDicMap.getDicItemVal(SingleDic.WKSTATE, String.valueOf(vo.getWkState()))%></td>						
+			<td><%=vo.getAppTypeId()==null?"":ReDefSDicMap.getDicItemVal(RedefSDicCodes.APPTYPEID, vo.getAppTypeId()) %></td>
+			<td><%=vo.getKeyType()==null?"":SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(vo.getKeyType()))%></td>
+			<td><%=vo.getAuthSign()==null?"":SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, vo.getAuthSign().toString())%></td>
+			<td><%=vo.getIssueTime()==null?"":vo.getIssueTime() %></td>	
+			<td><%=vo.getConsumeType()==null?"":SingleDicMap.getDicItemVal(SingleDic.CONSUTYPE, String.valueOf(vo.getConsumeType()))%></td>	
+			<td><%=vo.getPaymentType()==null?"":SingleDicMap.getDicItemVal(SingleDic.PAYMETYPE, String.valueOf(vo.getPaymentType()))%></td>				
+			<td><%=vo.getDetectSign()==null?"":SingleDicMap.getDicItemVal(SingleDic.DETECSIGN, String.valueOf(vo.getDetectSign()))%></td>	
+			<td><%=vo.getWkState()==null?"":SingleDicMap.getDicItemVal(SingleDic.WKSTATE, String.valueOf(vo.getWkState()))%></td>						
 		</tr>
 
 		<%}

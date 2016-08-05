@@ -189,7 +189,8 @@ public class MWsIssueBO extends IbatisBO {
 	}
 	
 	
-	public void transRepairTb(Lsinfo ls,Secpkitb sec) throws Exception {
+	public void transRepairTb(Stoproduct s,Lsinfo ls,Secpkitb sec) throws Exception {
+		stoproductDAO.updateByPrimaryKeySelective(s);
 		lsinfoDAO.insert(ls);
 		secpkitbDAO.updateBySamIdAndSamCsn(sec);
 	}
@@ -280,6 +281,7 @@ public class MWsIssueBO extends IbatisBO {
 		sto.setSamId(lsvo.getSamId());
 		sto.setOAappNo(lsvo.getAppNo());
 		sto.setIOState((short)1);
+		sto.setOAappNo(vo.getOAappNo());
 		return sto;
 	}
 	public void copyProperties(Object dest,Object origin) throws Exception {
@@ -290,7 +292,7 @@ public class MWsIssueBO extends IbatisBO {
 		copyProperties(lsvo, vo);
 		lsvo.setCurrDate(DateUtil.getTimeStr());
 		lsvo.setDetectSign((short)0);
-		lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("LsInfo")),16));
+		lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("LsInfo")),20));
 		lsvo.setOperId(user.getUserID());
 		lsvo.setErrorCode((short)0);
 		lsvo.setSamCSNOld("");
@@ -306,7 +308,7 @@ public class MWsIssueBO extends IbatisBO {
 
 	public void setOperAct(Mwsissuetb vo, Func func,int step) {
 		short operType=vo.getOperationType();
-		if(operType==21||operType==24){
+		if(operType==21||operType==24||operType==43||operType==53 ){
 			if(step==1){
 				func.setOperAct("RC");
 			}else if(step==2){

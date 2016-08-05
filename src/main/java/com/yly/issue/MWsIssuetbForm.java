@@ -46,6 +46,14 @@ public class MWsIssuetbForm  extends BaseForm {
 	private String motEf17;
 	private Short operationType;
 	private Integer appTypeId;
+	private String OAappNo;
+	public String getOAappNo() {
+		return OAappNo;
+	}
+
+	public void setOAappNo(String oAappNo) {
+		OAappNo = oAappNo;
+	}
 
 	public Short getOperationType() {
 		return operationType;

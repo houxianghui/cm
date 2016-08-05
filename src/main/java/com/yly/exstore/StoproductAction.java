@@ -16,6 +16,8 @@ import org.apache.struts.action.ActionMapping;
 
 
 
+
+
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
 import com.eis.exception.MessageException;
@@ -25,8 +27,12 @@ import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
 import com.eis.util.StringUtil;
 import com.yly.issue.Issueapp;
+import com.yly.issue.IssueappBO;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoBO;
+import com.yly.reuse.Storeuse;
+import com.yly.reuse.StoreuseBO;
+import com.yly.reuse.StoreuseForm;
  
 
 
@@ -35,6 +41,23 @@ import com.yly.ls.LsinfoBO;
 
 public class StoproductAction extends IbatisBaseAction {
 	private LsinfoBO lsinfoBO;
+	private StoreuseBO storeuseBO;
+	private IssueappBO issueappBO;
+	public IssueappBO getIssueappBO() {
+		return issueappBO;
+	}
+	public void setIssueappBO(IssueappBO issueappBO) {
+		this.issueappBO = issueappBO;
+	}
+
+
+	public StoreuseBO getStoreuseBO() {
+		return storeuseBO;
+	}
+
+	public void setStoreuseBO(StoreuseBO storeuseBO) {
+		this.storeuseBO = storeuseBO;
+	}
 
 	public LsinfoBO getLsinfoBO() {
 		return lsinfoBO;
@@ -80,6 +103,8 @@ public class StoproductAction extends IbatisBaseAction {
 			return exChange(form,mapping,request,user);
 		}else if("back".equals(act)){		//query active projects
 			return back(form,mapping,request,user);
+		}else if("show".equals(act)){		//query active projects
+			return show(form,mapping,request,user);
 		}
 
 
@@ -110,10 +135,6 @@ public class StoproductAction extends IbatisBaseAction {
 	}	
 	public ActionForward list(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoproductForm f = (StoproductForm)form;
-		if(request.getParameter("requery")==null){
-			f.setOAappNo_f(f.getOAappNo());
-			f.setOAappNo(((StoproductBO)bo).changeOAappNo(f.getOAappNo_f()));
-		}
 		List<Stoproduct> prodList=null;
 		prodList= ((StoproductBO)bo).queryForList(f);
 		if(prodList!=null && prodList.size()>0){   
@@ -335,6 +356,7 @@ public class StoproductAction extends IbatisBaseAction {
 		sf.setWkStateChgDate(DateUtil.getTimeStr());
 		sf.setIOState((short)3);
 		sf.setIOStateChgDate(DateUtil.getTimeStr());
+		sf.setDetectTime(DateUtil.getTimeStr());
 		if(CheckUtil.isEmptry(sf.getSamId()))
 			sf.setSamId("0");
 		if(CheckUtil.isEmptry(sf.getSamCSN()))
@@ -346,9 +368,39 @@ public class StoproductAction extends IbatisBaseAction {
 		vo.setOperId(user.getUserID());
 		Stoproduct sto = new Stoproduct();
 		copyProperties(sto, sf);
-		copyProperties(vo, sf);
-		((StoproductBO)bo).transLsUpdate(sto, vo);
-		setPageResult(request,lsinfoBO.queryForList(vo));
+		copyProperties(vo, sf);		
+		((StoproductBO)bo).transUpdateSto(sto, vo);
+		Lsinfo queryvo=new Lsinfo();
+		queryvo.setAppNo(sf.getAppNo());
+		queryvo.setOperationType(sf.getOperationType().shortValue());	
+		List<Lsinfo> l=lsinfoBO.queryForList(queryvo);
+		if(l!=null &&l.size()>0){
+			setPageResult(request,l);
+		}
 		return mapping.findForward("exchange");
+	}
+	public ActionForward show(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		StoproductForm f = (StoproductForm)form;
+		StoproductForm copyf=new StoproductForm();
+		copyProperties(copyf, f);
+		Stoproduct prodvo =((StoproductBO)bo).queryObjectBySamId(f.getSamId());
+		if(prodvo==null){
+			Storeuse storeuse = (Storeuse)storeuseBO.queryObjectBySamId(f.getSamId());
+			if(storeuse==null){
+				throw new MessageException("此SAM号找不到原记录");
+			}else{
+				throw new MessageException("此SAM号已经回库,印刷卡号为"+storeuse.getSamCSN());
+			}
+		}
+		short detectFlag=f.getDetectSign();
+ 		copyProperties(f, prodvo);
+ 		f.setTaskAmt(copyf.getTaskAmt());
+ 		f.setAppNo(copyf.getAppNo());
+ 		f.setDetectSign(copyf.getDetectSign());
+		Lsinfo vo =  new Lsinfo();
+		vo.setAppNo(copyf.getAppNo());
+		List<Lsinfo> l=lsinfoBO.queryForList(vo);
+		setPageResult(request,l);
+		return mapping.findForward("show");	
 	}
 }

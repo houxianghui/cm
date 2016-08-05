@@ -181,6 +181,7 @@ public class IssuetaskCtrlAction extends IbatisBaseAction {
 				if(!isOwnUnit(f.getUnitId(),Integer.parseInt(request.getParameter(s)))){
 					throw new MessageException("录入单位代码必须为当前申请单位及其辖属机构");
 				}
+				di.setOAappNo(f.getOAappNo());
 				di.setUnitId((Integer.parseInt(request.getParameter(s).trim())));
 				di.setIssueAmt((Long.valueOf(request.getParameter(s+"_Amt"))));
 				di.setPaymentType((Short.valueOf(request.getParameter(s+"_Ptp"))));
@@ -230,7 +231,7 @@ public class IssuetaskCtrlAction extends IbatisBaseAction {
 	}
     private boolean autoGenCard(String operType,String prod){
     	boolean flag = false;
-    	if(operType.equals("21") ||operType.equals("22")|| operType.equals("23")){
+    	if(operType.equals("21") ||operType.equals("22")|| operType.equals("23") || operType.equals("43") || operType.equals("53")){
     		if(!prod.equals("5"))//不是Ereader就自动生成卡号
     			flag=true;
     	}

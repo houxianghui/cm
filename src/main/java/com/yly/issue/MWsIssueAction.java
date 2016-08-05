@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
+import com.eis.cache.SingleDic;
+import com.eis.cache.SingleDicMap;
 import com.eis.exception.MessageException;
 import com.eis.key.KeyGenerator;
 import com.eis.portal.UserContext;
@@ -45,6 +47,14 @@ public class MWsIssueAction extends IbatisBaseAction {
 	private LsinfoBO lsinfoBO;
 	private StoproductBO stoproductBO;
 	private StoreuseBO storeuseBO;
+	private IssuetaskCtrlBO issuetaskctrlBO;
+	public IssuetaskCtrlBO getIssuetaskctrlBO() {
+		return issuetaskctrlBO;
+	}
+
+	public void setIssuetaskctrlBO(IssuetaskCtrlBO issuetaskctrlBO) {
+		this.issuetaskctrlBO = issuetaskctrlBO;
+	}
 
 	public StoreuseBO getStoreuseBO() {
 		return storeuseBO;
@@ -224,10 +234,12 @@ public class MWsIssueAction extends IbatisBaseAction {
 					vos[i].setManufacId(sto.getManufacId());
 					vos[i].setBatchId(request.getParameter("batchId"));
 				}else{
-					vos[i].setBatchId("");
+					vos[i].setBatchId(SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, request.getParameter("batchId")));   //不需挑选原料批次的显示业务类型
 					vos[i].setPressCardScale("");
 					vos[i].setManufacId("");
 				}
+				taskctrlvos[i]=issuetaskctrlBO.queryForObject(taskCtrlNo[i]);
+				vos[i].setOAappNo(taskctrlvos[i].getOAappNo());
 				taskctrlvos[i].setTaskCtrlNo(taskCtrlNo[i]);
 				taskctrlvos[i].setIssueDoneAmt(f.getIssueDoneAmt()+vos[i].getWorkSheetAmt());
 				if(taskctrlvos[i].getIssueDoneAmt()>=f.getIssueAmt()){
@@ -475,7 +487,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
 			//int result=CallFunc.callId(func, para);
-			int result = 0;
+			int result = -1;
 			para.setSamId("100000100003");
 			para.setVersion("version123456789");
 			if(result!=0){
@@ -531,6 +543,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 		lsvo.setSamId(f.getSamId());
 		lsvo.setSamCSN(f.getCardcsn());
 		lsvo.setOperationType(f.getOperationType());
+		lsvo.setSamCSNOld(f.getCardcsn());
+		lsvo.setSamIdOld(f.getSamId());
 		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
 		Para para=new Para();
@@ -552,7 +566,14 @@ public class MWsIssueAction extends IbatisBaseAction {
 					 sec.setPubExponent("");
 					 sec.setPubKey(para.getRetpki());
 					 sec.setKeyType((short)(f.getKeyType()));
-					((MWsIssueBO)bo).transRepairTb(lsvo,sec);
+					 Stoproduct sto=new Stoproduct();
+					 sto.setSamId(lsvo.getSamId());
+					 sto.setSamCSN(lsvo.getSamCSN());
+					 sto=stoproductBO.queryForObject(sto);
+					 sto.setIssueTime(DateUtil.getTimeStr());
+					 sto.setIOState((short)2);
+					 sto.setIOStateChgDate(DateUtil.getTimeStr());
+					((MWsIssueBO)bo).transRepairTb(sto,lsvo,sec);
 				}
 			}else{
 				lsvo.setErrorCode((short)result);

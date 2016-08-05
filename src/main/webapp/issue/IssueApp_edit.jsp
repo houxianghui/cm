@@ -42,8 +42,11 @@ function setPKey(taskNo_var,prodId_var,phiTypeId_var,appTypeId_var,keyType_var,i
 	document.forms[1].appTypeId.value=appTypeId_var; 
 	document.forms[1].keyType.value=keyType_var; 	
 	document.forms[1].taskAmt.value=issueAmt_var; 
-	document.forms[1].origSamId.value=remarks_var; 
+	if(document.forms[0].operationType.value >23 && document.forms[0].operationType.value <30){
+		document.forms[1].origSamId.value=remarks_var; 
 
+	}
+		
 
 } 
 
@@ -55,12 +58,12 @@ function doAssignUnit(){
 		return; 
 	} 
 	//
-	if(document.forms[0].operationType.value >23){
+	if(document.forms[0].operationType.value >23 && document.forms[0].operationType.value <30){
 		
-		openWin("Issuetaskctrl.do?act=listpop&keyType="+document.forms[1].keyType.value+"&taskAmt="+document.forms[1].taskAmt.value+"&unitId="+document.forms[0].unitId.value+"&prodId="+document.forms[1].prodId.value+"&phiTypeId="+document.forms[1].phiTypeId.value+"&appTypeId="+document.forms[1].appTypeId.value+"&taskNo="+document.forms[1].taskNo.value+"&appNo="+document.forms[0].appNo.value+"&operationType="+document.forms[1].operationType.value+"&samIdBegin="+document.forms[1].origSamId.value+"","org_pop");
+		openWin("Issuetaskctrl.do?act=listpop&OAappNo="+document.forms[1].OAappNo.value+"&keyType="+document.forms[1].keyType.value+"&taskAmt="+document.forms[1].taskAmt.value+"&unitId="+document.forms[0].unitId.value+"&prodId="+document.forms[1].prodId.value+"&phiTypeId="+document.forms[1].phiTypeId.value+"&appTypeId="+document.forms[1].appTypeId.value+"&taskNo="+document.forms[1].taskNo.value+"&appNo="+document.forms[0].appNo.value+"&operationType="+document.forms[1].operationType.value+"&samIdBegin="+document.forms[1].origSamId.value+"","org_pop");
 
 	}else{
-		openWin("Issuetaskctrl.do?act=listpop&keyType="+document.forms[1].keyType.value+"&taskAmt="+document.forms[1].taskAmt.value+"&unitId="+document.forms[0].unitId.value+"&prodId="+document.forms[1].prodId.value+"&phiTypeId="+document.forms[1].phiTypeId.value+"&appTypeId="+document.forms[1].appTypeId.value+"&taskNo="+document.forms[1].taskNo.value+"&appNo="+document.forms[0].appNo.value+"&operationType="+document.forms[1].operationType.value+"&samIdBegin=null","org_pop");
+		openWin("Issuetaskctrl.do?act=listpop&OAappNo="+document.forms[1].OAappNo.value+"&keyType="+document.forms[1].keyType.value+"&taskAmt="+document.forms[1].taskAmt.value+"&unitId="+document.forms[0].unitId.value+"&prodId="+document.forms[1].prodId.value+"&phiTypeId="+document.forms[1].phiTypeId.value+"&appTypeId="+document.forms[1].appTypeId.value+"&taskNo="+document.forms[1].taskNo.value+"&appNo="+document.forms[0].appNo.value+"&operationType="+document.forms[1].operationType.value+"&samIdBegin=null","org_pop");
 	}
 
 }  

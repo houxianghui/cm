@@ -169,6 +169,9 @@ public class IssueappBO extends IbatisBO {
 		if(obj.getOperationType_f()!=null &&obj.getOperationType_f()>0 ){
 			obj.setOperationType(obj.getOperationType());
 		}
+		if(obj.getUnitId_f()!=null &&obj.getUnitId_f()>0 ){
+			obj.setUnitId(obj.getUnitId_f());
+		}
 		queryListByExample(obj, c);
 		return issueappDAO.selectByExample(e);
 	}		
@@ -212,9 +215,16 @@ public class IssueappBO extends IbatisBO {
 		
 		IssueappExample e = new IssueappExample();
 		Criteria c = e.createCriteria();
+		if(obj.getOperationType_f()!=null && obj.getOperationType_f()>0){
+			obj.setOperationType(obj.getOperationType_f());
+		}
 		if(obj.getOperationType()!=null && obj.getOperationType()>0){
 			c.andApplyOperTypeEqualTo(obj.getOperationType().shortValue());
 		}
+		if(obj.getUnitId_f()!=null && obj.getUnitId_f()>0){
+			obj.setUnitId(obj.getUnitId_f());
+		}
+		
 		if(obj.getUnitId()!=null && obj.getUnitId()>0){
 			c.andLeadUnitIdEqualTo(obj.getUnitId());
 		}

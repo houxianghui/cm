@@ -432,7 +432,7 @@ public class IssueappAction extends IbatisBaseAction {
 	}
 	/*原料发行,同号同属性,同号不同属性,对于isam,esam,psam,小模块进行批次的选择*/
 	private boolean needPickBatch(IssueappForm f){
-		if(f.getOperationType()==21 || f.getOperationType()==24){
+		if(f.getOperationType()==21 || f.getOperationType()==24||f.getOperationType()==43 || f.getOperationType()==53){
     		if(!f.getProdId().equals("5"))
     			return true;
     		else return false;
@@ -477,7 +477,7 @@ public class IssueappAction extends IbatisBaseAction {
 		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
 		String url=getExChangeUrl(f);
 		((IssueappBO)bo).insert(vo);
-		return forwardSuccessPage(request,mapping,"保存成功",url+"&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+f.getTaskAmt()+"&taskAmtLeft="+f.getTaskAmt()+"&operationType="+f.getOperationType());
+		return forwardSuccessPage(request,mapping,"保存成功",url+"&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+f.getTaskAmt()+"&unitId="+f.getUnitId()+"&operationType="+f.getOperationType());
 
 	}
 	private String getExChangeUrl(IssueappForm f)throws Exception{
@@ -516,7 +516,7 @@ public class IssueappAction extends IbatisBaseAction {
 		vo.setCurrDate(DateUtil.getTimeStr());
 		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
 		((IssueappBO)bo).insert(vo);
-		return forwardSuccessPage(request,mapping,"保存成功","Storeuse.do?act=Back_init&appNo="+vo.getAppNo());
+		return forwardSuccessPage(request,mapping,"保存成功","Storeuse.do?act=back_init&appNo="+vo.getAppNo()+"&taskAmt="+vo.getTaskAmt());
 	}	
 
 	public ActionForward exMainTain(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
@@ -551,7 +551,7 @@ public class IssueappAction extends IbatisBaseAction {
 	public ActionForward exchangeMainTain(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		IssueappForm f = (IssueappForm)form;
 		Issueapp vo=((IssueappBO)bo).queryForObject(f.getAppNo());
-		return new ActionRedirect(getExChangeUrl(f)+"&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+vo.getTaskAmt()+"&taskAmtLeft="+vo.getTaskAmt()+"&operationType="+vo.getOperationType());
+		return new ActionRedirect(getExChangeUrl(f)+"&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+vo.getTaskAmt()+"&unitId="+vo.getUnitId()+"&operationType="+vo.getOperationType());
 
 
 	}

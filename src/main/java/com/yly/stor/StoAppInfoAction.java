@@ -292,11 +292,11 @@ public class StoAppInfoAction extends IbatisBaseAction {
 	}
 	private String getUrl(Issueapp vo){
 		String url="";
-		if(vo.getOperationType()==41)
+		if(vo.getOperationType()==41 ||vo.getOperationType()==42){
 			url="exchangeList";
-		if(vo.getOperationType()==51)
+		}else if(vo.getOperationType()==51 ||vo.getOperationType()==52){
 			url="makeupList";
-		else url="exlist";
+		}else url="exlist";
 		return url;
 	}
 	private Issueapp insertIssueApp(Issueapp vo,UserContext user) throws Exception {

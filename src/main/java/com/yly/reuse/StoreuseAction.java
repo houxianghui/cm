@@ -30,6 +30,7 @@ import com.yly.exstore.Stoproduct;
 import com.yly.exstore.StoproductBO;
 import com.yly.exstore.StoproductForm;
 import com.yly.issue.Issueapp;
+import com.yly.issue.IssueappBO;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoBO;
 
@@ -38,6 +39,21 @@ import com.yly.ls.LsinfoBO;
 public class StoreuseAction extends IbatisBaseAction {
 	private LsinfoBO lsinfoBO;
 	private StoproductBO stoproductBO;
+	private IssueappBO issueappBO;
+	public IssueappBO getIssueappBO() {
+		return issueappBO;
+	}
+
+
+
+
+	public void setIssueappBO(IssueappBO issueappBO) {
+		this.issueappBO = issueappBO;
+	}
+
+
+
+
 	public StoproductBO getStoproductBO() {
 		return stoproductBO;
 	}
@@ -130,21 +146,50 @@ public class StoreuseAction extends IbatisBaseAction {
 		StoproductForm stf = new StoproductForm();
 		stf.setSamId(sf.getSamId());
 		stf.setSamCSN(sf.getSamCSN());
-		Stoproduct sto = stoproductBO.queryForObjByKey(stf);
-		Storeuse storeuse = new Storeuse();
-		copyProperties(storeuse, sto);
-		storeuse.setIOState((short)3);
-		storeuse.setIOStateChgDate(DateUtil.getTimeStr());
+		
 		Lsinfo lsinfo =  new Lsinfo();
 		copyProperties(lsinfo, sf);
 		lsinfo.setCurrDate(DateUtil.getTimeStr());
 		lsinfo.setOperId(user.getUserID());
-		lsinfo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("LsInfo")),16));
-		((StoreuseBO)bo).transThreeTb(sto,storeuse,lsinfo);
+		lsinfo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("LsInfo")),20));
+		lsinfo.setDetectSign(sf.getDetectSign());
+		
+		Stoproduct sto = stoproductBO.queryForObjByKey(stf);
+		Storeuse storeuse = new Storeuse();
+		if(sf.getDetectSign()==2 ||sf.getCardPhyStat()==11){
+			sto.setWkState((short)13);
+			sto.setWkStateChgDate(DateUtil.getTimeStr());
+			sto.setIOState((short)3);
+			sto.setIOStateChgDate(DateUtil.getTimeStr());
+			sto.setDetectTime(DateUtil.getTimeStr());
+			sto.setDetectSign(sf.getDetectSign());
+			sto.setDetectSign(sf.getCardPhyStat());
+			storeuse=null;
+		}else{
+			copyProperties(storeuse, sto);
+			storeuse.setWkState((short)12);
+			storeuse.setWkStateChgDate(DateUtil.getTimeStr());
+			storeuse.setIOState((short)3);
+			storeuse.setIOStateChgDate(DateUtil.getTimeStr());
+			storeuse.setDetectTime(DateUtil.getTimeStr());
+			storeuse.setDetectSign(sf.getDetectSign());
+			storeuse.setDetectSign(sf.getCardPhyStat());	
+		}
+
 		Lsinfo vo =  new Lsinfo();
 		vo.setAppNo(sf.getAppNo());
-		setPageResult(request,lsinfoBO.queryForList(vo));
-		return forwardSuccessPage(request,mapping,"退回成功","Storeuse.do?act=back_init");
+		List<Lsinfo> l=lsinfoBO.queryForList(vo);
+		if(l!=null &&l.size()>0){
+			setPageResult(request,l);
+			if(l.size()==sf.getTaskAmt()){
+				Issueapp app=issueappBO.queryForObject(sf.getAppNo());
+				app.setFormState((short)3);
+				((StoreuseBO)bo).transUpdateTB(app,sto,storeuse,lsinfo);
+				return forwardSuccessPage(request,mapping,"退回成功","Issueapp.do?act=storeuse_new");
+			}
+		}
+		((StoreuseBO)bo).transUpdateTB(null,sto,storeuse,lsinfo);
+		return forwardSuccessPage(request,mapping,"退回成功","Storeuse.do?act=back_init&appNo="+sf.getAppNo());
 	}
 	public ActionForward retrive(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoreuseForm sf = (StoreuseForm)form;
@@ -154,6 +199,8 @@ public class StoreuseAction extends IbatisBaseAction {
 	}
 	public ActionForward show(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoreuseForm f = (StoreuseForm)form;
+		StoreuseForm copyf=new StoreuseForm();
+		copyProperties(copyf, f);
 		Stoproduct prodvo =stoproductBO.queryObjectBySamId(f.getSamId());
 		if(prodvo==null){
 			Storeuse storeuse = (Storeuse)((StoreuseBO)bo).queryObjectBySamId(f.getSamId());
@@ -163,7 +210,15 @@ public class StoreuseAction extends IbatisBaseAction {
 				throw new MessageException("此SAM号已经回库,印刷卡号为"+storeuse.getSamCSN());
 			}
 		}
+		short detectFlag=f.getDetectSign();
  		copyProperties(f, prodvo);
+ 		f.setTaskAmt(copyf.getTaskAmt());
+ 		f.setAppNo(copyf.getAppNo());
+ 		f.setDetectSign(copyf.getDetectSign());
+		Lsinfo vo =  new Lsinfo();
+		vo.setAppNo(copyf.getAppNo());
+		List<Lsinfo> l=lsinfoBO.queryForList(vo);
+		setPageResult(request,l);
 		return mapping.findForward("show");	
 	}
 	

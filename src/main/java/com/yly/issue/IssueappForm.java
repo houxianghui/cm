@@ -69,6 +69,13 @@ public class IssueappForm  extends BaseForm {
 		this.taskAmtLeft = taskAmtLeft;
 	}
 	private Integer unitId;
+	private Integer unitId_f;
+	public Integer getUnitId_f() {
+		return unitId_f;
+	}
+	public void setUnitId_f(Integer unitId_f) {
+		this.unitId_f = unitId_f;
+	}
 	private Long issueAmt;
 	private Long issueDoneAmt;
 	private Short authSign;

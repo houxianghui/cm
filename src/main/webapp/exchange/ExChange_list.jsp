@@ -28,11 +28,11 @@ function turnPage( pagenm ) {
     	document.forms[0].pageNO.value = pagenm;     
     	document.forms[0].submit(); 
 } 
-function setPKey(appNo_var,formStat_var,oper_var) { 
+function setPKey(appNo_var,formStat_var,oper_var,unit_var) { 
 	document.forms[0].appNo.value=appNo_var; 
 	document.forms[0].formState.value=formStat_var; 
 	document.forms[0].operationType.value=oper_var; 	
-
+	document.forms[0].unitId.value=unit_var; 	
 } 
 
 function doEdit(){ 
@@ -61,7 +61,7 @@ function doEdit(){
 <html:hidden property="appNo"/>
 <html:hidden property="formState"/>
 <html:hidden property="operationType"/>
-
+<input type=hidden name=unitId > 
 <%=ViewUtil.getTitle("换损申请单")%>
 	
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
@@ -72,7 +72,7 @@ function doEdit(){
 			从<html:text property="beginDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
 			到<html:text property="endDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
  			申请单位:
-			<html:select property="unitId" styleClass="Select">
+			<html:select property="unitId_f" styleClass="Select">
 				<html:optionsCollection name="issueappForm" property="unitIdcollection"/>
 			</html:select>
 			业务类型:
@@ -119,7 +119,7 @@ function doEdit(){
 			<td><%=vo.getCurrDate()%></td>	
 			<td><%=vo.getFormState()!=null?SingleDicMap.getDicItemVal(SingleDic.FORMTYPE, vo.getFormState().toString()):"" %></td>
 			<td><%=vo.getRemarks()%></td>	
-			<td align="center"><label><input type="radio" name="param"	onClick="setPKey('<%=vo.getAppNo()%>','<%=vo.getFormState()%>','<%=vo.getOperationType()%>')">
+			<td align="center"><label><input type="radio" name="param"	onClick="setPKey('<%=vo.getAppNo()%>','<%=vo.getFormState()%>','<%=vo.getOperationType()%>','<%=vo.getUnitId()%>')">
 			</label></td>			
 		</tr>
 

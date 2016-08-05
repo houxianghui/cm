@@ -11,6 +11,14 @@ public class Mwsissuetb {
 	private Short paymentType;
 	private Long unitPrice;
 	private Short taskState;
+	private String OAappNo;
+	public String getOAappNo() {
+		return OAappNo;
+	}
+
+	public void setOAappNo(String oAappNo) {
+		OAappNo = oAappNo;
+	}
     public Short getOperationType() {
 		return operationType;
 	}

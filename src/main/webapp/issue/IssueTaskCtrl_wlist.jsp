@@ -147,6 +147,7 @@ function doSingleAssign(){
 <html:hidden property="issueAmt"/>
 <html:hidden property="issueDoneAmt"/>
 <html:hidden property="appTypeId"/>
+<html:hidden property="operationType"/>
 <%=ViewUtil.getTitle("待分配发行任务列表")%>
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
 		align="center" cellpadding="0">
@@ -156,11 +157,11 @@ function doSingleAssign(){
 			从<html:text property="beginDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
 			到<html:text property="endDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
  			申请单位:
-			<html:select property="unitId" styleClass="Select">
+			<html:select property="unitId_f" styleClass="Select">
 				<html:optionsCollection name="issueappForm" property="unitIdcollection"/>
 			</html:select>
 			业务类型:
-			<html:select property="operationType" styleClass="Select">
+			<html:select property="operationType_f" styleClass="Select">
 				<html:optionsCollection name="issueappForm" property="operationTypecollection"/>
 			</html:select>
 			</td>
@@ -218,7 +219,7 @@ function doSingleAssign(){
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(vo.getKeyType()))%></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, vo.getPhiTypeId())%></td>					
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.APPTYPEID, String.valueOf(vo.getAppTypeId())) %></td>
-			<td><%=vo.getBinFileVer()!=null?SingleDicMap.getDicItemVal(SingleDic.BINFILEVER, vo.getBinFileVer()):""%></td>
+			<td><%=vo.getBinFileVer()!=null?ReDefSDicMap.getDicItemVal(RedefSDicCodes.MODULEVERSION,vo.getBinFileVer()):""%></td>
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.ALL_UNITID, String.valueOf(vo.getUnitId()))%></td>	
 			<td><%=vo.getIssueAmt()%></td>
 			<td><%=vo.getIssueDoneAmt()%></td>			

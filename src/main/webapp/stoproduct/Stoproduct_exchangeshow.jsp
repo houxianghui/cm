@@ -2,14 +2,14 @@
 <%@ include file = "/includes/common.jsp" %> 
 <%@ page contentType="text/html; charset=GBK"%> 
 <jsp:useBean id="pageResult" scope="request"	class="com.eis.base.PageObject" />
-<jsp:useBean id="storeuseForm" scope="request"  class="com.yly.reuse.StoreuseForm" />
+<jsp:useBean id="stoproductForm" scope="request"  class="com.yly.exstore.StoproductForm" />
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 
 
 
 <html> 
 <head>
-<title>产品退回</title> 
+<title>产品换损</title> 
 <script language="javascript"> 
 
 function doShow(){ 
@@ -24,9 +24,11 @@ function doRead(){
 	$.get("Mwsissuetb.do?act=R&prodId="+document.forms[0].prodId.value+"&operationType="+document.forms[0].operationType.value,function(result){
 		var json = $.parseJSON(result);
 		if(json.error!=null){
+			document.forms[0].detectSign.value=2;
 			alert(json.error);
 		}else{
 			document.forms[0].samId.value=json.origSamId;
+			document.forms[0].detectSign.value=1;
 			if(document.forms[0].prodId.value==4){
 				$("#module").text(json.module);
 			}
@@ -35,6 +37,19 @@ function doRead(){
 		return;
 	});
 
+}
+function doReadCSN(){ 
+	$.get("Repair.do?act=read&manufacId="+document.forms[0].manufacId.value+"&prodId="+document.forms[0].prodId.value,function(result){
+		var json = $.parseJSON(result);	
+		if(json.error!=null){
+			document.forms[0].detectSign.value=2;
+			alert(json.error);
+		}else{
+			document.forms[0].samCSN.value=json.csn;
+			document.forms[0].detectSign.value=1;
+		}
+		return;
+	});
 }
 function doBack(){ 
 	if(document.forms[0].samCSN.value == null ||document.forms[0].samCSN.value == ''){
@@ -45,88 +60,122 @@ function doBack(){
 	document.forms[0].submit();
 	
 } 
+function doExchange(){ 
+	if(document.forms[0].operationType.value!=43){
+		window.location="StoApp.do?act=makeUpList&appNo="+document.forms[0].appNo.value+"&currPeriodAmt="+document.forms[0].taskAmt.value+"&operationType="+document.forms[0].operationType.value; 
+	}
+	else{
+		window.location="Issueapp.do?act=u&appNo="+document.forms[0].appNo.value+"&OAappNo="+document.forms[0].OAappNo.value+"&taskAmt="+document.forms[0].taskAmt.value+"&operationType="+document.forms[0].operationType.value; 
+	}
+} 
+function prodAttr_fun(obj){
+	if(document.forms[0].operationType.value==41 && obj.value!=3){
+		alert("该业务只支持产品类型为esam");
+		return;
+	}else if(document.forms[0].operationType.value==42 && obj.value!=4){
+		alert("该业务只支持产品类型为小模块");
+		return;
+	}
 
+}
 </script> 
 </head>
 <body> 
 <p>&nbsp;</p> 
- <html:form method="post" action="Storeuse.do" >
+<html:form method="post" action="Stoproduct.do" >
 <input type=hidden name=act value="back">
 <input type=hidden name=requery>
 <html:hidden property="operationType"/>
 <html:hidden property="appNo"/>
-<html:hidden property="detectSign"/>
 <html:hidden property="taskAmt"/>
-<%=ViewUtil.getTitle("产品退回,数量"+storeuseForm.getTaskAmt())%> 
-
+<html:hidden property="OAappNo"/>
+<html:hidden property="detectSign"/>
+<%=ViewUtil.getTitle(SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(stoproductForm.getOperationType()))+"产品换损,数量 "+stoproductForm.getTaskAmt())%> 
  <table id="issue" align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0">
-	<tr>
+      <tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		 SAM卡号:
+		<%=ViewUtil.must()%>卡物理状态:
 		</td>
-		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<html:text property="samId" styleClass="Textfield"  size="12" maxlength="12"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  value="<%=storeuseForm.getSamId()%>" />&nbsp; 
-		<input	name="read" type="button" class="Button" value="读取SAM卡号(选择产品类型)" onClick="doRead()"> &nbsp; <div id=module></div>
-	
-	</td>
+		<td colspan="3"  class="dtPanel_Main2">&nbsp;
+		<%=SingleDicMap.getRadio("cardPhyStat", SingleDic.PHY_STAT,  String.valueOf(stoproductForm.getCardPhyStat()))%> 
+		</td>	
 	</tr>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		 SAM印刷卡号:
+		 <%=ViewUtil.must()%>SAM印刷卡号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<html:text property="samCSN" styleClass="Textfield"  size="20" maxlength="20"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"   value="<%=storeuseForm.getSamCSN()%>" />&nbsp; 	
-		&nbsp;<input name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> 	
+		<html:text property="samCSN" styleClass="Textfield"  size="20" maxlength="20"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  value="<%=stoproductForm.getSamCSN()%>"/>&nbsp; 	
 	</td>
-	</tr>
-     <tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		检测结果:
-		</td>
-		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getDicItemVal(SingleDic.DETECSIGN, String.valueOf(storeuseForm.getDetectSign())) %> 
-		</td>	
 	</tr>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
 		<%=ViewUtil.must()%>产品类型:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("prodId", SingleDic.PROD_ID, storeuseForm.getProdId())%>
+		<%=SingleDicMap.getRadioWithFun("prodId", SingleDic.PROD_ID, stoproductForm.getProdId(),"prodAttr_fun(this)")%>
 		</td>
 	</tr>	   
 	<tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		<%=ViewUtil.must()%>厂商名称:
+		</td>
+		<td colspan="3" class="dtPanel_Main2">&nbsp;
+		<%=ReDefSDicMap.getRadio("manufacId", RedefSDicCodes.MAUN_ID, stoproductForm.getManufacId()) %>
+		</td>
+	</tr>	  
+	<tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		 产品通信速率:
+		</td>
+		<td colspan="3" class="dtPanel_Main2">&nbsp;
+		<%=SingleDicMap.getRadio("phiTypeId", SingleDic.COMM_RATE, stoproductForm.getPhiTypeId())%> 
+		</td>
+	</tr>	
+	<tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		所属批次号:
+		</td>
+		<td colspan="3" class="dtPanel_Main2">&nbsp;
+		<html:text property="batchId" styleClass="Textfield"  size="16" maxlength="16"  value="<%=stoproductForm.getBatchId()%>"/>&nbsp; 
+		</td>
+	</tr>	
+		<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
 		 申请单位:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<html:select property="unitId" styleClass="Select">
-			<html:optionsCollection name="storeuseForm" property="unitIdcollection"/>
+			<html:optionsCollection name="stoproductForm" property="unitIdcollection"/>
 		</html:select>
 		</td>
-	</tr>	   	
+	</tr>	  	
+	
+	 <tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		检测结果:
+		</td>
+		<td colspan="3"  class="dtPanel_Main2">&nbsp;
+		<%=SingleDicMap.getDicItemVal(SingleDic.DETECSIGN, String.valueOf(stoproductForm.getDetectSign())) %> 
+		</td>	
+	</tr>
+	<%if(stoproductForm.getOperationType()==43){%>
+	<tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		<%=ViewUtil.must()%>SAM卡号:
+		</td>
+		<td colspan="3" class="dtPanel_Main2">&nbsp;
+		<html:text property="samId" styleClass="Textfield"  size="12" maxlength="12"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  value="<%=stoproductForm.getSamId()%>" />&nbsp; 
+		<input	name="read" type="button" class="Button" value="读取SAM卡号(选择产品类型)" onClick="doRead()"> &nbsp; <div id=module></div>
+		&nbsp;<input name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> 	
+	</td>
+	</tr>	 	
      <tr>
 		<td width="16%" align="left" class="dtPanel_Left">
 		 密钥类型:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("keyType", SingleDic.KEYTYPE,String.valueOf(storeuseForm.getKeyType()))%> 
-		</td>	
-	</tr>	
-	<tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		 厂商名称:
-		</td>
-		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=ReDefSDicMap.getRadio("manufacId", RedefSDicCodes.MAUN_ID, storeuseForm.getManufacId()) %>
-		</td>
-	</tr>	   	
-     <tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		 产品通信速率:
-		</td>
-		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("phiTypeId", SingleDic.COMM_RATE, storeuseForm.getPhiTypeId())%> 
+		<%=SingleDicMap.getRadio("keyType", SingleDic.KEYTYPE, String.valueOf(stoproductForm.getKeyType()))%> 
 		</td>	
 	</tr>	
 	 <tr>
@@ -134,33 +183,19 @@ function doBack(){
 		 产品应用类型:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=ReDefSDicMap.getRadio("appTypeId", RedefSDicCodes.APPTYPEID, String.valueOf(storeuseForm.getAppTypeId())) %>
+		<%=ReDefSDicMap.getRadio("appTypeId", RedefSDicCodes.APPTYPEID,  String.valueOf(stoproductForm.getAppTypeId())) %>
 		</td>	
 	</tr>
-	<tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		 模块程序版本:
-		</td>
-		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<html:select property="binFileVer" styleClass="Select">
-				<html:optionsCollection name="storeuseForm" property="moduleVerEffcollection"/>
-		</html:select>
-		</td>	
-	</tr>	
-     <tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		卡物理状态:
-		</td>
-		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("cardPhyStat", SingleDic.PHY_STAT, String.valueOf(storeuseForm.getCardPhyStat()))%> 
-		</td>	
-	</tr>	
+	<%}else{%>
+		<input	name="read" type="button" class="Button" value="读取SAM印刷卡号(选择产品类型和厂商)" onClick="doReadCSN()">
+	<%}%>	
+	
 </table>
- <%=ViewUtil.getTitle("退回流水信息")%> 		
+ <%=ViewUtil.getTitle("检测流水信息")%> 		
 	<table width="98%" border="0" cellspacing="1" align="center"
 		cellpadding="0">
 		<tr>
-			<td class="dtPanel_Line">
+			<td class="dtPanel_L
 			<table width="100%" border="0" cellpadding="0" cellspacing="1">
 				<tr align="center" class="dtPanel_Top01">
 					<td width="10%">流水号</td>
@@ -170,7 +205,7 @@ function doBack(){
 					<td width="10%">检测结果</td>	
 					<td width="10%">错误码</td>						
 					<td width="10%">操作员</td>	
-					<td width="10%">操作时间</td>					
+					<td width="10%">操作时间</td>		
 				</tr>
 				<%List list = pageResult.getList();
 
@@ -209,8 +244,10 @@ if (pageResult != null) {%>
     <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
         <tr> 
 				<td height="25" align="center" class="dtPanel_Bottom"> 
-						<input name="back" type="button" class="Button" value="退回回收库" onClick="doBack()">
-				</td> 
+						<input name="back" type="button" class="Button" value="坏卡回库" onClick="doBack()">&nbsp; 	  
+						<input name="exchange" type="button" class="Button" value="批量换损" onClick="doExchange()">&nbsp;   
+						<input name="return" type="button" class="Button" value="返回" onClick="history.back()">  
+		 		</td> 
 	    </tr> 
   </table> 
 </body> 

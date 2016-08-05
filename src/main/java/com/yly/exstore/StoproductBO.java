@@ -297,6 +297,20 @@ public class StoproductBO extends IbatisBO {
 		if(ls!=null){
 			lsinfoDAO.insert(ls);			
 		}
+	}
+	public void transUpdateSto(Stoproduct sto,Lsinfo ls) throws Exception {
+		if(sto != null){		
+			int row=stoproductDAO.updateByPrimaryKeySelective(sto);	
+			if(row<1){
+				stoproductDAO.insert(sto);
+			}
+		}
+		if(ls!=null){
+			lsinfoDAO.insert(ls);			
+		}
 		
 	}
+	
+	
+	
 }

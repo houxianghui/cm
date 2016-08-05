@@ -16,7 +16,13 @@ public class IssuetaskctrlForm  extends BaseForm {
 	public void setKeyType(Integer keyType) {
 		this.keyType = keyType;
 	}
-
+	private String OAappNo;
+	public String getOAappNo() {
+		return OAappNo;
+	}
+	public void setOAappNo(String oAappNo) {
+		OAappNo = oAappNo;
+	}
 	private String sql;
 	private String operationType;
 	public String getOperationType() {
