@@ -6,43 +6,31 @@
  
 package com.yly.issue;
 
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.URLEncoder;
+
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONArray;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.taglib.nested.bean.NestedDefineTei;
-import org.apache.struts.util.LabelValueBean;
+
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
-import com.eis.base.PageObject;
-import com.eis.cache.ReDefSDicMap;
-import com.eis.cache.SingleDic;
-import com.eis.cache.SingleDicMap;
+
 import com.eis.exception.MessageException;
 import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
-import com.eis.util.DateUtil;
 import com.eis.util.StringUtil;
-import com.ibm.icu.text.DecimalFormat;
+
 import com.yly.info.BiunitinfoBO;
 import com.yly.info.Biunitinfotb;
 

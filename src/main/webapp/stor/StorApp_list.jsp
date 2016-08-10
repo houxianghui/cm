@@ -23,23 +23,28 @@ function doQuery() {
 	document.forms[0].submit(); 
 } 
  
-function setPKey(formNo_var) { 
-	document.forms[0].formNo.value=formNo_var; 
-} 
- 
 function turnPage( pagenm ) {   
     	document.forms[0].act.value = "list";  
     	document.forms[0].pageNO.value = pagenm;     
     	document.forms[0].submit(); 
 } 
- 
+function setPKey(appNo_var) { 
+	document.forms[0].formNo.value=appNo_var; 
+} 
+function doPrint(){
+	if(document.forms[0].formNo.value == null ||document.forms[0].formNo.value == "") { 
+		alert('请选择批次'); 
+		return; 
+	} 
+	window.location="PdfMaker.do?act=print&formNo="+document.forms[0].formNo.value+"&operationType="+document.forms[0].operationType.value; 
+}
 </script>
 </head>
 <body>
 <script type="text/javascript" src="js/calendar.js"></script>
 <html:form method="post" action="StoApp.do">
 <input type=hidden name=act value="list">
-
+<html:hidden property="formNo"/>
 <%=ViewUtil.getTitle("入库申请列表")%>
 	
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
@@ -81,6 +86,7 @@ function turnPage( pagenm ) {
 			<td>模块批次号/采购类型/通信速率</td>
 			<td>模块版本号/Pki存在</td>
 			<td>印刷卡号范围/配件批次号</td>
+			<td>录入日期</td>
 			<td>选择</td>
 		</tr>
 		<%if (pageResult != null) {
@@ -110,6 +116,7 @@ function turnPage( pagenm ) {
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO,vo.getIsPki())%></td>
 			<td><%=vo.getPressCardScale()==null?"":vo.getPressCardScale().trim()%></td>	
 			<%} %>
+			<td><%=vo.getCurrDate()%></td>	
 			<td align="center">
 			<label><input type="radio" name="param"	onClick="setPKey('<%=vo.getFormNo()%>')">
 			</label></td>
@@ -136,6 +143,7 @@ if (pageResult != null) {%>
 		<tr>
 			<td height="25" align="center">
 			<input type="button" value="增加入库申请" class="Button" onClick="doAdd()"/>
+			<input type="button" value="打印单据" class="Button" onClick="doPrint()"/>
 			</td>
 		</tr>
 	</table>

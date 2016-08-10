@@ -116,6 +116,7 @@ function doDownProgram() {
 			<td>模块批次号/采购类型/通信速率</td>
 			<td>模块版本号/Pki存在</td>
 			<td>印刷卡号范围/模块配件批次号</td>
+			<td>录入日期</td>
 			<td>选择</td>
 		</tr>
 		<%if (pageResult != null) {
@@ -145,6 +146,7 @@ function doDownProgram() {
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO,vo.getIsPki())%></td>
 			<td><%=vo.getPressCardScale()==null?"":vo.getPressCardScale().trim()%></td>	
 			<%} %>
+			<td><%=vo.getCurrDate()%></td>
 			<td align="center">
 			<label><input type="radio" name="param"	onClick="setPKey('<%=vo.getFormNo()%>')">
 			</label></td>

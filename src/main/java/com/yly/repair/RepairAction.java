@@ -15,6 +15,7 @@ import com.eis.portal.UserContext;
 import com.eis.util.KeyVDatagram;
 import com.yly.drools.FunDrools;
 import com.yly.drools.Func;
+import com.yly.exstore.StoproductBO;
 import com.yly.func.CallFunc;
 import com.yly.func.Para;
 import com.yly.func.ParaTools;
@@ -23,11 +24,21 @@ import com.yly.func.ParaTools;
 
 
 public class RepairAction extends IbatisBaseAction {
-
+	private StoproductBO stoproductBO;
 	/* 
 	 * @see com.eis.base.BaseAction#process(org.apache.struts.action.ActionMapping, com.eis.base.BaseForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.eis.portal.UserContext)
 	 */
 	
+	public StoproductBO getStoproductBO() {
+		return stoproductBO;
+	}
+
+
+
+
+	public void setStoproductBO(StoproductBO stoproductBO) {
+		this.stoproductBO = stoproductBO;
+	}
 	@Autowired
 	FunDrools funDrools;
 	@Autowired
@@ -119,7 +130,9 @@ public class RepairAction extends IbatisBaseAction {
 			request.setAttribute("samCSN",f.getCardcsn());
 			request.setAttribute("manufacId",f.getManufacId());
 			request.setAttribute("prodId",f.getProdId());
-			return popConfirmClosePage(request, mapping, "ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"Repair.do?act=repairInit");
+			String badSamId=stoproductBO.getMaxBadCard();
+			request.setAttribute("samId",badSamId);
+			return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+f.getCardcsn()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"Repair.do?act=repairInit");
 		}
 	}
 	private void initRepairForm(RepairForm f){

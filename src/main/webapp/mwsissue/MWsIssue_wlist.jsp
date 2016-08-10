@@ -49,10 +49,6 @@ function doIssue(){
 <html:form method="post" action="Mwsissuetb.do">
 <input type=hidden name=act value="list">
 <input type=hidden name=requery> 
-<html:hidden property="taskCtrlNo"/>
-<html:hidden property="issueDoneAmt"/>
-<html:hidden property="phiTypeId"/>
-<html:hidden property="prodId"/>
 <html:hidden property="formNo"/>
 <%=ViewUtil.getTitle("发行加工单列表")%>
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
@@ -71,7 +67,7 @@ function doIssue(){
 	<table width="98%" class="dtPanel_Line1" border="0" cellspacing="1"
 		align="center" cellpadding="0">
 		<tr align="center" class="dtPanel_Top01" height="28">
-			<td nowrap>单据编号</td>
+			<td nowrap>OA申请单号</td>
 			<td nowrap>分配时间</td>
 			<td nowrap>加工单序号</td>	
 			<td nowrap>产品类型</td>	
@@ -93,7 +89,7 @@ function doIssue(){
 		while (iter.hasNext()) {
 			Mwsissuetb vo = (Mwsissuetb) iter.next();%>
 		<tr align="left" class="dtPanel_Main" onclick="_clickTr( this )">	
-			<td><a href="Issuetaskctrl.do?act=ql&taskCtrlNo=<%=vo.getTaskCtrlNo()%>"><%=vo.getFormNo()%></a></td>	
+			<td><a href="Issuetaskctrl.do?act=ql&taskCtrlNo=<%=vo.getTaskCtrlNo()%>"><%=vo.getOAappNo()%></a></td>	
 			<td><%=vo.getFormTime()%></td>
 			<td><%=vo.getWsSnr()%></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.PROD_ID, vo.getProdId())%></td>

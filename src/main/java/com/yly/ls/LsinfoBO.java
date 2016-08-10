@@ -121,5 +121,17 @@ public class LsinfoBO extends IbatisBO {
 			c.andOperationTypeEqualTo(vo.getOperationType());
 		return lsinfoDAO.countByExample(e);
 	}
+	public List queryReportLsForList(Object obj) throws Exception {
+		LsinfoExample e = new LsinfoExample();
+		Criteria c = e.createCriteria();
+		Lsinfo vo=(Lsinfo)obj;
+		if(!CheckUtil.isEmptry(vo.getAppNo()))
+			c.andAppNoEqualTo(vo.getAppNo());
+		if(vo.getOperationType()!=null && vo.getOperationType()!=0)
+			c.andOperationTypeEqualTo(vo.getOperationType());
+		c.andOperationTypeNotEqualTo((short)81);
+		c.andErrorCodeIsNull();
+		return lsinfoDAO.selectByExample(e);
+	}
 
 }

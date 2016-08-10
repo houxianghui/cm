@@ -18,6 +18,8 @@ import org.apache.struts.action.ActionMapping;
 
 
 
+
+
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
 import com.eis.exception.MessageException;
@@ -26,8 +28,13 @@ import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
 import com.eis.util.StringUtil;
+import com.yly.drools.Func;
+import com.yly.func.Para;
+import com.yly.func.ParaTools;
 import com.yly.issue.Issueapp;
 import com.yly.issue.IssueappBO;
+import com.yly.issue.MWsIssueBO;
+import com.yly.issue.MWsIssuetbForm;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoBO;
 import com.yly.reuse.Storeuse;
@@ -105,6 +112,8 @@ public class StoproductAction extends IbatisBaseAction {
 			return back(form,mapping,request,user);
 		}else if("show".equals(act)){		//query active projects
 			return show(form,mapping,request,user);
+		}else if("insertBad".equals(act)){		//query active projects
+			return issueInsertBadCard(form,mapping,request,user);
 		}
 
 
@@ -224,7 +233,6 @@ public class StoproductAction extends IbatisBaseAction {
 		lsvo.setCurrDate(DateUtil.getTimeStr());
 		lsvo.setOperId(user.getUserID());
 		lsvo.setOperationType((short)opertype);
-		
 		if (vo!= null) {
 		    vo.setIOState((short)2);//出库
 		    vo.setIOStateChgDate(DateUtil.getTimeStr());
@@ -232,6 +240,7 @@ public class StoproductAction extends IbatisBaseAction {
 			lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
 			lsvo.setSamCSN(vo.getSamCSN());
 			lsvo.setSamId(vo.getSamId());
+			lsvo.setProdId(vo.getProdId());
 		 }else{
 				throw new MessageException(sf.getSamId()+"该产品异常,请联系选择其他产品!");
 		 }
@@ -246,7 +255,15 @@ public class StoproductAction extends IbatisBaseAction {
 		String url=request.getParameter("url");
 		return forwardSuccessPage(request,mapping,"更新成功",url);
 	}
-
+	public ActionForward issueInsertBadCard(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		Stoproduct vo = new Stoproduct();
+		StoproductForm f = (StoproductForm)form;
+		copyProperties(vo,f);
+		vo.setWkStateChgDate(DateUtil.getTimeStr());
+		((StoproductBO)bo).insert(vo);
+		String url=request.getParameter("url");
+		return forwardSuccessPage(request,mapping,"更新成功",url);
+	}
 	public ActionForward disCard(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoproductForm f = (StoproductForm)form;
 		int opertype=f.getOperationType();
@@ -277,11 +294,10 @@ public class StoproductAction extends IbatisBaseAction {
 			    	vo = (Stoproduct)iter.next();			    	
 			    	vo.setWkState((short)16);//报废
 			    	vo.setWkStateChgDate(DateUtil.getTimeStr());
-			    	
 					lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
 					lsvo.setSamCSN(vo.getSamCSN());
 					lsvo.setSamId(vo.getSamId());
-
+					lsvo.setProdId(vo.getProdId());
 			    	break;
 			    }
 			 }else{
@@ -352,15 +368,26 @@ public class StoproductAction extends IbatisBaseAction {
 	}
 	public ActionForward back(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoproductForm sf = (StoproductForm)form;
-		sf.setWkState((short)13);
 		sf.setWkStateChgDate(DateUtil.getTimeStr());
 		sf.setIOState((short)3);
 		sf.setIOStateChgDate(DateUtil.getTimeStr());
 		sf.setDetectTime(DateUtil.getTimeStr());
-		if(CheckUtil.isEmptry(sf.getSamId()))
-			sf.setSamId("0");
-		if(CheckUtil.isEmptry(sf.getSamCSN()))
-			sf.setSamCSN("0");
+		
+		if(sf.getOperationType()==41||sf.getOperationType()==42){
+			if(CheckUtil.isEmptry(sf.getSamCSN()) || sf.getSamCSN().equals("0")){
+				sf.setSamCSN("0");
+				sf.setSamId(((StoproductBO)bo).getMaxBadCard());
+			}else{
+				sf.setSamId("0");
+			}
+		}else{
+			if(CheckUtil.isEmptry(sf.getSamId()) ||sf.getSamId().equals("0")){
+				sf.setSamId(((StoproductBO)bo).getMaxBadReturnCard());
+			}
+			if(CheckUtil.isEmptry(sf.getSamCSN())){
+				sf.setSamCSN("0");
+			}
+		}
 		Lsinfo vo=new Lsinfo();
 		vo.setAppNo(sf.getAppNo());
 		vo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
@@ -369,10 +396,11 @@ public class StoproductAction extends IbatisBaseAction {
 		Stoproduct sto = new Stoproduct();
 		copyProperties(sto, sf);
 		copyProperties(vo, sf);		
+		vo.setOperationType((short)61);//退回
 		((StoproductBO)bo).transUpdateSto(sto, vo);
 		Lsinfo queryvo=new Lsinfo();
 		queryvo.setAppNo(sf.getAppNo());
-		queryvo.setOperationType(sf.getOperationType().shortValue());	
+		queryvo.setOperationType(vo.getOperationType().shortValue());	
 		List<Lsinfo> l=lsinfoBO.queryForList(queryvo);
 		if(l!=null &&l.size()>0){
 			setPageResult(request,l);
@@ -403,4 +431,5 @@ public class StoproductAction extends IbatisBaseAction {
 		setPageResult(request,l);
 		return mapping.findForward("show");	
 	}
+
 }

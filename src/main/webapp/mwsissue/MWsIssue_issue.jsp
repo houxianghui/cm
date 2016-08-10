@@ -39,7 +39,7 @@ function doExam(){
 		if(json.error!=null){
 			alert(json.error);
 		}else{
-	 		$("#detectSign"+json.flowNo).text(json.detectSign);
+	 		$("#detectSign"+json.flowNo).text("Á¼Æ·");
 			$("#detect"+json.flowNo).hide();	
 			alert(json.msg);
 		}
@@ -248,7 +248,7 @@ if (list != null) {
 					<td><%=vo.getFlowNo()%></td>	
 					<td><%=vo.getSamId()%></td>
 					<td><%=vo.getSamCSN()%></td>
-					<td><div id="detectSign<%=vo.getFlowNo()%>"></div><div id="detect<%=vo.getFlowNo()%>"><%=vo.getDetectSign()%></div></td>
+					<td><div id="detectSign<%=vo.getFlowNo()%>"></div><div id="detect<%=vo.getFlowNo()%>"><%=vo.getDetectSign()==null?"":SingleDicMap.getDicItemVal(SingleDic.DETECSIGN, String.valueOf(vo.getDetectSign()))%></div></td>
 					<td><%=vo.getErrorCode()==null?"":SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(vo.getErrorCode()))%></td>
 					<td><%=vo.getSamIdOld()%></td>
 					<td><%=vo.getSamCSNOld()%></td>			

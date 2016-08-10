@@ -21,7 +21,7 @@
     <table align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0"> 
     <tr>
         <td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>合同号:
+		合同号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=stoAppForm.getProjContNum()%>
@@ -29,7 +29,7 @@
 	</tr>
     <tr>
         <td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>合同名称:
+		合同名称:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=stoAppForm.getProjName()%>
@@ -37,7 +37,7 @@
 	</tr>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>产品类型:
+		产品类型:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;	
 		<%=SingleDicMap.getDicItemVal(SingleDic.PROD_ID, stoAppForm.getProdId())%> 
@@ -45,7 +45,7 @@
 	</tr>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>厂商名称:
+		厂商名称:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.MAUN_ID, stoAppForm.getManufacId())%> 
@@ -53,7 +53,7 @@
 	</tr>
 		<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>产品通信速率:
+		产品通信速率:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, stoAppForm.getPhiTypeId())%> 	
@@ -61,7 +61,7 @@
 	</tr>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>支持Pki:
+		支持Pki:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, stoAppForm.getIsPki())%> 	
@@ -69,7 +69,7 @@
 	</tr>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>支持互联互通:
+		支持互联互通:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, stoAppForm.getIsHTCard())%> 	
@@ -77,7 +77,7 @@
 	</tr>		
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>数量:
+		数量:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=stoAppForm.getPurchaseAmt()%>
@@ -86,7 +86,7 @@
 	</tr>
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>印刷卡号范围:
+		印刷卡号范围:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=stoAppForm.getPressCardScale()%>
@@ -94,7 +94,7 @@
 	</tr>		
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>经办人:
+		经办人:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=stoAppForm.getPurchasePerson()%>
@@ -111,7 +111,7 @@
 <%if(stoAppForm.getProdId().equals("5")) {%>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>采购类型:
+		采购类型:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		&nbsp;<%=SingleDicMap.getDicItemVal(SingleDic.PURCH_TYPE, stoAppForm.getPurchaseType())%></div>
@@ -120,7 +120,7 @@
 <%}else if(stoAppForm.getProdId().equals("4")) {%>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>模块配件批次号:
+		模块配件批次号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=stoAppForm.getRsvd()%>
@@ -128,7 +128,7 @@
 	</tr>		
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>模块版本号:
+		模块版本号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=stoAppForm.getModuleVersion()%>
@@ -136,7 +136,7 @@
 	</tr>		
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>模块批次号:
+		模块批次号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=stoAppForm.getModuleBatchId()%>
@@ -144,7 +144,22 @@
 	</tr>
 			
 <%} %>
-	
+	<tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		录入日期:
+		</td>
+		<td colspan="3" class="dtPanel_Main2">&nbsp;
+		<%=stoAppForm.getCurrDate()%>
+	</td>
+	</tr>
+	<tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		录入员:
+		</td>
+		<td colspan="3" class="dtPanel_Main2">&nbsp;
+		<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, stoAppForm.getOperId())%> 
+	</td>
+	</tr>
   </table> 
  
     <table  class=heightspace_bottom1  border="0" cellspacing="0" cellpadding="0"><tr><td></td></tr></table> 

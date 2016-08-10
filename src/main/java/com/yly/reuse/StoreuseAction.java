@@ -24,6 +24,7 @@ import com.eis.base.IbatisBaseAction;
 import com.eis.exception.MessageException;
 import com.eis.key.KeyGenerator;
 import com.eis.portal.UserContext;
+import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
 import com.eis.util.StringUtil;
 import com.yly.exstore.Stoproduct;
@@ -144,9 +145,14 @@ public class StoreuseAction extends IbatisBaseAction {
 	public ActionForward Back(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoreuseForm sf = (StoreuseForm)form;
 		StoproductForm stf = new StoproductForm();
+		if(CheckUtil.isEmptry(sf.getSamId()) ||sf.getSamId().equals("0")){
+			sf.setSamId(stoproductBO.getMaxBadReturnCard());
+		}
+		if(CheckUtil.isEmptry(sf.getSamCSN()) ||sf.getSamCSN().equals("0")){
+			sf.setSamCSN("0");
+		}
 		stf.setSamId(sf.getSamId());
 		stf.setSamCSN(sf.getSamCSN());
-		
 		Lsinfo lsinfo =  new Lsinfo();
 		copyProperties(lsinfo, sf);
 		lsinfo.setCurrDate(DateUtil.getTimeStr());
@@ -156,24 +162,33 @@ public class StoreuseAction extends IbatisBaseAction {
 		
 		Stoproduct sto = stoproductBO.queryForObjByKey(stf);
 		Storeuse storeuse = new Storeuse();
-		if(sf.getDetectSign()==2 ||sf.getCardPhyStat()==11){
-			sto.setWkState((short)13);
+
+		if(sto==null){
+			sto=new Stoproduct();
+			copyProperties(sto, sf);
 			sto.setWkStateChgDate(DateUtil.getTimeStr());
 			sto.setIOState((short)3);
 			sto.setIOStateChgDate(DateUtil.getTimeStr());
 			sto.setDetectTime(DateUtil.getTimeStr());
 			sto.setDetectSign(sf.getDetectSign());
-			sto.setDetectSign(sf.getCardPhyStat());
+			sto.setCardPhyStat(sf.getCardPhyStat());
+		}
+		if(sf.getDetectSign()==2 ||sf.getCardPhyStat()==11){
+			sto.setWkStateChgDate(DateUtil.getTimeStr());
+			sto.setIOState((short)3);
+			sto.setIOStateChgDate(DateUtil.getTimeStr());
+			sto.setDetectTime(DateUtil.getTimeStr());
+			sto.setDetectSign(sf.getDetectSign());
+			sto.setCardPhyStat(sf.getCardPhyStat());
 			storeuse=null;
 		}else{
 			copyProperties(storeuse, sto);
-			storeuse.setWkState((short)12);
 			storeuse.setWkStateChgDate(DateUtil.getTimeStr());
 			storeuse.setIOState((short)3);
 			storeuse.setIOStateChgDate(DateUtil.getTimeStr());
 			storeuse.setDetectTime(DateUtil.getTimeStr());
 			storeuse.setDetectSign(sf.getDetectSign());
-			storeuse.setDetectSign(sf.getCardPhyStat());	
+			storeuse.setCardPhyStat(sf.getCardPhyStat());	
 		}
 
 		Lsinfo vo =  new Lsinfo();
@@ -256,6 +271,7 @@ public class StoreuseAction extends IbatisBaseAction {
 			lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
 			lsvo.setSamCSN(vo.getSamCSN());
 			lsvo.setSamId(vo.getSamId());
+			lsvo.setProdId(vo.getProdId());
 		 }else{
 				throw new MessageException(sf.getSamId()+"该产品异常,请联系选择其他产品!");
 		 }

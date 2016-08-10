@@ -25,6 +25,7 @@ function doRead(){
 	$.get("Mwsissuetb.do?act=R&prodId="+document.forms[0].prodId.value+"&operationType="+document.forms[0].operationType.value,function(result){
 		var json = $.parseJSON(result);
 		if(json.error!=null){
+			document.forms[0].samId.value=0;
 			document.forms[0].detectSign.value=2;
 			alert(json.error);
 		}else{
@@ -40,9 +41,14 @@ function doRead(){
 
 }
 function doBack(){ 
-	if(document.forms[0].samCSN.value == null ||document.forms[0].samCSN.value == ''){
-		alert('请录入SAM印刷卡号'); 
-		return; 
+	if(document.forms[0].detectSign.value == 2 ||document.forms[0].cardPhyStat.value == 2){
+		if(!confirm('需要产品待作废处理吗?')) { 
+			document.forms[0].wkState.value = "13";
+		}else{
+			document.forms[0].wkState.value = "15";
+		} 
+	}else{
+		document.forms[0].wkState.value = "12";
 	}
 	document.forms[0].act.value = "back";
 	document.forms[0].submit();
@@ -59,6 +65,7 @@ function doBack(){
 <input type=hidden name=operationType value="61">
 <html:hidden property="appNo"/>
 <html:hidden property="taskAmt"/>
+<html:hidden property="wkState"/>
  <%=ViewUtil.getTitle("产品退回,数量"+storeuseForm.getTaskAmt())%> 
 
  <table id="issue" align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0">
@@ -211,7 +218,7 @@ if (pageResult != null) {%>
     <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
         <tr> 
 				<td height="25" align="center" class="dtPanel_Bottom"> 
-						<input name="back" type="button" class="Button" value="退回回收库" onClick="doBack()">
+						<input name="back" type="button" class="Button" value="产品退回" onClick="doBack()">
 		 		</td> 
 	    </tr> 
   </table> 

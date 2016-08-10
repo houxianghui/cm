@@ -47,6 +47,13 @@ function doEdit(){
 	document.forms[0].submit(); 
 
 } 
+function doPrint(){
+	if(document.forms[0].appNo.value == null ||document.forms[0].appNo.value == "") { 
+		alert('请选择记录'); 
+		return; 
+	} 
+	window.location="PdfMaker.do?act=print&formNo="+document.forms[0].appNo.value+"&operationType="+document.forms[0].operationType.value; 
+}
 </script>
 </head>
 <body>
@@ -68,7 +75,7 @@ function doEdit(){
 			从<html:text property="beginDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
 			到<html:text property="endDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
  			申请单位:
-			<html:select property="unitId" styleClass="Select">
+			<html:select property="unitId_f" styleClass="Select">
 				<html:optionsCollection name="issueappForm" property="unitIdcollection"/>
 			</html:select>
 			业务类型:
@@ -83,7 +90,6 @@ function doEdit(){
 	<table width="98%" class="dtPanel_Line1" border="0" cellspacing="1"
 		align="center" cellpadding="0">
 		<tr align="center" class="dtPanel_Top01" height="28">
-			<td>申请编号</td>
 			<td>OA申请号</td>
 			<td>申请单位</td>
 			<td>补办总数</td>
@@ -93,6 +99,7 @@ function doEdit(){
 			<td>操作员</td>
 			<td>建立时间</td>
 			<td>单据状态</td>
+			<td>支付金额</td>
 			<td>备注</td>
 			<td>选择</td>
 			
@@ -104,8 +111,7 @@ function doEdit(){
 		while (iter.hasNext()) {
 			Issueapp vo = (Issueapp) iter.next();%>
 		<tr align="left" class="dtPanel_Main" onclick="_clickTr( this )">			
-			<td><a href="Lsinfo.do?act=list&appNo=<%=vo.getAppNo()%>"><%=vo.getAppNo() %></a></td>	
-			<td><%=vo.getOAappNo()%></td>	
+			<td><a href="Lsinfo.do?act=list&appNo=<%=vo.getAppNo()%>"><%=vo.getOAappNo()%></a></td>	
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.ALL_UNITID, String.valueOf(vo.getUnitId()))%></td>			
 			<td><%=vo.getTaskAmt() %></td>	
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(vo.getOperationType())) %></td>
@@ -114,6 +120,7 @@ function doEdit(){
 			<td><%=vo.getDirector()%></td>
 			<td><%=vo.getCurrDate()%></td>	
 			<td><%=vo.getFormState()!=null?SingleDicMap.getDicItemVal(SingleDic.FORMTYPE, vo.getFormState().toString()):"" %></td>
+			<td><%=vo.getTotalPrice()%></td>
 			<td><%=vo.getRemarks()%></td>	
 			<td align="center"><label><input type="radio" name="param"	onClick="setPKey('<%=vo.getAppNo()%>','<%=vo.getFormState()%>','<%=vo.getOperationType()%>')">
 			</label></td>			
@@ -140,6 +147,7 @@ if (pageResult != null) {%>
 		<tr>
 			<td height="25" align="center">
 			<input type="button" value="维护" class="Button" onClick="doEdit()"/>
+			<input type="button" value="打印单据" class="Button" onClick="doPrint()"/>
 			</td>
 		</tr>
 	</table>

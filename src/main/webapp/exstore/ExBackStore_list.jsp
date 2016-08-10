@@ -24,6 +24,7 @@ function turnPage( pagenm ) {
     	document.forms[0].pageNO.value = pagenm;     
     	document.forms[0].submit(); 
 } 
+
 </script>
 </head>
 <body>
@@ -105,8 +106,7 @@ if (pageResult != null) {%>
 	<%}%>
 	<br>
 
-	<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	</table>
+
 
 </html:form>
 

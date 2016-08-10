@@ -120,11 +120,12 @@ public class StoAppInfoBO extends IbatisBO {
 			}
 		}
 	}
-	public void tranMain(Stoappinfo sto,Stoappinfo partSto) throws Exception {
+	public void tranMain(Stoappinfo sto,Stoappinfo partSto,Issueapp app) throws Exception {
+		stoappinfoDAO.insert(sto);
 		if(partSto!=null)
 			stoappinfoDAO.updateByPrimaryKeySelective(partSto);
-		if(sto!=null)
-			stoappinfoDAO.insert(sto);
+		if(app!=null)
+			issueappDAO.updateByPrimaryKeySelective(app);
 	}
 	public void tranInsert(Stoappinfo sto,Lsinfo lsvo) throws Exception {
 		if(lsvo!=null)

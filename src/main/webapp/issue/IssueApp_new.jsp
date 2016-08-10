@@ -39,8 +39,8 @@ function doAdd(){
 	document.forms[0].submit(); 
 } 
 function alert_fun(obj){
-	if(obj.value==25){
-		alert('请在修复发行菜单进行此操作'); 
+	if(obj.value==26){
+		alert('请先在 [退回管理]中退回本产品再进行此操作!'); 
 	}
 	 
 }
@@ -68,7 +68,7 @@ function alert_fun(obj){
 		<%=ViewUtil.must()%>业务类型:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=ReDefSDicMap.getRadioWithFun("operationType", RedefSDicCodes.ISSOPERATIONTYPE, "21","alert_fun(this)")%> 
+		<%=ReDefSDicMap.getRadioWithFunHidden("operationType", RedefSDicCodes.ISSOPERATIONTYPE, "21","25","alert_fun(this)")%> 
 		</td>
 	</tr>	
  	<tr>

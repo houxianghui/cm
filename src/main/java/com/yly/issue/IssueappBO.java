@@ -149,9 +149,9 @@ public class IssueappBO extends IbatisBO {
 		if(obj.getFormState()!=null && obj.getFormState()>0){
 			c.andFormStateEqualTo(obj.getFormState().shortValue());
 		}
-		if(!CheckUtil.isEmptry(obj.getAppNo())){
-			c.andAppNoEqualTo(obj.getAppNo());
-		}
+//		if(!CheckUtil.isEmptry(obj.getAppNo())){
+//			c.andAppNoEqualTo(obj.getAppNo());
+//		}
 	}
 	
 	public List getAppListByOperType(IssueappForm obj)throws Exception {
@@ -180,6 +180,12 @@ public class IssueappBO extends IbatisBO {
 		IssueappExample e = new IssueappExample();
 		Criteria c = e.createCriteria();
 		c.andOperationTypeBetween((short)31, (short)39);//出库业务
+		if(obj.getOperationType_f()!=null &&obj.getOperationType_f()>0 ){
+			obj.setOperationType(obj.getOperationType_f());
+		}
+		if(obj.getUnitId_f()!=null &&obj.getUnitId_f()>0 ){
+			obj.setUnitId(obj.getUnitId_f());
+		}
 		queryListByExample(obj, c);
 		return issueappDAO.selectByExample(e);
 	}
@@ -190,6 +196,9 @@ public class IssueappBO extends IbatisBO {
 		c.andOperationTypeBetween((short)51, (short)59);//出库业务
 		if(obj.getOperationType_f()!=null &&obj.getOperationType_f()>0 ){
 			obj.setOperationType(obj.getOperationType());
+		}
+		if(obj.getUnitId_f()!=null &&obj.getUnitId_f()>0 ){
+			obj.setUnitId(obj.getUnitId_f());
 		}
 		queryListByExample(obj, c);
 		return issueappDAO.selectByExample(e);

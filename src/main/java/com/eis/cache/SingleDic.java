@@ -51,5 +51,6 @@ public interface SingleDic {
 	String UNIT_LEVEL="0331";//单位等级
 	String IO_STATE="0332";//出入库状态	
 	String PHY_STAT="0333";//卡物理状态	
+	String REPORT_TYPE="0334";//成品出库类型
 	
 }

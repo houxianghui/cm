@@ -14,8 +14,8 @@
 <script language="javascript"> 
 function doAdd(){ 
 	//执行校验 
-	var field = new Array("issueAmt"); 
-	var info = new Array("发行数量"); 
+	var field = new Array("issueAmt","appTypeId"); 
+	var info = new Array("发行数量","应用类型"); 
 	//检察输入信息是否为空 
 
 	var tmp; 
@@ -111,6 +111,15 @@ function prodType_fun(obj){
 		document.getElementById("cardval").style.display="";
 	}
 	 
+}
+function keyType_fun(obj){
+	if(obj.value==1){
+		document.getElementById("hiddenId").style.display="";
+		document.getElementById("showId").style.display="none";
+	}else{
+		document.getElementById("hiddenId").style.display="none";
+		document.getElementById("showId").style.display="";
+	}
 }
 </script> 
 </head>
@@ -237,7 +246,7 @@ function prodType_fun(obj){
 		<%=ViewUtil.must()%>密钥类型:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("keyType", SingleDic.KEYTYPE, String.valueOf(issueappForm.getKeyType()))%> 
+		<%=SingleDicMap.getRadio_WithFun("keyType", SingleDic.KEYTYPE, String.valueOf(issueappForm.getKeyType()),"keyType_fun(this)")%> 
 		</td>	
 	</tr>	
 	<tr>
@@ -264,7 +273,12 @@ function prodType_fun(obj){
 		<%=ViewUtil.must()%>产品应用类型:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
+		<div id="hiddenId">
+		<%=ReDefSDicMap.getRadioWithHiddenId("appTypeId", RedefSDicCodes.APPTYPEID, String.valueOf(issueappForm.getAppTypeId()),"106") %>
+		</div>
+		<div id="showId"  style="display:none">
 		<%=ReDefSDicMap.getRadio("appTypeId", RedefSDicCodes.APPTYPEID, String.valueOf(issueappForm.getAppTypeId())) %>
+		</div>
 		</td>	
 	</tr>
 </table>

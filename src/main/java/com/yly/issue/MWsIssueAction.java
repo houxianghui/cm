@@ -1,6 +1,5 @@
 package com.yly.issue;
 
-import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,7 +31,6 @@ import com.yly.func.ParaTools;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoBO;
 import com.yly.pki.Secpkitb;
-import com.yly.pki.SecpkitbBO;
 import com.yly.reuse.StoreuseBO;
 import com.yly.stor.StoAppInfoBO;
 import com.yly.stor.Stoappinfo;
@@ -343,10 +341,13 @@ public class MWsIssueAction extends IbatisBaseAction {
 			ParaTools.setPara(para, paras, f);
 		//	int result=CallFunc.callId(func, para);
 			int result=0;para.setCardcsn("66666000000000000011");
-			para.setRetpki("A0EF123D8790SDF9233432");
+			para.setRetpki("A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SD");
 			if(result==0){
 				if(i==1){
 					if(func.getOperAct().equals("RC")){
+						if(CheckUtil.isEmptry(para.getCardcsn())){
+							para.setCardcsn("0");
+						}
 						f.setCardcsn(para.getCardcsn());
 					}else if(func.getOperAct().equals("R")){
 						f.setSamId(para.getSamId());
@@ -386,7 +387,11 @@ public class MWsIssueAction extends IbatisBaseAction {
 					sec.setCurrPeriod(DateUtil.getCurrDate());
 					sec.setIssueTime(DateUtil.getCurrDate());
 					sec.setPubExponent("");
-					sec.setPubKey(para.getRetpki());
+					if(!CheckUtil.isEmptry(para.getRetpki())&&para.getRetpki().length()==256){
+						sec.setPubKey(para.getRetpki());
+					}else{
+						throw new MessageException("公钥信息获取错误,内容"+para.getRetpki());
+					}
 					sec.setKeyType((short)(sto.getKeyType()));
 					((MWsIssueBO)bo).transFiveTb(vo,sto,lsvo,issuapp,sec);
 				}
@@ -397,9 +402,13 @@ public class MWsIssueAction extends IbatisBaseAction {
 					request.setAttribute("samCSN", lsvo.getSamCSN());
 					request.setAttribute("prodId", lsvo.getSamCSN());
 					request.setAttribute("manufacId", lsvo.getSamCSN());	
+					String badSamId=stoproductBO.getMaxBadCard();
+					request.setAttribute("samId",badSamId);
 					request.setAttribute("backurl","MWsIssueAction.do?act=issueInit&formNo="+f.getFormNo());	
-					return popConfirmClosePage(request, mapping, lsvo.getSamCSN()+"是否标记为坏卡,错误代码"+func.getFunc()+result,"");
-				}else throw new MessageException("无法获取印刷卡号!");
+					return popConfirmClosePage(request, mapping, "印刷卡号"+lsvo.getSamCSN()+"错误卡号"+badSamId+"是否标记为坏卡,错误代码"+func.getFunc()+result,"");
+				}else {
+					throw new MessageException("无法获取印刷卡号!");
+				}
 				
 			}
 		}
@@ -434,8 +443,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
 		//	int result=CallFunc.callId(func, para);
-			int result=0;
-			para.setSamId("000000100001");
+			int result=-1;
+			para.setSamId("999990100001");
 			if(result!=0){
 				res = "{\"error\":\"错误代码"+func.getFunc()+result+"\"}";
 				writeAjaxResponse(response, res);
@@ -464,7 +473,6 @@ public class MWsIssueAction extends IbatisBaseAction {
 					stoproductBO.transLsUpdate(prod,lsvo);
 					writeAjaxResponse(response, res);
 				}
-			
 			}
 		}
 	}
@@ -582,7 +590,9 @@ public class MWsIssueAction extends IbatisBaseAction {
 				request.setAttribute("prodId", lsvo.getSamCSN());
 				request.setAttribute("manufacId", lsvo.getSamCSN());	
 				request.setAttribute("backurl","MWsIssueAction.do?act=repair");	
-				return popConfirmClosePage(request, mapping, lsvo.getSamCSN()+"是否标记为坏卡,错误代码"+func.getFunc()+result,"");
+				String badSamId=stoproductBO.getMaxBadReturnCard();
+				request.setAttribute("samId",badSamId);
+				return popConfirmClosePage(request, mapping, "印刷卡号"+lsvo.getSamCSN()+"错误卡号"+badSamId+"是否标记为坏卡,错误代码"+func.getFunc()+result,"");
 
 			}
 		}

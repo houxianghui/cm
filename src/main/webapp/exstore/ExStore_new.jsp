@@ -40,7 +40,20 @@ function doAdd(){
  
 	document.forms[0].submit(); 
 } 
-
+function operType_fun(obj){
+	if(obj.value==33){
+		document.getElementById("manuId").style.display="";
+		document.getElementById("manuIdColl").style.display="";
+		document.getElementById("unit").style.display="none";
+		document.getElementById("unitColl").style.display="none";
+	}else{
+		document.getElementById("manuId").style.display="none";
+		document.getElementById("manuIdColl").style.display="none";
+		document.getElementById("unit").style.display="";
+		document.getElementById("unitColl").style.display="";	
+		}
+	 
+}
 </script> 
 </head>
 <body> 
@@ -64,7 +77,7 @@ function doAdd(){
 		<%=ViewUtil.must()%>业务类型:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=ReDefSDicMap.getRadio("operationType", RedefSDicCodes.EXOPERATIONTYPE, "31")%> 
+		<%=ReDefSDicMap.getRadioWithFun("operationType", RedefSDicCodes.EXOPERATIONTYPE, "31","operType_fun(this)")%> 
 		</td>
 	</tr>	
  	<tr>
@@ -85,12 +98,24 @@ function doAdd(){
 	</tr>
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
+		<div id="unit">
 		<%=ViewUtil.must()%>申请单位:
+		</div>
+		<div id="manuId" style="display:none">
+		<%=ViewUtil.must()%>厂商名称:
+		</div>
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<html:select property="unitId" styleClass="Select">
-			<html:optionsCollection name="issueappForm" property="unitIdcollection"/>
+		 <div id="unitColl">
+		<html:select property="unitId" styleClass="Select">		
+			<html:optionsCollection name="issueappForm" property="unitIdcollection"/>	
 		</html:select>
+		</div>
+		<div id="manuIdColl" style="display:none">
+		<html:select property="manufacId" styleClass="Select">		
+			<html:optionsCollection name="issueappForm" property="manufacIdCollection"/>
+		</html:select>
+		</div>
 		</td>
 	</tr>	   
     <tr>

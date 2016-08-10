@@ -57,16 +57,18 @@ public class StoproductBO extends IbatisBO {
 	 * @see com.eis.base.IbatisBaseBO#update(java.lang.Object)
 	 */
 	public void update(Object obj) throws Exception {
-		if(CheckUtil.isEmptry(((Stoproduct)obj).getSamId())){  //更新坏卡
-			((Stoproduct)obj).setSamId(getBadSamId(((Stoproduct)obj).getSamCSN()));
-			if(CheckUtil.isEmptry(((Stoproduct)obj).getSamId())){
-				((Stoproduct)obj).setSamId(getMaxBadCard());
-				stoproductDAO.insert(((Stoproduct)obj));
-			}
-			stoproductDAO.updateBySamCSN((Stoproduct)obj);
-		}else{
+//		if(CheckUtil.isEmptry(((Stoproduct)obj).getSamId())){  //更新坏卡
+////			((Stoproduct)obj).setSamId(getBadSamId(((Stoproduct)obj).getSamCSN()));
+////			if(CheckUtil.isEmptry(((Stoproduct)obj).getSamId())){
+////				((Stoproduct)obj).setSamId(getMaxBadCard());
+////				stoproductDAO.insert(((Stoproduct)obj));
+////			}
+////			stoproductDAO.updateBySamCSN((Stoproduct)obj);
+//			((Stoproduct)obj).setSamId(getMaxBadCard());
+//			stoproductDAO.insert(((Stoproduct)obj));
+//		}else{
 			stoproductDAO.updateByPrimaryKeySelective((Stoproduct)obj);
-		}
+//		}
 		
 	}
 
@@ -137,6 +139,10 @@ public class StoproductBO extends IbatisBO {
 			if(opertype==33){
 				sto.setWkState((short)13);
 				c.andIOStateNotEqualTo((short)2);
+				sto.setOAappNo("");
+				c.andManufacIdEqualTo(String.valueOf(sto.getUnitId()));
+				sto.setUnitId(null);
+				c.andSamIdLike("81%");
 			}
 		}
 		
@@ -240,13 +246,37 @@ public class StoproductBO extends IbatisBO {
 		c.andWkStateEqualTo((short)12);
 		return stoproductDAO.countByExample(e);
 	}
-	//88888原料修复坏卡 samid
-	public String getMaxBadCard(){
+	//81xxx原料坏卡 samid
+	public String getMaxBadCard() throws Exception{
+		String samId="";
+		StoproductExample e = new StoproductExample();
+		Criteria c = e.createCriteria();
+		c.andSamIdLike("81%");
+ 		e.setOrderByClause("SamId desc");
+		List<Stoproduct> il=stoproductDAO.selectByExample(e);
+		if(il != null && il.size()>0){
+			for(Stoproduct vo:il){
+				samId=vo.getSamId();
+				break;
+			}	
+		}else{
+			samId="810000000000";
+		}
+		Long tmp=Long.parseLong(samId)+1;
+		samId=String.valueOf(tmp);
+		if(samId.compareTo("820000000000")==0){
+			throw new MessageException("原料坏卡已达到数量上限,卡号"+samId);
+		}
+		return samId;
+	}
+
+	//88888退回坏卡修复 samid
+	public String getMaxBadReturnCard() throws Exception{
 		String samId="";
 		StoproductExample e = new StoproductExample();
 		Criteria c = e.createCriteria();
 		c.andSamIdLike("88888%");
-		e.setOrderByClause("SamId desc");
+ 		e.setOrderByClause("SamId desc");
 		List<Stoproduct> il=stoproductDAO.selectByExample(e);
 		if(il != null && il.size()>0){
 			for(Stoproduct vo:il){
@@ -258,22 +288,9 @@ public class StoproductBO extends IbatisBO {
 		}
 		Long tmp=Long.parseLong(samId)+1;
 		samId=String.valueOf(tmp);
-		return samId;
-	}
-	//77777原料修复坏卡 samid
-	public String getBadSamId(String cardcsn){
-		String samId="";
-		StoproductExample e = new StoproductExample();
-		Criteria c = e.createCriteria();
-		c.andSamCSNEqualTo(cardcsn);
-		c.andSamIdLike("88888%");
- 		List<Stoproduct> il=stoproductDAO.selectByExample(e);
-		if(il != null && il.size()>0){
-			for(Stoproduct vo:il){
-				samId=vo.getSamId();
-				break;
-			}	
-		} 
+		if(samId.compareTo("888890000000")==0){
+			throw new MessageException("退回坏卡已达到数量上限,卡号"+samId);
+		}
 		return samId;
 	}
 	public void querySamIdValidate(StoproductForm p)throws MessageException{
@@ -299,7 +316,7 @@ public class StoproductBO extends IbatisBO {
 		}
 	}
 	public void transUpdateSto(Stoproduct sto,Lsinfo ls) throws Exception {
-		if(sto != null){		
+		if(sto != null){
 			int row=stoproductDAO.updateByPrimaryKeySelective(sto);	
 			if(row<1){
 				stoproductDAO.insert(sto);

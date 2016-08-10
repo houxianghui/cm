@@ -6,51 +6,29 @@
  
 package com.yly.issue;
 
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import net.sf.json.JSONArray;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
-import org.apache.struts.taglib.nested.bean.NestedDefineTei;
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
-import com.eis.base.PageObject;
-import com.eis.cache.SingleDic;
-import com.eis.cache.SingleDicMap;
 import com.eis.exception.MessageException;
 import com.eis.key.KeyGenerator;
 import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
 import com.eis.util.StringUtil;
-import com.ibm.icu.text.DecimalFormat;
 import com.yly.info.BiunitinfoBO;
-import com.yly.info.Biunitinfotb;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoBO;
-import com.yly.StreamGobbler.StreamGobbler;
 import com.yly.exstore.Stoproduct;
 import com.yly.exstore.StoproductBO;
-import com.yly.exstore.StoproductForm;
 import com.yly.stor.StoAppInfoBO;
 import com.yly.stor.StoAppInfoForm;
 import com.yly.stor.Stoappinfo;
@@ -443,6 +421,8 @@ public class IssueappAction extends IbatisBaseAction {
 		
 		Issueapp vo = new Issueapp();
 		IssueappForm f = (IssueappForm)form;
+		if(f.getOperationType()==33)
+			f.setUnitId(Integer.parseInt(f.getManufacId()));
 		copyProperties(vo,f);
 		vo.setOperId(user.getUserID());
 		vo.setCurrDate(DateUtil.getTimeStr());
@@ -457,7 +437,7 @@ public class IssueappAction extends IbatisBaseAction {
 		int operType=f.getOperationType();
 		String url="";
 		if(operType==31 ||operType==33){
-			url="Stoproduct.do?act=ql";
+			url="Stoproduct.do?act=ql&unitId="+f.getUnitId();
 		}else if(operType==32 ||operType==34){
 			url="StoApp.do?act=ql";
 		}else if(operType==35){
@@ -497,14 +477,14 @@ public class IssueappAction extends IbatisBaseAction {
 		Issueapp vo = new Issueapp();
 		IssueappForm f = (IssueappForm)form;
 		copyProperties(vo,f);
+		vo.setOperId(user.getUserID());
+		vo.setCurrDate(DateUtil.getTimeStr());
+		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
+		((IssueappBO)bo).insert(vo);
 		int opertype=f.getOperationType();
 		if(opertype!=53){
 			return new ActionRedirect("StoApp.do?act=makeUpList&appNo="+vo.getAppNo()+"&currPeriodAmt="+f.getTaskAmt()+"&operationType="+f.getOperationType());
 		}else{
-			vo.setOperId(user.getUserID());
-			vo.setCurrDate(DateUtil.getTimeStr());
-			vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
-			((IssueappBO)bo).insert(vo);
 			return forwardSuccessPage(request,mapping,"±£´æ³É¹¦","Issueapp.do?act=u&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+f.getTaskAmt()+"&operationType="+f.getOperationType());
 		}
 	}
@@ -561,6 +541,6 @@ public class IssueappAction extends IbatisBaseAction {
 		Lsinfo ls = new Lsinfo();
 		ls.setAppNo(f.getAppNo());
 		setPageResult(request,lsinfoBO.queryForList(ls));
-		return new ActionRedirect("Storeuse.do?act=back_init&appNo="+vo.getAppNo());
+		return new ActionRedirect("Storeuse.do?act=back_init&appNo="+vo.getAppNo()+"&taskAmt="+f.getTaskAmt());
 	}
 }

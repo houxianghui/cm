@@ -10,7 +10,20 @@ import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
 
 public class IssueappForm  extends BaseForm {
-	
+	private Collection manufacIdCollection;
+    private String manufacId; 
+	public String getManufacId() {
+		return manufacId;
+	}
+	public void setManufacId(String manufacId) {
+		this.manufacId = manufacId;
+	}
+	public Collection getManufacIdCollection() {
+		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.MAUN_ID);
+	}
+	public void setManufacIdCollection(Collection manufacIdCollection) {
+		this.manufacIdCollection = manufacIdCollection;
+	}
 	private Collection makeupTypecollection;
 	public Collection getMakeupTypecollection() {
 		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.MAKEUPTYPE);

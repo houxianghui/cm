@@ -119,12 +119,17 @@ public class StoAppInfoAction extends IbatisBaseAction {
 	public ActionForward addApply(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		Stoappinfo vo = new Stoappinfo();
 		StoAppInfoForm f = (StoAppInfoForm)form;
-		Stoappinfo partvo = new Stoappinfo();
+		Stoappinfo partvo =null;
+		Issueapp app=null;
 		if(f.getProdId().equals("4") && f.getRsvd()!=""){
 			partvo = ((StoAppInfoBO)bo).queryForObject(f.getRsvd());
 			partvo.setCurrPeriodAmt(partvo.getCurrPeriodAmt()-f.getPurchaseAmt());
 			if(partvo.getCurrPeriodAmt()<0)
 				throw new MessageException("配件数量不足以用于此批次入库申请!");
+		}
+		if(f.getOperationType()==13){
+			app=issueappBO.queryForObject(f.getExFormNo());
+			app.setFormState((short)4);//已更换
 		}
 		copyProperties(vo,f);
 		vo.setOperId(user.getUserID());
@@ -132,7 +137,7 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		vo.setCurrPeriodAmt(vo.getPurchaseAmt());
         //获得批次号 
 		vo.setFormNo((ReDefSDicMap.getDicItemLogicID(RedefSDicCodes.MAUN_ID, vo.getManufacId()).trim())+StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("StoAppInfo")),14));
-		((StoAppInfoBO)bo).tranMain(vo,partvo);		
+		((StoAppInfoBO)bo).tranMain(vo,partvo,app);		
 		return forwardSuccessPage(request,mapping,"保存成功","StoApp.do?act=c");
 		
 	}
@@ -195,12 +200,6 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		if(list==null || list.size()==0)
 			throw new MessageException("不存在满足操作数量的原料!");
 		setPageResult(request, list);
-		if(f.getAppNo()==null ||f.getAppNo().equals("null")){
-			Issueapp vo = new Issueapp();
-			copyProperties(vo, f);
-			vo = insertIssueApp(vo,user);
-			f.setAppNo(vo.getAppNo());
-		}
 		return mapping.findForward("ql");
 	}
 	public ActionForward exbackList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
@@ -237,7 +236,7 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		copyProperties(lsvo, vo);
 		lsvo.setFormNo(sto.getFormNo());  //出库批次
 		lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
-		
+		lsvo.setProdId(sto.getProdId());
 		Enumeration<String> e =request.getParameterNames();
 		List<Stoproduct> prodlist = new ArrayList<Stoproduct>();
 		List<Lsinfo> lslist = new ArrayList<Lsinfo>();	
@@ -261,6 +260,7 @@ public class StoAppInfoAction extends IbatisBaseAction {
 				t.setIOState((short)2);
 				t.setUnitId(vo.getUnitId());
 				t.setReuseTime((short)1);
+				t.setUnitPrice(sto.getUnitPrice());
 				t.setPhiTypeId(sto.getPhiTypeId());
 				t.setCardPhyStat((short)1);
 				t.setIOStateChgDate(DateUtil.getTimeStr());
@@ -299,13 +299,6 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		}else url="exlist";
 		return url;
 	}
-	private Issueapp insertIssueApp(Issueapp vo,UserContext user) throws Exception {
-		vo.setOperId(user.getUserID());
-		vo.setCurrDate(DateUtil.getTimeStr());
-		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
-		issueappBO.insert(vo);
-		return vo;
-	}	
 	private ActionForward download(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String formNo = request.getParameter("formNo");
 		Stoappinfo p = new Stoappinfo();
@@ -343,7 +336,9 @@ public class StoAppInfoAction extends IbatisBaseAction {
 	}
 	public ActionForward queryList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoAppInfoForm f = (StoAppInfoForm)form;
-		f.setCurrPeriodAmt(Long.parseLong(request.getParameter("taskAmt")));
+		if(request.getParameter("taskAmt")!=null){
+			f.setCurrPeriodAmt(Long.parseLong(request.getParameter("taskAmt")));
+		}
 		setPageResult(request, ((StoAppInfoBO)bo).getExList(f));
 		return mapping.findForward("ql");
 	}

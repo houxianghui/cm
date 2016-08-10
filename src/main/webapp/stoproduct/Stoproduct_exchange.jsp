@@ -24,6 +24,7 @@ function doRead(){
 	$.get("Mwsissuetb.do?act=R&prodId="+document.forms[0].prodId.value+"&operationType="+document.forms[0].operationType.value,function(result){
 		var json = $.parseJSON(result);
 		if(json.error!=null){
+			document.forms[0].samId.value=0;
 			document.forms[0].detectSign.value=2;
 			alert(json.error);
 		}else{
@@ -42,6 +43,7 @@ function doReadCSN(){
 	$.get("Repair.do?act=read&manufacId="+document.forms[0].manufacId.value+"&prodId="+document.forms[0].prodId.value,function(result){
 		var json = $.parseJSON(result);	
 		if(json.error!=null){
+			document.forms[0].samCSN.value=0;
 			document.forms[0].detectSign.value=2;
 			alert(json.error);
 		}else{
@@ -52,9 +54,18 @@ function doReadCSN(){
 	});
 }
 function doBack(){ 
-	if(document.forms[0].samCSN.value == null ||document.forms[0].samCSN.value == ''){
-		alert('请录入SAM印刷卡号'); 
-		return; 
+	if(document.forms[0].detectSign.value == 2 ||document.forms[0].cardPhyStat.value == 2){
+		if(document.forms[0].operationType.value==43){
+			if(!confirm('需要产品待作废处理吗?')) { 
+				document.forms[0].wkState.value = "13";
+			}else{
+				document.forms[0].wkState.value = "15";
+			} 
+		}else{
+			document.forms[0].wkState.value = "13";
+		}
+	}else{
+		document.forms[0].wkState.value = "12";
 	}
 	document.forms[0].act.value = "back";
 	document.forms[0].submit();
@@ -89,6 +100,7 @@ function prodAttr_fun(obj){
 <html:hidden property="appNo"/>
 <html:hidden property="taskAmt"/>
 <html:hidden property="OAappNo"/>
+<html:hidden property="wkState"/>
 <%=ViewUtil.getTitle(SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(stoproductForm.getOperationType()))+"产品换损,数量 "+stoproductForm.getTaskAmt())%> 
  <table id="issue" align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0">
       <tr>
@@ -123,6 +135,14 @@ function prodAttr_fun(obj){
 		<%=ReDefSDicMap.getRadio("manufacId", RedefSDicCodes.MAUN_ID, "1") %>
 		</td>
 	</tr>	  
+	  <tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		 密钥类型:
+		</td>
+		<td colspan="3"  class="dtPanel_Main2">&nbsp;
+		<%=SingleDicMap.getRadio("keyType", SingleDic.KEYTYPE, "1")%> 
+		</td>	
+	</tr>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
 		 产品通信速率:
@@ -168,14 +188,6 @@ function prodAttr_fun(obj){
 		&nbsp;<input name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> 	
 	</td>
 	</tr>	   	
-     <tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		 密钥类型:
-		</td>
-		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("keyType", SingleDic.KEYTYPE, "1")%> 
-		</td>	
-	</tr>	
 	 <tr>
 		<td width="16%" align="left" class="dtPanel_Left">
 		 产品应用类型:
@@ -185,7 +197,7 @@ function prodAttr_fun(obj){
 		</td>	
 	</tr>
 	<%}else{%>
-		<input	name="read" type="button" class="Button" value="读取SAM印刷卡号(选择产品类型和厂商)" onClick="doReadCSN()">
+		<input	name="read" type="button" class="Button" value="读取SAM印刷卡号(选择产品类型和厂商)" onClick="doReadCSN()">&nbsp;
 	<%}%>	
 	
 </table>

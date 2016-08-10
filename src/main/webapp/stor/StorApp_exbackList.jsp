@@ -39,6 +39,13 @@ function turnPage( pagenm ) {
     	document.forms[0].pageNO.value = pagenm;     
     	document.forms[0].submit(); 
 } 
+function doPrint(){
+	if(document.forms[0].formNo.value == null ||document.forms[0].formNo.value == "") { 
+		alert('请选择记录'); 
+		return; 
+	} 
+	window.location="PdfMaker.do?act=print&formNo="+document.forms[0].formNo.value+"&operationType="+document.forms[0].operationType.value; 
+}
 </script>
 </head>
 <body>
@@ -91,7 +98,7 @@ function turnPage( pagenm ) {
 		while (iter.hasNext()) {
 			Stoappinfo vo = (Stoappinfo) iter.next();%>
 		<tr align="left" class="dtPanel_Main" onclick="_clickTr( this )">		
-			<td><a href="Lsinfo.do?act=list&FormNo=<%=vo.getFormNo()%>&operationType=<%=vo.getOperationType()%>"><%=vo.getFormNo()%></a></td>			
+			<td><a href="Lsinfo.do?act=list&formNo=<%=vo.getFormNo()%>&operationType=<%=vo.getOperationType()%>"><%=vo.getFormNo()%></a></td>			
 			<td><%=vo.getCurrPeriodAmt()%></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.PROD_ID,vo.getProdId())%></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(vo.getOperationType())) %></td>
@@ -132,7 +139,13 @@ if (pageResult != null) {%>
 	</table>
 	<%}%>
 	<br>
-
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+			<td height="25" align="center">
+			<input type="button" value="打印单据" class="Button" onClick="doPrint()"/>
+			</td>
+		</tr>
+	</table>
 </html:form>
 
 <p>&nbsp;</p>

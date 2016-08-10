@@ -233,12 +233,12 @@ public class MWsIssueBO extends IbatisBO {
 		}else{
 			f.setEf15("");
 			f.setEf16("");
+			f.setSamId("");
 		}
 		f.setEf17("0101011000000000001101100000000000"+DateUtil.getDTStr()+"20991231");           
 		f.setRetpki("");         
 		f.setInpki("");          
-		f.setMotEf17("");        
-		f.setSamId("");       
+		f.setMotEf17("");       
 		f.setModelflag(0);      
 		f.setVersion("");        
 		f.setAuthkey("");        
@@ -273,8 +273,7 @@ public class MWsIssueBO extends IbatisBO {
 		sto.setAppTypeId(vo.getApplyAttr());
 		sto.setIssueTime(DateUtil.getTimeStr());
 		sto.setWkStateChgDate(DateUtil.getTimeStr());
-		sto.setDetectSign((short)0);
-		sto.setSamCSN(lsvo.getSamCSN());
+ 		sto.setSamCSN(lsvo.getSamCSN());
 		sto.setOAappNo(vo.getAppNo());
 		sto.setWkState((short)12);//已发行
 		sto.setCardPhyStat((short)1);//好卡
@@ -291,13 +290,12 @@ public class MWsIssueBO extends IbatisBO {
 		Lsinfo lsvo= new Lsinfo();
 		copyProperties(lsvo, vo);
 		lsvo.setCurrDate(DateUtil.getTimeStr());
-		lsvo.setDetectSign((short)0);
-		lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("LsInfo")),20));
+ 		lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("LsInfo")),20));
 		lsvo.setOperId(user.getUserID());
-		lsvo.setErrorCode((short)0);
 		lsvo.setSamCSNOld("");
 		lsvo.setSamIdOld("");
 		lsvo.setSamCSN("");
+		lsvo.setProdId(vo.getProdId());
 		return lsvo;
 	}
 	public void setFunc(MWsIssuetbForm f, Func func) {

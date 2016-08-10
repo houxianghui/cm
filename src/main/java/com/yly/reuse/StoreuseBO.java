@@ -113,7 +113,9 @@ public class StoreuseBO extends IbatisBO {
 			storeuseDAO.insert(storeuse);
 			stoproductDAO.deleteByPrimaryKey(s);
 		}else{
-			stoproductDAO.updateByPrimaryKeySelective(s);
+			int row=stoproductDAO.updateByPrimaryKeySelective(s);
+			if(row<1)
+				stoproductDAO.insert(s);
 		}
 		if(app!=null){
 			issueappDAO.updateByPrimaryKeySelective(app);

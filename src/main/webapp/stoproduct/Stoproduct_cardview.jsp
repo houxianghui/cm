@@ -168,7 +168,7 @@ if (pageResultLsInfo != null)
 		检测结果:
 		</td>
 		<td class="dtPanel_Main2">&nbsp;
-		<%=stoproductForm.getDetectSign()==null?"":stoproductForm.getDetectSign()%>
+		<%=stoproductForm.getDetectSign()==null?"未检测":SingleDicMap.getDicItemVal(SingleDic.DETECSIGN, String.valueOf(stoproductForm.getDetectSign()))%>
 		</td>
 	</tr>	
 		<tr>
@@ -194,6 +194,14 @@ if (pageResultLsInfo != null)
 		</td>
 		<td class="dtPanel_Main2">&nbsp;
 		<%=SingleDicMap.getDicItemVal(SingleDic.CONSUTYPE, String.valueOf(stoproductForm.getConsumeType()))%>
+		</td>
+	</tr>	
+		<tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		单价:
+		</td>
+		<td class="dtPanel_Main2">&nbsp;
+		<%=stoproductForm.getUnitPrice()%>
 		</td>
 	</tr>	
 		<tr>

@@ -37,6 +37,7 @@ function setPKey(appNo_var) {
 <input type=hidden name=act value="popList">
 <html:hidden property="appNo"/>
 <html:hidden property="operationType"/>
+<html:hidden property="formState"/>
 <%=ViewUtil.getTitle(SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(issueappForm.getOperationType()))+"µ¥ÁÐ±í")%>
 	
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"

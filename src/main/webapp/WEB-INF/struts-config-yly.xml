@@ -143,7 +143,10 @@
 			scope="request" validate="false">
 			<forward name="list" path="/conf/Manuinfo_list.jsp" />
 			<forward name="new" path="/conf/Manuinfo_new.jsp" />
-		</action>					
+		</action>			
+		<action path="/PdfMaker" type="org.springframework.web.struts.DelegatingActionProxy" name="stoAppForm"
+			scope="request" validate="false">
+ 		</action>			
 	</action-mappings>
 	
 
