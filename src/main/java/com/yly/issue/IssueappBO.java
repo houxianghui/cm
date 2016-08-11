@@ -134,12 +134,12 @@ public class IssueappBO extends IbatisBO {
 	}
 
 	private void queryListByExample(IssueappForm obj, Criteria c) {
-		if(obj.getOperationType()!=null && obj.getOperationType()>0){
-			c.andOperationTypeEqualTo(obj.getOperationType().shortValue());
-		}
-		if(obj.getUnitId()!=null && obj.getUnitId()>0){
-			c.andUnitIdEqualTo(obj.getUnitId());
-		}
+//		if(obj.getOperationType()!=null && obj.getOperationType()>0){
+//			c.andOperationTypeEqualTo(obj.getOperationType().shortValue());
+//		}
+//		if(obj.getUnitId()!=null && obj.getUnitId()>0){
+//			c.andUnitIdEqualTo(obj.getUnitId());
+//		}
 		if(!CheckUtil.isEmptry(obj.getBeginDate_f())){
 			c.andCurrDateGreaterThanOrEqualTo(obj.getBeginDate_f()+"000000");
 		}
@@ -167,10 +167,10 @@ public class IssueappBO extends IbatisBO {
 		Criteria c = e.createCriteria();
 		c.andOperationTypeBetween((short)41, (short)43);//换损业务
 		if(obj.getOperationType_f()!=null &&obj.getOperationType_f()>0 ){
-			obj.setOperationType(obj.getOperationType());
+			c.andOperationTypeEqualTo(obj.getOperationType_f().shortValue());
 		}
 		if(obj.getUnitId_f()!=null &&obj.getUnitId_f()>0 ){
-			obj.setUnitId(obj.getUnitId_f());
+			c.andUnitIdEqualTo(obj.getUnitId_f());
 		}
 		queryListByExample(obj, c);
 		return issueappDAO.selectByExample(e);
@@ -181,10 +181,10 @@ public class IssueappBO extends IbatisBO {
 		Criteria c = e.createCriteria();
 		c.andOperationTypeBetween((short)31, (short)39);//出库业务
 		if(obj.getOperationType_f()!=null &&obj.getOperationType_f()>0 ){
-			obj.setOperationType(obj.getOperationType_f());
+			c.andOperationTypeEqualTo(obj.getOperationType_f().shortValue());
 		}
 		if(obj.getUnitId_f()!=null &&obj.getUnitId_f()>0 ){
-			obj.setUnitId(obj.getUnitId_f());
+			c.andUnitIdEqualTo(obj.getUnitId_f());
 		}
 		queryListByExample(obj, c);
 		return issueappDAO.selectByExample(e);
@@ -195,10 +195,10 @@ public class IssueappBO extends IbatisBO {
 		Criteria c = e.createCriteria();
 		c.andOperationTypeBetween((short)51, (short)59);//出库业务
 		if(obj.getOperationType_f()!=null &&obj.getOperationType_f()>0 ){
-			obj.setOperationType(obj.getOperationType());
+			c.andOperationTypeEqualTo(obj.getOperationType_f().shortValue());
 		}
 		if(obj.getUnitId_f()!=null &&obj.getUnitId_f()>0 ){
-			obj.setUnitId(obj.getUnitId_f());
+			c.andUnitIdEqualTo(obj.getUnitId_f());
 		}
 		queryListByExample(obj, c);
 		return issueappDAO.selectByExample(e);

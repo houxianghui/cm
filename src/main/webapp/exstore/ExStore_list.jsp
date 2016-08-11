@@ -33,7 +33,7 @@ function setPKey(appNo_var,formStat_var,oper_var,unit_var,taskAmt_var) {
 	document.forms[0].formState.value=formStat_var; 
 	document.forms[0].operationType.value=oper_var; 	
 	document.forms[0].unitId.value=unit_var; 		
-	document.forms[0].taskAmt.value=taskAmt_var; 		
+	document.forms[0].taskAmt.value=taskAmt_var; 	
 
 } 
 function doBack(){ 
@@ -43,7 +43,7 @@ function doBack(){
 		alert('请先选择纪录'); 
 		return; 
 	} 
-	if(document.forms[0].operationType.value!=32 || document.forms[0].operationType.value!=34 || document.forms[0].formState.value!=3){
+	if((document.forms[0].operationType.value!=32 && document.forms[0].operationType.value!=34 )|| document.forms[0].formState.value!=3){
 		alert('不支持此业务类型的未完成申请冲回'); 
 		return; 
 	}
@@ -53,7 +53,7 @@ function doBack(){
 		return;
 	}
 	var s1=document.forms[0].taskAmt.value;
-	if(s>s1){
+	if(eval(s)> eval(s1) ){
 		alert("数量必须小于"+s1);
 		return;
 	}
@@ -100,6 +100,7 @@ function doPrint(){
 <html:hidden property="formState"/>
 <html:hidden property="taskAmt"/>
 <html:hidden property="operationType"/>
+<html:hidden property="unitId"/>
 <%=ViewUtil.getTitle("出库申请单")%>
 	
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"

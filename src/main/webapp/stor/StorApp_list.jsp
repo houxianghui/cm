@@ -28,8 +28,9 @@ function turnPage( pagenm ) {
     	document.forms[0].pageNO.value = pagenm;     
     	document.forms[0].submit(); 
 } 
-function setPKey(appNo_var) { 
+function setPKey(appNo_var,operType_var) { 
 	document.forms[0].formNo.value=appNo_var; 
+	document.forms[0].operationType.value=operType_var; 
 } 
 function doPrint(){
 	if(document.forms[0].formNo.value == null ||document.forms[0].formNo.value == "") { 
@@ -45,6 +46,7 @@ function doPrint(){
 <html:form method="post" action="StoApp.do">
 <input type=hidden name=act value="list">
 <html:hidden property="formNo"/>
+<html:hidden property="operationType"/>
 <%=ViewUtil.getTitle("入库申请列表")%>
 	
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
@@ -63,7 +65,7 @@ function doPrint(){
 				<html:optionsCollection name="stoAppForm" property="prodIdCollection"/>
 			</html:select>
 			入库类型:
-			<html:select property="operationType" styleClass="Select">
+			<html:select property="operationType_f" styleClass="Select">
 				<html:optionsCollection name="stoAppForm" property="operationTypeCollection"/>
 			</html:select>	
 					
@@ -71,6 +73,7 @@ function doPrint(){
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
 			</td>
 		</tr>
+		
 	</table>
  
 	<table width="98%" class="dtPanel_Line1" border="0" cellspacing="1"
@@ -118,7 +121,7 @@ function doPrint(){
 			<%} %>
 			<td><%=vo.getCurrDate()%></td>	
 			<td align="center">
-			<label><input type="radio" name="param"	onClick="setPKey('<%=vo.getFormNo()%>')">
+			<label><input type="radio" name="param"	onClick="setPKey('<%=vo.getFormNo()%>','<%=vo.getOperationType()%>')">
 			</label></td>
 		</tr>
 

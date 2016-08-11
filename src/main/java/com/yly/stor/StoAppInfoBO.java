@@ -143,12 +143,16 @@ public class StoAppInfoBO extends IbatisBO {
 		
 		StoappinfoExample e = new StoappinfoExample();
 		Criteria c = e.createCriteria();
+		c.andOperationTypeBetween((short)10, (short)19);
 		if(!CheckUtil.isEmptry(obj.getProdId())){
 			c.andProdIdEqualTo(obj.getProdId());
 		}
-		if(obj.getOperationType()!=null && obj.getOperationType()>0){
-			c.andOperationTypeEqualTo(obj.getOperationType().shortValue());
+		if(obj.getOperationType_f()!=null && obj.getOperationType_f()>0){
+			c.andOperationTypeEqualTo(obj.getOperationType_f().shortValue());
 		}
+//		if(obj.getOperationType()!=null && obj.getOperationType()>0){
+//			c.andOperationTypeEqualTo(obj.getOperationType().shortValue());
+//		}
 		if(!CheckUtil.isEmptry(obj.getManufacId())){
 			c.andManufacIdEqualTo(obj.getManufacId());
 		}
@@ -158,9 +162,9 @@ public class StoAppInfoBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(obj.getEndDate_f())){
 			c.andCurrDateLessThanOrEqualTo(obj.getEndDate_f()+"999999");
 		}
-		if(!CheckUtil.isEmptry(obj.getFormNo())){
-			c.andFormNoEqualTo(obj.getFormNo());
-		}
+//		if(!CheckUtil.isEmptry(obj.getFormNo())){
+//			c.andFormNoEqualTo(obj.getFormNo());
+//		}
 		if(!CheckUtil.isEmptry(obj.getPhiTypeId())){
 			c.andPhiTypeIdEqualTo(obj.getPhiTypeId());
 		}

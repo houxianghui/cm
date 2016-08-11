@@ -96,7 +96,7 @@ public class PdfMakerAction extends IbatisBaseAction {
 		StoAppInfoForm f = (StoAppInfoForm)form;	
 		List<Stoappinfo> stoList = new ArrayList<Stoappinfo>();
 
-		if(f.getOperationType()==92 ||f.getOperationType()<20){
+		if(f.getOperationType()<20){
 			Stoappinfo info = new Stoappinfo();
 			info = stoAppBO.queryForObject(f.getFormNo());
 			long totAmt=info.getPurchaseAmt()*info.getUnitPrice();
@@ -172,48 +172,61 @@ public class PdfMakerAction extends IbatisBaseAction {
 						stoList.add(info);
 					}  
 				}else if(opertype==32 ||opertype==34 ||opertype==51 ||opertype==52){
-					Stoappinfo info = new Stoappinfo();
+					
 					for(Lsinfo lslistvo:lslist){
-						if(CheckUtil.isEmptry(lslistvo.getSamCSN()) ||lslistvo.getSamCSN().equals("0")){
+						if(lslistvo.getOperationType()==92){
+							Stoappinfo info = new Stoappinfo();
+							info=stoAppBO.queryForObject(lslistvo.getFormNo());
 							info.setProdId(lslistvo.getProdId());
-							info.setPurchaseAmt(appvo.getTaskAmt());
-							info.setUnitPrice(appvo.getTotalPrice()/appvo.getTaskAmt());
+						
+							info.setUnitPrice((long)0);
 							info.setManufacId(String.valueOf(appvo.getUnitId()));
-							info.setOperationType(opertype);
-							info.setRsvd(Format.formatCapR(String.valueOf(appvo.getTotalPrice())));
+							info.setOperationType(lslistvo.getOperationType());
+							info.setRsvd(Format.formatCapR("0"));
+							stoList.add(info);
 						}else{
-							Stoproduct stoprod = new Stoproduct();
-							stoprod.setSamCSN(lslistvo.getSamCSN());
-							stoprod.setSamId(lslistvo.getSamId());
-							stoprod=stoproductBO.queryForObject(stoprod);
-							String prodKey=stoprod.getProdId()+stoprod.getUnitId()+opertype+String.valueOf(stoprod.getUnitPrice());
-							if(prodMap.size()!=0 && prodMap.get(prodKey)!=null){
-								int cnt=(int)(prodMap.get(prodKey));
-								cnt++;
-								prodMap.put(prodKey, cnt);
+							if(CheckUtil.isEmptry(lslistvo.getSamCSN()) ||lslistvo.getSamCSN().equals("0")){
+								Stoappinfo info = new Stoappinfo();
+								info.setProdId(lslistvo.getProdId());
+								info.setPurchaseAmt(appvo.getTaskAmt());
+								info.setUnitPrice(appvo.getTotalPrice()/appvo.getTaskAmt());
+								info.setManufacId(String.valueOf(appvo.getUnitId()));
+								info.setOperationType(opertype);
+								info.setRsvd(Format.formatCapR(String.valueOf(appvo.getTotalPrice())));
+								stoList.add(info);
 							}else{
-								prodMap.put(prodKey, 1);
-							} 
-							
+								Stoproduct stoprod = new Stoproduct();
+								stoprod.setSamCSN(lslistvo.getSamCSN());
+								stoprod.setSamId(lslistvo.getSamId());
+								stoprod=stoproductBO.queryForObject(stoprod);
+								String prodKey=stoprod.getProdId()+stoprod.getUnitId()+opertype+String.valueOf(stoprod.getUnitPrice());
+								if(prodMap.size()!=0 && prodMap.get(prodKey)!=null){
+									int cnt=(int)(prodMap.get(prodKey));
+									cnt++;
+									prodMap.put(prodKey, cnt);
+								}else{
+									prodMap.put(prodKey, 1);
+								} 
+							}
+							if(prodMap.size()>0 &&prodMap.size()!=appvo.getTaskAmt()){
+								Set<String> key = prodMap.keySet();  
+								for (String string : key) {  
+									Stoappinfo newinfo = new Stoappinfo();
+									newinfo.setProdId(string.substring(0,1));
+									newinfo.setManufacId(string.substring(1,9));
+									newinfo.setOperationType(Short.valueOf(string.substring(9,11)));
+									newinfo.setUnitPrice(Long.valueOf(string.substring(11)));
+									newinfo.setPurchaseAmt(Long.valueOf(prodMap.get(string).toString()));
+									long totAmt=newinfo.getPurchaseAmt()*newinfo.getUnitPrice();
+									newinfo.setRsvd(Format.formatCapR(String.valueOf(totAmt)));
+									stoList.add(newinfo);
+								}  
+							}
 						}
+
 						
 					}
-					if(prodMap.size()!=appvo.getTaskAmt()){
-						Set<String> key = prodMap.keySet();  
-						for (String string : key) {  
-							Stoappinfo newinfo = new Stoappinfo();
-							newinfo.setProdId(string.substring(0,1));
-							newinfo.setManufacId(string.substring(1,9));
-							newinfo.setOperationType(Short.valueOf(string.substring(9,11)));
-							newinfo.setUnitPrice(Long.valueOf(string.substring(11)));
-							newinfo.setPurchaseAmt(Long.valueOf(prodMap.get(string).toString()));
-							long totAmt=newinfo.getPurchaseAmt()*newinfo.getUnitPrice();
-							newinfo.setRsvd(Format.formatCapR(String.valueOf(totAmt)));
-							stoList.add(newinfo);
-						}  
-					}else{
-						stoList.add(info);
-					}
+
 				}else if(opertype==41 ||opertype==42 ||opertype==43){
 					Stoappinfo info = new Stoappinfo();
 					for(Lsinfo lslistvo:lslist){

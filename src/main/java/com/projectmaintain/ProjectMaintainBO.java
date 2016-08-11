@@ -298,7 +298,7 @@ public class ProjectMaintainBO extends IbatisBO {
 		Criteria c = example.createCriteria();
 		c.andStatNotIn(unActiveStatus);
 		//部门权限管理
-		c.andOwningIn(getRoleDeparts(user));
+		//c.andOwningIn(getRoleDeparts(user));
 		//~~
 		if(!CheckUtil.isEmptry(form.getOwning())){
 			c.andOwningEqualTo(form.getOwning());
