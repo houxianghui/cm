@@ -51,6 +51,10 @@ function doPrint(){
 		alert('请选择记录'); 
 		return; 
 	} 
+	if(document.forms[0].formState.value!=3) { 
+		alert('单据未执行完成不允许打印'); 
+		return; 
+	} 
 	window.location="PdfMaker.do?act=print&formNo="+document.forms[0].appNo.value+"&operationType="+document.forms[0].operationType.value; 
 }
 </script>

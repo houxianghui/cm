@@ -123,7 +123,7 @@ function doSingleAssign(){
 		return;
 	}
 	var s1=document.forms[0].issueAmt.value-document.forms[0].issueDoneAmt.value;
-	if(s>s1){
+	if(eval(s)> eval(s1) ){
 		alert("数量必须小于"+s1);
 		return;
 	}

@@ -6,13 +6,28 @@
 package com.yly.presscard;
 
 import java.util.Collection;
+
 import com.eis.base.BaseForm;
 import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
 
 
 public class PressCardForm extends BaseForm {
-	
+
+	private String classId;
+	private Collection classIdCollection;
+	public String getClassId() {
+		return classId;
+	}
+	public void setClassId(String classId) {
+		this.classId = classId;
+	}
+	public Collection getClassIdCollection() {
+		return SingleDicMap.getOptionCollection(SingleDic.CLASS_ID);
+	}
+	public void setClassIdCollection(Collection classIdCollection) {
+		this.classIdCollection = classIdCollection;
+	}
 	private String formNo;
 	private String cardType;
 	private Collection cardTypeCollection;
@@ -40,6 +55,13 @@ public class PressCardForm extends BaseForm {
 	}
 	private int purchaseAmt;
 	private String commRate;
+	private Collection commRateCollection;
+	public Collection getCommRateCollection() {
+		return SingleDicMap.getOptionCollection(SingleDic.COMM_RATE);
+	}
+	public void setCommRateCollection(Collection commRateCollection) {
+		this.commRateCollection = commRateCollection;
+	}
 	public String getFormNo() {
 		return formNo;
 	}

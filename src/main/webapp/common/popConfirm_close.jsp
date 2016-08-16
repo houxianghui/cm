@@ -18,7 +18,7 @@
 </HEAD>
 <BODY>
 <script language="javascript">
-if(!confirm('<%=msg%>'))
+if(!confirm("<%=msg%>"))
 	location.href ="<%=url%>";
 	else location.href ="<%=url1%>";
 </script>

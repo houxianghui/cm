@@ -45,6 +45,18 @@ function turnPage( pagenm ) {
 			卡号:			
 			从<html:text property="pressCard_min" styleClass="Textfield" size="16" />
 			到<html:text property="pressCard_max" styleClass="Textfield" size="16" />
+			卡片类型:
+			<html:select property="classId" styleClass="Select">
+				<html:optionsCollection name="pressCardForm" property="classIdCollection"/>
+			</html:select>			
+			通信速率:
+			<html:select property="commRate" styleClass="Select">
+				<html:optionsCollection name="pressCardForm" property="commRateCollection"/>
+			</html:select>
+			生产厂商:
+			<html:select property="manufacId" styleClass="Select">
+				<html:optionsCollection name="pressCardForm" property="ereaderManufacIdCollection"/>
+			</html:select>
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
 			</td>
 		</tr>
@@ -56,6 +68,8 @@ function turnPage( pagenm ) {
 			<td>卡号</td>
 			<td>表单编号</td>
 			<td>产品分类</td>
+			<td>生产厂商</td>
+			<td>通信速率</td>
 		</tr>
 		<%if (pageResult != null) {
 	List list = pageResult.getList();
@@ -66,7 +80,9 @@ function turnPage( pagenm ) {
 		<tr align="left" class="dtPanel_Main" onclick="_clickTr( this )">	
 			<td><%=vo.getCardNo()%></td>		
 			<td><a href="PressCard.do?act=down&formNo=<%=vo.getFormNo()%>"><%=vo.getFormNo() %></a></td>	
-			<td><%=SingleDicMap.getDicItemVal(SingleDic.CLASS_ID, vo.getClassId())%></td>				
+			<td><%=SingleDicMap.getDicItemVal(SingleDic.CLASS_ID, vo.getClassId())%></td>		
+			<td><%=vo.getClassId().equals("E")?SingleDicMap.getDicItemVal(SingleDic.EREADERMAUN_ID, vo.getManufacId()):SingleDicMap.getDicItemVal(SingleDic.MAUN_ID, vo.getManufacId())%></td>	
+			<td><%=vo.getCommRate()==null?"":SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, vo.getCommRate())%></td>						
 		</tr>
 
 		<%}

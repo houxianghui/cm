@@ -91,12 +91,13 @@ public class RepairAction extends IbatisBaseAction {
 		String[] paras=func.getPara().split(",");
 		ParaTools.setRepairPara(para, paras, f);
 		operSysPort(f.getProdId(),"open");
-		//int result=CallFunc.callId(func, para);
-		int result=0;
-		para.setCardcsn("66666000000000000011");
+		int result=CallFunc.callId(func, para);
+		//int result=0;
+		//para.setCardcsn("66666000000000000011");
 		if(result==0){
-			f.setCardcsn(para.getCardcsn());
-			res = "{\"csn\":\""+f.getCardcsn()+"\"}";
+			String cardCsn=para.getCardcsn();
+			f.setCardcsn(cardCsn);
+			res = "{\"csn\":\""+cardCsn+"\"}";
 		}else{
 			res = "{\"error\":\"´íÎó´úÂë"+result+"\"}";
 		}
@@ -122,7 +123,7 @@ public class RepairAction extends IbatisBaseAction {
 		String[] paras=func.getPara().split(",");
 		ParaTools.setRepairPara(para, paras, f);
 	    //int result=CallFunc.callId(func, para);
-		int result=0;
+		int result=-1;
 		if(result==0){
 			operSysPort(f.getProdId(),"close");
 			return forwardSuccessPage(request,mapping,"ÐÞ¸´³É¹¦","Repair.do?act=repairInit");

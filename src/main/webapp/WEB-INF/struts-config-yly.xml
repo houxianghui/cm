@@ -38,6 +38,7 @@
 			<forward name="new_ereader" path="/presscard/EreaderCard_new.jsp" />
 			<forward name="list_ereader" path="/presscard/EreaderCard_list.jsp" />		
 			<forward name="list_cardno" path="/presscard/CardNo_list.jsp" />		
+			<forward name="statics" path="/reports/key/PressCardNo_list.jsp" />		
 		</action>
 		<action path="/StoApp" type="org.springframework.web.struts.DelegatingActionProxy" name="stoAppForm"
 			scope="request" validate="false">
@@ -49,7 +50,8 @@
 			<forward name="view" path="/stor/StorApp_view.jsp" />		
 			<forward name="makeupList" path="/stor/StorApp_makeupList.jsp" />	
 			<forward name="exbackList" path="/stor/StorApp_exbackList.jsp" />	
-			<forward name="exbackPopList" path="/stor/StorApp_exbackPopList.jsp" />					
+			<forward name="exbackPopList" path="/stor/StorApp_exbackPopList.jsp" />
+			<forward name="statics" path="/reports/key/StoAppInfoReport.jsp" />					
 										
 		</action>
 		<action path="/Issueapp" type="org.springframework.web.struts.DelegatingActionProxy" name="issueappForm"

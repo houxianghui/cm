@@ -2,7 +2,7 @@
 <%@ page contentType="text/html; charset=GBK"%> 
 <html> 
 <head>
-<title>增加工作列表</title> 
+<title>增加申请信息</title> 
  
 <script language="javascript"> 
  

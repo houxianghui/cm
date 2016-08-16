@@ -16,6 +16,8 @@ import com.yly.issue.IssueappDAO;
 import com.yly.issue.Issuetaskctrl;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoDAO;
+import com.yly.presscard.Presscardapptb;
+import com.yly.presscard.PresscardapptbExample;
 import com.yly.stor.StoappinfoExample.Criteria;
 
 
@@ -251,6 +253,18 @@ public class StoAppInfoBO extends IbatisBO {
 		}
 		return stoappinfoDAO.selectByExample(e);
 	}
-
+	public List getReport(Object obj) throws Exception {
+		Stoappinfo vo =(Stoappinfo)obj;
+		StoappinfoExample e = new StoappinfoExample();
+		Criteria c = e.createCriteria();
+		c.andOperationTypeNotEqualTo((short)92);
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+		return  stoappinfoDAO.getReport(e);
+	}
 
 }

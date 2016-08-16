@@ -836,6 +836,9 @@ public class PresscardapptbExample {
             addCriterion(" substring(PressCardNo,"+loc+")<=", value, "pressCardNo");
             return this;
         }
-
+        public Criteria andClassIdEqualTo(String value) {
+            addCriterion("ClassId =", value, "classId");
+            return this;
+        }
     }
 }

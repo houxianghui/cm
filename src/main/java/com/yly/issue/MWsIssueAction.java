@@ -339,9 +339,9 @@ public class MWsIssueAction extends IbatisBaseAction {
 			funDrools.getFunc(func);
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
-		//	int result=CallFunc.callId(func, para);
-			int result=0;para.setCardcsn("66666000000000000011");
-			para.setRetpki("A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SD");
+			int result=CallFunc.callId(func, para);
+			//int result=0;para.setCardcsn("66666000000000000011");
+			//para.setRetpki("A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SD");
 			if(result==0){
 				if(i==1){
 					if(func.getOperAct().equals("RC")){
@@ -442,9 +442,9 @@ public class MWsIssueAction extends IbatisBaseAction {
 			funDrools.getFunc(func);
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
-		//	int result=CallFunc.callId(func, para);
-			int result=-1;
-			para.setSamId("999990100001");
+		    int result=CallFunc.callId(func, para);
+			//int result=-1;
+			//para.setSamId("999990100001");
 			if(result!=0){
 				res = "{\"error\":\"´íÎó´úÂë"+func.getFunc()+result+"\"}";
 				writeAjaxResponse(response, res);
@@ -495,7 +495,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
 			//int result=CallFunc.callId(func, para);
-			int result = -1;
+			int result=0;
 			para.setSamId("100000100003");
 			para.setVersion("version123456789");
 			if(result!=0){
@@ -562,8 +562,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 			funDrools.getFunc(func);
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
-		//	int result=CallFunc.callId(func, para);
-			int result=0;
+		    int result=CallFunc.callId(func, para);
+			//int result=0;
 			if(result==0){
 				 if (i==3){
 					 Secpkitb sec = new Secpkitb();

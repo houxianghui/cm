@@ -64,14 +64,6 @@ function doRepair(){
 	</tr>
  	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		»µ¿¨¿¨ºÅ:
-		</td>
-		<td colspan="3"  class="dtPanel_Main2">&nbsp;	 
-		<html:text property="cardcsn" styleClass="Textfield"  size="20" maxlength="20" />
-		</td>	
-	</tr>	
- 	<tr>
-		<td width="16%" align="left" class="dtPanel_Left">
 		Ö÷¿ØÃÜÔ¿:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;

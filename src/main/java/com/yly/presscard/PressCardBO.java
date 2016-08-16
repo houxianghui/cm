@@ -140,16 +140,47 @@ public class PressCardBO extends IbatisBO {
 	public List queryCardList(PressCardForm obj) throws Exception {
 		PresscardapptbExample e = new PresscardapptbExample();
 		Criteria c = e.createCriteria();
-		int loc=-1;
-		if(obj.getPressCard_min().length()==14){
-			loc=6;
-		}else{
-			loc=9;
+		if(!CheckUtil.isEmptry(obj.getPressCard_min()) || !CheckUtil.isEmptry(obj.getPressCard_max())){
+			int loc=-1;
+			if(obj.getPressCard_min().length()==14){
+				loc=6;
+			}else{
+				loc=9;
+			}
+			c.andPressCardNoLike(obj.getPressCard_min().substring(0,loc)+"%");
+			c.andPressCardNoGreaterThanOrEqualTo((obj.getPressCard_min().substring(loc)), loc);
+			c.andPressCardNoLessThanOrEqualTo((obj.getPressCard_max().substring(loc)), loc);
 		}
-		c.andPressCardNoLike(obj.getPressCard_min().substring(0,loc)+"%");
-		c.andPressCardNoGreaterThanOrEqualTo((obj.getPressCard_min().substring(loc)), loc);
-		c.andPressCardNoLessThanOrEqualTo((obj.getPressCard_max().substring(loc)), loc);
+		if(!CheckUtil.isEmptry(obj.getClassId())){
+			c.andClassIdEqualTo(obj.getClassId());
+		}
+		if(!CheckUtil.isEmptry(obj.getManufacId())){
+			if(!CheckUtil.isEmptry(obj.getClassId()) && !obj.getClassId().equals("E")){
+				if(obj.getManufacId().equals("02"))
+					obj.setManufacId("WQ");
+				else if(obj.getManufacId().equals("04"))
+					obj.setManufacId("TY");
+				else if(obj.getManufacId().equals("06"))
+					obj.setManufacId("JD");
+			}
+			c.andManufacIdEqualTo(obj.getManufacId());
+		}
+		if(!CheckUtil.isEmptry(obj.getCommRate())){
+			c.andCommRateEqualTo(obj.getCommRate());
+		}		
 		return presscardapptbDAO.selectCardByExample(e);
+	}
+	public List getReport(Object obj) throws Exception {
+		Presscardapptb vo =(Presscardapptb)obj;
+		PresscardapptbExample e = new PresscardapptbExample();
+		Criteria c = e.createCriteria();
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+		return  presscardapptbDAO.getReport(e);
 	}
 
 }

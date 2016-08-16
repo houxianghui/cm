@@ -160,4 +160,8 @@ public class StoappinfoDAOImpl extends SqlMapClientDaoSupport implements Stoappi
             return record;
         }
     }
+    public List getReport(StoappinfoExample example) {
+        List list = getSqlMapClientTemplate().queryForList("stoappinfo.getReport", example);
+        return list;
+    }
 }

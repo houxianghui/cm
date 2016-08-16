@@ -46,6 +46,8 @@ import com.eis.util.StringUtil;
 import com.eis.util.ValidateUtil;
 import com.ibm.icu.text.DecimalFormat;
 import com.yly.exstore.Stoproduct;
+import com.yly.exstore.StoproductBO;
+import com.yly.exstore.StoproductForm;
 import com.yly.issue.Issueapp;
 import com.yly.issue.IssueappBO;
 import com.yly.issue.IssueappForm;
@@ -53,6 +55,8 @@ import com.yly.ls.Lsinfo;
 import com.yly.para.Applytypeinfo;
 import com.yly.para.ApplytypeinfoBO;
 import com.yly.para.ApplytypeinfoForm;
+import com.yly.presscard.PressCardForm;
+import com.yly.presscard.Presscardapptb;
 
 
 
@@ -74,6 +78,14 @@ public class StoAppInfoAction extends IbatisBaseAction {
 
 	public void setApplytypeinfoBO(ApplytypeinfoBO applytypeinfoBO) {
 		this.applytypeinfoBO = applytypeinfoBO;
+	}
+	public StoAppInfoReport stoAppInfoReport;
+	public StoAppInfoReport getStoAppInfoReport() {
+		return stoAppInfoReport;
+	}
+
+	public void setStoAppInfoReport(StoAppInfoReport stoAppInfoReport) {
+		this.stoAppInfoReport = stoAppInfoReport;
 	}
 
 	/* 
@@ -110,7 +122,16 @@ public class StoAppInfoAction extends IbatisBaseAction {
 			return exbackList(form,mapping,request,user);
 		}else if("popList".equals(act)){		//query active projects
 			return popList(form,mapping,request,user);
+		}else if("popList".equals(act)){		//query active projects
+			return popList(form,mapping,request,user);
+		}else if("staticsDown".equals(act)){		//query active projects
+			return staticsdown(request,response,form,user); 
+		}else if("statics".equals(act)){		//query active projects
+			return mapping.findForward("statics");
 		}
+//		}else if("resultDown".equals(act)){		//query active projects
+//			return resultDown(form,request,response);
+//		}
 
 
 		return forwardError(request,mapping,"Ò³ÃæÎ´ÕÒµ½,´íÎó·¢ÉúÔÚ"+this.getClass().getName());
@@ -347,5 +368,23 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		copyProperties(form,vo);
 		return mapping.findForward("view");
 	}
-
+	private ActionForward staticsdown(HttpServletRequest request,HttpServletResponse response,  BaseForm form,UserContext user) throws Exception{
+		StoAppInfoForm f = (StoAppInfoForm)form;
+		Stoappinfo vo = new Stoappinfo();
+		vo.setBeginDate_f(f.getBeginDate_f());
+		vo.setEndDate_f(f.getEndDate_f());
+		stoAppInfoReport.createExcel(vo, false);
+		response.setContentType("application/octet-stream");
+		String filename = stoAppInfoReport.getEt().getSheetName()+".xls";
+		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
+			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
+		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
+			filename = URLEncoder.encode(filename, "UTF-8");
+		}
+		response.addHeader("Content-Disposition", "attachment; filename="+filename);
+		OutputStream out = response.getOutputStream();
+		stoAppInfoReport.getEt().write(out);
+		out.close();
+		return null;
+	}
 }

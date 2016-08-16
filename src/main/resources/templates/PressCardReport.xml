@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+	<sheetName>印刷卡号统计报表</sheetName>
+	<cells>
+		<cell rowIndex="0" colIndex="0" colSpan="1" value="生产厂商" fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="1" colSpan="1" value="卡片类型"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="2" colSpan="1" value="速率"     fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="3" colSpan="1" value="数量"     fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+	</cells>
+	<properties>
+		<cell property="list" rowIndex="1" colIndex="0"/>		
+	</properties>
+</report>

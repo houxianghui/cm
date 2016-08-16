@@ -236,12 +236,18 @@ public class MWsIssueBO extends IbatisBO {
 			f.setSamId("");
 		}
 		f.setEf17("0101011000000000001101100000000000"+DateUtil.getDTStr()+"20991231");           
-		f.setRetpki("");         
-		f.setInpki("");          
-		f.setMotEf17("");       
+		f.setRetpki("");  
+		if(f.getKeyType()==1){
+			f.setInpki(keyVDatagram.getMainKeyMap("INKEY_NORMAL"));    
+		}else{
+			f.setInpki(keyVDatagram.getMainKeyMap("INKEY_TEST"));    
+		}       
+		f.setMotEf17(f.getEf17());       
 		f.setModelflag(0);      
-		f.setVersion("");        
-		f.setAuthkey("");        
+		f.setVersion("");  
+		if(CheckUtil.isEmptry(f.getAuthkey())){
+			f.setAuthkey("");    
+		}
 		f.setResult("");         
 		f.setCardcsn(""); 
 		f.setCardtype(0);

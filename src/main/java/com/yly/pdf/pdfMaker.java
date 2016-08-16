@@ -54,7 +54,7 @@ public class pdfMaker {
     	document.open();  
 
         //Seperate Page controller
-        int recordPerPage=6;
+        int recordPerPage=5;
         int fullPageRequired=stoList.size()/recordPerPage;   //满页数
         int remainPage=stoList.size()%recordPerPage>1?1:0;   //剩余页数
         int totalPage=fullPageRequired+remainPage;           //总页数 
@@ -95,11 +95,12 @@ public class pdfMaker {
 			int recordPerPage, int totalPage, String opertypeDes, String dateDes)
 			throws DocumentException, BadElementException,
 			MalformedURLException, IOException {
-		for(int j=0;j<totalPage;j++){
-            document.newPage();
-    	
 
-		
+		for(int j=0;j<totalPage;j++){
+
+			
+            document.newPage();
+
 		    //create title image
 		    Image jpeg=Image.getInstance("E:\\logo.png");
 		    jpeg.setAlignment(Image.ALIGN_LEFT);
@@ -182,13 +183,13 @@ public class pdfMaker {
 				max=stoList.size();
 			}else{
 				if((j+1)<totalPage){
-					max=(j+1)*10;
+					max=(j+1)*recordPerPage;
 				}else {
 					max=stoList.size();
 				}
 			}
-			 
-    	for(int i=10*j;i<max;i++){
+
+    	for(int i=recordPerPage*j;i<max;i++){
     		Stoappinfo sto=stoList.get(i);
     		Font fixfont=null;
     		if(sto.getOperationType()==61||sto.getOperationType()==92){
@@ -242,7 +243,7 @@ public class pdfMaker {
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);  
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);  
         	table.addCell(cell);      	
-        	
+
      	}
 
     	 document.add(table);
@@ -267,15 +268,13 @@ public class pdfMaker {
 			MalformedURLException, IOException {
 		for(int j=0;j<totalPage;j++){
             document.newPage();
-    
-		
+            
 		    //create title image
 		    Image jpeg=Image.getInstance("E:\\logo.png");
 		    jpeg.setAlignment(Image.ALIGN_LEFT);
 		    jpeg.scaleAbsolute(60, 30);
 		    document.add(jpeg);
 		
-
 		    String title="密钥卡系统产品"+opertypeDes;
 		    Paragraph head1 = new Paragraph(printBlank(30)+title,titlefont);
 		    document.add(head1);
@@ -350,13 +349,13 @@ public class pdfMaker {
 				max=stoList.size();
 			}else{
 				if((j+1)<totalPage){
-					max=(j+1)*10;
+					max=(j+1)*recordPerPage;
 				}else {
 					max=stoList.size();
 				}
 			}
 			Font fixfont=null;	 
-			for(int i=10*j;i<max;i++){
+			for(int i=recordPerPage*j;i<max;i++){
 	    		Stoappinfo sto=stoList.get(i);
 	    		if(f.getOperationType()<20){
 	    			fixfont=textfont;

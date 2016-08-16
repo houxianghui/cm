@@ -485,4 +485,12 @@
       Rsvd = #rsvd:VARCHAR#
     where BatchId = #formNo:VARCHAR#
   </update>
+   <select id="getReport" parameterClass="com.yly.stor.StoappinfoExample" resultMap="ibatorgenerated_BaseResultMap">
+     select SUM(PurchaseAmt) AS PurchaseAmt,ProjContNum,ManufacId,ProdId,PhiTypeId,OperationType,BatchId, "" as ProjName,
+      "" as ExFormNo, "" as PurchasePerson, 0 as CurrPeriodAmt, "" as PressCardScale, "" as OperId,"" as purchaseType,0 as UnitPrice,
+     "" as  CurrDate,"" as isHTCard, "" as isPki,"" as  ModuleVersion,"" as ModuleBatchId,"" as Remarks, "" as Rsvd
+     from stoappinfo 
+     <include refid="stoappinfo.ibatorgenerated_Example_Where_Clause" />
+	 GROUP BY ProjContNum,ManufacId,ProdId,PhiTypeId,OperationType,BatchId 
+  </select>
 </sqlMap>

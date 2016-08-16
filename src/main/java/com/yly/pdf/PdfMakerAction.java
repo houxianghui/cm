@@ -116,7 +116,7 @@ public class PdfMakerAction extends IbatisBaseAction {
 			HashMap returnMap = new HashMap();
 			
 			if(lslist!=null && lslist.size()>0){
-				if(opertype==31 ||opertype==53){
+				if(opertype==31 ||opertype==53){   //成品出库，丢失补办:成品库
 					for(Lsinfo lslistvo:lslist){
 						Stoproduct stoprod = new Stoproduct();
 						stoprod.setSamCSN(lslistvo.getSamCSN());
@@ -145,7 +145,7 @@ public class PdfMakerAction extends IbatisBaseAction {
 						stoList.add(newinfo);
 					}  
 					  
-				}else if(opertype==33 ){
+				}else if(opertype==33 ){   //坏卡出库，丢失补办:成品库
 					for(Lsinfo lslistvo:lslist){
 						Stoproduct stoprod = new Stoproduct();
 						stoprod.setSamCSN(lslistvo.getSamCSN());
@@ -171,29 +171,28 @@ public class PdfMakerAction extends IbatisBaseAction {
 						info.setRsvd(Format.formatCapR("0"));
 						stoList.add(info);
 					}  
-				}else if(opertype==32 ||opertype==34 ||opertype==51 ||opertype==52){
-					
+				}else if(opertype==32 ||opertype==34 ||opertype==51 ||opertype==52){ //原料出库，pos出库，模块补办，pos原料补办：出库（单据、成品库），冲回（单据）.
+					Stoappinfo info = new Stoappinfo();
 					for(Lsinfo lslistvo:lslist){
 						if(lslistvo.getOperationType()==92){
-							Stoappinfo info = new Stoappinfo();
-							info=stoAppBO.queryForObject(lslistvo.getFormNo());
-							info.setProdId(lslistvo.getProdId());
+							Stoappinfo backinfo = new Stoappinfo();
+							backinfo=stoAppBO.queryForObject(lslistvo.getFormNo());
+							backinfo.setProdId(lslistvo.getProdId());
 						
-							info.setUnitPrice((long)0);
-							info.setManufacId(String.valueOf(appvo.getUnitId()));
-							info.setOperationType(lslistvo.getOperationType());
-							info.setRsvd(Format.formatCapR("0"));
-							stoList.add(info);
+							backinfo.setUnitPrice((long)0);
+							backinfo.setManufacId(String.valueOf(appvo.getUnitId()));
+							backinfo.setOperationType(lslistvo.getOperationType());
+							backinfo.setRsvd(Format.formatCapR("0"));
+							stoList.add(backinfo);
 						}else{
 							if(CheckUtil.isEmptry(lslistvo.getSamCSN()) ||lslistvo.getSamCSN().equals("0")){
-								Stoappinfo info = new Stoappinfo();
 								info.setProdId(lslistvo.getProdId());
 								info.setPurchaseAmt(appvo.getTaskAmt());
 								info.setUnitPrice(appvo.getTotalPrice()/appvo.getTaskAmt());
 								info.setManufacId(String.valueOf(appvo.getUnitId()));
 								info.setOperationType(opertype);
 								info.setRsvd(Format.formatCapR(String.valueOf(appvo.getTotalPrice())));
-								stoList.add(info);
+								
 							}else{
 								Stoproduct stoprod = new Stoproduct();
 								stoprod.setSamCSN(lslistvo.getSamCSN());
@@ -208,26 +207,27 @@ public class PdfMakerAction extends IbatisBaseAction {
 									prodMap.put(prodKey, 1);
 								} 
 							}
-							if(prodMap.size()>0 &&prodMap.size()!=appvo.getTaskAmt()){
-								Set<String> key = prodMap.keySet();  
-								for (String string : key) {  
-									Stoappinfo newinfo = new Stoappinfo();
-									newinfo.setProdId(string.substring(0,1));
-									newinfo.setManufacId(string.substring(1,9));
-									newinfo.setOperationType(Short.valueOf(string.substring(9,11)));
-									newinfo.setUnitPrice(Long.valueOf(string.substring(11)));
-									newinfo.setPurchaseAmt(Long.valueOf(prodMap.get(string).toString()));
-									long totAmt=newinfo.getPurchaseAmt()*newinfo.getUnitPrice();
-									newinfo.setRsvd(Format.formatCapR(String.valueOf(totAmt)));
-									stoList.add(newinfo);
-								}  
-							}
-						}
 
+						}
 						
 					}
-
-				}else if(opertype==41 ||opertype==42 ||opertype==43){
+					if(prodMap!=null &&prodMap.size()>0){
+						Set<String> key = prodMap.keySet();  
+						for (String string : key) {  
+							Stoappinfo newinfo = new Stoappinfo();
+							newinfo.setProdId(string.substring(0,1));
+							newinfo.setManufacId(string.substring(1,9));
+							newinfo.setOperationType(Short.valueOf(string.substring(9,11)));
+							newinfo.setUnitPrice(Long.valueOf(string.substring(11)));
+							newinfo.setPurchaseAmt(Long.valueOf(prodMap.get(string).toString()));
+							long totAmt=newinfo.getPurchaseAmt()*newinfo.getUnitPrice();
+							newinfo.setRsvd(Format.formatCapR(String.valueOf(totAmt)));
+							stoList.add(newinfo);
+						}  
+					}else{
+						stoList.add(info);
+					}
+				}else if(opertype==41 ||opertype==42 ||opertype==43){   //换损：退回（成品库），更换（单据，成品库）
 					Stoappinfo info = new Stoappinfo();
 					for(Lsinfo lslistvo:lslist){
 						if(lslistvo.getOperationType()==61){
@@ -300,7 +300,7 @@ public class PdfMakerAction extends IbatisBaseAction {
 							stoList.add(newinfo);
 						}  
 					}
-				}else if(opertype==61){
+				}else if(opertype==61){   //退回：成品库。
 					for(Lsinfo lslistvo:lslist){
 						Stoproduct stoprod = new Stoproduct();
 						stoprod.setSamCSN(lslistvo.getSamCSN());

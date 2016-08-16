@@ -129,5 +129,9 @@ public class PresscardapptbDAOImpl extends SqlMapClientDaoSupport implements Pre
         List list = getSqlMapClientTemplate().queryForList("presscardapptb.getCardListBySql", example);
         return list;
     }
+    public List getReport(PresscardapptbExample example) {
+        List list = getSqlMapClientTemplate().queryForList("presscardapptb.getReport", example);
+        return list;
+    }    
     
 }

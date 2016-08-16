@@ -39,6 +39,10 @@ function doPrint(){
 	} 
 	window.location="PdfMaker.do?act=print&formNo="+document.forms[0].formNo.value+"&operationType="+document.forms[0].operationType.value; 
 }
+function doDownload(){ 
+	document.forms[0].act.value = "resultDown";
+	document.forms[0].submit(); 
+} 
 </script>
 </head>
 <body>
@@ -68,9 +72,8 @@ function doPrint(){
 			<html:select property="operationType_f" styleClass="Select">
 				<html:optionsCollection name="stoAppForm" property="operationTypeCollection"/>
 			</html:select>	
-					
-						
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
+			<input	name="结果导出" type="button" class="Button_Search"  onclick="doDownload()">
 			</td>
 		</tr>
 		

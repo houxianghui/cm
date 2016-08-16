@@ -303,6 +303,33 @@ public class Presscardapptb {
 	private String hardVersion;
 	private String classId;
 	private String pressCard_min;
+	private long num;
+	private String beginDate_f;
+	private String endDate_f;
+	public String getBeginDate_f() {
+		return beginDate_f;
+	}
+
+	public void setBeginDate_f(String beginDate_f) {
+		this.beginDate_f = beginDate_f;
+	}
+
+	public String getEndDate_f() {
+		return endDate_f;
+	}
+
+	public void setEndDate_f(String endDate_f) {
+		this.endDate_f = endDate_f;
+	}
+
+	public long getNum() {
+		return num;
+	}
+
+	public void setNum(long num) {
+		this.num = num;
+	}
+
 	public String getPressCard_min() {
 		return pressCard_min;
 	}

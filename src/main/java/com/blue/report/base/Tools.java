@@ -181,6 +181,8 @@ public class Tools {
 			value = value.toString();
 		}else if(value instanceof Double){
 			value = String.valueOf(value);
+		}else if(value instanceof Long){
+			value = String.valueOf(value);
 		}
 		setCell(rowIndex, colIndex, 1, 1, (String) value, null, null, 0, false,false);
 	}

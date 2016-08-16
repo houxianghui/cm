@@ -25,6 +25,7 @@ import net.sf.json.JSONArray;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.taglib.nested.bean.NestedDefineTei;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yly.key.EreaderCard;
 import com.yly.key.KeyCard;
@@ -44,7 +45,6 @@ import com.ibm.icu.text.DecimalFormat;
 
 
 public class PressCardAction extends IbatisBaseAction {
-	private static String KEY = "k";
 	private static String EREADER = "E";
 	private PressCardAppValidator validator;
 	public PressCardAppValidator getValidator() {
@@ -54,10 +54,16 @@ public class PressCardAction extends IbatisBaseAction {
 	public void setValidator(PressCardAppValidator validator) {
 		this.validator = validator;
 	}
+	private PressCardReport pressCardReport;
 
-	/* 
-	 * @see com.eis.base.BaseAction#process(org.apache.struts.action.ActionMapping, com.eis.base.BaseForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.eis.portal.UserContext)
-	 */
+	public PressCardReport getPressCardReport() {
+		return pressCardReport;
+	}
+
+	public void setPressCardReport(PressCardReport pressCardReport) {
+		this.pressCardReport = pressCardReport;
+	}
+
 	public ActionForward process(ActionMapping mapping, BaseForm form, HttpServletRequest request, HttpServletResponse response, UserContext user) throws Exception {
 		String act = form.getAct();
 		if("c".equals(act)){		//add apply
@@ -91,7 +97,12 @@ public class PressCardAction extends IbatisBaseAction {
 		if("list_cardno".equals(act)){		//query active projects
 			return list_cardno(form,mapping,request,user);
 		}
-
+		if("Down".equals(act)){		//query active projects
+			return down(request,response,form,user); 
+		}
+		if("statics".equals(act)){		//query active projects
+			return mapping.findForward("statics");
+		}
 		return forwardError(request,mapping,"Ò³ÃæÎ´ÕÒµ½,´íÎó·¢ÉúÔÚ"+this.getClass().getName());
 	}
 	
@@ -103,7 +114,7 @@ public class PressCardAction extends IbatisBaseAction {
 		validator.validate(vo);
 		vo.setOperId(user.getUserID());
 		vo.setCurrDate(DateUtil.getDTStr());
-		vo.setClassId(KEY);
+		vo.setClassId(f.getCardType());
 		KeyCard k = (KeyCard)ProCardFactory.getInstance(vo);
 		String[] cards=k.getCardNo(vo);
 		((PressCardBO)bo).transinsert(vo,cards);		
@@ -189,30 +200,47 @@ public class PressCardAction extends IbatisBaseAction {
 		return mapping.findForward("list_cardno");
 	}
 	private ActionForward cardDown(HttpServletRequest request, HttpServletResponse response)throws Exception{
-		String cardno_min = request.getParameter("pressCard_min");
-		String cardno_max = request.getParameter("pressCard_max");
 		PressCardForm f = new PressCardForm();
-		f.setPressCard_min(cardno_min);
-		f.setPressCard_max(cardno_max);
 		validator.queryCardValidate(f);
-		String scale="";
+		String date="Ó¡Ë¢¿¨ºÅ"+DateUtil.getTimeStr();
 		List presscardList = ((PressCardBO)bo).queryCardList(f);
 		response.setContentType("application/octet-stream");
 		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
-			scale = new String((cardno_min+"_"+cardno_max).getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
+			date = new String(date.getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
 		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
-			scale = URLEncoder.encode((cardno_min+"_"+cardno_max), "UTF-8");
+			date = URLEncoder.encode(date, "UTF-8");
 		}
-		response.addHeader("Content-Disposition", "attachment; filename="+scale+".txt");
+		response.addHeader("Content-Disposition", "attachment; filename="+date+".txt");
 		OutputStream out = response.getOutputStream();
 		for(int i=0;i<presscardList.size();i++){
 			Presscardapptb tmp=(Presscardapptb)presscardList.get(i);
-			byte[] b= tmp.getCardNo().getBytes();
+			String classId=","+SingleDicMap.getDicItemVal(SingleDic.CLASS_ID, tmp.getClassId());
+			String commRate=","+(tmp.getCommRate()==null?"":SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, tmp.getCommRate()));
+			String manuId=","+(tmp.getClassId().equals("E")?SingleDicMap.getDicItemVal(SingleDic.EREADERMAUN_ID, tmp.getManufacId()):SingleDicMap.getDicItemVal(SingleDic.MAUN_ID, tmp.getManufacId()));
+			byte[] b= (tmp.getCardNo()+classId+commRate+manuId).getBytes();
 			out.write(b);
 			out.write("\n".getBytes());
 		}
 		out.close();
 		return null;
 	}
-
+	private ActionForward down(HttpServletRequest request,HttpServletResponse response,  BaseForm form,UserContext user) throws Exception{
+		PressCardForm f = new PressCardForm();
+		Presscardapptb vo = new Presscardapptb();
+		vo.setBeginDate_f(f.getBeginDate_f());
+		vo.setEndDate_f(f.getEndDate_f());
+		pressCardReport.createExcel(vo, false);
+		response.setContentType("application/octet-stream");
+		String filename = pressCardReport.getEt().getSheetName()+".xls";
+		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
+			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
+		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
+			filename = URLEncoder.encode(filename, "UTF-8");
+		}
+		response.addHeader("Content-Disposition", "attachment; filename="+filename);
+		OutputStream out = response.getOutputStream();
+		pressCardReport.getEt().write(out);
+		out.close();
+		return null;
+	}
 }
