@@ -99,6 +99,8 @@
 			<forward name="cardview" path="/stoproduct/Stoproduct_cardview.jsp" />
 			<forward name="exchange" path="/stoproduct/Stoproduct_exchange.jsp" />
 			<forward name="show" path="/stoproduct/Stoproduct_exchangeshow.jsp" />
+			<forward name="statics" path="/reports/key/ExStoreInfoReport.jsp" />					
+			
 		</action>
 		<action path="/Mwsissuetb" type="org.springframework.web.struts.DelegatingActionProxy" name="mwsissuetbForm"
 			scope="request" validate="false">
@@ -106,6 +108,8 @@
 			<forward name="issue" path="/mwsissue/MWsIssue_issue.jsp" />
 			<forward name="repair" path="/mwsissue/MWsIssue_repair.jsp" />
 			<forward name="show" path="/mwsissue/MWsIssue_repairshow.jsp" />
+			<forward name="statics" path="/reports/key/IssueAppInfoReport.jsp" />					
+			
 		</action>
 		<action path="/Applytypeinfo" type="org.springframework.web.struts.DelegatingActionProxy" name="applytypeinfoForm"
 			scope="request" validate="false">

@@ -1,5 +1,7 @@
 package com.yly.issue;
 
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,6 +35,7 @@ import com.yly.ls.LsinfoBO;
 import com.yly.pki.Secpkitb;
 import com.yly.reuse.StoreuseBO;
 import com.yly.stor.StoAppInfoBO;
+import com.yly.stor.StoAppInfoForm;
 import com.yly.stor.Stoappinfo;
 
 
@@ -46,6 +49,15 @@ public class MWsIssueAction extends IbatisBaseAction {
 	private StoproductBO stoproductBO;
 	private StoreuseBO storeuseBO;
 	private IssuetaskCtrlBO issuetaskctrlBO;
+	private IssueAppInfoReport issueAppInfoReport;
+	public IssueAppInfoReport getIssueAppInfoReport() {
+		return issueAppInfoReport;
+	}
+
+	public void setIssueAppInfoReport(IssueAppInfoReport issueAppInfoReport) {
+		this.issueAppInfoReport = issueAppInfoReport;
+	}
+
 	public IssuetaskCtrlBO getIssuetaskctrlBO() {
 		return issuetaskctrlBO;
 	}
@@ -128,6 +140,10 @@ public class MWsIssueAction extends IbatisBaseAction {
 			return null;
 		}else if("repair".equals(act)){		//query active projects
 			return repair(form,mapping,request,user);
+		}else if("staticsDown".equals(act)){		//query active projects
+			return staticsdown(request,response,form,user); 
+		}else if("statics".equals(act)){		//query active projects
+			return mapping.findForward("statics");
 		}else return null;
 	}
 	
@@ -603,5 +619,24 @@ public class MWsIssueAction extends IbatisBaseAction {
 		Process proc = Runtime.getRuntime().exec(url);  
 		String res="";
 		writeAjaxResponse(response, res);
+	}
+	private ActionForward staticsdown(HttpServletRequest request,HttpServletResponse response,  BaseForm form,UserContext user) throws Exception{
+		MWsIssuetbForm f = (MWsIssuetbForm)form;
+		Mwsissuetb vo = new Mwsissuetb();
+		vo.setBeginDate_f(f.getBeginDate_f());
+		vo.setEndDate_f(f.getEndDate_f());
+		issueAppInfoReport.createExcel(vo, false);
+		response.setContentType("application/octet-stream");
+		String filename = issueAppInfoReport.getEt().getSheetName()+".xls";
+		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
+			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
+		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
+			filename = URLEncoder.encode(filename, "UTF-8");
+		}
+		response.addHeader("Content-Disposition", "attachment; filename="+filename);
+		OutputStream out = response.getOutputStream();
+		issueAppInfoReport.getEt().write(out);
+		out.close();
+		return null;
 	}
 }

@@ -2043,5 +2043,10 @@ public class StoproductExample {
             addCriterion("Remarks not between", value1, value2, "remarks");
             return this;
         }
+        public Criteria andAsscoTbs() {
+            addCriterion("IOState=2 and lsinfo.samCSN=Stoproduct.samCSN and lsinfo.SAMID=Stoproduct.SAMID and lsinfo.AppNo=applyinfotb.AppNo and lsinfo.OperationType=31");
+            return this;
+        }
+        
     }
 }

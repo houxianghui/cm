@@ -1,15 +1,13 @@
 package com.yly.issue;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.abc.logic.IbatisBO;
-import com.eis.base.IbatisBaseBO;
-import com.eis.cache.ReDefSDicMap;
 import com.eis.key.KeyGenerator;
 import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
@@ -24,7 +22,6 @@ import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoDAO;
 import com.yly.pki.Secpkitb;
 import com.yly.pki.SecpkitbDAO;
-import com.yly.stor.StoAppInfoBO;
 import com.yly.stor.Stoappinfo;
 import com.yly.stor.StoappinfoDAO;
 
@@ -330,5 +327,22 @@ public class MWsIssueBO extends IbatisBO {
 				func.setOperAct("I");
 			}
 		}
+	}
+	public List getReport(Object obj) throws Exception {
+		Mwsissuetb vo =(Mwsissuetb)obj;
+		MwsissuetbExample e = new MwsissuetbExample();
+		IssueappForm form=new IssueappForm();
+		form.setBeginDate_f(vo.getBeginDate_f());
+		form.setEndDate_f(vo.getEndDate_f());
+		List<Issueapp> l=issueappDAO.selectTaskNoByExample(form);
+		List<MWsIssuetbForm> result=new ArrayList<MWsIssuetbForm>() ;
+		for(Issueapp p : l){
+			List<MWsIssuetbForm> mws=mwsissuetbDAO.getReport(p.getTaskNo());
+			for(MWsIssuetbForm m : mws){
+				m.setAppUnitId(p.getUnitId());
+				result.add(m);
+			}
+		}		
+		return  result;
 	}
 }

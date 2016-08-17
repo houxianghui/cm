@@ -94,4 +94,6 @@ public interface IssueappDAO {
      * @ibatorgenerated Tue Mar 29 14:27:18 CST 2016
      */
     int updateByPrimaryKey(Issueapp record);
+    List selectTaskNoByExample(IssueappForm record);
+
 }

@@ -490,7 +490,9 @@
       "" as ExFormNo, "" as PurchasePerson, 0 as CurrPeriodAmt, "" as PressCardScale, "" as OperId,"" as purchaseType,0 as UnitPrice,
      "" as  CurrDate,"" as isHTCard, "" as isPki,"" as  ModuleVersion,"" as ModuleBatchId,"" as Remarks, "" as Rsvd
      from stoappinfo 
-     <include refid="stoappinfo.ibatorgenerated_Example_Where_Clause" />
+    <isParameterPresent>
+     	<include refid="stoappinfo.ibatorgenerated_Example_Where_Clause" />
+    </isParameterPresent>
 	 GROUP BY ProjContNum,ManufacId,ProdId,PhiTypeId,OperationType,BatchId 
   </select>
 </sqlMap>

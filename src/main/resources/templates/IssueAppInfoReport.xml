@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+	<sheetName>发行信息统计报表</sheetName>
+	<cells>
+		<cell rowIndex="0" colIndex="0" colSpan="1" value="发行任务单"   fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="1" colSpan="1" value="单位代码"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="2" colSpan="1" value="领用单位"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="3" colSpan="1" value="卡片类型"     fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="4" colSpan="1" value="密钥类型"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="5" colSpan="1" value="任务单总数"   fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="6" colSpan="1" value="已发行数量"    fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+	</cells>
+	<properties>
+		<cell property="list" rowIndex="1" colIndex="0"/>		
+	</properties>
+</report>

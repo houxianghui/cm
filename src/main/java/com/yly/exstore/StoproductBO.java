@@ -1,8 +1,10 @@
 package com.yly.exstore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import com.abc.logic.IbatisBO;
 import com.eis.base.IbatisBaseBO;
@@ -16,6 +18,10 @@ import com.eis.util.StringUtil;
 import com.yly.exstore.StoproductExample.Criteria;
 import com.yly.issue.Issueapp;
 import com.yly.issue.IssueappDAO;
+import com.yly.issue.IssueappForm;
+import com.yly.issue.MWsIssuetbForm;
+import com.yly.issue.Mwsissuetb;
+import com.yly.issue.MwsissuetbExample;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoDAO;
 import com.yly.pki.SecpkitbForm;
@@ -328,6 +334,48 @@ public class StoproductBO extends IbatisBO {
 		
 	}
 	
-	
+	public List getReport(Object obj) throws Exception {
+		Stoproduct vo =(Stoproduct)obj;
+		StoproductExample e = new StoproductExample();
+		Criteria c = e.createCriteria();
+		c.andAsscoTbs();
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c.andIOStateChgDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c.andIOStateChgDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+		List<StoproductForm> l=stoproductDAO.getReport(e);
+		if(l.size()<1){
+			throw new MessageException("不存在数据");
+		}
+		List<StoproductForm> result=new ArrayList<StoproductForm>();
+		HashMap m=new HashMap();
+		for(StoproductForm p : l){
+			int issuenum=stoproductDAO.getIssueNumByOaAppNo(p.getOAappNo());
+			if(m.size()>0 && m.get(p.getUnitId()+p.getExUnitId()+p.getProdId()+p.getKeyType())!=null){
+				String numString=(String)m.get(p.getUnitId()+p.getExUnitId()+p.getProdId()+p.getKeyType());
+				int exAmt=Integer.parseInt(numString.split(",")[0])+p.getExAmt();
+				int issueAmt=Integer.parseInt(numString.split(",")[1])+issuenum;
+				m.put(String.valueOf(p.getUnitId())+String.valueOf(p.getExUnitId())+p.getProdId()+p.getKeyType(), exAmt+","+issueAmt);
+			}else{
+				m.put(String.valueOf(p.getUnitId())+String.valueOf(p.getExUnitId())+p.getProdId()+p.getKeyType(), p.getExAmt()+","+issuenum);
+			}
+		}
+        Set<String> get =m.keySet(); 
+        for (String svo:get) {
+        	StoproductForm sf= new StoproductForm();
+        	sf.setUnitId(Integer.parseInt(svo.substring(0,8)));
+        	sf.setExUnitId(Integer.parseInt(svo.substring(8,16)));
+        	sf.setProdId(svo.substring(16,17));
+        	sf.setKeyType(Short.valueOf(svo.substring(17)));
+        	int exAmt=Integer.parseInt(((String)m.get(svo)).split(",")[0]);
+        	int issueAmt=Integer.parseInt(((String)m.get(svo)).split(",")[1]);
+        	sf.setExAmt(exAmt);
+        	sf.setIssueAmt(issueAmt);
+        	result.add(sf);
+        }
+		return  result;
+	}
 	
 }

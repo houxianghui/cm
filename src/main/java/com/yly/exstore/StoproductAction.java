@@ -20,6 +20,7 @@ import org.apache.struts.action.ActionMapping;
 
 
 
+
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
 import com.eis.exception.MessageException;
@@ -35,6 +36,7 @@ import com.yly.issue.Issueapp;
 import com.yly.issue.IssueappBO;
 import com.yly.issue.MWsIssueBO;
 import com.yly.issue.MWsIssuetbForm;
+import com.yly.issue.Mwsissuetb;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoBO;
 import com.yly.reuse.Storeuse;
@@ -50,6 +52,13 @@ public class StoproductAction extends IbatisBaseAction {
 	private LsinfoBO lsinfoBO;
 	private StoreuseBO storeuseBO;
 	private IssueappBO issueappBO;
+	private ExStoreInfoReport exStoreInfoReport;
+	public ExStoreInfoReport getExStoreInfoReport() {
+		return exStoreInfoReport;
+	}
+	public void setExStoreInfoReport(ExStoreInfoReport exStoreInfoReport) {
+		this.exStoreInfoReport = exStoreInfoReport;
+	}
 	public IssueappBO getIssueappBO() {
 		return issueappBO;
 	}
@@ -114,6 +123,10 @@ public class StoproductAction extends IbatisBaseAction {
 			return show(form,mapping,request,user);
 		}else if("insertBad".equals(act)){		//query active projects
 			return issueInsertBadCard(form,mapping,request,user);
+		}else if("staticsDown".equals(act)){		//query active projects
+			return staticsdown(request,response,form,user); 
+		}else if("statics".equals(act)){		//query active projects
+			return mapping.findForward("statics");
 		}
 
 
@@ -275,8 +288,7 @@ public class StoproductAction extends IbatisBaseAction {
 			StoproductForm sf=new StoproductForm();
 			sf.setSamCSN(issue[1]);
 			sf.setSamId(issue[0]);
-			
-			
+
 			List l=((StoproductBO)bo).queryForListAsc(sf);	
 
 			Stoproduct vo = new Stoproduct();
@@ -430,6 +442,25 @@ public class StoproductAction extends IbatisBaseAction {
 		List<Lsinfo> l=lsinfoBO.queryForList(vo);
 		setPageResult(request,l);
 		return mapping.findForward("show");	
+	}
+	private ActionForward staticsdown(HttpServletRequest request,HttpServletResponse response,  BaseForm form,UserContext user) throws Exception{
+		StoproductForm f = (StoproductForm)form;
+		Stoproduct vo = new Stoproduct();
+		vo.setBeginDate_f(f.getBeginDate_f());
+		vo.setEndDate_f(f.getEndDate_f());
+		exStoreInfoReport.createExcel(vo, false);
+		response.setContentType("application/octet-stream");
+		String filename = exStoreInfoReport.getEt().getSheetName()+".xls";
+		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
+			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
+		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
+			filename = URLEncoder.encode(filename, "UTF-8");
+		}
+		response.addHeader("Content-Disposition", "attachment; filename="+filename);
+		OutputStream out = response.getOutputStream();
+		exStoreInfoReport.getEt().write(out);
+		out.close();
+		return null;
 	}
 
 }

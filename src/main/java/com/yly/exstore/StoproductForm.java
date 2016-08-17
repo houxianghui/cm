@@ -9,6 +9,48 @@ import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
 
 public class StoproductForm extends BaseForm {
+	private String beginDate_f;
+	private String endDate_f;
+	public String getEndDate_f() {
+		return endDate_f;
+	}
+
+	public void setEndDate_f(String endDate_f) {
+		this.endDate_f = endDate_f;
+	}
+
+	public String getBeginDate_f() {
+		return beginDate_f;
+	}
+
+	public void setBeginDate_f(String beginDate_f) {
+		this.beginDate_f = beginDate_f;
+	}
+	private Integer issueAmt;
+	private Integer exAmt;
+    public Integer getExAmt() {
+		return exAmt;
+	}
+
+	public void setExAmt(Integer exAmt) {
+		this.exAmt = exAmt;
+	}
+	private Integer exUnitId;
+	public Integer getIssueAmt() {
+		return issueAmt;
+	}
+
+	public void setIssueAmt(Integer issueAmt) {
+		this.issueAmt = issueAmt;
+	}
+
+	public Integer getExUnitId() {
+		return exUnitId;
+	}
+
+	public void setExUnitId(Integer exUnitId) {
+		this.exUnitId = exUnitId;
+	}
 	private Collection manufacIdCollection;
 	public Collection getManufacIdCollection() {
 		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.MAUN_ID);

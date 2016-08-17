@@ -12,6 +12,24 @@ public class Mwsissuetb {
 	private Long unitPrice;
 	private Short taskState;
 	private String OAappNo;
+	private String beginDate_f;
+	private String endDate_f;
+	public String getBeginDate_f() {
+		return beginDate_f;
+	}
+
+	public void setBeginDate_f(String beginDate_f) {
+		this.beginDate_f = beginDate_f;
+	}
+
+	public String getEndDate_f() {
+		return endDate_f;
+	}
+
+	public void setEndDate_f(String endDate_f) {
+		this.endDate_f = endDate_f;
+	}
+
 	public String getOAappNo() {
 		return OAappNo;
 	}

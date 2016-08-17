@@ -1,8 +1,12 @@
 package com.yly.issue;
 
+import com.eis.util.CheckUtil;
 import com.yly.issue.Issueapp;
 import com.yly.issue.IssueappExample;
+import com.yly.issue.IssueappExample.Criteria;
+
 import java.util.List;
+
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 public class IssueappDAOImpl extends SqlMapClientDaoSupport implements IssueappDAO {
@@ -165,6 +169,20 @@ public class IssueappDAOImpl extends SqlMapClientDaoSupport implements IssueappD
     }
     public List queryIssuExample(IssueappExample example) {
         List list = getSqlMapClientTemplate().queryForList("issueapp.queryIssuExample", example);
+        return list;
+    }
+    public List selectTaskNoByExample(IssueappForm app) {
+		IssueappExample e = new IssueappExample();
+		Criteria c = e.createCriteria();
+		c.issuetaskAndApplytb();
+		c.andApplyOperationTypeBetween((short)20, (short)30);//发行业务
+		if(!CheckUtil.isEmptry(app.getBeginDate_f())){
+			c.andCurrDateGreaterThanOrEqualTo(app.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(app.getEndDate_f())){
+			c.andCurrDateLessThanOrEqualTo(app.getEndDate_f()+"999999");
+		}
+        List list = getSqlMapClientTemplate().queryForList("issueapp.selectTaskNoByExample", e);
         return list;
     }
     

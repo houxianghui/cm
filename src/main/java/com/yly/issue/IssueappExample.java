@@ -1287,6 +1287,14 @@ public class IssueappExample {
             addCriterion("PhiTypeId =", value, "phiTypeId");
             return this;
         }
+        public Criteria issuetaskAndApplytb() {
+            addCriterion(" issuetask.APPNO=applyinfotb.APPNO ");
+            return this;
+        }
+        public Criteria andApplyOperationTypeBetween(Short value1, Short value2) {
+            addCriterion("applyinfotb.OperationType between", value1, value2, "operationType");
+            return this;
+        }
     }
 
 }

@@ -94,4 +94,6 @@ public interface StoproductDAO {
     int updateByPrimaryKey(Stoproduct record);
     
     List queryCardListByOa(String appNo);
+    List getReport(StoproductExample example);
+    int getIssueNumByOaAppNo(String OAappNo);   
 }

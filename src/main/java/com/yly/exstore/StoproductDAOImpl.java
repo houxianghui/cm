@@ -2,7 +2,9 @@ package com.yly.exstore;
 
 import com.yly.exstore.Stoproduct;
 import com.yly.exstore.StoproductExample;
+
 import java.util.List;
+
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 public class StoproductDAOImpl extends SqlMapClientDaoSupport implements StoproductDAO {
@@ -165,5 +167,13 @@ public class StoproductDAOImpl extends SqlMapClientDaoSupport implements Stoprod
     public List queryCardListByOa(String appNo){
     	List list = getSqlMapClientTemplate().queryForList("stoproduct.queryCardListByOa",appNo);
         return list;
+    }
+    public List getReport(StoproductExample example){
+    	List list = getSqlMapClientTemplate().queryForList("stoproduct.getReport",example);
+        return list;
+    }
+    public int getIssueNumByOaAppNo(String OAappNo){
+    	int num= (int)getSqlMapClientTemplate().queryForObject("stoproduct.getIssueNumByOaAppNo",OAappNo);
+        return num;
     }
 }

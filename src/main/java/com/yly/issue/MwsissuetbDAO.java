@@ -93,4 +93,5 @@ public interface MwsissuetbDAO {
      */
     int updateByPrimaryKey(Mwsissuetb record);
     Mwsissuetb queryIssueTaskCtrl(String formNo);
+    List getReport(String taskCtrlNo);
 }
