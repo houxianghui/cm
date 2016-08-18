@@ -53,6 +53,13 @@ public class StoproductAction extends IbatisBaseAction {
 	private StoreuseBO storeuseBO;
 	private IssueappBO issueappBO;
 	private ExStoreInfoReport exStoreInfoReport;
+	private ExchangeInfoReport exchangeInfoReport;	
+	public ExchangeInfoReport getExchangeInfoReport() {
+		return exchangeInfoReport;
+	}
+	public void setExchangeInfoReport(ExchangeInfoReport exchangeInfoReport) {
+		this.exchangeInfoReport = exchangeInfoReport;
+	}
 	public ExStoreInfoReport getExStoreInfoReport() {
 		return exStoreInfoReport;
 	}
@@ -65,8 +72,6 @@ public class StoproductAction extends IbatisBaseAction {
 	public void setIssueappBO(IssueappBO issueappBO) {
 		this.issueappBO = issueappBO;
 	}
-
-
 	public StoreuseBO getStoreuseBO() {
 		return storeuseBO;
 	}
@@ -127,6 +132,10 @@ public class StoproductAction extends IbatisBaseAction {
 			return staticsdown(request,response,form,user); 
 		}else if("statics".equals(act)){		//query active projects
 			return mapping.findForward("statics");
+		}else if("exchangestaticsDown".equals(act)){		//query active projects
+			return exchangeStaticsdown(request,response,form,user); 
+		}else if("exchangestatics".equals(act)){		//query active projects
+			return mapping.findForward("exchangestatics");
 		}
 
 
@@ -462,5 +471,23 @@ public class StoproductAction extends IbatisBaseAction {
 		out.close();
 		return null;
 	}
-
+	private ActionForward exchangeStaticsdown(HttpServletRequest request,HttpServletResponse response,  BaseForm form,UserContext user) throws Exception{
+		StoproductForm f = (StoproductForm)form;
+		Stoproduct vo = new Stoproduct();
+		vo.setBeginDate_f(f.getBeginDate_f());
+		vo.setEndDate_f(f.getEndDate_f());
+		exchangeInfoReport.createExcel(vo, false);
+		response.setContentType("application/octet-stream");
+		String filename = exchangeInfoReport.getEt().getSheetName()+".xls";
+		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
+			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
+		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
+			filename = URLEncoder.encode(filename, "UTF-8");
+		}
+		response.addHeader("Content-Disposition", "attachment; filename="+filename);
+		OutputStream out = response.getOutputStream();
+		exchangeInfoReport.getEt().write(out);
+		out.close();
+		return null;
+	}
 }

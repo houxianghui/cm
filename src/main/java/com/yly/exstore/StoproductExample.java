@@ -2044,9 +2044,12 @@ public class StoproductExample {
             return this;
         }
         public Criteria andAsscoTbs() {
-            addCriterion("IOState=2 and lsinfo.samCSN=Stoproduct.samCSN and lsinfo.SAMID=Stoproduct.SAMID and lsinfo.AppNo=applyinfotb.AppNo and lsinfo.OperationType=31");
+            addCriterion("stoproduct.OAappNo = applyinfotb.OAappNo and applyinfotb.OperationType=31 ");
             return this;
         }
-        
+        public Criteria andExchangeAsscoTbs() {
+            addCriterion("stoproduct.OAappNo = applyinfotb.OAappNo and applyinfotb.OperationType=43 ");
+            return this;
+        }
     }
 }

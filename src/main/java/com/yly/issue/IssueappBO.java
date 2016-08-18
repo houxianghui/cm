@@ -11,7 +11,9 @@ import com.eis.exception.MessageException;
 import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
+import com.yly.exstore.Stoproduct;
 import com.yly.exstore.StoproductDAO;
+import com.yly.exstore.StoproductExample;
 import com.yly.exstore.StoproductForm;
 import com.yly.issue.IssueappExample.Criteria;
 import com.yly.ls.Lsinfo;
@@ -256,6 +258,19 @@ public class IssueappBO extends IbatisBO {
 		
 		return issueappDAO.queryIssuExample(e);
 	}			
+	public List getExchangeRawReport(Object obj) throws Exception {
+		Stoproduct vo =(Stoproduct)obj;
+		IssueappExample e = new IssueappExample();
+		Criteria c = e.createCriteria();
+		c.andApplyOperationTypeBetween((short)41, (short)42);
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+		List<StoproductForm> result=issueappDAO.getExchangeRawReport(e);
 
-
+		return  result;
+	}
 }

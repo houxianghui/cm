@@ -172,6 +172,10 @@ public class StoproductDAOImpl extends SqlMapClientDaoSupport implements Stoprod
     	List list = getSqlMapClientTemplate().queryForList("stoproduct.getReport",example);
         return list;
     }
+    public List getExchangeReport(StoproductExample example){
+    	List list = getSqlMapClientTemplate().queryForList("stoproduct.getExchangeReport",example);
+        return list;
+    }
     public int getIssueNumByOaAppNo(String OAappNo){
     	int num= (int)getSqlMapClientTemplate().queryForObject("stoproduct.getIssueNumByOaAppNo",OAappNo);
         return num;

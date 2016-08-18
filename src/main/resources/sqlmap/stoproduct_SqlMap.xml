@@ -37,12 +37,12 @@
 	  </resultMap>
 	  
 	  <resultMap id="getReportResMap" class="com.yly.exstore.StoproductForm" >
-	    <result column="OAappNo" property="OAappNo" jdbcType="VARCHAR" />
 	    <result column="ProdId" property="prodId" jdbcType="VARCHAR" />
 	    <result column="KeyType" property="keyType" jdbcType="DECIMAL" />
 	    <result column="UnitId" property="unitId" jdbcType="DECIMAL" />
 	    <result column="ExUnitId" property="exUnitId" jdbcType="DECIMAL" />
 	 	<result column="ExAmt" property="exAmt" jdbcType="DECIMAL" />
+	 	<result column="IssueAmt" property="issueAmt" jdbcType="DECIMAL" />
 	  </resultMap>	  
 	  
 	  <sql id="ibatorgenerated_Example_Where_Clause" >
@@ -701,16 +701,21 @@
 	    where SamCSN = #samCSN:VARCHAR# and SamId = #samId:VARCHAR# 	
 	  </update>
 	  <select id="getReport" resultMap="getReportResMap" parameterClass="com.yly.exstore.StoproductExample" >
- 		select Stoproduct.UnitId,count(Stoproduct.SAMID) as ExAmt,applyinfotb.UnitId as ExUnitId,Stoproduct.ProdId,KeyType,Stoproduct.OAappNo  
- 		from lsinfo,Stoproduct,applyinfotb 
+ 		select Stoproduct.UnitId,applyinfotb.UnitId as ExUnitId,Stoproduct.ProdId,KeyType,
+ 		sum(case when iostate=2 then 1 else 0 end)as ExAmt ,sum(case when wkstate=12 then 1 else 0 end) as IssueAmt   
+ 		from Stoproduct,applyinfotb                     
 	    <isParameterPresent >
 	      <include refid="stoproduct.ibatorgenerated_Example_Where_Clause" />
 	    </isParameterPresent>
-	    group by Stoproduct.UnitId,applyinfotb.UnitId,Stoproduct.ProdId,KeyType,Stoproduct.OAappNo
+		group by Stoproduct.UnitId,applyinfotb.UnitId,Stoproduct.ProdId,KeyType 
 	  </select>	  
-	  <select id="getIssueNumByOaAppNo" resultClass="java.lang.Integer" parameterClass="String" >
-  		 select sum(IssueDoneAmt) 
-  		 from mwsissuetb
-   		where OAappNo = #value#
-	  </select>	  			    
+	  <select id="getExchangeReport" resultMap="getReportResMap" parameterClass="com.yly.exstore.StoproductExample" >
+ 		select Stoproduct.UnitId,applyinfotb.UnitId as ExUnitId,Stoproduct.ProdId,KeyType,
+ 		sum(case when iostate=2 then 1 else 0 end)as ExAmt ,applyinfotb.OperationType as IssueAmt    
+ 		from Stoproduct,applyinfotb                     
+	    <isParameterPresent >
+	      <include refid="stoproduct.ibatorgenerated_Example_Where_Clause" />
+	    </isParameterPresent>
+		group by Stoproduct.UnitId,applyinfotb.UnitId,Stoproduct.ProdId,KeyType 
+	  </select>	  	    
 </sqlMap>

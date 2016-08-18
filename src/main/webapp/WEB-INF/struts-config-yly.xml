@@ -99,8 +99,9 @@
 			<forward name="cardview" path="/stoproduct/Stoproduct_cardview.jsp" />
 			<forward name="exchange" path="/stoproduct/Stoproduct_exchange.jsp" />
 			<forward name="show" path="/stoproduct/Stoproduct_exchangeshow.jsp" />
-			<forward name="statics" path="/reports/key/ExStoreInfoReport.jsp" />					
-			
+			<forward name="statics" path="/reports/key/ExStoreInfoReport.jsp" />	
+			<forward name="exchangestatics" path="/reports/key/ExchangeInfoReport.jsp" />	
+
 		</action>
 		<action path="/Mwsissuetb" type="org.springframework.web.struts.DelegatingActionProxy" name="mwsissuetbForm"
 			scope="request" validate="false">
