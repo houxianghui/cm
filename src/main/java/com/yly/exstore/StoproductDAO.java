@@ -96,5 +96,7 @@ public interface StoproductDAO {
     List queryCardListByOa(String appNo);
     List getReport(StoproductExample example);
     List getExchangeReport(StoproductExample example);
+    List getMakeUpReport(StoproductExample example);
+    List getReStoreReport(StoproductExample example);
     int getIssueNumByOaAppNo(String OAappNo);   
 }

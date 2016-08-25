@@ -356,7 +356,6 @@ public class StoproductBO extends IbatisBO {
 		StoproductExample e = new StoproductExample();
 		Criteria c = e.createCriteria();
 		c.andExchangeAsscoTbs();
-		c.andIOStateEqualTo((short)2);
 		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
 			c.andIOStateChgDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
 		}
@@ -367,5 +366,33 @@ public class StoproductBO extends IbatisBO {
 
 		return  result;
 	}
-	
+	public List getMakeUpReport(Object obj) throws Exception {
+		Stoproduct vo =(Stoproduct)obj;
+		StoproductExample e = new StoproductExample();
+		Criteria c = e.createCriteria();
+		c.andMakeUpAsscoTbs();
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c.andIOStateChgDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c.andIOStateChgDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+		List<StoproductForm> result=stoproductDAO.getExchangeReport(e);
+
+		return  result;
+	}	
+	public List getReStoreReport(Object obj) throws Exception {
+		Stoproduct vo =(Stoproduct)obj;
+		StoproductExample e = new StoproductExample();
+		Criteria c = e.createCriteria();
+		c.andReStoreAsscoTbs();
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c.andIOStateChgDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c.andIOStateChgDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+		List<StoproductForm> result=stoproductDAO.getReStoreReport(e);
+		return  result;
+	}	
 }

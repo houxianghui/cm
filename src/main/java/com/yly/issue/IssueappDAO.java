@@ -96,5 +96,6 @@ public interface IssueappDAO {
     int updateByPrimaryKey(Issueapp record);
     List selectTaskNoByExample(IssueappForm record);
     List getExchangeRawReport(IssueappExample example);
+    List getMakeUpRawReport(IssueappExample example);
 
 }

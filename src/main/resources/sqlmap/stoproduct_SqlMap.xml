@@ -712,10 +712,28 @@
 	  <select id="getExchangeReport" resultMap="getReportResMap" parameterClass="com.yly.exstore.StoproductExample" >
  		select Stoproduct.UnitId,applyinfotb.UnitId as ExUnitId,Stoproduct.ProdId,KeyType,
  		sum(case when iostate=2 then 1 else 0 end)as ExAmt ,applyinfotb.OperationType as IssueAmt    
- 		from Stoproduct,applyinfotb                     
+ 		from Stoproduct,applyinfotb,lsinfo                    
 	    <isParameterPresent >
 	      <include refid="stoproduct.ibatorgenerated_Example_Where_Clause" />
 	    </isParameterPresent>
 		group by Stoproduct.UnitId,applyinfotb.UnitId,Stoproduct.ProdId,KeyType 
-	  </select>	  	    
+	  </select>	  	 
+	  <select id="getMakeUpReport" resultMap="getReportResMap" parameterClass="com.yly.exstore.StoproductExample" >
+ 		select Stoproduct.UnitId,applyinfotb.UnitId as ExUnitId,Stoproduct.ProdId,KeyType,
+ 		sum(case when iostate=2 then 1 else 0 end)as ExAmt ,sum(applyinfotb.TotalPrice) as IssueAmt    
+ 		from Stoproduct,applyinfotb,lsinfo                 
+	    <isParameterPresent >
+	      <include refid="stoproduct.ibatorgenerated_Example_Where_Clause" />
+	    </isParameterPresent>
+		group by Stoproduct.UnitId,applyinfotb.UnitId,Stoproduct.ProdId,KeyType 
+	  </select>	 	 
+	  <select id="getRestoreReport" resultMap="getReportResMap" parameterClass="com.yly.exstore.StoproductExample" >
+ 		select Stoproduct.UnitId,applyinfotb.UnitId as ExUnitId,Stoproduct.ProdId,KeyType,
+ 		CardPhyStat as IssueAmt,sum(case when iostate=3 then 1 else 0 end)as ExAmt   
+ 		from Stoproduct,applyinfotb,lsinfo                    
+	    <isParameterPresent >
+	      <include refid="stoproduct.ibatorgenerated_Example_Where_Clause" />
+	    </isParameterPresent>
+		group by Stoproduct.UnitId,applyinfotb.UnitId,Stoproduct.ProdId,KeyType,CardPhyStat 
+	  </select>	 	 	      
 </sqlMap>

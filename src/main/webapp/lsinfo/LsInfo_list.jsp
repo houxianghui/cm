@@ -48,6 +48,7 @@ function turnPage( pagenm ) {
 			<td>原SAM印刷号</td>
 			<td>录入员</td>
 			<td>录入时间</td>
+			<td>产品类别</td>
 		</tr>
 		<%if (pageResult != null) {
 	List list = pageResult.getList();
@@ -68,6 +69,7 @@ function turnPage( pagenm ) {
 			<td><%=vo.getSamCSNOld()==null?"":vo.getSamCSNOld()%></td>	
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, vo.getOperId()) %></td>
 			<td><%=vo.getCurrDate()%></td>		
+			<td><%=SingleDicMap.getDicItemVal(SingleDic.PROD_ID, vo.getProdId()) %></td>			
 		</tr>
 
 		<%}

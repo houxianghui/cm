@@ -2048,8 +2048,16 @@ public class StoproductExample {
             return this;
         }
         public Criteria andExchangeAsscoTbs() {
-            addCriterion("stoproduct.OAappNo = applyinfotb.OAappNo and applyinfotb.OperationType=43 ");
+            addCriterion("lsinfo.AppNo = applyinfotb.AppNo and Stoproduct.SamId=lsinfo.SamId and Stoproduct.SamCSN=lsinfo.SamCSN and applyinfotb.OperationType=43 ");
             return this;
         }
+        public Criteria andMakeUpAsscoTbs() {
+            addCriterion("lsinfo.AppNo = applyinfotb.AppNo and Stoproduct.SamId=lsinfo.SamId and Stoproduct.SamCSN=lsinfo.SamCSN and applyinfotb.OperationType=53 ");
+            return this;
+        }
+        public Criteria andReStoreAsscoTbs() {
+            addCriterion("lsinfo.AppNo = applyinfotb.AppNo and Stoproduct.SamId=lsinfo.SamId and Stoproduct.SamCSN=lsinfo.SamCSN and applyinfotb.OperationType=61 ");
+            return this;
+        }        
     }
 }

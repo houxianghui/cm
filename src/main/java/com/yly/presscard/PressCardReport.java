@@ -11,6 +11,7 @@ import com.blue.report.base.CellAttributes;
 import com.blue.report.base.Tools;
 import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
+import com.eis.exception.MessageException;
 public class PressCardReport extends BaseReport {
 
 	private PressCardBO pressCardBO;
@@ -31,6 +32,9 @@ public class PressCardReport extends BaseReport {
 		int colIndexBegin=colIndex;
 		try{
 			List<Presscardapptb> l = (List)pressCardBO.getReport(obj);
+			if(l.size()<1){
+				throw new MessageException("不存在数据");
+			}
 			for(Presscardapptb p : l){
 				tools.setCell(rowIndex, colIndex++, p.getClassId().equals("E")?SingleDicMap.getDicItemVal(SingleDic.EREADERMAUN_ID, p.getManufacId()):SingleDicMap.getDicItemVal(SingleDic.MAUN_ID, p.getManufacId()));
 				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.CLASS_ID, p.getClassId()));
@@ -39,8 +43,8 @@ public class PressCardReport extends BaseReport {
 				rowIndex++;
 				colIndex=colIndexBegin;
 			}
-		}catch(Exception e){
-			e.printStackTrace();
+		}finally{
+			;
 		}
 	}
 		

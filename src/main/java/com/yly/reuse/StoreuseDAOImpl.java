@@ -1,8 +1,11 @@
 package com.yly.reuse;
 
+import com.yly.exstore.StoproductExample;
 import com.yly.reuse.Storeuse;
 import com.yly.reuse.StoreuseExample;
+
 import java.util.List;
+
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 public class StoreuseDAOImpl extends SqlMapClientDaoSupport implements StoreuseDAO {
@@ -159,4 +162,8 @@ public class StoreuseDAOImpl extends SqlMapClientDaoSupport implements StoreuseD
             return record;
         }
     }
+    public List getReStoreReport(StoreuseExample example){
+    	List list = getSqlMapClientTemplate().queryForList("storeuse.getRestoreReport",example);
+        return list;
+    }    
 }

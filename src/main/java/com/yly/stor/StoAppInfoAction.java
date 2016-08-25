@@ -198,7 +198,7 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		f.setProdId(request.getParameter("prodId"));
 		if(f.getProdId().equals("4")){
 			f.setPhiTypeId("");//模块速率不设置
-			f.setOperationType((long)92);//发行小模块必须是冲回过的记录
+			f.setOperationType_f((long)92);//发行小模块必须是冲回过的记录
 		}else{
 			f.setPhiTypeId(request.getParameter("phiTypeId"));
 		}
@@ -225,7 +225,7 @@ public class StoAppInfoAction extends IbatisBaseAction {
 	}
 	public ActionForward exbackList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoAppInfoForm f = (StoAppInfoForm)form;
-		f.setOperationType((long)92);//冲回操作
+		f.setOperationType_f((long)92);//冲回操作
 		List list=((StoAppInfoBO)bo).getAppList(f);
 		setPageResult(request, list);
 		return mapping.findForward("exbackList");

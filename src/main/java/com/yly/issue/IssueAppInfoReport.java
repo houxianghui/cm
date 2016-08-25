@@ -10,6 +10,7 @@ import com.eis.cache.ReDefSDicMap;
 import com.eis.cache.RedefSDicCodes;
 import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
+import com.eis.exception.MessageException;
 public class IssueAppInfoReport extends BaseReport {
 
 	private MWsIssueBO mwsissuetbBO;
@@ -28,6 +29,9 @@ public class IssueAppInfoReport extends BaseReport {
 		int colIndexBegin=colIndex;
 		try{
 			List<MWsIssuetbForm> l = (List)mwsissuetbBO.getReport(obj);
+			if(l.size()<1){
+				throw new MessageException("不存在数据");
+			}
 			for(MWsIssuetbForm p : l){
 				tools.setCell(rowIndex, colIndex++, p.getTaskCtrlNo());
 				tools.setCell(rowIndex, colIndex++, p.getAppUnitId());
@@ -39,8 +43,8 @@ public class IssueAppInfoReport extends BaseReport {
 				rowIndex++;
 				colIndex=colIndexBegin;
 			}
-		}catch(Exception e){
-			e.printStackTrace();
+		}finally{
+			;
 		}
 	}
 		

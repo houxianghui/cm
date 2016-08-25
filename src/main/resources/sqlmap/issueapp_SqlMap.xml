@@ -506,4 +506,12 @@ select applyinfotb.OAappNo,applyinfotb.AppNo,applyinfotb.OperationType,TaskCtrlN
     </isParameterPresent>
     group by UnitId,OperationType
   </select>  
+   <select id="getMakeUpRawReport" parameterClass="com.yly.issue.IssueappExample" resultMap="getExchangeRawReport">
+	select  UnitId,UnitId as ExUnitId,(case when OperationType=51 then 3 else 4 end)as ProdId,"" as KeyType,TotalPrice  as IssueAmt, sum(TaskAmt) as ExAmt  
+	from applyinfotb 
+      <isParameterPresent>
+      <include refid="issueapp.ibatorgenerated_Example_Where_Clause" />
+    </isParameterPresent>
+    group by UnitId,OperationType
+  </select>    
 </sqlMap>

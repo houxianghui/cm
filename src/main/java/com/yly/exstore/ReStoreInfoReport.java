@@ -11,17 +11,18 @@ import com.eis.cache.RedefSDicCodes;
 import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
 import com.eis.exception.MessageException;
-import com.yly.issue.IssueappBO;
-public class ExchangeInfoReport extends BaseReport {
+import com.yly.reuse.StoreuseBO;
+public class ReStoreInfoReport extends BaseReport {
 
 	private StoproductBO stoproductBO;
-	private IssueappBO issueappBO;
-	public IssueappBO getIssueappBO() {
-		return issueappBO;
+	private StoreuseBO storeuseBO;
+
+	public StoreuseBO getStoreuseBO() {
+		return storeuseBO;
 	}
 
-	public void setIssueappBO(IssueappBO issueappBO) {
-		this.issueappBO = issueappBO;
+	public void setStoreuseBO(StoreuseBO storeuseBO) {
+		this.storeuseBO = storeuseBO;
 	}
 
 	public StoproductBO getStoproductBO() {
@@ -39,8 +40,8 @@ public class ExchangeInfoReport extends BaseReport {
 		int colIndex = ca.getColIndex();
 		int colIndexBegin=colIndex;
 		try{
-			List<StoproductForm> l = (List)stoproductBO.getExchangeReport(obj);
-			List<StoproductForm> l_raw= (List)issueappBO.getExchangeRawReport(obj);
+			List<StoproductForm> l = (List)stoproductBO.getReStoreReport(obj);
+			List<StoproductForm> l_raw= (List)storeuseBO.getReStoreReport(obj);
 			if(l.size()<1 && l_raw.size()<1){
 				throw new MessageException("不存在数据");
 			}
@@ -49,7 +50,7 @@ public class ExchangeInfoReport extends BaseReport {
 				tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.UNITID, String.valueOf(p.getExUnitId())));
 				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PROD_ID, String.valueOf(p.getProdId())));
 				tools.setCell(rowIndex, colIndex++, p.getKeyType()==0?"":SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(p.getKeyType())));
-				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(p.getIssueAmt())));
+				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PHY_STAT, String.valueOf(p.getIssueAmt())));
 				tools.setCell(rowIndex, colIndex++, p.getExAmt());
 				rowIndex++;
 				colIndex=colIndexBegin;
@@ -59,7 +60,7 @@ public class ExchangeInfoReport extends BaseReport {
 				tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.UNITID, String.valueOf(p_raw.getExUnitId())));
 				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PROD_ID, String.valueOf(p_raw.getProdId())));
 				tools.setCell(rowIndex, colIndex++, p_raw.getKeyType()==0?"":SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(p_raw.getKeyType())));
-				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(p_raw.getIssueAmt())));
+				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PHY_STAT, String.valueOf(p_raw.getIssueAmt())));
 				tools.setCell(rowIndex, colIndex++, p_raw.getExAmt());
 				rowIndex++;
 				colIndex=colIndexBegin;

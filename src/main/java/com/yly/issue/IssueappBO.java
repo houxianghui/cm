@@ -262,7 +262,7 @@ public class IssueappBO extends IbatisBO {
 		Stoproduct vo =(Stoproduct)obj;
 		IssueappExample e = new IssueappExample();
 		Criteria c = e.createCriteria();
-		c.andApplyOperationTypeBetween((short)41, (short)42);
+		c.andOperationTypeBetween((short)41, (short)42);
 		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
 			c.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
 		}
@@ -270,6 +270,21 @@ public class IssueappBO extends IbatisBO {
 			c.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
 		}
 		List<StoproductForm> result=issueappDAO.getExchangeRawReport(e);
+
+		return  result;
+	}
+	public List getMakeUpRawReport(Object obj) throws Exception {
+		Stoproduct vo =(Stoproduct)obj;
+		IssueappExample e = new IssueappExample();
+		Criteria c = e.createCriteria();
+		c.andOperationTypeBetween((short)51, (short)52);
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+		List<StoproductForm> result=issueappDAO.getMakeUpRawReport(e);
 
 		return  result;
 	}

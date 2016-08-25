@@ -101,6 +101,8 @@
 			<forward name="show" path="/stoproduct/Stoproduct_exchangeshow.jsp" />
 			<forward name="statics" path="/reports/key/ExStoreInfoReport.jsp" />	
 			<forward name="exchangestatics" path="/reports/key/ExchangeInfoReport.jsp" />	
+			<forward name="makeupstatics" path="/reports/key/MakeUpInfoReport.jsp" />	
+			<forward name="restorestatics" path="/reports/key/ReStoreInfoReport.jsp" />	
 
 		</action>
 		<action path="/Mwsissuetb" type="org.springframework.web.struts.DelegatingActionProxy" name="mwsissuetbForm"

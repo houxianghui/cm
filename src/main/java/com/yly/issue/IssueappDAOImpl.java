@@ -189,6 +189,9 @@ public class IssueappDAOImpl extends SqlMapClientDaoSupport implements IssueappD
         List list = getSqlMapClientTemplate().queryForList("issueapp.getExchangeRawReport", example);
         return list;
     }
-    
+    public List getMakeUpRawReport(IssueappExample example) {
+        List list = getSqlMapClientTemplate().queryForList("issueapp.getMakeUpRawReport", example);
+        return list;
+    }    
     
 }

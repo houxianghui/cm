@@ -10,6 +10,7 @@ import com.eis.cache.ReDefSDicMap;
 import com.eis.cache.RedefSDicCodes;
 import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
+import com.eis.exception.MessageException;
 public class ExStoreInfoReport extends BaseReport {
 
 	private StoproductBO stoproductBO;
@@ -30,6 +31,9 @@ public class ExStoreInfoReport extends BaseReport {
 		int colIndexBegin=colIndex;
 		try{
 			List<StoproductForm> l = (List)stoproductBO.getReport(obj);
+			if(l.size()<1){
+				throw new MessageException("不存在数据");
+			}
 			for(StoproductForm p : l){
 				tools.setCell(rowIndex, colIndex++, p.getUnitId());
 				tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.UNITID, String.valueOf(p.getExUnitId())));
@@ -40,8 +44,8 @@ public class ExStoreInfoReport extends BaseReport {
 				rowIndex++;
 				colIndex=colIndexBegin;
 			}
-		}catch(Exception e){
-			e.printStackTrace();
+		}finally{
+			;
 		}
 	}
 		

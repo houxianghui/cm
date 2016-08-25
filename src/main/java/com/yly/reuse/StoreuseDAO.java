@@ -2,6 +2,7 @@ package com.yly.reuse;
 
 import com.yly.reuse.Storeuse;
 import com.yly.reuse.StoreuseExample;
+
 import java.util.List;
 
 public interface StoreuseDAO {
@@ -92,4 +93,6 @@ public interface StoreuseDAO {
      * @ibatorgenerated Mon May 30 14:59:08 CST 2016
      */
     int updateByPrimaryKey(Storeuse record);
+    List getReStoreReport(StoreuseExample example);
+
 }

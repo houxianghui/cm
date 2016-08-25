@@ -54,6 +54,20 @@ public class StoproductAction extends IbatisBaseAction {
 	private IssueappBO issueappBO;
 	private ExStoreInfoReport exStoreInfoReport;
 	private ExchangeInfoReport exchangeInfoReport;	
+	private MakeUpInfoReport makeUpInfoReport;	
+	private ReStoreInfoReport reStoreInfoReport;
+	public ReStoreInfoReport getReStoreInfoReport() {
+		return reStoreInfoReport;
+	}
+	public void setReStoreInfoReport(ReStoreInfoReport reStoreInfoReport) {
+		this.reStoreInfoReport = reStoreInfoReport;
+	}
+	public MakeUpInfoReport getMakeUpInfoReport() {
+		return makeUpInfoReport;
+	}
+	public void setMakeUpInfoReport(MakeUpInfoReport makeUpInfoReport) {
+		this.makeUpInfoReport = makeUpInfoReport;
+	}
 	public ExchangeInfoReport getExchangeInfoReport() {
 		return exchangeInfoReport;
 	}
@@ -136,6 +150,14 @@ public class StoproductAction extends IbatisBaseAction {
 			return exchangeStaticsdown(request,response,form,user); 
 		}else if("exchangestatics".equals(act)){		//query active projects
 			return mapping.findForward("exchangestatics");
+		}else if("makeupstaticsDown".equals(act)){		//query active projects
+			return makeUpStaticsdown(request,response,form,user); 
+		}else if("makeupstatics".equals(act)){		//query active projects
+			return mapping.findForward("makeupstatics");
+		}else if("restorestaticsDown".equals(act)){		//query active projects
+			return reStoreStaticsdown(request,response,form,user); 
+		}else if("restorestatics".equals(act)){		//query active projects
+			return mapping.findForward("restorestatics");
 		}
 
 
@@ -487,6 +509,44 @@ public class StoproductAction extends IbatisBaseAction {
 		response.addHeader("Content-Disposition", "attachment; filename="+filename);
 		OutputStream out = response.getOutputStream();
 		exchangeInfoReport.getEt().write(out);
+		out.close();
+		return null;
+	}
+	private ActionForward makeUpStaticsdown(HttpServletRequest request,HttpServletResponse response,  BaseForm form,UserContext user) throws Exception{
+		StoproductForm f = (StoproductForm)form;
+		Stoproduct vo = new Stoproduct();
+		vo.setBeginDate_f(f.getBeginDate_f());
+		vo.setEndDate_f(f.getEndDate_f());
+		makeUpInfoReport.createExcel(vo, false);
+		response.setContentType("application/octet-stream");
+		String filename = makeUpInfoReport.getEt().getSheetName()+".xls";
+		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
+			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
+		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
+			filename = URLEncoder.encode(filename, "UTF-8");
+		}
+		response.addHeader("Content-Disposition", "attachment; filename="+filename);
+		OutputStream out = response.getOutputStream();
+		makeUpInfoReport.getEt().write(out);
+		out.close();
+		return null;
+	}
+	private ActionForward reStoreStaticsdown(HttpServletRequest request,HttpServletResponse response,  BaseForm form,UserContext user) throws Exception{
+		StoproductForm f = (StoproductForm)form;
+		Stoproduct vo = new Stoproduct();
+		vo.setBeginDate_f(f.getBeginDate_f());
+		vo.setEndDate_f(f.getEndDate_f());
+		reStoreInfoReport.createExcel(vo, false);
+		response.setContentType("application/octet-stream");
+		String filename = reStoreInfoReport.getEt().getSheetName()+".xls";
+		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
+			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
+		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
+			filename = URLEncoder.encode(filename, "UTF-8");
+		}
+		response.addHeader("Content-Disposition", "attachment; filename="+filename);
+		OutputStream out = response.getOutputStream();
+		reStoreInfoReport.getEt().write(out);
 		out.close();
 		return null;
 	}

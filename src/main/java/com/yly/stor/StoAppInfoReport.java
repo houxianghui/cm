@@ -10,6 +10,7 @@ import com.eis.cache.ReDefSDicMap;
 import com.eis.cache.RedefSDicCodes;
 import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
+import com.eis.exception.MessageException;
 public class StoAppInfoReport extends BaseReport {
 
 	private StoAppInfoBO stoAppBO;
@@ -33,6 +34,9 @@ public class StoAppInfoReport extends BaseReport {
 		int colIndexBegin=colIndex;
 		try{
 			List<Stoappinfo> l = (List)stoAppBO.getReport(obj);
+			if(l.size()<1){
+				throw new MessageException("不存在数据");
+			}
 			for(Stoappinfo p : l){
 				tools.setCell(rowIndex, colIndex++, p.getProjContNum());
 				tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.MAUN_ID, p.getManufacId()));
@@ -44,8 +48,8 @@ public class StoAppInfoReport extends BaseReport {
 				rowIndex++;
 				colIndex=colIndexBegin;
 			}
-		}catch(Exception e){
-			e.printStackTrace();
+		}finally{
+			;
 		}
 	}
 		

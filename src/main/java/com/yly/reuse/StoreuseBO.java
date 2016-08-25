@@ -158,5 +158,19 @@ public class StoreuseBO extends IbatisBO {
 			throw new MessageException("开始卡号不能大于结束卡号");
 		
 	}
+	public List getReStoreReport(Object obj) throws Exception {
+		Stoproduct vo =(Stoproduct)obj;
+		StoreuseExample e = new StoreuseExample();
+		Criteria c = e.createCriteria();
+		c.andReStoreAsscoTbs();
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c.andIOStateChgDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c.andIOStateChgDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+		List<StoproductForm> result=storeuseDAO.getReStoreReport(e);
+		return  result;
+	}	
 
 }

@@ -441,6 +441,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 		f.setProdId(request.getParameter("prodId"));
 		f.setManufacId(request.getParameter("manufacId"));
 		f.setApplyAttr(request.getParameter("applyAttr"));
+		String exam_samId=request.getParameter("samId");
+		String exam_binFileVer=request.getParameter("binFileVer");
 		Mwsissuetb vo= new Mwsissuetb();
 		copyProperties(vo, f);
 		((MWsIssueBO)bo).initMwsissueToPara(f);
@@ -472,8 +474,13 @@ public class MWsIssueAction extends IbatisBaseAction {
 					lsvo.setSamId(prod.getSamId());
 					lsvo.setFormNo(f.getFormNo());
 					lsvo = lsinfoBO.queryLastObject(lsvo);
-					lsvo.setDetectSign((short)1);	
-					prod.setDetectSign((short)1);
+					if(exam_samId!=null && !exam_samId.equals(para.getSamId())){
+						lsvo.setDetectSign((short)2);
+						prod.setDetectSign((short)2);
+					}else{
+						lsvo.setDetectSign((short)1);	
+						prod.setDetectSign((short)1);
+					}
 					prod.setDetectTime(DateUtil.getTimeStr());
 					res = "{\"flowNo\":\""+lsvo.getFlowNo()+"\",\"detectSign\":\""+lsvo.getDetectSign()+"\",\"msg\":\"samId"+para.getSamId()+"samCSN"+prod.getSamCSN();
 					if(!vo.getProdId().equals("4")){		
@@ -486,6 +493,13 @@ public class MWsIssueAction extends IbatisBaseAction {
 					} 
 				}else{
 					res = res+"ver"+para.getVersion()+"\"}";
+					if(exam_binFileVer!=null && !exam_binFileVer.equals(para.getVersion())){
+						lsvo.setDetectSign((short)2);
+						prod.setDetectSign((short)2);
+					}else{
+						lsvo.setDetectSign((short)1);	
+						prod.setDetectSign((short)1);
+					}
 					stoproductBO.transLsUpdate(prod,lsvo);
 					writeAjaxResponse(response, res);
 				}

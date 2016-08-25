@@ -145,12 +145,13 @@ public class StoAppInfoBO extends IbatisBO {
 		
 		StoappinfoExample e = new StoappinfoExample();
 		Criteria c = e.createCriteria();
-		c.andOperationTypeBetween((short)10, (short)19);
 		if(!CheckUtil.isEmptry(obj.getProdId())){
 			c.andProdIdEqualTo(obj.getProdId());
 		}
 		if(obj.getOperationType_f()!=null && obj.getOperationType_f()>0){
 			c.andOperationTypeEqualTo(obj.getOperationType_f().shortValue());
+		}else{
+			c.andOperationTypeBetween((short)10, (short)19);
 		}
 //		if(obj.getOperationType()!=null && obj.getOperationType()>0){
 //			c.andOperationTypeEqualTo(obj.getOperationType().shortValue());
@@ -181,6 +182,7 @@ public class StoAppInfoBO extends IbatisBO {
 		}
 		return stoappinfoDAO.selectByExample(e);
 	}
+
 	public List getExList(StoAppInfoForm obj)throws Exception {
 		
 		StoappinfoExample e = new StoappinfoExample();
