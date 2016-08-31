@@ -73,7 +73,6 @@ function doDownload(){
 				<html:optionsCollection name="stoAppForm" property="operationTypeCollection"/>
 			</html:select>	
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
-			<input	name="结果导出" type="button" class="Button"  onclick="doDownload()">
 			</td>
 		</tr>
 		

@@ -163,7 +163,7 @@ public class StoreuseAction extends IbatisBaseAction {
 		Stoproduct sto = stoproductBO.queryForObjByKey(stf);
 		Storeuse storeuse = new Storeuse();
 
-		if(sto==null){
+		if(sto==null ||sto.getSamId()==null){
 			sto=new Stoproduct();
 			copyProperties(sto, sf);
 			sto.setWkStateChgDate(DateUtil.getTimeStr());
@@ -173,7 +173,7 @@ public class StoreuseAction extends IbatisBaseAction {
 			sto.setDetectSign(sf.getDetectSign());
 			sto.setCardPhyStat(sf.getCardPhyStat());
 		}
-		if(sf.getDetectSign()==2 ||sf.getCardPhyStat()==11){
+		if(sf.getDetectSign()==2 ||sf.getCardPhyStat()==2){
 			sto.setWkStateChgDate(DateUtil.getTimeStr());
 			sto.setIOState((short)3);
 			sto.setIOStateChgDate(DateUtil.getTimeStr());
@@ -196,15 +196,15 @@ public class StoreuseAction extends IbatisBaseAction {
 		List<Lsinfo> l=lsinfoBO.queryForList(vo);
 		if(l!=null &&l.size()>0){
 			setPageResult(request,l);
-			if(l.size()==sf.getTaskAmt()){
+			if(l.size()+1==sf.getTaskAmt()){
 				Issueapp app=issueappBO.queryForObject(sf.getAppNo());
 				app.setFormState((short)3);
 				((StoreuseBO)bo).transUpdateTB(app,sto,storeuse,lsinfo);
-				return forwardSuccessPage(request,mapping,"退回成功","Issueapp.do?act=storeuse_new");
+				return forwardSuccessPage(request,mapping,"退回成功","Issueapp.do?act=storeuseList");
 			}
 		}
 		((StoreuseBO)bo).transUpdateTB(null,sto,storeuse,lsinfo);
-		return forwardSuccessPage(request,mapping,"退回成功","Storeuse.do?act=back_init&appNo="+sf.getAppNo());
+		return forwardSuccessPage(request,mapping,"退回成功","Storeuse.do?act=back_init&appNo="+sf.getAppNo()+"&taskAmt="+sf.getTaskAmt());
 	}
 	public ActionForward retrive(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoreuseForm sf = (StoreuseForm)form;

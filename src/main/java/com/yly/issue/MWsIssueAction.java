@@ -634,6 +634,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		String res="";
 		writeAjaxResponse(response, res);
 	}
+
 	private ActionForward staticsdown(HttpServletRequest request,HttpServletResponse response,  BaseForm form,UserContext user) throws Exception{
 		MWsIssuetbForm f = (MWsIssuetbForm)form;
 		Mwsissuetb vo = new Mwsissuetb();

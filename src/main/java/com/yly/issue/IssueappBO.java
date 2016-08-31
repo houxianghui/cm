@@ -154,13 +154,26 @@ public class IssueappBO extends IbatisBO {
 //		if(!CheckUtil.isEmptry(obj.getAppNo())){
 //			c.andAppNoEqualTo(obj.getAppNo());
 //		}
-	}
-	
+	}	
 	public List getAppListByOperType(IssueappForm obj)throws Exception {
 		
 		IssueappExample e = new IssueappExample();
 		Criteria c = e.createCriteria();
-		queryListByExample(obj, c);
+		if(obj.getOperationType()!=null && obj.getOperationType()>0){
+			c.andOperationTypeEqualTo(obj.getOperationType().shortValue());
+		}
+		if(obj.getUnitId()!=null && obj.getUnitId()>0){
+			c.andUnitIdEqualTo(obj.getUnitId());
+		}
+		if(!CheckUtil.isEmptry(obj.getBeginDate_f())){
+			c.andCurrDateGreaterThanOrEqualTo(obj.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(obj.getEndDate_f())){
+			c.andCurrDateLessThanOrEqualTo(obj.getEndDate_f()+"999999");
+		}
+		if(obj.getFormState()!=null && obj.getFormState()>0){
+			c.andFormStateEqualTo(obj.getFormState().shortValue());
+		}
 		return issueappDAO.selectByExample(e);
 	}
 	public List getExChangeList(IssueappForm obj)throws Exception {
@@ -188,7 +201,12 @@ public class IssueappBO extends IbatisBO {
 		if(obj.getUnitId_f()!=null &&obj.getUnitId_f()>0 ){
 			c.andUnitIdEqualTo(obj.getUnitId_f());
 		}
-		queryListByExample(obj, c);
+		if(!CheckUtil.isEmptry(obj.getBeginDate_f())){
+			c.andCurrDateGreaterThanOrEqualTo(obj.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(obj.getEndDate_f())){
+			c.andCurrDateLessThanOrEqualTo(obj.getEndDate_f()+"999999");
+		}
 		return issueappDAO.selectByExample(e);
 	}
 	public List getMakeUpList(IssueappForm obj)throws Exception {

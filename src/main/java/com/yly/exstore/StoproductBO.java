@@ -25,11 +25,22 @@ import com.yly.issue.MwsissuetbExample;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoDAO;
 import com.yly.pki.SecpkitbForm;
+import com.yly.reuse.Storeuse;
+import com.yly.reuse.StoreuseDAO;
+import com.yly.reuse.StoreuseExample;
 
 
 
 
 public class StoproductBO extends IbatisBO {
+	private StoreuseDAO storeuseDAO;
+	public StoreuseDAO getStoreuseDAO() {
+		return storeuseDAO;
+	}
+
+	public void setStoreuseDAO(StoreuseDAO storeuseDAO) {
+		this.storeuseDAO = storeuseDAO;
+	}
 	private StoproductDAO stoproductDAO;
 	private LsinfoDAO lsinfoDAO;
 	private IssueappDAO issueappDAO;
@@ -279,19 +290,38 @@ public class StoproductBO extends IbatisBO {
 	//88888ÍË»Ø»µ¿¨ÐÞ¸´ samid
 	public String getMaxBadReturnCard() throws Exception{
 		String samId="";
+		String r_samId="";
 		StoproductExample e = new StoproductExample();
 		Criteria c = e.createCriteria();
 		c.andSamIdLike("88888%");
  		e.setOrderByClause("SamId desc");
 		List<Stoproduct> il=stoproductDAO.selectByExample(e);
+		
+		StoreuseExample re = new StoreuseExample();
+		com.yly.reuse.StoreuseExample.Criteria rc = re.createCriteria();
+		rc.andSamIdLike("88888%");
+ 		re.setOrderByClause("SamId desc");
+		List<Storeuse> ril=storeuseDAO.selectByExample(re);		
+		
 		if(il != null && il.size()>0){
 			for(Stoproduct vo:il){
 				samId=vo.getSamId();
 				break;
 			}	
+		}
+		if(ril != null && ril.size()>0){
+			for(Storeuse rvo:ril){
+				r_samId=rvo.getSamId();
+				break;
+			}	
+		}
+		if(!CheckUtil.isEmptry(samId) || !CheckUtil.isEmptry(r_samId)){
+			if((samId).compareTo(r_samId)<0)
+				samId=r_samId;	
 		}else{
 			samId="888880000000";
 		}
+	
 		Long tmp=Long.parseLong(samId)+1;
 		samId=String.valueOf(tmp);
 		if(samId.compareTo("888890000000")==0){

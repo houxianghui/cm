@@ -34,7 +34,7 @@ function doIssueDone(){
 } 
 function doExam(){ 
     document.getElementById('exam').style.color="red"; 
-	$.get("Mwsissuetb.do?act=E&operationType=<%=mwsissuetbForm.getOperationType()%>&applyAttr=<%=mwsissuetbForm.getApplyAttr()%>&prodId=<%=mwsissuetbForm.getProdId()%>&manufacId=<%=mwsissuetbForm.getManufacId()%>",function(result){
+	$.get("Mwsissuetb.do?act=E&operationType=<%=mwsissuetbForm.getOperationType()%>&applyAttr=<%=mwsissuetbForm.getApplyAttr()%>&prodId=<%=mwsissuetbForm.getProdId()%>&manufacId=<%=mwsissuetbForm.getManufacId()%>&samId=<%=mwsissuetbForm.getSamId()%>&binFileVer=<%=mwsissuetbForm.getBinFileVer()%>",function(result){
 		var json = $.parseJSON(result);
 		if(json.error!=null){
 			alert(json.error);

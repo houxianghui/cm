@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+	<sheetName>POS终端出库统计报表</sheetName>
+	<cells>
+		<cell rowIndex="0" colIndex="0" colSpan="1" value="API模块批次号"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="1" colSpan="1" value="出库数量"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="2" colSpan="1" value="出库冲回数量(好卡)"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="3" colSpan="1" value="出库冲回数量(坏卡)"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="4" colSpan="1" value="用途"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+	</cells>
+	<properties>
+		<cell property="list" rowIndex="1" colIndex="0"/>		
+	</properties>
+</report>

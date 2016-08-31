@@ -1,9 +1,3 @@
-/*
- * @# ProjectMaintainAction.java 2008-11-6 houxh
- *
- * Copyright  (c)  2003 	Huateng. All Right Reserv
- */
- 
 package com.yly.issue;
 
 import java.util.List;
@@ -267,6 +261,9 @@ public class IssueappAction extends IbatisBaseAction {
 		Process proc = Runtime.getRuntime().exec(url);  
 		String res="";
 		writeAjaxResponse(response, res);
+		Lsinfo ls= new Lsinfo();
+		ls.setAppNo(request.getParameter("appNo"));
+		ls.setOperationType((short)93);//下载
 	}
 	//原料出库\补办
 	public ActionForward partDown(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
@@ -296,7 +293,7 @@ public class IssueappAction extends IbatisBaseAction {
 		StoAppInfoForm sf=new StoAppInfoForm();
 		sf.setOperationType((long)92);
 		sf.setFormNo(ls.getFormNo());
-		List<Stoappinfo> backlist=stoAppBO.getAppList(sf);
+		List<Stoappinfo> backlist=stoAppBO.getAppListByExample(sf);
 			
 		if(backlist!=null && backlist.size()>0){
 			long tot=0;
