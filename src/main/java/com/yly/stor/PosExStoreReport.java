@@ -6,14 +6,22 @@ import java.util.List;
 import com.blue.report.base.BaseReport;
 import com.blue.report.base.CellAttributes;
 import com.blue.report.base.Tools;
-import com.eis.cache.ReDefSDicMap;
-import com.eis.cache.RedefSDicCodes;
-import com.eis.cache.SingleDic;
-import com.eis.cache.SingleDicMap;
 import com.eis.exception.MessageException;
+import com.yly.issue.Issueapp;
+import com.yly.issue.IssueappBO;
 public class PosExStoreReport extends BaseReport {
 
 	private StoAppInfoBO stoAppBO;
+	private IssueappBO issueappBO;
+
+	public IssueappBO getIssueappBO() {
+		return issueappBO;
+	}
+
+
+	public void setIssueappBO(IssueappBO issueappBO) {
+		this.issueappBO = issueappBO;
+	}
 
 
 	public StoAppInfoBO getStoAppBO() {
@@ -33,18 +41,23 @@ public class PosExStoreReport extends BaseReport {
 		int colIndex = ca.getColIndex();
 		int colIndexBegin=colIndex;
 		try{
-			List<Stoappinfo> l = (List)stoAppBO.getReport(obj);
+			List<Stoappinfo> l = (List)stoAppBO.getPosChargeBackReport(obj);
+			
 			if(l.size()<1){
 				throw new MessageException("不存在数据");
 			}
 			for(Stoappinfo p : l){
-				tools.setCell(rowIndex, colIndex++, p.getProjContNum());
-				tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.MAUN_ID, p.getManufacId()));
-				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PROD_ID, p.getProdId()));
-				tools.setCell(rowIndex, colIndex++, p.getPhiTypeId()==null?"":SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, p.getPhiTypeId()));
-				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(p.getOperationType())));
-				tools.setCell(rowIndex, colIndex++, p.getFormNo());
+				Issueapp app=issueappBO.queryPosExStoreInfo(p.getFormNo());
+				Issueapp backApp=issueappBO.queryPosBackInfo(app.getOAappNo());
+				tools.setCell(rowIndex, colIndex++, app.getAppNo());
+				tools.setCell(rowIndex, colIndex++, app.getTaskAmt());
 				tools.setCell(rowIndex, colIndex++, p.getPurchaseAmt());
+				if(backApp!=null && backApp.getTaskAmt()>0){
+					tools.setCell(rowIndex, colIndex++, backApp.getTaskAmt());
+				}else{
+					tools.setCell(rowIndex, colIndex++, "");
+				}
+				tools.setCell(rowIndex, colIndex++, p.getProjName());
 				rowIndex++;
 				colIndex=colIndexBegin;
 			}

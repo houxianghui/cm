@@ -1,25 +1,16 @@
+
 package com.yly.issue;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.abc.logic.IbatisBO;
-import com.eis.base.IbatisBaseBO;
-import com.eis.cache.ReDefSDicMap;
-import com.eis.exception.MessageException;
-import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
-import com.eis.util.DateUtil;
 import com.yly.exstore.Stoproduct;
 import com.yly.exstore.StoproductDAO;
-import com.yly.exstore.StoproductExample;
 import com.yly.exstore.StoproductForm;
 import com.yly.issue.IssueappExample.Criteria;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoDAO;
-import com.yly.stor.StoAppInfoBO;
-import com.yly.stor.StoAppInfoForm;
 import com.yly.stor.Stoappinfo;
 import com.yly.stor.StoappinfoDAO;
 
@@ -305,5 +296,21 @@ public class IssueappBO extends IbatisBO {
 		List<StoproductForm> result=issueappDAO.getMakeUpRawReport(e);
 
 		return  result;
+	}
+	public Issueapp queryPosExStoreInfo(String appNo) throws Exception {
+		IssueappExample e = new IssueappExample();
+		Criteria c = e.createCriteria();
+		c.andOperationTypeEqualTo((short)34);
+		c.andLsWithApply(appNo);
+		Issueapp vo =issueappDAO.queryPosExStoreInfo(e);
+		return  vo;
+	}
+	public Issueapp queryPosBackInfo(String oaAppNo) throws Exception {
+		IssueappExample e = new IssueappExample();
+		Criteria c = e.createCriteria();
+		c.andOperationTypeEqualTo((short)61);
+		c.andOAappNoEqualTo(oaAppNo);
+		Issueapp vo =issueappDAO.queryPosBackInfo(e);
+		return  vo;
 	}
 }

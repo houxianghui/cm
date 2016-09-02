@@ -359,7 +359,7 @@ public class IssueappExample {
         }
 
         public Criteria andOperationTypeEqualTo(Short value) {
-            addCriterion("OperationType =", value, "operationType");
+            addCriterion("applyinfotb.OperationType =", value, "operationType");
             return this;
         }
 
@@ -1293,6 +1293,10 @@ public class IssueappExample {
         }
         public Criteria andApplyOperationTypeBetween(Short value1, Short value2) {
             addCriterion("applyinfotb.OperationType between", value1, value2, "operationType");
+            return this;
+        }
+        public Criteria andLsWithApply(String value) {
+            addCriterion("lsinfo.OperationType=applyinfotb.OperationType and lsinfo.SamId is null and lsinfo.AppNo=applyinfotb.AppNo and lsinfo.AppNo =", value, "appNo");
             return this;
         }
     }

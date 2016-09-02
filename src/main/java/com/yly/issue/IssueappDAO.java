@@ -97,5 +97,7 @@ public interface IssueappDAO {
     List selectTaskNoByExample(IssueappForm record);
     List getExchangeRawReport(IssueappExample example);
     List getMakeUpRawReport(IssueappExample example);
+    Issueapp queryPosExStoreInfo(IssueappExample example);
+    Issueapp queryPosBackInfo(IssueappExample example);
 
 }

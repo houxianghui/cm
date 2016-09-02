@@ -87,6 +87,16 @@ public class StoAppInfoAction extends IbatisBaseAction {
 	public void setStoAppInfoReport(StoAppInfoReport stoAppInfoReport) {
 		this.stoAppInfoReport = stoAppInfoReport;
 	}
+	public PosExStoreReport posExStoreReport;
+
+
+	public PosExStoreReport getPosExStoreReport() {
+		return posExStoreReport;
+	}
+
+	public void setPosExStoreReport(PosExStoreReport posExStoreReport) {
+		this.posExStoreReport = posExStoreReport;
+	}
 
 	/* 
 	 * @see com.eis.base.BaseAction#process(org.apache.struts.action.ActionMapping, com.eis.base.BaseForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.eis.portal.UserContext)
@@ -128,10 +138,11 @@ public class StoAppInfoAction extends IbatisBaseAction {
 			return staticsdown(request,response,form,user); 
 		}else if("statics".equals(act)){		//query active projects
 			return mapping.findForward("statics");
+		}else if("posExstaticsDown".equals(act)){		//query active projects
+			return posExstaticsDown(request,response,form,user);
+		}else if("posExstatics".equals(act)){		//query active projects
+			return mapping.findForward("posExstatics");
 		}
-//		}else if("resultDown".equals(act)){		//query active projects
-//			return resultDown(form,request,response);
-//		}
 
 
 		return forwardError(request,mapping,"Ò³ÃæÎ´ÕÒµ½,´íÎó·¢ÉúÔÚ"+this.getClass().getName());
@@ -387,4 +398,23 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		out.close();
 		return null;
 	}
+	private ActionForward posExstaticsDown(HttpServletRequest request,HttpServletResponse response,  BaseForm form,UserContext user) throws Exception{
+		StoAppInfoForm f = (StoAppInfoForm)form;
+		Stoappinfo vo = new Stoappinfo();
+		vo.setBeginDate_f(f.getBeginDate_f());
+		vo.setEndDate_f(f.getEndDate_f());
+		posExStoreReport.createExcel(vo, false);
+		response.setContentType("application/octet-stream");
+		String filename = posExStoreReport.getEt().getSheetName()+".xls";
+		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
+			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
+		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
+			filename = URLEncoder.encode(filename, "UTF-8");
+		}
+		response.addHeader("Content-Disposition", "attachment; filename="+filename);
+		OutputStream out = response.getOutputStream();
+		posExStoreReport.getEt().write(out);
+		out.close();
+		return null;
+	}	
 }

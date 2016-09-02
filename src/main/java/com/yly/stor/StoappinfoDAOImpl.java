@@ -164,4 +164,9 @@ public class StoappinfoDAOImpl extends SqlMapClientDaoSupport implements Stoappi
         List list = getSqlMapClientTemplate().queryForList("stoappinfo.getReport", example);
         return list;
     }
+    public List getPosChargeBackReport(StoappinfoExample example) {
+        List list = getSqlMapClientTemplate().queryForList("stoappinfo.getPosChargeBackReport", example);
+        return list;
+    }
+
 }

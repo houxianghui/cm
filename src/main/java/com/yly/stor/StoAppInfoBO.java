@@ -305,5 +305,19 @@ public class StoAppInfoBO extends IbatisBO {
 		}
 		return  stoappinfoDAO.getReport(e);
 	}
-
+	public List getPosChargeBackReport(Object obj) throws Exception {
+		Stoappinfo vo =(Stoappinfo)obj;
+		StoappinfoExample e = new StoappinfoExample();
+		Criteria c = e.createCriteria();
+		c.andOperationTypeEqualTo((short)92);
+		c.andProdIdEqualTo("4");
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+		c.andLsWithStoByPosChargeBack();
+		return  stoappinfoDAO.getPosChargeBackReport(e);
+	}
 }

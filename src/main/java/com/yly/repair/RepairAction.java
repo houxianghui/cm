@@ -12,6 +12,7 @@ import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
 import com.eis.exception.MessageException;
 import com.eis.portal.UserContext;
+import com.eis.util.CheckUtil;
 import com.eis.util.KeyVDatagram;
 import com.yly.drools.FunDrools;
 import com.yly.drools.Func;
@@ -114,29 +115,55 @@ public class RepairAction extends IbatisBaseAction {
 	
 	public ActionForward repair(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		RepairForm f = (RepairForm)form;	
+		operSysPort(f.getProdId(),"open");
 		initRepairForm(f);
-		Func func=new Func();
-		func.setOperAct("RP");
-		Para para=new Para();
-		setFunc(f,func);
-		funDrools.getFunc(func);
-		String[] paras=func.getPara().split(",");
-		ParaTools.setRepairPara(para, paras, f);
-	    //int result=CallFunc.callId(func, para);
-		int result=-1;
-		if(result==0){
-			operSysPort(f.getProdId(),"close");
-			return forwardSuccessPage(request,mapping,"ÐÞ¸´³É¹¦","Repair.do?act=repairInit");
-		}else{
-			request.setAttribute("samCSN",f.getCardcsn());
-			request.setAttribute("manufacId",f.getManufacId());
-			request.setAttribute("prodId",f.getProdId());
-			String badSamId=stoproductBO.getMaxBadCard();
-			request.setAttribute("samId",badSamId);
-			return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+f.getCardcsn()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"Repair.do?act=repairInit");
+		for(int i=1;i<3;i++){
+			Func func=new Func();
+			if(i==1)
+				func.setOperAct("W");
+			else func.setOperAct("RP");
+			Para para=new Para();
+			setFunc(f,func);
+			funDrools.getFunc(func);
+			String[] paras=func.getPara().split(",");
+			ParaTools.setRepairPara(para, paras, f);
+		    int result=CallFunc.callId(func, para);
+		    if(result==0){
+		    	if(i==1)
+		    		continue;
+		    	else{
+		    		operSysPort(f.getProdId(),"close");
+		    	}
+		    }else{
+	    		operSysPort(f.getProdId(),"close");
+		    	request.setAttribute("samCSN",f.getCardcsn());
+				request.setAttribute("manufacId",f.getManufacId());
+				request.setAttribute("prodId",f.getProdId());
+				String badSamId=stoproductBO.getMaxBadCard();
+				request.setAttribute("samId",badSamId);
+				return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+f.getCardcsn()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"Repair.do?act=repairInit");
+		    }
 		}
+		return forwardSuccessPage(request,mapping,"ÐÞ¸´³É¹¦","Repair.do?act=repairInit");
 	}
 	private void initRepairForm(RepairForm f){
-		f.setAuthkey(keyVDatagram.getMainKeyMap(f.getAuthkey()));
+		f.setSJL05IP(6666);        
+		f.setSJL05PORT("192.168.1.82");      
+		String KEY;
+		if(CheckUtil.isEmptry(f.getManufacId())){
+			KEY= "BMAC_KEY";
+		}else{
+			if(f.getProdId().equals("4"))
+				KEY="JSB_KEY";
+			else{
+				if(f.getManufacId().equals("1"))
+					KEY="WQ_KEY";
+				else
+					KEY="ALLF_KEY";
+			}
+		}
+		f.setOldTranskey(keyVDatagram.getMainKeyMap(f.getAuthkey()));
+		f.setNewTranskey(keyVDatagram.getMainKeyMap(KEY));
+		f.setAuthkey(keyVDatagram.getMainKeyMap(KEY));
 	}
 }

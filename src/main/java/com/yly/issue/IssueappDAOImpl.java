@@ -193,5 +193,12 @@ public class IssueappDAOImpl extends SqlMapClientDaoSupport implements IssueappD
         List list = getSqlMapClientTemplate().queryForList("issueapp.getMakeUpRawReport", example);
         return list;
     }    
-    
+    public Issueapp queryPosExStoreInfo(IssueappExample example) {
+    	Issueapp record  = (Issueapp) getSqlMapClientTemplate().queryForObject("issueapp.queryPosExStoreInfo", example);
+        return record;
+    }  
+    public Issueapp queryPosBackInfo(IssueappExample example) {
+    	Issueapp record  =  (Issueapp) getSqlMapClientTemplate().queryForObject("issueapp.queryPosBackInfo", example);
+        return record;
+    }  
 }

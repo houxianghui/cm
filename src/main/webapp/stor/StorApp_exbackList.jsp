@@ -82,6 +82,7 @@ function doPrint(){
 		<tr align="center" class="dtPanel_Top01" height="28">
 			<td>批次号</td>
 			<td>当前库存</td>
+			<td>冲回数量</td>
 			<td>产品类型</td>
 			<td>入库类型</td>
 			<td>支持互通</td>
@@ -100,6 +101,7 @@ function doPrint(){
 		<tr align="left" class="dtPanel_Main" onclick="_clickTr( this )">		
 			<td><a href="Lsinfo.do?act=list&formNo=<%=vo.getFormNo()%>&operationType=<%=vo.getOperationType()%>"><%=vo.getFormNo()%></a></td>			
 			<td><%=vo.getCurrPeriodAmt()%></td>
+			<td><%=vo.getPurchaseAmt()%></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.PROD_ID,vo.getProdId())%></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(vo.getOperationType())) %></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO,vo.getIsHTCard())%></td>			
@@ -139,13 +141,7 @@ if (pageResult != null) {%>
 	</table>
 	<%}%>
 	<br>
-	<table width="100%" border="0" cellspacing="0" cellpadding="0">
-			<tr>
-			<td height="25" align="center">
-			<input type="button" value="打印单据" class="Button" onClick="doPrint()"/>
-			</td>
-		</tr>
-	</table>
+
 </html:form>
 
 <p>&nbsp;</p>

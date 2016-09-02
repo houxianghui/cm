@@ -425,7 +425,7 @@ public class StoappinfoExample {
         }
 
         public Criteria andProdIdEqualTo(String value) {
-            addCriterion("ProdId =", value, "prodId");
+            addCriterion("stoappinfo.ProdId =", value, "prodId");
             return this;
         }
 
@@ -825,7 +825,7 @@ public class StoappinfoExample {
         }
 
         public Criteria andOperationTypeEqualTo(Short value) {
-            addCriterion("OperationType =", value, "operationType");
+            addCriterion("stoappinfo.OperationType =", value, "operationType");
             return this;
         }
 
@@ -1240,7 +1240,7 @@ public class StoappinfoExample {
         }
 
         public Criteria andCurrDateGreaterThanOrEqualTo(String value) {
-            addCriterion("CurrDate >=", value, "currDate");
+            addCriterion("stoappinfo.CurrDate >=", value, "currDate");
             return this;
         }
 
@@ -1250,7 +1250,7 @@ public class StoappinfoExample {
         }
 
         public Criteria andCurrDateLessThanOrEqualTo(String value) {
-            addCriterion("CurrDate <=", value, "currDate");
+            addCriterion("stoappinfo.CurrDate <=", value, "currDate");
             return this;
         }
 
@@ -1459,6 +1459,11 @@ public class StoappinfoExample {
 
         public Criteria andIsPkiNotEqualTo(String value) {
             addCriterion("isPki <>", value, "isPki");
+            return this;
+    
+        }
+        public Criteria andLsWithStoByPosChargeBack() {
+            addCriterion(" stoappinfo.BatchId=lsinfo.FormNo and lsinfo.OperationType=92 ");
             return this;
     
         }

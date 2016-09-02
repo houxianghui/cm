@@ -3,6 +3,7 @@ package com.yly.issue;
 import java.util.List;
 
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -276,6 +277,7 @@ public class IssueappAction extends IbatisBaseAction {
 	}
 
 				
+	@SuppressWarnings("unchecked")
 	public ActionForward back(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		IssueappForm f= (IssueappForm)form;
 		
@@ -290,20 +292,22 @@ public class IssueappAction extends IbatisBaseAction {
 		ls.setOperationType(f.getOperationType().shortValue());
 		ls=lsinfoBO.queryLastObject(ls);
 		
-		StoAppInfoForm sf=new StoAppInfoForm();
-		sf.setOperationType((long)92);
-		sf.setFormNo(ls.getFormNo());
-		List<Stoappinfo> backlist=stoAppBO.getAppListByExample(sf);
-			
-		if(backlist!=null && backlist.size()>0){
+		Lsinfo query_ls= new Lsinfo();
+		query_ls.setAppNo(ls.getAppNo());
+		query_ls.setOperationType((short)92);
+		List<Lsinfo> lsback_l=lsinfoBO.queryForList(query_ls);
+		
+		if(lsback_l!=null && lsback_l.size()>0){
 			long tot=0;
-			for(Stoappinfo backapp:backlist){
+			for(Lsinfo lsback:lsback_l){
+				Stoappinfo backapp=stoAppBO.queryForObject(lsback.getFormNo());
 				tot=tot+backapp.getPurchaseAmt();
 			}
 			if(vo.getTaskAmt()<(tot+f.getTaskAmt())){
 				throw new MessageException("冲回数量超过原出库单总数");
 			}
 		}
+
 		
 		Stoappinfo backnew = new Stoappinfo();
 		Stoappinfo out = stoAppBO.queryForObject(ls.getFormNo());	

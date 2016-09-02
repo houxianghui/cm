@@ -52,6 +52,8 @@
 			<forward name="exbackList" path="/stor/StorApp_exbackList.jsp" />	
 			<forward name="exbackPopList" path="/stor/StorApp_exbackPopList.jsp" />
 			<forward name="statics" path="/reports/key/StoAppInfoReport.jsp" />					
+			<forward name="posExstatics" path="/reports/key/PosExStoreReport.jsp" />					
+										
 										
 		</action>
 		<action path="/Issueapp" type="org.springframework.web.struts.DelegatingActionProxy" name="issueappForm"
