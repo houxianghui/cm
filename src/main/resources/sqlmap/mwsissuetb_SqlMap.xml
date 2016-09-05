@@ -577,7 +577,7 @@
         W2limit = #w2limit:DECIMAL#
       </isNotNull>
       <isNotNull prepend="," property="zeroExauthFlag">
-        ZeroExauthFlag = #record.zeroExauthFlag:DECIMAL#
+        ZeroExauthFlag = #zeroExauthFlag:DECIMAL#
       </isNotNull>
       <isNotNull prepend="," property="isPki">
         IsPki = #isPki:DECIMAL#

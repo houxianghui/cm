@@ -204,12 +204,12 @@ public class MWsIssueBO extends IbatisBO {
 	@Autowired
 	KeyVDatagram keyVDatagram;
 	public void initMwsissueToPara(MWsIssuetbForm f) {
-		f.setAuthSign(0);
-		f.setW2Sign(0);
-		f.setW2Limits(0);
-		f.setIsPki(0);
-		f.setIsHTCard(0);
-		f.setZeroExauthFlag(0);
+//		f.setAuthSign(0);
+//		f.setW2Sign(0);
+//		f.setW2Limits(0);
+//		f.setIsPki(0);
+//		f.setIsHTCard(0);
+//		f.setZeroExauthFlag(0);
 		short operType=f.getOperationType();
 		if(operType==21||operType==24){
 			f.setOldTranskey(keyVDatagram.getMainKeyMap(getMainKey(f)));
@@ -223,7 +223,7 @@ public class MWsIssueBO extends IbatisBO {
 		}
 		f.setSJL05IP(6666);        
 		f.setSJL05PORT("192.168.1.82");               
-		f.setFivePara("10100");       
+		f.setFivePara("0100010000");       
 		if(f.getSamId()!=null && f.getSamId().length()==12){
 			f.setEf15("00001000"+f.getSamId()+ "01011000");           
 			f.setEf16(f.getSamId());      

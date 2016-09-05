@@ -345,6 +345,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		MWsIssuetbForm f = (MWsIssuetbForm)form;	
 		Mwsissuetb vo=((MWsIssueBO)bo).queryIssueTaskCtrl(f.getFormNo());
 		copyProperties(f,vo);
+		
 		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
 		Para para=new Para();
@@ -482,7 +483,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 						prod.setDetectSign((short)1);
 					}
 					prod.setDetectTime(DateUtil.getTimeStr());
-					res = "{\"flowNo\":\""+lsvo.getFlowNo()+"\",\"detectSign\":\""+lsvo.getDetectSign()+"\",\"msg\":\"samId"+para.getSamId()+"samCSN"+prod.getSamCSN();
+					res = "{\"flowNo\":\""+lsvo.getFlowNo()+"\",\"detectSign\":\""+lsvo.getDetectSign()+"\",\"msg\":\"samId_"+para.getSamId()+";samCSN_"+prod.getSamCSN();
 					if(!vo.getProdId().equals("4")){		
 						res =  res+"\"}";  
 						stoproductBO.transLsUpdate(prod,lsvo);
