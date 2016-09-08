@@ -106,7 +106,7 @@ function applyAttr_fun(obj){
 		<%=ViewUtil.must()%>SAMÓ¡Ë¢¿¨ºÅ:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<html:text property="cardcsn" styleClass="Textfield"  size="20" maxlength="20"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  value="<%=mwsissuetbForm.getCardcsn()%>"  />&nbsp; 
+		<html:text property="cardcsn" styleClass="Textfield"  size="20" maxlength="20"  value="<%=mwsissuetbForm.getCardcsn()%>"  />&nbsp; 
 	</td>
 	</tr>
 	<tr>
@@ -169,6 +169,16 @@ function applyAttr_fun(obj){
 		</html:select>
 		</td>	
 	</tr>	
+	 	<tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		Ö÷¿ØÃÜÔ¿:
+		</td>
+		<td colspan="3"  class="dtPanel_Main2">&nbsp;
+			<html:select property="authkey" styleClass="Select">
+				<html:optionsCollection name="mwsissuetbForm" property="authkeycollection"/>
+			</html:select>
+		</td>	
+	</tr>
 </table>
 			</td>
 		</tr>

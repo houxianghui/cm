@@ -106,7 +106,7 @@ function applyAttr_fun(obj){
 		<%=ViewUtil.must()%>SAM印刷卡号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<html:text property="cardcsn" styleClass="Textfield"  size="20" maxlength="20"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  />&nbsp; 	
+		<html:text property="cardcsn" styleClass="Textfield"  size="20" maxlength="20"  />&nbsp; 	
 		&nbsp;<input name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> 	
 	</td>
 	</tr>	
@@ -170,6 +170,16 @@ function applyAttr_fun(obj){
 		</html:select>
 		</td>	
 	</tr>	
+ 	<tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		主控密钥:
+		</td>
+		<td colspan="3"  class="dtPanel_Main2">&nbsp;
+			<html:select property="authkey" styleClass="Select">
+				<html:optionsCollection name="mwsissuetbForm" property="authkeycollection"/>
+			</html:select>
+		</td>	
+	</tr>
 </table>
 			</td>
 		</tr>

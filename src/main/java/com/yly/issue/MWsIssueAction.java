@@ -32,6 +32,8 @@ import com.yly.func.Para;
 import com.yly.func.ParaTools;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoBO;
+import com.yly.para.Applytypeinfo;
+import com.yly.para.ApplytypeinfoBO;
 import com.yly.pki.Secpkitb;
 import com.yly.reuse.StoreuseBO;
 import com.yly.stor.StoAppInfoBO;
@@ -50,6 +52,15 @@ public class MWsIssueAction extends IbatisBaseAction {
 	private StoreuseBO storeuseBO;
 	private IssuetaskCtrlBO issuetaskctrlBO;
 	private IssueAppInfoReport issueAppInfoReport;
+	private ApplytypeinfoBO applytypeinfoBO;
+	public ApplytypeinfoBO getApplytypeinfoBO() {
+		return applytypeinfoBO;
+	}
+
+	public void setApplytypeinfoBO(ApplytypeinfoBO applytypeinfoBO) {
+		this.applytypeinfoBO = applytypeinfoBO;
+	}
+
 	public IssueAppInfoReport getIssueAppInfoReport() {
 		return issueAppInfoReport;
 	}
@@ -427,7 +438,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 					String badSamId=stoproductBO.getMaxBadCard();
 					request.setAttribute("samId",badSamId);
 					operSysPort(vo.getProdId(),"close");
-					return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+lsvo.getSamCSN()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"MWsIssueAction.do?act=issueInit&formNo="+f.getFormNo());
+					return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+lsvo.getSamCSN()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"Mwsissuetb.do?act=issueInit&formNo="+f.getFormNo());
 				}else {
 					operSysPort(vo.getProdId(),"close");
 					throw new MessageException("ÎÞ·¨»ñÈ¡Ó¡Ë¢¿¨ºÅ!");
@@ -578,11 +589,12 @@ public class MWsIssueAction extends IbatisBaseAction {
 		lsvo.setSamCSNOld(f.getCardcsn());
 		lsvo.setSamIdOld(f.getSamId());
 		((MWsIssueBO)bo).initMwsissueToPara(f);
+		initIssueParaByApplyType(f);
 		Func func=new Func();
 		Para para=new Para();
 		((MWsIssueBO)bo).setFunc(f, func);
 		for(int i=2;i<4;i++){
-			((MWsIssueBO)bo).setOperAct(vo,func,i);//\Ï´¿¨\·¢ÐÐ
+			((MWsIssueBO)bo).setOperAct(vo,func,i);//Ï´¿¨\·¢ÐÐ
 			funDrools.getFunc(func);
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
@@ -618,7 +630,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 				String badSamId=stoproductBO.getMaxBadReturnCard();
 				request.setAttribute("samId",badSamId);
 				operSysPort(vo.getProdId(),"close");
-				return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+lsvo.getSamCSN()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"MWsIssueAction.do?act=repair");
+				return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+lsvo.getSamCSN()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"Mwsissuetb.do?act=repair");
 
 			}
 		}
@@ -650,5 +662,17 @@ public class MWsIssueAction extends IbatisBaseAction {
 		issueAppInfoReport.getEt().write(out);
 		out.close();
 		return null;
+	}
+	private MWsIssuetbForm initIssueParaByApplyType(MWsIssuetbForm f)throws Exception{
+		Applytypeinfo apply = new Applytypeinfo();
+		apply.setApplyTypeId(f.getApplyAttr());
+		apply =(Applytypeinfo)applytypeinfoBO.queryForObject(apply);
+		f.setW2Sign(Short.valueOf(apply.getIsV2()));
+		f.setAuthSign(Short.valueOf(apply.getIsIsamSign()==null?"0":apply.getIsIsamSign()));
+		f.setW2Limits(Integer.parseInt(apply.getIsV2Sign()));
+		f.setIsHTCard(Integer.parseInt(apply.getIsHLCard()));
+		f.setIsPki(Integer.parseInt(apply.getIsPki()));
+		f.setZeroExauthFlag(Integer.parseInt(apply.getIsIsamTestAllO()==null?"0":apply.getIsIsamTestAllO()));
+		return f;
 	}
 }

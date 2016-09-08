@@ -27,6 +27,13 @@ public class MWsIssuetbForm  extends BaseForm {
 	public void setOrigSamId(String origSamId) {
 		this.origSamId = origSamId;
 	}
+	private Collection authkeycollection;
+	public Collection getAuthkeycollection() {
+		return SingleDicMap.getOptionCollection(SingleDic.AUTHKEY);
+	}
+	public void setAuthkeycollection(Collection authkeycollection) {
+		this.authkeycollection = authkeycollection;
+	}
 	private Collection moduleVerEffcollection;
 	private String cardcsn;
 	private String oldTranskey;

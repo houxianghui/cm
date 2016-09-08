@@ -83,7 +83,7 @@ function doBack(){
 		 SAM印刷卡号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<html:text property="samCSN" styleClass="Textfield"  size="20" maxlength="20"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"   value="<%=storeuseForm.getSamCSN()%>" />&nbsp; 	
+		<html:text property="samCSN" styleClass="Textfield"  size="20" maxlength="20"  value="<%=storeuseForm.getSamCSN()%>" />&nbsp; 	
 		&nbsp;<input name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> 	
 	</td>
 	</tr>

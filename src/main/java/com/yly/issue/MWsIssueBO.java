@@ -202,7 +202,6 @@ public class MWsIssueBO extends IbatisBO {
 	public Mwsissuetb queryIssueTaskCtrl(String formNo) throws Exception{
 		return mwsissuetbDAO.queryIssueTaskCtrl(formNo);
 	}
-	
 	@Autowired
 	KeyVDatagram keyVDatagram;
 	public void initMwsissueToPara(MWsIssuetbForm f) {
@@ -216,8 +215,11 @@ public class MWsIssueBO extends IbatisBO {
 		if(operType==21||operType==24){
 			f.setOldTranskey(keyVDatagram.getMainKeyMap(getMainKey(f)));
 			f.setNewTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));    
-		}else if(operType==22 || operType==23||operType==25||operType==26){
+		}else if(operType==22 || operType==23||operType==26){
 			f.setOldTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));
+			f.setNewTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));    
+		}else if(operType==25){
+			f.setOldTranskey(keyVDatagram.getMainKeyMap(f.getAuthkey()));
 			f.setNewTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));    
 		}else{
 			f.setOldTranskey("");
