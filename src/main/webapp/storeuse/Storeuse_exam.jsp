@@ -9,7 +9,7 @@
 
 <html> 
 <head>
-<title>产品退回</title> 
+<title>产品检测</title> 
 <script language="javascript"> 
 
 function doShow(){ 
@@ -17,7 +17,7 @@ function doShow(){
 		alert('请先录入原SAM号'); 
 		return; 
 	}
-	document.forms[0].act.value = "show";
+	document.forms[0].act.value = "examshow";
 	document.forms[0].submit();
 }
 function doRead(){ 
@@ -40,21 +40,6 @@ function doRead(){
 	});
 
 }
-function doBack(){ 
-	if(document.forms[0].detectSign.value == 2 ||document.forms[0].cardPhyStat.value == 2){
-		if(!confirm('需要产品待作废处理吗?')) { 
-			document.forms[0].wkState.value = "13";
-		}else{
-			document.forms[0].wkState.value = "15";
-		} 
-	}else{
-		document.forms[0].wkState.value = "12";
-	}
-	document.forms[0].act.value = "back";
-	document.forms[0].submit();
-	
-} 
-
 </script> 
 </head>
 <body> 
@@ -63,10 +48,8 @@ function doBack(){
 <input type=hidden name=act value="back">
 <input type=hidden name=requery>
 <input type=hidden name=operationType value="61">
-<html:hidden property="appNo"/>
-<html:hidden property="taskAmt"/>
 <html:hidden property="wkState"/>
- <%=ViewUtil.getTitle("产品退回,数量"+storeuseForm.getTaskAmt())%> 
+ <%=ViewUtil.getTitle("产品检测")%> 
 
  <table id="issue" align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0">
 	<tr>
@@ -165,55 +148,19 @@ function doBack(){
 		</td>	
 	</tr>	
 </table>
- <%=ViewUtil.getTitle("退回流水信息")%> 		
-	<table width="98%" border="0" cellspacing="1" align="center"
+
+	<%
+//产生翻页脚注 
+if (pageResult != null) {%>
+	<table width="98%" align="center" border="0" cellspacing="0"
 		cellpadding="0">
 		<tr>
-			<td class="dtPanel_Line">
-			<table width="100%" border="0" cellpadding="0" cellspacing="1">
-				<tr align="center" class="dtPanel_Top01">
-					<td width="10%">流水号</td>
-					<td width="10%">SAM卡号</td>
-					<td width="10%">SAM印刷卡号</td>
-					<td width="10%">业务类型</td>
-					<td width="10%">产品类型</td>
-					<td width="10%">检测结果</td>	
-					<td width="10%">错误码</td>						
-					<td width="10%">操作员</td>	
-					<td width="10%">操作时间</td>					
-				</tr>
-				<%List list = pageResult.getList();
-
-if (list != null) {
-    Iterator iter = list.iterator();
-    while (iter.hasNext()) {
-    	Lsinfo vo = (Lsinfo)iter.next();%>
-				<tr align="center" class="dtPanel_Main2" onclick="_clickTr( this )">
-					<td><%=vo.getFlowNo()%></td>	
-					<td><%=vo.getSamId()%></td>
-					<td><%=vo.getSamCSN()%></td>
-					<td><%=SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(vo.getOperationType())) %></td>
-					<td><%=SingleDicMap.getDicItemVal(SingleDic.PROD_ID, vo.getProdId()) %></td>
-					<td><%=SingleDicMap.getDicItemVal(SingleDic.DETECSIGN, String.valueOf(vo.getDetectSign())) %></td>
-					<td><%=vo.getErrorCode()==null?"":SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(vo.getErrorCode()))%></td>
-					<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, String.valueOf(vo.getOperId())) %></td>
-					<td><%=vo.getCurrDate()%></td>		
-				</tr>
-				<%}
-}%>
-			</table>
-			</td>
+			<td nowrap class="dtPanel_Pager"><%=pageResult.getFooter()%></td>
 		</tr>
-
 	</table>
-
+	<%}%>	
 </html:form>
     <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
-        <tr> 
-				<td height="25" align="center" class="dtPanel_Bottom"> 
-						<input name="back" type="button" class="Button" value="产品退回" onClick="doBack()">
-		 		</td> 
-	    </tr> 
   </table> 
 </body> 
 </html> 

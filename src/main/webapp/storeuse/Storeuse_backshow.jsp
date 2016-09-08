@@ -63,6 +63,7 @@ function doBack(){
 <html:hidden property="appNo"/>
 <html:hidden property="detectSign"/>
 <html:hidden property="taskAmt"/>
+<html:hidden property="wkState"/>
 
 <%=ViewUtil.getTitle("产品退回,数量"+storeuseForm.getTaskAmt())%> 
 

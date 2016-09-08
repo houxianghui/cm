@@ -88,13 +88,11 @@ public class RepairAction extends IbatisBaseAction {
 		Para para=new Para();
 		String res="";
 		setFunc(f,func);
-		funDrools.getFunc(func);
+		funDrools.getFunc(func);	
 		String[] paras=func.getPara().split(",");
 		ParaTools.setRepairPara(para, paras, f);
 		operSysPort(f.getProdId(),"open");
 		int result=CallFunc.callId(func, para);
-		//int result=0;
-		//para.setCardcsn("66666000000000000011");
 		if(result==0){
 			String cardCsn=para.getCardcsn();
 			f.setCardcsn(cardCsn);
@@ -102,6 +100,7 @@ public class RepairAction extends IbatisBaseAction {
 		}else{
 			res = "{\"error\":\"´íÎó´úÂë"+result+"\"}";
 		}
+		operSysPort(f.getProdId(),"close");
 		writeAjaxResponse(response, res);
 	}
 
@@ -131,19 +130,17 @@ public class RepairAction extends IbatisBaseAction {
 		    if(result==0){
 		    	if(i==1)
 		    		continue;
-		    	else{
-		    		operSysPort(f.getProdId(),"close");
-		    	}
 		    }else{
-	    		operSysPort(f.getProdId(),"close");
 		    	request.setAttribute("samCSN",f.getCardcsn());
 				request.setAttribute("manufacId",f.getManufacId());
 				request.setAttribute("prodId",f.getProdId());
 				String badSamId=stoproductBO.getMaxBadCard();
 				request.setAttribute("samId",badSamId);
+				operSysPort(f.getProdId(),"close");
 				return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+f.getCardcsn()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"Repair.do?act=repairInit");
 		    }
 		}
+		operSysPort(f.getProdId(),"close");
 		return forwardSuccessPage(request,mapping,"ÐÞ¸´³É¹¦","Repair.do?act=repairInit");
 	}
 	private void initRepairForm(RepairForm f){

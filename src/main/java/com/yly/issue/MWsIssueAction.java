@@ -296,9 +296,10 @@ public class MWsIssueAction extends IbatisBaseAction {
 		return mapping.findForward("list");
 	}
 	public ActionForward closePort(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
-		MWsIssuetbForm f = (MWsIssuetbForm)form;
-		operSysPort(f.getProdId(),"close"); 
-		Mwsissuetb vo=((MWsIssueBO)bo).queryIssueTaskCtrl(f.getFormNo());
+//		MWsIssuetbForm f = (MWsIssuetbForm)form;
+//		operSysPort(f.getProdId(),"close"); 
+//		Mwsissuetb vo=((MWsIssueBO)bo).queryIssueTaskCtrl(f.getFormNo());
+//		copyProperties(form, vo);
 		return mapping.findForward("list");
 	}
 	public ActionForward popList(BaseForm form,ActionMapping mapping,HttpServletRequest request)throws Exception{
@@ -321,7 +322,6 @@ public class MWsIssueAction extends IbatisBaseAction {
 		setPageResult(request, lsinfoBO.queryForListByFormNo(vo.getFormNo()));
         request.setAttribute("pageResultLsInfo", request.getAttribute("pageResult"));
 		copyProperties(form, vo);
-		operSysPort(vo.getProdId(),"open");
 		return mapping.findForward("issue");
 	}
 
@@ -345,7 +345,12 @@ public class MWsIssueAction extends IbatisBaseAction {
 		MWsIssuetbForm f = (MWsIssuetbForm)form;	
 		Mwsissuetb vo=((MWsIssueBO)bo).queryIssueTaskCtrl(f.getFormNo());
 		copyProperties(f,vo);
-		
+		if(vo.getProdId().equals("4") && vo.getBatchId()!=null){
+			Stoappinfo sto=stoAppBO.queryForObject(vo.getBatchId());
+			Stoappinfo part_sto=stoAppBO.queryForObject(sto.getRsvd().trim());
+			f.setManufacId(part_sto.getManufacId());
+		}
+		operSysPort(vo.getProdId(),"open");
 		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
 		Para para=new Para();
@@ -357,8 +362,6 @@ public class MWsIssueAction extends IbatisBaseAction {
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
 			int result=CallFunc.callId(func, para);
-			//int result=0;para.setCardcsn("66666000000000000011");
-			//para.setRetpki("A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SDF9233432A0EF123D8790SD");
 			if(result==0){
 				if(i==1){
 					if(func.getOperAct().equals("RC")){
@@ -373,9 +376,12 @@ public class MWsIssueAction extends IbatisBaseAction {
 						if(prod==null){	
 							prod =(Stoproduct)storeuseBO.queryForObject(f.getSamId());
 							if(prod==null){
+								operSysPort(vo.getProdId(),"close");
 								throw new MessageException("ÎÞ·¨ÕÒµ½Ô­samÓ¡Ë¢¿¨ºÅ!");
 							}
 						}
+						func.setManufacId(prod.getManufacId());
+						vo.setManufacId(prod.getManufacId());
 						f.setCardcsn(prod.getSamCSN());
 					}
 					lsvo.setSamCSN(f.getCardcsn());
@@ -398,18 +404,17 @@ public class MWsIssueAction extends IbatisBaseAction {
 							issuapp.setFormState((short)3);
 						}
 					}
-					Secpkitb sec=new Secpkitb();
-					sec.setSamId(sto.getSamId());
-					sec.setSamCSN(sto.getSamCSN());
-					sec.setCurrPeriod(DateUtil.getCurrDate());
-					sec.setIssueTime(DateUtil.getCurrDate());
-					sec.setPubExponent("");
+					Secpkitb sec=null;
 					if(!CheckUtil.isEmptry(para.getRetpki())&&para.getRetpki().length()==256){
+						sec=new Secpkitb();
+						sec.setSamId(sto.getSamId());
+						sec.setSamCSN(sto.getSamCSN());
+						sec.setCurrPeriod(DateUtil.getCurrDate());
+						sec.setIssueTime(DateUtil.getCurrDate());
+						sec.setPubExponent("");
 						sec.setPubKey(para.getRetpki());
-					}else{
-						throw new MessageException("¹«Ô¿ÐÅÏ¢»ñÈ¡´íÎó,ÄÚÈÝ"+para.getRetpki());
+						sec.setKeyType((short)(sto.getKeyType()));
 					}
-					sec.setKeyType((short)(sto.getKeyType()));
 					((MWsIssueBO)bo).transFiveTb(vo,sto,lsvo,issuapp,sec);
 				}
 			}else{
@@ -421,14 +426,16 @@ public class MWsIssueAction extends IbatisBaseAction {
 					request.setAttribute("manufacId", lsvo.getSamCSN());	
 					String badSamId=stoproductBO.getMaxBadCard();
 					request.setAttribute("samId",badSamId);
-					request.setAttribute("backurl","MWsIssueAction.do?act=issueInit&formNo="+f.getFormNo());	
-					return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+lsvo.getSamCSN()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"");
+					operSysPort(vo.getProdId(),"close");
+					return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+lsvo.getSamCSN()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"MWsIssueAction.do?act=issueInit&formNo="+f.getFormNo());
 				}else {
+					operSysPort(vo.getProdId(),"close");
 					throw new MessageException("ÎÞ·¨»ñÈ¡Ó¡Ë¢¿¨ºÅ!");
 				}
 				
 			}
 		}
+		operSysPort(vo.getProdId(),"close");
 		setPageResult(request, lsinfoBO.queryForListByFormNo(vo.getFormNo()));
         request.setAttribute("pageResultLsInfo", request.getAttribute("pageResult"));
 		copyProperties(form, vo);
@@ -442,10 +449,9 @@ public class MWsIssueAction extends IbatisBaseAction {
 		f.setProdId(request.getParameter("prodId"));
 		f.setManufacId(request.getParameter("manufacId"));
 		f.setApplyAttr(request.getParameter("applyAttr"));
-		String exam_samId=request.getParameter("samId");
-		String exam_binFileVer=request.getParameter("binFileVer");
 		Mwsissuetb vo= new Mwsissuetb();
 		copyProperties(vo, f);
+		operSysPort(vo.getProdId(),"open");
 		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
 		((MWsIssueBO)bo).setFunc(f,func);
@@ -462,8 +468,6 @@ public class MWsIssueAction extends IbatisBaseAction {
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
 		    int result=CallFunc.callId(func, para);
-			//int result=-1;
-			//para.setSamId("999990100001");
 			if(result!=0){
 				res = "{\"error\":\"´íÎó´úÂë"+func.getFunc()+result+"\"}";
 				writeAjaxResponse(response, res);
@@ -475,13 +479,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 					lsvo.setSamId(prod.getSamId());
 					lsvo.setFormNo(f.getFormNo());
 					lsvo = lsinfoBO.queryLastObject(lsvo);
-					if(exam_samId!=null && !exam_samId.equals(para.getSamId())){
-						lsvo.setDetectSign((short)2);
-						prod.setDetectSign((short)2);
-					}else{
-						lsvo.setDetectSign((short)1);	
-						prod.setDetectSign((short)1);
-					}
+					lsvo.setDetectSign((short)1);	
+					prod.setDetectSign((short)1);				
 					prod.setDetectTime(DateUtil.getTimeStr());
 					res = "{\"flowNo\":\""+lsvo.getFlowNo()+"\",\"detectSign\":\""+lsvo.getDetectSign()+"\",\"msg\":\"samId_"+para.getSamId()+";samCSN_"+prod.getSamCSN();
 					if(!vo.getProdId().equals("4")){		
@@ -493,19 +492,16 @@ public class MWsIssueAction extends IbatisBaseAction {
 						continue;
 					} 
 				}else{
-					res = res+"ver"+para.getVersion()+"\"}";
-					if(exam_binFileVer!=null && !exam_binFileVer.equals(para.getVersion())){
-						lsvo.setDetectSign((short)2);
-						prod.setDetectSign((short)2);
-					}else{
-						lsvo.setDetectSign((short)1);	
-						prod.setDetectSign((short)1);
-					}
+					String mflag=para.getModelflag()==1?"ÍÑ»úÄ£¿é":"Áª»úÄ£¿é";
+					res = res+";ver_"+para.getVersion()+";moduleflag_"+mflag+"\"}";
+					lsvo.setDetectSign((short)1);	
+					prod.setDetectSign((short)1);		
 					stoproductBO.transLsUpdate(prod,lsvo);
 					writeAjaxResponse(response, res);
 				}
 			}
 		}
+		operSysPort(vo.getProdId(),"close");
 	}
 	public void read(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response)throws Exception{
 		MWsIssuetbForm f = new MWsIssuetbForm();
@@ -525,10 +521,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 			funDrools.getFunc(func);
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
-			//int result=CallFunc.callId(func, para);
-			int result=0;
-			para.setSamId("100000100003");
-			para.setVersion("version123456789");
+			int result=CallFunc.callId(func, para);
 			if(result!=0){
 				res = "{\"error\":\"´íÎó´úÂë"+func.getFunc()+result+"\"}";
 				writeAjaxResponse(response, res);
@@ -539,7 +532,6 @@ public class MWsIssueAction extends IbatisBaseAction {
 					if(!f.getProdId().equals("4")){		
 						res =  res+"\"}";
 						writeAjaxResponse(response, res);
-						operSysPort(f.getProdId(),"close");
 						break;
 					}else{//Ä£¿éÐÞ¸´ÐèÒª¶Á³ö¿¨ºÅºÍÄ£¿é°æ±¾
 						continue;
@@ -547,11 +539,11 @@ public class MWsIssueAction extends IbatisBaseAction {
 				}else{
 					res = res+"\",\"module\":\""+para.getVersion()+"\"}";
 					writeAjaxResponse(response, res);
-					operSysPort(f.getProdId(),"close");
 				}
 			
 			}
 		}
+		operSysPort(f.getProdId(),"close");
 	}
 	public ActionForward repair(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		String requery = request.getParameter("requery");
@@ -578,6 +570,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		f.setApplyAttr(String.valueOf(f.getAppTypeId()));
 		Mwsissuetb vo = new Mwsissuetb();
  		copyProperties(vo,f);
+		operSysPort(vo.getProdId(),"open");
 		Lsinfo lsvo = ((MWsIssueBO)bo).setLsInfo(user, vo);
 		lsvo.setSamId(f.getSamId());
 		lsvo.setSamCSN(f.getCardcsn());
@@ -594,17 +587,19 @@ public class MWsIssueAction extends IbatisBaseAction {
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
 		    int result=CallFunc.callId(func, para);
-			//int result=0;
 			if(result==0){
 				 if (i==3){
-					 Secpkitb sec = new Secpkitb();
-					 sec.setSamId(lsvo.getSamId());
-					 sec.setSamCSN(lsvo.getSamCSN());
-					 sec.setCurrPeriod(DateUtil.getCurrDate());
-					 sec.setIssueTime(DateUtil.getCurrDate());
-					 sec.setPubExponent("");
-					 sec.setPubKey(para.getRetpki());
-					 sec.setKeyType((short)(f.getKeyType()));
+					 Secpkitb sec = null;
+					 if(!CheckUtil.isEmptry(para.getRetpki())&&para.getRetpki().length()==256){
+						 sec = new Secpkitb();
+						 sec.setSamId(lsvo.getSamId());
+						 sec.setSamCSN(lsvo.getSamCSN());
+						 sec.setCurrPeriod(DateUtil.getCurrDate());
+						 sec.setIssueTime(DateUtil.getCurrDate());
+						 sec.setPubExponent("");
+						 sec.setPubKey(para.getRetpki());
+						 sec.setKeyType((short)(f.getKeyType()));
+					 }
 					 Stoproduct sto=new Stoproduct();
 					 sto.setSamId(lsvo.getSamId());
 					 sto.setSamCSN(lsvo.getSamCSN());
@@ -620,13 +615,14 @@ public class MWsIssueAction extends IbatisBaseAction {
 				request.setAttribute("samCSN", lsvo.getSamCSN());
 				request.setAttribute("prodId", lsvo.getSamCSN());
 				request.setAttribute("manufacId", lsvo.getSamCSN());	
-				request.setAttribute("backurl","MWsIssueAction.do?act=repair");	
 				String badSamId=stoproductBO.getMaxBadReturnCard();
 				request.setAttribute("samId",badSamId);
-				return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+lsvo.getSamCSN()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"");
+				operSysPort(vo.getProdId(),"close");
+				return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+lsvo.getSamCSN()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"MWsIssueAction.do?act=repair");
 
 			}
 		}
+		operSysPort(vo.getProdId(),"close");
 		return forwardSuccessPage(request,mapping,"ÐÞ¸´³É¹¦","Mwsissuetb.do?act=repair");
 	}
 	public void down(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response)throws Exception{

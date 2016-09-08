@@ -140,6 +140,9 @@ public class IssuetaskCtrlAction extends IbatisBaseAction {
 	}
 	public ActionForward queryListpop(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		IssuetaskctrlForm f = (IssuetaskctrlForm)form;
+		String strPtname = request.getParameter("OAappNo"); 
+		strPtname = new String(strPtname.getBytes("ISO-8859-1"), "UTF-8");  
+		f.setOAappNo(strPtname);
 		List<Issuetaskctrl> l=((IssuetaskCtrlBO)bo).queryList(f.getTaskNo());
 		if(l.size()>0){
 			return popClosePage(request, mapping, "已分配单位","");

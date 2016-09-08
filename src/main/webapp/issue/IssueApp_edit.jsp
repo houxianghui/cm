@@ -34,8 +34,8 @@ function doAdd(){
 	document.forms[1].submit(); 
 } 
 
-function setPKey(taskNo_var,prodId_var,phiTypeId_var,appTypeId_var,keyType_var,issueAmt_var,remarks_var) { 
-
+function setPKey(OAappNo_var,taskNo_var,prodId_var,phiTypeId_var,appTypeId_var,keyType_var,issueAmt_var,remarks_var) { 
+	document.forms[1].OAappNo.value=OAappNo_var; 
 	document.forms[1].taskNo.value=taskNo_var; 
 	document.forms[1].prodId.value=prodId_var; 
 	document.forms[1].phiTypeId.value=phiTypeId_var; 
@@ -335,7 +335,7 @@ if (list != null) {
 					<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.APPTYPEID, String.valueOf(vo.getAppTypeId())) %></td>
 					<td><%=vo.getBinFileVer()!=null?ReDefSDicMap.getDicItemVal(RedefSDicCodes.MODULEVERSION, vo.getBinFileVer()):""%></td>
 					<td><label><input type="radio" name="param"
-						onClick="setPKey('<%=vo.getTaskNo()%>','<%=vo.getProdId()%>','<%=vo.getPhiTypeId()%>','<%=vo.getAppTypeId()%>','<%=vo.getKeyType()%>','<%=vo.getIssueAmt()%>','<%=vo.getRemarks()==null?null:vo.getRemarks().trim()%>')">
+						onClick="setPKey('<%=vo.getOAappNo()%>','<%=vo.getTaskNo()%>','<%=vo.getProdId()%>','<%=vo.getPhiTypeId()%>','<%=vo.getAppTypeId()%>','<%=vo.getKeyType()%>','<%=vo.getIssueAmt()%>','<%=vo.getRemarks()==null?null:vo.getRemarks().trim()%>')">
 					</label></td>
 				</tr>
 

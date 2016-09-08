@@ -137,7 +137,7 @@ function applyAttr_fun(obj){
 	</tr>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>厂商名称:
+		<%=ViewUtil.must()%>卡片厂商名称:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=ReDefSDicMap.getRadio("manufacId", RedefSDicCodes.MAUN_ID, mwsissuetbForm.getManufacId())%> 

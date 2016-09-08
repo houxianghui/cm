@@ -104,6 +104,10 @@ public class StoreuseAction extends IbatisBaseAction {
 			return reEx(form,mapping,request,user);
 		}else if("cardDown".equals(act)){		//query active projects
 			return cardDown(form,request,response);
+		}else if("exam".equals(act)){		//query active projects
+			return mapping.findForward("exam");
+		}else if("examshow".equals(act)){		//query active projects
+			return examshow(form,mapping,request,user);
 		}
 
 		return forwardError(request,mapping,"页面未找到,错误发生在"+this.getClass().getName());
@@ -225,7 +229,6 @@ public class StoreuseAction extends IbatisBaseAction {
 				throw new MessageException("此SAM号已经回库,印刷卡号为"+storeuse.getSamCSN());
 			}
 		}
-		short detectFlag=f.getDetectSign();
  		copyProperties(f, prodvo);
  		f.setTaskAmt(copyf.getTaskAmt());
  		f.setAppNo(copyf.getAppNo());
@@ -237,7 +240,25 @@ public class StoreuseAction extends IbatisBaseAction {
 		return mapping.findForward("show");	
 	}
 	
-	
+	public ActionForward examshow(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		StoreuseForm f = (StoreuseForm)form;
+		StoreuseForm copyf=new StoreuseForm();
+		copyProperties(copyf, f);
+		Stoproduct prodvo =stoproductBO.queryObjectBySamId(f.getSamId());
+		if(prodvo==null){
+			Storeuse storeuse = (Storeuse)((StoreuseBO)bo).queryObjectBySamId(f.getSamId());
+			if(storeuse==null){
+				throw new MessageException("此SAM号找不到原记录");
+			}else{
+				copyProperties(prodvo, storeuse);
+			}
+		}
+ 		copyProperties(f, prodvo);
+ 		f.setTaskAmt(copyf.getTaskAmt());
+ 		f.setAppNo(copyf.getAppNo());
+ 		f.setDetectSign(copyf.getDetectSign());
+		return mapping.findForward("examshow");	
+	}	
 	public ActionForward reEx(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoreuseForm f = (StoreuseForm)form;
 		int opertype=f.getOperationType();

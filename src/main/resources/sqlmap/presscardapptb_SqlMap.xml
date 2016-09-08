@@ -273,7 +273,7 @@
     </dynamic>
   </insert>
    <select id="queryCardList" resultMap="presscardmap" parameterClass="com.yly.presscard.Presscardapptb" >
-    select PressCardNo,FormNo,ClassId,ManufacId,CommRate,CurrDate
+    select PressCardNo,FormNo,ClassId,ManufacId,CommRate,CurrDate,0 as Num
     from PressCardTb 
     where 1=1 
 	<isNotEmpty prepend="and" property="formNo">
@@ -306,7 +306,7 @@
   </select>
 
    <select id="getCardListBySql" resultMap="presscardmap" parameterClass="com.yly.presscard.PresscardapptbExample" >
-   	select FormNo,PressCardNo, ClassId ,ManufacId,CommRate,CurrDate
+   	select FormNo,PressCardNo, ClassId ,ManufacId,CommRate,CurrDate,0 as Num
    	from PressCardTb 
    	 <isParameterPresent >
       <include refid="presscardapptb.ibatorgenerated_Example_Where_Clause" />

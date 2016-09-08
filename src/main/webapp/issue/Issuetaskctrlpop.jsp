@@ -51,7 +51,7 @@ function doUnitCode(){
 		<html:hidden property="unitId" />
 		<html:hidden property="operationType" />
 		<html:hidden property="samIdBegin" />
-		<html:hidden property="OAappNo" />		
+		<html:hidden property="OAappNo" />
   		<input name='txtTRLastIndex' type='hidden' id='issue.index' value="1" />
 	<table id="units" width="98%" class="dtPanel_Line1" border="0" cellspacing="1"
 		align="center" cellpadding="0">

@@ -136,6 +136,8 @@
 			<forward name="cardlist" path="/storeuse/Storeuse_cardlist.jsp" />
 			<forward name="cardview" path="/storeuse/Storeuse_cardview.jsp" />
 			<forward name="exlist" path="/storeuse/Storeuse_exlist.jsp" />
+			<forward name="exam" path="/storeuse/Storeuse_exam.jsp" />
+			<forward name="examshow" path="/storeuse/Storeuse_examshow.jsp" />
 		</action>
 		<action path="/Secpkitb" type="org.springframework.web.struts.DelegatingActionProxy" name="secpkitbForm"
 			scope="request" validate="false">

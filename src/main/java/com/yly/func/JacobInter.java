@@ -190,7 +190,22 @@ public class JacobInter {
 		disp.safeRelease();
 		return i;
     }		
-	
+	public static int wqIssueQzPsamcard(Para para){
+		ActiveXComponent com = new ActiveXComponent("OCXISSUESAM.OCXIssueSAMCtrl.1") ;
+		Dispatch disp = (Dispatch)com.getObject();
+		byte[] b = new byte[256];
+		int i=-1;
+		try {
+			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;			
+			i=Dispatch.call(disp,"WqIssueQzPsamcard",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
+			String ret = new String(v1.toString());
+			para.setRetpki(ret);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		disp.safeRelease();
+		return i;
+    }	
 	public static int wqIssueZqEasyTermPsam(Para para){
 		ActiveXComponent com = new ActiveXComponent("OCXISSUESAM.OCXIssueSAMCtrl.1") ;
 		Dispatch disp = (Dispatch)com.getObject();
@@ -207,7 +222,7 @@ public class JacobInter {
 		disp.safeRelease();
 		return i;
     }		
-	
+		
 	public static int wqIssueIsamcard(Para para){
 		ActiveXComponent com = new ActiveXComponent("OCXISSUESAM.OCXIssueSAMCtrl.1") ;
 		Dispatch disp = (Dispatch)com.getObject();
@@ -355,8 +370,11 @@ public class JacobInter {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;		
 			Variant v2 = new Variant (new String(c, "UNICODE"), true) ;		
 			i=Dispatch.call(disp,"ReadSamCardno",v1,v2).getInt();
-			String samId = new String(v1.toString());
-			para.setSamId(samId);
+			if(i==0){
+				String samId = new String(v1.toString());
+				para.setSamId(samId);
+			}
+
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -369,16 +387,18 @@ public class JacobInter {
 		ActiveXComponent com = new ActiveXComponent("OCXISSUESAM.OCXIssueSAMCtrl.1") ;
 		Dispatch disp = (Dispatch)com.getObject();
 		byte[] b = new byte[12];
-		byte[] c = new byte[1];
+		byte[] c = new byte[2];
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;	
 			Variant v2 = new Variant (new String(c, "UNICODE"), true) ;		
 		    i=Dispatch.call(disp,"ReadEsamCardno",v1,v2).getInt();
-		    String samId = new String(v1.toString());
-		    String modelflag = new String(v2.toString());
-			para.setSamId(samId);
-			para.setModelflag(Integer.parseInt(modelflag));
+		    if(i==0){
+			    String samId = new String(v1.toString());
+			    String modelflag = new String(v2.toString());
+				para.setSamId(samId);
+				para.setModelflag(Integer.parseInt(modelflag));
+		    }
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -390,12 +410,18 @@ public class JacobInter {
 		ActiveXComponent com = new ActiveXComponent("OCXISSUESAM.OCXIssueSAMCtrl.1") ;
 		Dispatch disp = (Dispatch)com.getObject();
 		byte[] b = new byte[50];
+		byte[] c = new byte[2];
 		int i=-1;
 		try {
-			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;				
-		    i=Dispatch.call(disp,"ReadModelVersion",v1,new Variant(para.getModelflag())).getInt();
-		    String version = new String(v1.toString());
-			para.setVersion(version);
+			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;		
+			Variant v2 = new Variant (new String(c, "UNICODE"), true) ;		
+		    i=Dispatch.call(disp,"ReadModelVersion",v1,v2).getInt();
+		    if(i==0){
+			    String version = new String(v1.toString());
+				para.setVersion(version);
+				String modelflag = new String(v2.toString());
+				para.setModelflag(Integer.parseInt(modelflag));
+		    }
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

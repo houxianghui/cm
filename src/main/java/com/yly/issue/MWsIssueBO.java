@@ -179,7 +179,8 @@ public class MWsIssueBO extends IbatisBO {
 	public void transFiveTb(Mwsissuetb mtb,Stoproduct s,Lsinfo ls,Issueapp issue,Secpkitb sec) throws Exception {
 		stoproductDAO.insert(s);
 		lsinfoDAO.insert(ls);
-		secpkitbDAO.insert(sec);
+		if(sec!=null)
+			secpkitbDAO.insert(sec);
 		mwsissuetbDAO.updateByPrimaryKeySelective(mtb);
 		if(issue!=null && issue.getFormState()==3)
 			issueappDAO.updateByPrimaryKeySelective(issue);
@@ -189,7 +190,8 @@ public class MWsIssueBO extends IbatisBO {
 	public void transRepairTb(Stoproduct s,Lsinfo ls,Secpkitb sec) throws Exception {
 		stoproductDAO.updateByPrimaryKeySelective(s);
 		lsinfoDAO.insert(ls);
-		secpkitbDAO.updateBySamIdAndSamCsn(sec);
+		if(sec!=null)
+			secpkitbDAO.updateBySamIdAndSamCsn(sec);
 	}
 	@Override
 	public List queryForList(Object obj) throws Exception {
@@ -216,7 +218,7 @@ public class MWsIssueBO extends IbatisBO {
 			f.setNewTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));    
 		}else if(operType==22 || operType==23||operType==25||operType==26){
 			f.setOldTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));
-			f.setNewTranskey(keyVDatagram.getMainKeyMap(getMainKey(f)));    
+			f.setNewTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));    
 		}else{
 			f.setOldTranskey("");
 			f.setNewTranskey("");    
