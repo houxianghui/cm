@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
+
 import com.abc.logic.IbatisBO;
 import com.eis.base.IbatisBaseBO;
 import com.eis.cache.ReDefSDicMap;
@@ -15,6 +17,8 @@ import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
 import com.eis.util.StringUtil;
+import com.yly.discard.Disproduct;
+import com.yly.discard.DisproductDAO;
 import com.yly.exstore.StoproductExample.Criteria;
 import com.yly.issue.Issueapp;
 import com.yly.issue.IssueappDAO;
@@ -33,6 +37,14 @@ import com.yly.reuse.StoreuseExample;
 
 
 public class StoproductBO extends IbatisBO {
+	private DisproductDAO disproductDAO;
+	public DisproductDAO getDisproductDAO() {
+		return disproductDAO;
+	}
+
+	public void setDisproductDAO(DisproductDAO disproductDAO) {
+		this.disproductDAO = disproductDAO;
+	}
 	private StoreuseDAO storeuseDAO;
 	public StoreuseDAO getStoreuseDAO() {
 		return storeuseDAO;
@@ -227,7 +239,10 @@ public class StoproductBO extends IbatisBO {
 	public void transMoveInfo(List<Stoproduct> il,List<Lsinfo> lsl) throws Exception {
 		if(il != null && il.size()>0){
 			for(Stoproduct vo:il){
-				stoproductDAO.updateByPrimaryKeySelective(vo);
+				Disproduct disvo=new Disproduct();
+				copyProperties(disvo,vo);
+				stoproductDAO.deleteByPrimaryKey(vo);
+				disproductDAO.insert(disvo);
 			}
 		}
 		if(lsl != null && lsl.size()>0){
@@ -425,4 +440,8 @@ public class StoproductBO extends IbatisBO {
 		List<StoproductForm> result=stoproductDAO.getReStoreReport(e);
 		return  result;
 	}	
+	public void copyProperties(Object dest,Object origin) throws Exception {
+		new BeanUtilsBean().copyProperties(dest,origin);
+	}
+
 }

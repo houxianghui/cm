@@ -1,7 +1,6 @@
 package com.yly.issue;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
@@ -22,6 +21,8 @@ import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoDAO;
 import com.yly.pki.Secpkitb;
 import com.yly.pki.SecpkitbDAO;
+import com.yly.reuse.Storeuse;
+import com.yly.reuse.StoreuseDAO;
 import com.yly.stor.Stoappinfo;
 import com.yly.stor.StoappinfoDAO;
 
@@ -36,6 +37,15 @@ public class MWsIssueBO extends IbatisBO {
 	private StoproductDAO stoproductDAO;
 	private IssueappDAO issueappDAO;
 	private SecpkitbDAO secpkitbDAO;
+	private StoreuseDAO storeuseDAO;
+	public StoreuseDAO getStoreuseDAO() {
+		return storeuseDAO;
+	}
+
+	public void setStoreuseDAO(StoreuseDAO storeuseDAO) {
+		this.storeuseDAO = storeuseDAO;
+	}
+
 	public SecpkitbDAO getSecpkitbDAO() {
 		return secpkitbDAO;
 	}
@@ -142,6 +152,23 @@ public class MWsIssueBO extends IbatisBO {
 		return mwsissuetbDAO.selectByExample(e);
 
 	}
+	public List queryForWList(MWsIssuetbForm obj,UserContext user) throws Exception {
+		MwsissuetbExample e = new MwsissuetbExample();
+		Criteria c = e.createCriteria();
+		if(!CheckUtil.isEmptry(obj.getBeginDate_f())){
+			c.andFormTimeGreaterThanOrEqualTo(obj.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(obj.getEndDate_f())){
+			c.andFormTimeLessThanOrEqualTo(obj.getEndDate_f()+"999999");
+		}
+		if(obj.getFormState_f()>=0){
+			c.andFormStateEqualTo(obj.getFormState_f());
+		}
+		c.andIssueOperIDisNullorEqual(user.getUserID());
+		return mwsissuetbDAO.selectByExample(e);
+
+	}
+	
 	/* 
 	 * @see com.eis.base.IbatisBaseBO#queryForList(java.lang.Object)
 	 */
@@ -176,7 +203,7 @@ public class MWsIssueBO extends IbatisBO {
 		lsinfoDAO.insert(ls);
 		mwsissuetbDAO.updateByPrimaryKeySelective(mtb);
 	}
-	public void transFiveTb(Mwsissuetb mtb,Stoproduct s,Lsinfo ls,Issueapp issue,Secpkitb sec) throws Exception {
+	public void transSixTb(Mwsissuetb mtb,Stoproduct s,Lsinfo ls,Issueapp issue,Secpkitb sec,Stoproduct prod) throws Exception {
 		stoproductDAO.insert(s);
 		lsinfoDAO.insert(ls);
 		if(sec!=null)
@@ -184,6 +211,17 @@ public class MWsIssueBO extends IbatisBO {
 		mwsissuetbDAO.updateByPrimaryKeySelective(mtb);
 		if(issue!=null && issue.getFormState()==3)
 			issueappDAO.updateByPrimaryKeySelective(issue);
+		if(prod!=null && !CheckUtil.isEmptry(prod.getSamId())){
+			int i=stoproductDAO.updateByPrimaryKeySelective(prod);
+			if(i<1){
+				Storeuse reuse= new Storeuse();
+				copyProperties(reuse, prod);
+				stoproductDAO.insert(prod);
+				storeuseDAO.deleteByPrimaryKey(reuse);
+			}
+				
+		}
+			
 	}
 	
 	

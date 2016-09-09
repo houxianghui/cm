@@ -1692,6 +1692,9 @@ public class MwsissuetbExample {
             addCriterion("OperationType not between", value1, value2, "operationType");
             return this;
         }
-        
+        public Criteria andIssueOperIDisNullorEqual(String value) {
+            addCriterion("(IssueOperID='' or IssueOperID ="+value+")");
+            return this;
+        }
     }
 }

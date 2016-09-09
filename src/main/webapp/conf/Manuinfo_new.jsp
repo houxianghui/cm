@@ -30,31 +30,31 @@ function doAdd(){
          <tr bgcolor="#FFFFFF"> 
           <td width="35%" align="right" class="dtPanel_Left">&nbsp;<%=ViewUtil.must()%>厂商名称：</td> 
          <td align="left" class="dtPanel_Main2">&nbsp; 
-			<html:text property="Manufacname" styleClass="Textfield"  size="20" maxlength="30"  />
+			<html:text property="manufacname" styleClass="Textfield"  size="20" maxlength="30"  />
   		  </td> 
        </tr> 
           <tr bgcolor="#FFFFFF"> 
           <td width="35%" align="right" class="dtPanel_Left">&nbsp;<%=ViewUtil.must()%>厂商联系人：</td> 
          <td align="left" class="dtPanel_Main2">&nbsp; 
-			<html:text property="Manufacperson" styleClass="Textfield"  size="20" maxlength="20"  />
+			<html:text property="manufacperson" styleClass="Textfield"  size="20" maxlength="20"  />
   		  </td> 
        </tr> 
         <tr bgcolor="#FFFFFF"> 
           <td width="35%" align="right" class="dtPanel_Left">&nbsp;<%=ViewUtil.must()%>厂商联系电话：</td> 
          <td align="left" class="dtPanel_Main2">&nbsp; 
-			<html:text property="Manufactel" styleClass="Textfield"  size="20" maxlength="20"  />
+			<html:text property="manufactel" styleClass="Textfield"  size="20" maxlength="20"  />
   		  </td> 
        </tr>       
          <tr bgcolor="#FFFFFF"> 
           <td width="35%" align="right" class="dtPanel_Left">&nbsp;<%=ViewUtil.must()%>厂商联系地址：</td> 
          <td align="left" class="dtPanel_Main2">&nbsp; 
-				<html:text property="Manufacaddr" styleClass="Textfield"  size="20" maxlength="40"  />
+				<html:text property="manufacaddr" styleClass="Textfield"  size="20" maxlength="40"  />
   		  </td> 
        </tr>     
          <tr bgcolor="#FFFFFF"> 
           <td width="35%" align="right" class="dtPanel_Left">&nbsp;<%=ViewUtil.must()%>厂商缩写：</td> 
          <td align="left" class="dtPanel_Main2">&nbsp; 
-				<html:text property="Manufacfax" styleClass="Textfield"  size="16" maxlength="16"  />
+				<html:text property="manufacfax" styleClass="Textfield"  size="16" maxlength="16"  />
   		  </td> 
         <tr bgcolor="#FFFFFF"> 
           <td width="35%" align="right" class="dtPanel_Left">&nbsp;备注：</td> 

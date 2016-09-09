@@ -1,7 +1,7 @@
 <%@page import="com.yly.issue.Mwsissuetb"%>
 <%@ include file = "/includes/common.jsp" %>
 <%@ page  contentType="text/html; charset=GBK" %>
-
+<jsp:useBean id="mwsissuetbForm" scope="request" class="com.yly.issue.MWsIssuetbForm" />
 <jsp:useBean id="pageResult" scope="request" class="com.eis.base.PageObject" />
 
 <html>
@@ -57,9 +57,11 @@ function doIssue(){
 			<td nowrap>
 			分配日期:			
 			从<html:text property="beginDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
-			到<html:text property="endDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
-
-
+			到<html:text property="endDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/> 
+			单据状态:
+			<html:select property="formState_f" styleClass="Select">
+				<html:optionsCollection name="mwsissuetbForm" property="formStatecollection"/>
+			</html:select>
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
 			</td>
 		</tr>

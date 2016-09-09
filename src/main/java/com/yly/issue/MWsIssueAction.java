@@ -299,11 +299,11 @@ public class MWsIssueAction extends IbatisBaseAction {
 		
 		String pageNo = request.getParameter("pageNO");		
 		String requery = request.getParameter("requery");
-		if (CheckUtil.isEmptry(pageNo)  && requery == null ) {			
-			return mapping.findForward("list");
-	    }
 		MWsIssuetbForm f = (MWsIssuetbForm)form;
-		setPageResult(request, ((MWsIssueBO)bo).queryForListByExample(f));
+		if (CheckUtil.isEmptry(pageNo)  && requery == null ) {			
+			f.setFormState_f((short)1);
+	    }
+		setPageResult(request, ((MWsIssueBO)bo).queryForWList(f,user));
 		return mapping.findForward("list");
 	}
 	public ActionForward closePort(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
@@ -365,6 +365,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
 		Para para=new Para();
+		Stoproduct prod=new Stoproduct();
 		((MWsIssueBO)bo).setFunc(f, func);
 		Lsinfo lsvo = ((MWsIssueBO)bo).setLsInfo(user, vo);
 		for(int i=1;i<4;i++){
@@ -381,8 +382,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 						}
 						f.setCardcsn(para.getCardcsn());
 					}else if(func.getOperAct().equals("R")){
-						f.setSamId(para.getSamId());
-						Stoproduct prod = new Stoproduct();
+						f.setSamId(para.getSamId());						
 						prod = stoproductBO.queryObjectBySamId(f.getSamId());
 						if(prod==null){	
 							prod =(Stoproduct)storeuseBO.queryForObject(f.getSamId());
@@ -394,6 +394,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 						func.setManufacId(prod.getManufacId());
 						vo.setManufacId(prod.getManufacId());
 						f.setCardcsn(prod.getSamCSN());
+						prod.setWkState((short)14);//×¢Ïú
+						prod.setWkStateChgDate(DateUtil.getTimeStr());
 					}
 					lsvo.setSamCSN(f.getCardcsn());
 				}else if (i==3){
@@ -426,7 +428,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 						sec.setPubKey(para.getRetpki());
 						sec.setKeyType((short)(sto.getKeyType()));
 					}
-					((MWsIssueBO)bo).transFiveTb(vo,sto,lsvo,issuapp,sec);
+					((MWsIssueBO)bo).transSixTb(vo,sto,lsvo,issuapp,sec,prod);
 				}
 			}else{
 				if(!CheckUtil.isEmptry(lsvo.getSamCSN())){

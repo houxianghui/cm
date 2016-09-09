@@ -13,12 +13,12 @@ if (pageResult != null)
 <title>待报废记录列表</title>
 <script language="javascript"> 
 function doQuery() {  
-	document.forms[0].act.value = "ql";
+	document.forms[0].act.value = "disCardwlist";
 	document.forms[0].submit(); 
 }
 
 function turnPage( pagenm ) {   
-    	document.forms[0].act.value = "ql";  
+    	document.forms[0].act.value = "disCardwlist";  
     	document.forms[0].pageNO.value = pagenm;     
     	document.forms[0].submit(); 
 } 
@@ -108,7 +108,7 @@ function doDisCard(){
 <body>
 <script type="text/javascript" src="js/calendar.js"></script>
 <html:form method="post" action="Stoproduct.do">
-<input type=hidden name=act value="ql">
+<input type=hidden name=act value="disCardwlist">
 <input type=hidden name=requery > 
 <input type=hidden name=wkState value="15"> 
 <input type=hidden name=operationType value="71"> 
@@ -207,6 +207,8 @@ if (pageResult != null) {%>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td height="25" align="center">
+			<input type="button" name="check_all" class="Button" value="全选" onClick="checkAll(document.forms[0].cx);"/>  
+			<input type="button" name="check2" class="Button" value="取消全选" onClick="cancelCheckAll(document.forms[0].cx);"/>
 			<input type="button" value="报废" class="Button" onClick="doDisCard()"/>
 			
 			</td>

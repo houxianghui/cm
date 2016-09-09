@@ -192,6 +192,8 @@ if (pageResult != null) {%>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td height="25" align="center">
+			<input type="button" name="check_all" class="Button" value="全选" onClick="checkAll(document.forms[0].cx);"/>  
+			<input type="button" name="check2" class="Button" value="取消全选" onClick="cancelCheckAll(document.forms[0].cx);"/>  
 			<input type="button" value="退回卡再次领出复用" class="Button" onClick="doRepExport()"/>
 			</td>
 		</tr>

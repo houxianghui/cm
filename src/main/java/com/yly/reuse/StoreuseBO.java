@@ -91,6 +91,12 @@ public class StoreuseBO extends IbatisBO {
 		StoreuseForm f=((StoreuseForm)obj);
 		StoreuseExample e = new StoreuseExample();
 		Criteria c = e.createCriteria();
+		if(!CheckUtil.isEmptry(f.getSamId_min())){
+			c.andSamIdGreaterThanOrEqualTo(f.getSamId_min());
+		}
+		if(!CheckUtil.isEmptry(f.getSamId_max())){
+			c.andSamIdLessThanOrEqualTo(f.getSamId_max());
+		}		
 		if(!CheckUtil.isEmptry(f.getSamCSN()))
 			c.andSamCSNEqualTo(f.getSamCSN());
 		if(!CheckUtil.isEmptry(f.getSamId()))

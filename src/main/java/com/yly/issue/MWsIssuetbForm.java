@@ -27,6 +27,22 @@ public class MWsIssuetbForm  extends BaseForm {
 	public void setOrigSamId(String origSamId) {
 		this.origSamId = origSamId;
 	}
+	private short formState_f;
+	public short getFormState_f() {
+		return formState_f;
+	}
+
+	public void setFormState_f(short formState_f) {
+		this.formState_f = formState_f;
+	}
+	private Collection formStatecollection;
+	public Collection getFormStatecollection() {
+		return SingleDicMap.getOptionCollection(SingleDic.FORMTYPE);
+	}
+
+	public void setFormStatecollection(Collection formStatecollection) {
+		this.formStatecollection = formStatecollection;
+	}
 	private Collection authkeycollection;
 	public Collection getAuthkeycollection() {
 		return SingleDicMap.getOptionCollection(SingleDic.AUTHKEY);

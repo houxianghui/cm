@@ -280,6 +280,7 @@ function keyType_fun(obj){
 		<html:select property="binFileVer" styleClass="Select">
 				<html:optionsCollection name="issuetaskForm" property="moduleVerEffcollection"/>
 		</html:select>
+		<input type=hidden name=phiTypeId value="1">	
 		</div>
 		</td>	
 	</tr>	
