@@ -618,6 +618,16 @@ public class MWsIssueAction extends IbatisBaseAction {
 					 sto.setSamId(lsvo.getSamId());
 					 sto.setSamCSN(lsvo.getSamCSN());
 					 sto=stoproductBO.queryForObject(sto);
+					 if(sto==null){
+						 sto= new Stoproduct();
+						 copyProperties(sto, f);
+						 sto.setSamCSN(f.getCardcsn());
+						 sto.setKeyType((short)f.getKeyType());
+						 sto.setAppTypeId(String.valueOf(f.getAppTypeId()));
+						 sto.setCardPhyStat((short)1);//ºÃ¿¨
+					 }
+					 sto.setWkState((short)12);
+					 sto.setWkStateChgDate(DateUtil.getTimeStr());
 					 sto.setIssueTime(DateUtil.getTimeStr());
 					 sto.setIOState((short)2);
 					 sto.setIOStateChgDate(DateUtil.getTimeStr());

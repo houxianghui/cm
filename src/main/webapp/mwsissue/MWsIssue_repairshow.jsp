@@ -61,6 +61,15 @@ function prodAttr_fun(obj){
 		document.getElementById("button_module1").style.display="none";
 	}
 }
+function keyType_fun(obj){
+	if(obj.value==1){
+		document.getElementById("hiddenId").style.display="";
+		document.getElementById("showId").style.display="none";
+	}else{
+		document.getElementById("hiddenId").style.display="none";
+		document.getElementById("showId").style.display="";
+	}
+}
 function doDown1() {  
     document.getElementById('down1').style.color="red"; 
 	$.get("Mwsissuetb.do?act=down",function(result){
@@ -132,7 +141,7 @@ function applyAttr_fun(obj){
 		<%=ViewUtil.must()%>密钥类型:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("keyType", SingleDic.KEYTYPE, String.valueOf( mwsissuetbForm.getKeyType()))%> 
+		<%=SingleDicMap.getRadio_WithFun("keyType", SingleDic.KEYTYPE, String.valueOf( mwsissuetbForm.getKeyType()),"keyType_fun(this)")%> 
 		</td>	
 	</tr>	
 	<tr>
@@ -156,7 +165,12 @@ function applyAttr_fun(obj){
 		<%=ViewUtil.must()%>产品应用类型:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=ReDefSDicMap.getRadioWithFun("appTypeId", RedefSDicCodes.APPTYPEID, String.valueOf(mwsissuetbForm.getAppTypeId()),"applyAttr_fun(this)") %>
+		<div id="hiddenId">
+		<%=ReDefSDicMap.getRadioWithHiddenIdFun("appTypeId", RedefSDicCodes.APPTYPEID,String.valueOf(mwsissuetbForm.getAppTypeId()),"106","applyAttr_fun(this)") %>
+		</div>
+		<div id="showId"  style="display:none">
+		<%=ReDefSDicMap.getRadioWithFun("appTypeId", RedefSDicCodes.APPTYPEID,String.valueOf(mwsissuetbForm.getAppTypeId()),"applyAttr_fun(this)") %>
+		</div>
 		</td>	
 	</tr>
 	<tr>

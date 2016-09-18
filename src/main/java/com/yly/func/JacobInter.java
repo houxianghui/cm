@@ -181,7 +181,7 @@ public class JacobInter {
 		try {
 			byte[] b = new byte[256];
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;					
-			i=Dispatch.call(disp,"WqIssueQzEasyTermPsam",v1,new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getInpki())).getInt();
+			i=Dispatch.call(disp,"WqIssueQzEasyTermPsam",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getInpki()),v1).getInt();
 			String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {

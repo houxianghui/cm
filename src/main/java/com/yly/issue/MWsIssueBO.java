@@ -225,11 +225,17 @@ public class MWsIssueBO extends IbatisBO {
 	}
 	
 	
-	public void transRepairTb(Stoproduct s,Lsinfo ls,Secpkitb sec) throws Exception {
-		stoproductDAO.updateByPrimaryKeySelective(s);
+	public void transRepairTb(Stoproduct s,Lsinfo ls,Secpkitb sec) throws Exception {		
+		int i=stoproductDAO.updateByPrimaryKeySelective(s);
+		if(i<1)
+			stoproductDAO.insert(s);
 		lsinfoDAO.insert(ls);
-		if(sec!=null)
-			secpkitbDAO.updateBySamIdAndSamCsn(sec);
+		if(sec!=null){
+			int j=secpkitbDAO.updateBySamIdAndSamCsn(sec);
+			if(j<1)
+				secpkitbDAO.insert(sec);
+		}
+			
 	}
 	@Override
 	public List queryForList(Object obj) throws Exception {
@@ -288,7 +294,8 @@ public class MWsIssueBO extends IbatisBO {
 			f.setAuthkey("");    
 		}
 		f.setResult("");         
-		f.setCardcsn(""); 
+		if(CheckUtil.isEmptry(f.getCardcsn()))
+			f.setCardcsn(""); 
 		f.setCardtype(0);
 	}
 	private String getMainKey(MWsIssuetbForm f) {
