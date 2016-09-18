@@ -1,6 +1,7 @@
 package com.yly.pdf;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -10,6 +11,7 @@ import com.eis.cache.ReDefSDicMap;
 import com.eis.cache.RedefSDicCodes;
 import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
+import com.eis.config.SysConfig;
 import com.eis.util.DateUtil;
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Cell;
@@ -23,7 +25,6 @@ import com.lowagie.text.Image;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Table;
 import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.Element;
@@ -43,10 +44,12 @@ public class pdfMaker {
 	}
 	public static void printPdf(List<Stoappinfo> stoList,StoAppInfoForm f)throws Exception{
 		Document document = new Document();  
-        PdfWriter pw = PdfWriter.getInstance(document, new FileOutputStream("e:/"+f.getFormNo()+SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE,String.valueOf(f.getOperationType()))+".pdf"));
-        
-        BaseFont bfChinese = BaseFont.createFont("C:/WINDOWS/Fonts/SIMSUN.TTC,1",BaseFont.IDENTITY_H, BaseFont.EMBEDDED); 
-       // BaseFont bfChinese=BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+		File file = new File(SysConfig.getProperty("pdf.download"));
+		if(!file.exists()){
+			file.mkdirs();
+		}
+        PdfWriter.getInstance(document, new FileOutputStream(new File(SysConfig.getProperty("pdf.download")+File.separator+f.getFormNo()+SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE,String.valueOf(f.getOperationType()))+".pdf")));
+        BaseFont bfChinese = BaseFont.createFont(SysConfig.getProperty("font.download")+File.separator+"SIMSUN.TTC,1",BaseFont.IDENTITY_H, BaseFont.EMBEDDED); 
         Font titlefont=new Font(bfChinese,12,Font.BOLD);
         Font textfont=new Font(bfChinese,8,com.lowagie.text.Font.COURIER);
         Font textRedfont=new Font(bfChinese,8,Font.COURIER,Color.RED);

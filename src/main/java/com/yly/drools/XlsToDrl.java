@@ -19,7 +19,7 @@ public class XlsToDrl {
 	public static File ruleTableConvertDRL(String ruleTablePath) throws IOException{
 			SpreadsheetCompiler compiler = new SpreadsheetCompiler();
 			File inFile = new File(ruleTablePath);
-			File outFile = new File("e://outRuleFile.txt");
+			File outFile = new File("d://outRuleFile.txt");
 			InputStream xlsStream = null;
 			OutputStream fos = null;
 			OutputStreamWriter osw = null;

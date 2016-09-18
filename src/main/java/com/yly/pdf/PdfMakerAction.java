@@ -1,6 +1,7 @@
 package com.yly.pdf;
 
  
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
 import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
+import com.eis.config.SysConfig;
 import com.eis.exception.MessageException;
 import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
@@ -339,7 +341,7 @@ public class PdfMakerAction extends IbatisBaseAction {
 			}else throw new MessageException("无相应流水记录");
 		}
 		pdfMaker.printPdf(stoList,f);
-		String url="e:/"+f.getFormNo()+SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE,String.valueOf(f.getOperationType()))+".pdf";
+		String url=SysConfig.getProperty("pdf.download")+"/"+f.getFormNo()+SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE,String.valueOf(f.getOperationType()))+".pdf";
 		return forwardSuccessPage(request,mapping,"生成成功,请打开文件进行打印"+url,"");
 
 	}

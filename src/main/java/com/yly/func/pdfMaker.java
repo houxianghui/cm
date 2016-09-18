@@ -1,11 +1,11 @@
 package com.yly.func;
 
+import java.io.File;
 import java.io.FileOutputStream;
 
-import com.eis.cache.ReDefSDicMap;
-import com.eis.cache.RedefSDicCodes;
 import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
+import com.eis.config.SysConfig;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
@@ -15,8 +15,6 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.yly.issue.Issueapp;
-import com.yly.ls.Lsinfo;
 import com.yly.stor.Stoappinfo;
 
 public class pdfMaker {
@@ -33,7 +31,11 @@ public class pdfMaker {
 	public static void printPdf(Stoappinfo app)throws Exception{
         Document doc = new Document();
         doc.setPageSize(PageSize.A5);
-        PdfWriter pw = PdfWriter.getInstance(doc, new FileOutputStream("e:/"+app.getFormNo()+".pdf"));
+		File f = new File(SysConfig.getProperty("pdf.download"));
+		if(!f.exists()){
+			f.mkdirs();
+		}
+        PdfWriter pw = PdfWriter.getInstance(doc, new FileOutputStream(new File(SysConfig.getProperty("file.download")+File.separator+app.getFormNo()+".pdf")));
         doc.open();
         PdfContentByte cb = pw.getDirectContent();
 
@@ -63,7 +65,6 @@ public class pdfMaker {
     private static void addText(int lx, int ly, int ux, int uy, PdfContentByte cb, String s) throws Exception {
         ColumnText ct = new ColumnText(cb);
         ct.setSimpleColumn(lx, ly, ux, uy, 5, Element.ALIGN_LEFT);
-        
         ct.addText(new Phrase(s, font));
         ct.go();
     }
