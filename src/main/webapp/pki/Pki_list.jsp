@@ -49,6 +49,11 @@ function doCardDown(){
 			发行卡号:			
 			从<html:text property="samId_min" styleClass="Textfield" size="12" />
 			到<html:text property="samId_max" styleClass="Textfield" size="12" />
+			发行日期:
+			从<html:text property="beginDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
+			到<html:text property="endDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
+			
+			
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
 			</td>
        </tr> 

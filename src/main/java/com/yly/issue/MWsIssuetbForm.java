@@ -280,6 +280,16 @@ public class MWsIssuetbForm  extends BaseForm {
 	private String authkey;
 	private String result;
 	private String manufacId;
+	private Collection manufacIdCollection;
+
+	public Collection getManufacIdCollection() {
+		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.MAUN_ID);
+	}
+
+	public void setManufacIdCollection(Collection manufacIdCollection) {
+		this.manufacIdCollection = manufacIdCollection;
+	}
+
 	public String getManufacId() {
 		return manufacId;
 	}
@@ -287,7 +297,23 @@ public class MWsIssuetbForm  extends BaseForm {
 	public void setManufacId(String manufacId) {
 		this.manufacId = manufacId;
 	}
+	private String partManufacId;
+	private Collection partManufacIdCollection;
+	public String getPartManufacId() {
+		return partManufacId;
+	}
 
+	public void setPartManufacId(String partManufacId) {
+		this.partManufacId = partManufacId;
+	}
+
+	public Collection getPartManufacIdCollection() {
+		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.MAUN_ID);
+	}
+
+	public void setPartManufacIdCollection(Collection partManufacIdCollection) {
+		this.partManufacIdCollection = partManufacIdCollection;
+	}
 	private Collection operationTypecollection;
 	private Collection unitIdcollection;
     private String beginDate_f;

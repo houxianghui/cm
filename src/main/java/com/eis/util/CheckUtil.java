@@ -29,4 +29,9 @@ public class CheckUtil {
 			throw new MessageException(memo+"²»ÔÊÐíÎª¿Õ");
 		}
 	}
+	public static  boolean isHaveBatchId(short operType){
+		if(operType==21 || operType==24 || operType==43 || operType==53)
+			return true;
+		else return false;
+	}
 } 

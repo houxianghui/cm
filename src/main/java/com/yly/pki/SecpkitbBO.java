@@ -1,9 +1,12 @@
 package com.yly.pki;
 
+import java.sql.Date;
 import java.util.List;
+
 import com.abc.logic.IbatisBO;
 import com.eis.exception.MessageException;
 import com.eis.util.CheckUtil;
+import com.eis.util.DateUtil;
 import com.yly.pki.SecpkitbExample.Criteria;
 
 
@@ -64,6 +67,12 @@ public class SecpkitbBO extends IbatisBO {
 			c.andSamIdGreaterThanOrEqualTo(f.getSamId_min());
 		if(!CheckUtil.isEmptry(f.getSamId_max()))
 			c.andSamIdLessThanOrEqualTo(f.getSamId_max());
+		if(!CheckUtil.isEmptry(f.getBeginDate_f())){
+			c.andIssueTimeGreaterThanOrEqualTo(DateUtil.parseDate(f.getBeginDate_f()));
+		}
+		if(!CheckUtil.isEmptry(f.getEndDate_f())){
+			c.andIssueTimeLessThanOrEqualTo(DateUtil.parseDate(f.getEndDate_f()));
+		}
 		e.setOrderByClause("IssueTime desc");
 		return secpkitbDAO.selectByExample(e);
 	}
@@ -74,17 +83,16 @@ public class SecpkitbBO extends IbatisBO {
 
 	}
 	public void querySamIdValidate(SecpkitbForm p)throws MessageException{
-		if(CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max())){	
-			throw new MessageException("开始卡号和结束卡号必须填写");
+		if(!CheckUtil.isEmptry(p.getSamId_min()) && !CheckUtil.isEmptry(p.getSamId_max())){	
+			if(p.getSamId_min().length()!=p.getSamId_max().length()){
+				throw new MessageException("开始卡号长度和结束卡号长度必须一致");
+			}
+			if(p.getSamId_min().length()!=12 ){
+				throw new MessageException("卡号长度必须满足12位");
+			}
+			if(p.getSamId_min().compareTo(p.getSamId_max())>0)
+				throw new MessageException("开始卡号不能大于结束卡号");
 		}
-		if(p.getSamId_min().length()!=p.getSamId_max().length()){
-			throw new MessageException("开始卡号长度和结束卡号长度必须一致");
-		}
-		if(p.getSamId_min().length()!=12 ){
-			throw new MessageException("卡号长度必须满足12位");
-		}
-		if(p.getSamId_min().compareTo(p.getSamId_max())>0)
-			throw new MessageException("开始卡号不能大于结束卡号");
 		
 	}
 

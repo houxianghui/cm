@@ -356,11 +356,6 @@ public class MWsIssueAction extends IbatisBaseAction {
 		MWsIssuetbForm f = (MWsIssuetbForm)form;	
 		Mwsissuetb vo=((MWsIssueBO)bo).queryIssueTaskCtrl(f.getFormNo());
 		copyProperties(f,vo);
-		if(vo.getProdId().equals("4") && vo.getBatchId()!=null){
-			Stoappinfo sto=stoAppBO.queryForObject(vo.getBatchId());
-			Stoappinfo part_sto=stoAppBO.queryForObject(sto.getRsvd().trim());
-			f.setManufacId(part_sto.getManufacId());
-		}
 		operSysPort(vo.getProdId(),"open");
 		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
@@ -381,6 +376,11 @@ public class MWsIssueAction extends IbatisBaseAction {
 							para.setCardcsn("0");
 						}
 						f.setCardcsn(para.getCardcsn());
+						if(vo.getProdId().equals("4")){
+							Stoappinfo sto=stoAppBO.queryForObject(f.getBatchId());
+							Stoappinfo part_sto=stoAppBO.queryForObject(sto.getRsvd().trim());
+							func.setManufacId(part_sto.getManufacId());
+						}
 					}else if(func.getOperAct().equals("R")){
 						f.setSamId(para.getSamId());						
 						prod = stoproductBO.queryObjectBySamId(f.getSamId());
@@ -388,10 +388,33 @@ public class MWsIssueAction extends IbatisBaseAction {
 							prod =(Stoproduct)storeuseBO.queryForObject(f.getSamId());
 							if(prod==null){
 								operSysPort(vo.getProdId(),"close");
-								throw new MessageException("无法找到原sam印刷卡号!");
+								throw new MessageException("无法找到原sam卡号!");
 							}
 						}
-						func.setManufacId(prod.getManufacId());
+						if(vo.getProdId().equals("4")){
+							if(!CheckUtil.isEmptry(f.getPartManufacId()))
+								func.setManufacId(f.getPartManufacId());
+							else if(!CheckUtil.isEmptry(prod.getBatchIdParts())){
+								Stoappinfo part_sto=stoAppBO.queryForObject(prod.getBatchIdParts());
+								if(part_sto!=null)
+									func.setManufacId(part_sto.getManufacId());
+								else {
+									operSysPort(vo.getProdId(),"close");
+									throw new MessageException("无法找到配件批次号的厂商信息!"+prod.getBatchIdParts());
+								}
+							}else{
+								operSysPort(vo.getProdId(),"close");
+								throw new MessageException("无法找到配件厂商信息!");
+							}
+						}else{
+							if(!CheckUtil.isEmptry(prod.getManufacId())){
+								func.setManufacId(prod.getManufacId());
+							}else{
+								operSysPort(vo.getProdId(),"close");
+								throw new MessageException("无法找到厂商信息!");
+							}
+						}
+
 						vo.setManufacId(prod.getManufacId());
 						f.setCardcsn(prod.getSamCSN());
 						prod.setWkState((short)14);//注销
@@ -687,4 +710,5 @@ public class MWsIssueAction extends IbatisBaseAction {
 		f.setZeroExauthFlag(Integer.parseInt(apply.getIsIsamTestAllO()==null?"0":apply.getIsIsamTestAllO()));
 		return f;
 	}
+
 }

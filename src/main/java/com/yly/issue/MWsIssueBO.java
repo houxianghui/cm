@@ -358,7 +358,7 @@ public class MWsIssueBO extends IbatisBO {
 
 	public void setOperAct(Mwsissuetb vo, Func func,int step) {
 		short operType=vo.getOperationType();
-		if(operType==21||operType==24||operType==43||operType==53 ){
+		if(CheckUtil.isHaveBatchId(operType)){
 			if(step==1){
 				func.setOperAct("RC");
 			}else if(step==2){

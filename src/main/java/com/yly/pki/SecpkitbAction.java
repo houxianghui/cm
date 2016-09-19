@@ -67,7 +67,7 @@ public class SecpkitbAction extends IbatisBaseAction {
 			return mapping.findForward("qlist");
 	    }
 		SecpkitbForm f = (SecpkitbForm)form;
-		((SecpkitbBO)bo).querySamIdValidate(f);
+		((SecpkitbBO)bo).querySamIdValidate(f); 
 		setPageResult(request, ((SecpkitbBO)bo).queryForListByScale(f));
 		return mapping.findForward("qlist");
 	}
@@ -75,12 +75,18 @@ public class SecpkitbAction extends IbatisBaseAction {
 		SecpkitbForm f = (SecpkitbForm)form;
 		((SecpkitbBO)bo).querySamIdValidate(f);
 		String scale="";
+		String title="";
+		if(f.getBeginDate_f()!=null ||f.getEndDate_f()!=null){
+			 title=f.getBeginDate_f()+"_"+f.getEndDate_f();
+		}else{
+			 title=f.getSamId_min()+"_"+f.getSamId_max();
+		}
 		List pkiList = ((SecpkitbBO)bo).queryForListByScale(f);
 		response.setContentType("application/octet-stream");
 		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
-			scale = new String((f.getSamId_min()+"_"+f.getSamId_max()).getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
+			scale = new String(title.getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
 		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
-			scale = URLEncoder.encode((f.getSamId_min()+"_"+f.getSamId_max()), "UTF-8");
+			scale = URLEncoder.encode(title, "UTF-8");
 		}
 		response.addHeader("Content-Disposition", "attachment; filename="+scale+".txt");
 		OutputStream out = response.getOutputStream();

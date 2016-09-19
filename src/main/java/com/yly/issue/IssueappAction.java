@@ -411,7 +411,7 @@ public class IssueappAction extends IbatisBaseAction {
 	}
 	/*原料发行,同号同属性,同号不同属性,对于isam,esam,psam,小模块进行批次的选择*/
 	private boolean needPickBatch(IssueappForm f){
-		if(f.getOperationType()==21 || f.getOperationType()==24||f.getOperationType()==43 || f.getOperationType()==53){
+		if(CheckUtil.isHaveBatchId(f.getOperationType().shortValue())){
     		if(!f.getProdId().equals("5"))
     			return true;
     		else return false;

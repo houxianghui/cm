@@ -12,8 +12,26 @@ import com.eis.cache.SingleDicMap;
 public class SecpkitbForm extends BaseForm {
 	private String samId_min;
 	private String samId_max;
+    private String beginDate_f;
+    private String endDate_f;
 	
-    public String getSamId_min() {
+    public String getBeginDate_f() {
+		return beginDate_f;
+	}
+
+	public void setBeginDate_f(String beginDate_f) {
+		this.beginDate_f = beginDate_f;
+	}
+
+	public String getEndDate_f() {
+		return endDate_f;
+	}
+
+	public void setEndDate_f(String endDate_f) {
+		this.endDate_f = endDate_f;
+	}
+
+	public String getSamId_min() {
 		return samId_min;
 	}
 

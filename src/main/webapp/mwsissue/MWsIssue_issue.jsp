@@ -159,21 +159,44 @@ function doDown2() {
 		</td>		
 	</tr>
 
-	<tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		厂商代码:
-		</td>
-		<td class="dtPanel_Main2">&nbsp;
-		<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.MAUN_ID, String.valueOf(mwsissuetbForm.getManufacId())) %>							
-		</td>
-		<td width="16%" align="left" class="dtPanel_Left">
-		批次号:
-		</td>
-		<td class="dtPanel_Main2">&nbsp;
-		<a href="StoApp.do?act=r&formNo=<%=mwsissuetbForm.getBatchId()%>"><%=mwsissuetbForm.getBatchId()%>&nbsp;&nbsp;印刷卡号范围:<%=mwsissuetbForm.getPressCardScale()%>
-		</td>		
-	</tr>
-
+	<%if(mwsissuetbForm.getOperationType()!=21  && mwsissuetbForm.getOperationType()!=24  && mwsissuetbForm.getOperationType()!=43  && mwsissuetbForm.getOperationType()!=53){%>
+		<tr>
+			<td width="16%" align="left" class="dtPanel_Left">
+			厂商代码:
+			</td>
+			<td class="dtPanel_Main2">&nbsp;
+			<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.MAUN_ID, String.valueOf(mwsissuetbForm.getManufacId())) %>				
+			</td>
+			<td width="16%" align="left" class="dtPanel_Left">
+			业务类型:
+			</td>
+			<td class="dtPanel_Main2">&nbsp;
+			<%=mwsissuetbForm.getBatchId()%>&nbsp;&nbsp;
+			<%if(mwsissuetbForm.getProdId().equals("4")){%>
+			<%=ViewUtil.must()%>请选择配件厂商:
+			<html:select property="partManufacId" styleClass="Select">
+				<html:optionsCollection name="mwsissuetbForm" property="partManufacIdCollection"/>
+			</html:select>
+			<%}%>
+			</td>		
+		</tr>
+	<%}else{%>
+		<tr>
+			<td width="16%" align="left" class="dtPanel_Left">
+			厂商代码:
+			</td>
+			<td class="dtPanel_Main2">&nbsp;
+			<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.MAUN_ID, String.valueOf(mwsissuetbForm.getManufacId())) %>							
+			</td>
+			<td width="16%" align="left" class="dtPanel_Left">
+			批次号:
+			</td>
+			<td class="dtPanel_Main2">&nbsp;
+			<a href="StoApp.do?act=r&formNo=<%=mwsissuetbForm.getBatchId()%>"><%=mwsissuetbForm.getBatchId()%>&nbsp;&nbsp;印刷卡号范围:<%=mwsissuetbForm.getPressCardScale()%>
+			</td>		
+		</tr>
+	<%}%>	
+		
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
 		加工数量:
