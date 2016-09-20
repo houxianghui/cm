@@ -1,5 +1,6 @@
 package com.yly.issue;
 
+import java.io.File;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.Iterator;
@@ -16,6 +17,7 @@ import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
 import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
+import com.eis.config.SysConfig;
 import com.eis.exception.MessageException;
 import com.eis.key.KeyGenerator;
 import com.eis.portal.UserContext;
@@ -673,7 +675,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		return forwardSuccessPage(request,mapping,"ÐÞ¸´³É¹¦","Mwsissuetb.do?act=repair");
 	}
 	public void down(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response)throws Exception{
- 	    String url="E:\\work\\code\\design-eclipse\\projectmanage-1.0\\MFC\\IAP.exe";
+		String url=SysConfig.getProperty("IAP.URL")+File.separator+"IAP.exe";
 		Process proc = Runtime.getRuntime().exec(url);  
 		String res="";
 		writeAjaxResponse(response, res);

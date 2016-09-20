@@ -1,6 +1,9 @@
 package com.yly.issue;
 
+import java.io.File;
 import java.util.List;
+
+
 
 
 
@@ -13,6 +16,7 @@ import org.apache.struts.action.ActionRedirect;
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
+import com.eis.config.SysConfig;
 import com.eis.exception.MessageException;
 import com.eis.key.KeyGenerator;
 import com.eis.portal.UserContext;
@@ -258,7 +262,7 @@ public class IssueappAction extends IbatisBaseAction {
 
 
 	public void down(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response,UserContext user)throws Exception{
- 	    String url="E:\\work\\code\\design-eclipse\\projectmanage-1.0\\MFC\\IAP.exe";
+ 	    String url=SysConfig.getProperty("IAP.URL")+File.separator+"IAP.exe";
 		Process proc = Runtime.getRuntime().exec(url);  
 		String res="";
 		writeAjaxResponse(response, res);

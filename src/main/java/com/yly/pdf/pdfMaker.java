@@ -105,7 +105,7 @@ public class pdfMaker {
             document.newPage();
 
 		    //create title image
-		    Image jpeg=Image.getInstance("E:\\logo.png");
+		    Image jpeg=Image.getInstance(SysConfig.getProperty("PIC.URL")+File.separator+"logo.png");
 		    jpeg.setAlignment(Image.ALIGN_LEFT);
 		    jpeg.scaleAbsolute(60, 30);
 		    document.add(jpeg);
@@ -273,7 +273,7 @@ public class pdfMaker {
             document.newPage();
             
 		    //create title image
-		    Image jpeg=Image.getInstance("E:\\logo.png");
+		    Image jpeg=Image.getInstance(SysConfig.getProperty("PIC.URL")+File.separator+"logo.png");
 		    jpeg.setAlignment(Image.ALIGN_LEFT);
 		    jpeg.scaleAbsolute(60, 30);
 		    document.add(jpeg);
