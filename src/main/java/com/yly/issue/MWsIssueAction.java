@@ -479,8 +479,6 @@ public class MWsIssueAction extends IbatisBaseAction {
 		copyProperties(form, vo);
 		return mapping.findForward("issue");
 	}
-
-	
 	public void exam(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response)throws Exception{
 		MWsIssuetbForm f = new MWsIssuetbForm();
 		f.setOperationType(Short.valueOf(request.getParameter("operationType")));

@@ -3,9 +3,6 @@
 <jsp:useBean id="pageResultIssuetask" scope="request"	class="com.eis.base.PageObject" />
 <jsp:useBean id="mwsissuetbForm" scope="request"  class="com.yly.issue.MWsIssuetbForm" />
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-
-
-
 <html> 
 <head>
 <title>ÐÞ¸´·¢ÐÐ</title> 
@@ -70,12 +67,14 @@ function keyType_fun(obj){
 		document.getElementById("showId").style.display="";
 	}
 }
+
 function doDown1() {  
     document.getElementById('down1').style.color="red"; 
 	$.get("Mwsissuetb.do?act=down",function(result){
  		return;
 	});
 } 
+
 function doDown2() {  
     document.getElementById('down2').style.color="red"; 
 	$.get("Mwsissuetb.do?act=down",function(result){
