@@ -73,7 +73,7 @@ public class pdfMaker {
 	    	opertypeDes="入库单";
 	    	dateDes="入库";
 	    	ABC="A";
-	    }else if(f.getOperationType()==92){
+	    }else if(f.getOperationType()==92 ||f.getOperationType()==94){
 	    	opertypeDes=SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(f.getOperationType()));
 	    	dateDes="冲回";
 	    	ABC="B";
@@ -369,7 +369,6 @@ public class pdfMaker {
         	cell.setColspan(6);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);  
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);  
-            cell.setBorderColor(new Color(255, 0, 0));
         	table.addCell(cell);
         	
         	cell  = new Cell(new Paragraph(ReDefSDicMap.getDicItemVal(RedefSDicCodes.MAUN_ID, sto.getManufacId())+SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE,String.valueOf(sto.getOperationType())),fixfont));

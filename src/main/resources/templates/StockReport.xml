@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+	<sheetName>出入库及冲回账本</sheetName>
+	<cells>
+		<cell rowIndex="0" colIndex="0" colSpan="1" rowSpan="2" value="日期"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="1" colSpan="1" rowSpan="2" value="摘要"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="2" colSpan="3" value="收入"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="1" colIndex="2" colSpan="1" value="数量"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="1" colIndex="3" colSpan="1" value="单价"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="1" colIndex="4" colSpan="1" value="金额"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="5" colSpan="3" value="付出"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="1" colIndex="5" colSpan="1" value="数量"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="1" colIndex="6" colSpan="1" value="单价"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="1" colIndex="7" colSpan="1" value="金额"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="8" colSpan="3" value="结存"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="1" colIndex="8" colSpan="1" value="数量"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="1" colIndex="9" colSpan="1" value="单价"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="1" colIndex="10" colSpan="1" value="金额"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="11" colSpan="1" rowSpan="2" value="用途"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>	
+	</cells>
+	<properties>
+		<cell property="list" rowIndex="2" colIndex="0"/>		
+	</properties>
+</report>

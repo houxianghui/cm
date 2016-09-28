@@ -1,7 +1,7 @@
 <%@page import="com.yly.reuse.Storeuse"%>
 <%@ include file = "/includes/common.jsp" %>
 <%@ page  contentType="text/html; charset=GBK" %>
-
+<jsp:useBean id="storeuseForm" scope="request"  class="com.yly.reuse.StoreuseForm" />
 <jsp:useBean id="pageResult" scope="request" class="com.eis.base.PageObject" />
 
 <html>
@@ -100,12 +100,14 @@ function cancelCheckAll(field)//全部取消
 		}
 	}
 }
+
+
 </script>
 </head>
 <body>
 <script type="text/javascript" src="js/calendar.js"></script>
 <html:form method="post" action="Storeuse.do">
-<input type=hidden name=act value="exlist">
+<input type=hidden name=act value="upload">
 <input type=hidden name=requery>
 <html:hidden property="operationType"/>
 <html:hidden property="appNo"/>
@@ -116,16 +118,28 @@ function cancelCheckAll(field)//全部取消
 	
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
 		align="center" cellpadding="0">
-         <tr > 
+         <tr> 
          <td>
 			发行卡号:			
 			从<html:text property="samId_min" styleClass="Textfield" size="12" />
 			到<html:text property="samId_max" styleClass="Textfield" size="12" />
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
 			</td>
-       </tr> 
+       	</tr>
+       	<tr> 
+       	出库数量:<%=storeuseForm.getTaskAmt()%> 剩余出库数量:<%=storeuseForm.getTaskAmtLeft()%>
+       	</tr>
 	</table>
- 
+     <table align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0"> 
+
+        <tr bgcolor="#FFFFFF"> 
+          <td width="35%" align="center" class="dtPanel_Left">&nbsp;文件： 
+			<html:file property="file"></html:file>
+       		<html:submit value="批量上传出库卡号" styleClass="Button"/>
+         </td> 
+       </tr>     
+      
+  </table>  
 	<table width="98%" class="dtPanel_Line1" border="0" cellspacing="1"
 		align="center" cellpadding="0">
 		<tr align="center" class="dtPanel_Top01" height="28">

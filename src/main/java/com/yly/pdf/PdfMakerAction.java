@@ -98,7 +98,7 @@ public class PdfMakerAction extends IbatisBaseAction {
 		StoAppInfoForm f = (StoAppInfoForm)form;	
 		List<Stoappinfo> stoList = new ArrayList<Stoappinfo>();
 
-		if(f.getOperationType()<20){
+		if(f.getOperationType()<20 ||f.getOperationType()==92 ||f.getOperationType()==94){
 			Stoappinfo info = new Stoappinfo();
 			info = stoAppBO.queryForObject(f.getFormNo());
 			long totAmt=info.getPurchaseAmt()*info.getUnitPrice();

@@ -338,7 +338,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		return mapping.findForward("issue");
 	}
 
-	private void operSysPort(String prodId,String oper) throws Exception, MessageException {
+	private void operSysPort(String prodId,String oper,String phiTypeId) throws Exception, MessageException {
 		Func func=new Func();
 		Para para=new Para();
 		if(oper.equals("open")){
@@ -349,6 +349,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		if(prodId.equals("4"))//模块
 			para.setCardtype(1);
 		else para.setCardtype(0);
+		para.setPhiTypeId(phiTypeId);
 		int result=CallFunc.callId(func, para);
 		if(result!=0){
 			throw new MessageException("请检查读写器");
@@ -358,7 +359,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		MWsIssuetbForm f = (MWsIssuetbForm)form;	
 		Mwsissuetb vo=((MWsIssueBO)bo).queryIssueTaskCtrl(f.getFormNo());
 		copyProperties(f,vo);
-		operSysPort(vo.getProdId(),"open");
+		operSysPort(vo.getProdId(),"open",vo.getPhiTypeId());
 		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
 		Para para=new Para();
@@ -389,7 +390,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 						if(prod==null){	
 							prod =(Stoproduct)storeuseBO.queryForObject(f.getSamId());
 							if(prod==null){
-								operSysPort(vo.getProdId(),"close");
+								operSysPort(vo.getProdId(),"close","0");
 								throw new MessageException("无法找到原sam卡号!");
 							}
 						}
@@ -401,18 +402,18 @@ public class MWsIssueAction extends IbatisBaseAction {
 								if(part_sto!=null)
 									func.setManufacId(part_sto.getManufacId());
 								else {
-									operSysPort(vo.getProdId(),"close");
+									operSysPort(vo.getProdId(),"close","0");
 									throw new MessageException("无法找到配件批次号的厂商信息!"+prod.getBatchIdParts());
 								}
 							}else{
-								operSysPort(vo.getProdId(),"close");
+								operSysPort(vo.getProdId(),"close","0");
 								throw new MessageException("无法找到配件厂商信息!");
 							}
 						}else{
 							if(!CheckUtil.isEmptry(prod.getManufacId())){
 								func.setManufacId(prod.getManufacId());
 							}else{
-								operSysPort(vo.getProdId(),"close");
+								operSysPort(vo.getProdId(),"close","0");
 								throw new MessageException("无法找到厂商信息!");
 							}
 						}
@@ -464,16 +465,16 @@ public class MWsIssueAction extends IbatisBaseAction {
 					request.setAttribute("manufacId", lsvo.getSamCSN());	
 					String badSamId=stoproductBO.getMaxBadCard();
 					request.setAttribute("samId",badSamId);
-					operSysPort(vo.getProdId(),"close");
+					operSysPort(vo.getProdId(),"close","0");
 					return popConfirmClosePage(request, mapping, "印刷卡号"+lsvo.getSamCSN()+"错误卡号"+badSamId+"是否标记为坏卡,错误代码"+func.getFunc()+result,"Mwsissuetb.do?act=issueInit&formNo="+f.getFormNo());
 				}else {
-					operSysPort(vo.getProdId(),"close");
+					operSysPort(vo.getProdId(),"close","0");
 					throw new MessageException("无法获取印刷卡号!");
 				}
 				
 			}
 		}
-		operSysPort(vo.getProdId(),"close");
+		operSysPort(vo.getProdId(),"close","0");
 		setPageResult(request, lsinfoBO.queryForListByFormNo(vo.getFormNo()));
         request.setAttribute("pageResultLsInfo", request.getAttribute("pageResult"));
 		copyProperties(form, vo);
@@ -487,7 +488,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		f.setApplyAttr(request.getParameter("applyAttr"));
 		Mwsissuetb vo= new Mwsissuetb();
 		copyProperties(vo, f);
-		operSysPort(vo.getProdId(),"open");
+		operSysPort(vo.getProdId(),"open",f.getPhiTypeId());
 		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
 		((MWsIssueBO)bo).setFunc(f,func);
@@ -537,18 +538,19 @@ public class MWsIssueAction extends IbatisBaseAction {
 				}
 			}
 		}
-		operSysPort(vo.getProdId(),"close");
+		operSysPort(vo.getProdId(),"close","0");
 	}
 	public void read(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response)throws Exception{
 		MWsIssuetbForm f = new MWsIssuetbForm();
 		f.setProdId(request.getParameter("prodId"));
 		f.setOperationType(Short.valueOf(request.getParameter("operationType")));
+		f.setPhiTypeId(request.getParameter("phiTypeId"));
 		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
 		func.setProdId(f.getProdId());
 		Para para=new Para();
 		String res="";
-		operSysPort(f.getProdId(),"open");
+		operSysPort(f.getProdId(),"open",f.getPhiTypeId());
 		for(int i=1;i<3;i++){
 			if(i==1)
 				func.setOperAct("R");
@@ -579,7 +581,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 			
 			}
 		}
-		operSysPort(f.getProdId(),"close");
+		operSysPort(f.getProdId(),"close","0");
 	}
 	public ActionForward repair(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		String requery = request.getParameter("requery");
@@ -606,7 +608,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		f.setApplyAttr(String.valueOf(f.getAppTypeId()));
 		Mwsissuetb vo = new Mwsissuetb();
  		copyProperties(vo,f);
-		operSysPort(vo.getProdId(),"open");
+		operSysPort(vo.getProdId(),"open",f.getPhiTypeId());
 		Lsinfo lsvo = ((MWsIssueBO)bo).setLsInfo(user, vo);
 		lsvo.setSamId(f.getSamId());
 		lsvo.setSamCSN(f.getCardcsn());
@@ -664,12 +666,12 @@ public class MWsIssueAction extends IbatisBaseAction {
 				request.setAttribute("manufacId", lsvo.getSamCSN());	
 				String badSamId=stoproductBO.getMaxBadReturnCard();
 				request.setAttribute("samId",badSamId);
-				operSysPort(vo.getProdId(),"close");
+				operSysPort(vo.getProdId(),"close","0");
 				return popConfirmClosePage(request, mapping, "印刷卡号"+lsvo.getSamCSN()+"错误卡号"+badSamId+"是否标记为坏卡,错误代码"+func.getFunc()+result,"Mwsissuetb.do?act=repair");
 
 			}
 		}
-		operSysPort(vo.getProdId(),"close");
+		operSysPort(vo.getProdId(),"close","0");
 		return forwardSuccessPage(request,mapping,"修复成功","Mwsissuetb.do?act=repair");
 	}
 	public void down(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response)throws Exception{

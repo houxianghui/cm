@@ -140,6 +140,13 @@ public class Para {
 	private String ef16;
 	private String ef17;
 	private String retpki;
+    private String phiTypeId;
+	public String getPhiTypeId() {
+		return phiTypeId;
+	}
+	public void setPhiTypeId(String phiTypeId) {
+		this.phiTypeId = phiTypeId;
+	}
 	public String getSamId() {
 		return samId;
 	}

@@ -45,6 +45,7 @@
 			<forward name="new" path="/stor/StorApp_new.jsp" />
 			<forward name="edit" path="/stor/StorApp_edit.jsp" />
 			<forward name="list" path="/stor/StorApp_list.jsp" />
+			<forward name="backList" path="/stor/StorApp_storeBackList.jsp" />
 			<forward name="listresult" path="/stor/pickStorpop.jsp" />
 			<forward name="ql" path="/stor/StorApp_qlist.jsp" />			
 			<forward name="view" path="/stor/StorApp_view.jsp" />		
@@ -52,8 +53,9 @@
 			<forward name="exbackList" path="/stor/StorApp_exbackList.jsp" />	
 			<forward name="exbackPopList" path="/stor/StorApp_exbackPopList.jsp" />
 			<forward name="statics" path="/reports/key/StoAppInfoReport.jsp" />					
-			<forward name="posExstatics" path="/reports/key/PosExStoreReport.jsp" />					
-										
+			<forward name="posExstatics" path="/reports/key/PosExStoreReport.jsp" />				
+			<forward name="stockReport" path="/reports/key/StockReport.jsp" />				
+			<forward name="stockBalReport" path="/reports/key/StockBalReport.jsp" />				
 										
 		</action>
 		<action path="/Issueapp" type="org.springframework.web.struts.DelegatingActionProxy" name="issueappForm"

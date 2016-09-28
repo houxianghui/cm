@@ -106,7 +106,22 @@ public class StoreuseBO extends IbatisBO {
 		e.setOrderByClause("IOStateChgDate asc");
 		return storeuseDAO.selectByExample(e);
 	}
-
+	public List queryForExList(Object obj) throws Exception {
+		StoreuseForm f=((StoreuseForm)obj);
+		StoreuseExample e = new StoreuseExample();
+		Criteria c = e.createCriteria();
+		if(!CheckUtil.isEmptry(f.getSamId_min())){
+			c.andSamIdGreaterThanOrEqualTo(f.getSamId_min());
+		}
+		if(!CheckUtil.isEmptry(f.getSamId_max())){
+			c.andSamIdLessThanOrEqualTo(f.getSamId_max());
+		}
+		if(f.getKeyType()!=null){
+			c.andKeyTypeEqualTo(f.getKeyType());
+		}
+		e.setOrderByClause("IOStateChgDate asc");
+		return storeuseDAO.selectByExample(e);
+	}
 	/* 
 	 * @see com.eis.base.IbatisBaseBO#delete(java.lang.Object)
 	 */

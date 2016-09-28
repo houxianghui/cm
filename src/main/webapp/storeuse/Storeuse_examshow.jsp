@@ -21,7 +21,7 @@ function doShow(){
 	document.forms[0].submit();
 }
 function doRead(){ 
-	$.get("Mwsissuetb.do?act=R&prodId="+document.forms[0].prodId.value+"&operationType="+document.forms[0].operationType.value,function(result){
+	$.get("Mwsissuetb.do?act=R&prodId="+document.forms[0].prodId.value+"&operationType="+document.forms[0].operationType.value+"&phiTypeId="+document.forms[0].phiTypeId.value,function(result){
 		var json = $.parseJSON(result);
 		if(json.error!=null){
 			document.forms[0].samId.value=0;

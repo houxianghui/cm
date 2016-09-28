@@ -22,16 +22,16 @@ tr{
 }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=gbk">
-<title>冲回记录</title>
+<title>出库冲回记录</title>
 <script language="javascript"> 
 function doQuery() {  
 	document.forms[0].act.value = "exbackList";
 	document.forms[0].submit(); 
 } 
  
-function setPKey(formNo_var) { 
-	document.forms[0].formNo.value=formNo_var; 
-	
+function setPKey(appNo_var,operType_var) { 
+	document.forms[0].formNo.value=appNo_var; 
+	document.forms[0].operationType.value=operType_var; 
 } 
  
 function turnPage( pagenm ) {   
@@ -52,15 +52,15 @@ function doPrint(){
 <script type="text/javascript" src="js/calendar.js"></script>
 <html:form method="post" action="StoApp.do">
 <input type=hidden name=act value="exbackList">
-<html:hidden property="appNo"/>
-<html:hidden property="operationType"/>
+<input type=hidden name=requery > 
 <html:hidden property="formNo"/>
+<html:hidden property="operationType"/>
 <input type="hidden" name="currPeriodAmt" value=<%=String.valueOf(stoAppForm.getCurrPeriodAmt())%> id="currPeriodAmt"/>
 <input name='txtTRLastIndex' type='hidden' id='ex.index' value="1" />
 
 
 
-<%=ViewUtil.getTitle("冲回记录")%>
+<%=ViewUtil.getTitle("出库冲回记录")%>
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
 		align="center" cellpadding="0">
 		<tr>
@@ -84,13 +84,15 @@ function doPrint(){
 			<td>当前库存</td>
 			<td>冲回数量</td>
 			<td>产品类型</td>
-			<td>入库类型</td>
+			<td>操作类型</td>
 			<td>支持互通</td>
 			<td>采购单价</td>
 			<td>生产厂商</td>		
 			<td>模块批次号/采购类型/通信速率</td>
 			<td>模块版本号/Pki存在</td>
 			<td>印刷卡号范围/模块配件批次号</td>
+			<td>冲回日期</td>
+			<td>选择</td>
 		</tr>
 		<%if (pageResult != null) {
 	List list = pageResult.getList();
@@ -120,6 +122,10 @@ function doPrint(){
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO,vo.getIsPki())%></td>
 			<td><%=vo.getPressCardScale()==null?"":vo.getPressCardScale().trim()%></td>	
 			<%} %>
+			<td><%=vo.getCurrDate()%></td>	
+			<td align="center">
+			<label><input type="radio" name="param"	onClick="setPKey('<%=vo.getFormNo()%>','<%=vo.getOperationType()%>')">
+			</label></td>
 		</tr>
 
 		<%}
@@ -141,7 +147,13 @@ if (pageResult != null) {%>
 	</table>
 	<%}%>
 	<br>
-
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td height="25" align="center">
+			<input type="button" value="打印单据" class="Button" onClick="doPrint()"/>
+			</td>
+		</tr>
+	</table>
 </html:form>
 
 <p>&nbsp;</p>

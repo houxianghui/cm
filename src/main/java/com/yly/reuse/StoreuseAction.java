@@ -8,6 +8,9 @@ package com.yly.reuse;
 
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
@@ -27,6 +31,9 @@ import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
 import com.eis.util.StringUtil;
+import com.projectmaintain.ProgramMaintainBO;
+import com.projectmaintain.ProgramMaintainForm;
+import com.projectmaintain.ProgramMaintainVO;
 import com.yly.exstore.Stoproduct;
 import com.yly.exstore.StoproductBO;
 import com.yly.exstore.StoproductForm;
@@ -108,6 +115,8 @@ public class StoreuseAction extends IbatisBaseAction {
 			return mapping.findForward("exam");
 		}else if("examshow".equals(act)){		//query active projects
 			return examshow(form,mapping,request,user);
+		}else if("upload".equals(act)){		//query active projects
+			return processFile(form,mapping,request,user);
 		}
 
 		return forwardError(request,mapping,"页面未找到,错误发生在"+this.getClass().getName());
@@ -129,8 +138,9 @@ public class StoreuseAction extends IbatisBaseAction {
 	}
 	public ActionForward exList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoreuseForm f = (StoreuseForm)form;
+		f.setKeyType((short)2);
 		List<Storeuse> prodList=null;
-		prodList= ((StoreuseBO)bo).queryForList(f);
+		prodList= ((StoreuseBO)bo).queryForExList(f);
 		if(prodList!=null && prodList.size()>0){   
 			setPageResult(request, prodList);
 		}else{
@@ -350,4 +360,42 @@ public class StoreuseAction extends IbatisBaseAction {
 		out.close();
 		return null;
 	}
+	
+	public ActionForward processFile(BaseForm form,ActionMapping mapping ,HttpServletRequest request,UserContext user)throws Exception{
+		StoreuseForm sf = (StoreuseForm)form;
+		FormFile file = sf.getFile();
+		if(file == null){
+			return forwardError(request,mapping,"请选择文件");
+		}
+		List<Storeuse> storeuseCard = new ArrayList<Storeuse>();
+		List<Lsinfo> lsList= new ArrayList<Lsinfo>();
+		BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(),"GBK"));
+		List<StoreuseForm> cards=processCards(sf,br);
+		for(StoreuseForm lf:cards){
+			setExProdAndLsList(user, sf, sf.getOperationType(), storeuseCard, lsList, lf);
+		}
+		return setValueAndgetReturn(mapping, request, sf, cards.size(), storeuseCard,
+				lsList);
+		}
+	private List<StoreuseForm> processCards(StoreuseForm f,BufferedReader br) throws IOException, Exception {
+		String s=null;
+		ArrayList al = new ArrayList();
+		ArrayList<StoreuseForm> cards = new ArrayList();
+		while((s=br.readLine()) != null){
+			if(s.trim().length() == 0){
+				continue;
+			}
+			String[] card=s.split(",");
+			StoreuseForm lf = new StoreuseForm();
+			lf.setSamId(card[0]);
+			lf.setSamCSN(card[1]);
+			cards.add(lf);
+			al.add(s.trim());
+		}
+		if(al.size() == 0){
+			throw new MessageException("内容不能为空");
+		}
+		br.close();
+		return cards;
+	} 
 }

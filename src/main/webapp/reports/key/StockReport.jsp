@@ -1,4 +1,4 @@
-<%@page import="com.yly.stor.Stoappinfo"%>
+<%@page import="com.yly.presscard.Presscardapptb"%>
 <%@ include file = "/includes/common.jsp" %>
 <%@ page  contentType="text/html; charset=GBK" %>
 
@@ -11,11 +11,12 @@ if (pageResult != null)
 	maxPage = pageResult.getTotalPage();
 %>
 <head>
-<title>pos终端出库统计报表</title>
+<title>出入库信息统计报表</title>
 <script language="javascript"> 
 function doDown(){ 
-	document.forms[0].act.value = "posExstaticsDown";
+	document.forms[0].act.value = "stockDown";
 	document.forms[0].submit(); 
+	
 } 
 
  
@@ -24,15 +25,15 @@ function doDown(){
 <body>
 <script type="text/javascript" src="js/calendar.js"></script>
 <html:form method="post" action="StoApp.do">
-<input type=hidden name=act value="posExstaticsDown">
+<input type=hidden name=act value="stockDown">
 
-<%=ViewUtil.getTitle("POS终端出库统计报表")%>
+<%=ViewUtil.getTitle("出入库信息报表")%>
 	
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
 		align="center" cellpadding="0">
 		<tr>
 			<td>
-			冲回日期:			
+			统计日期:			
 			从<html:text property="beginDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
 			到<html:text property="endDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
 			<input	value="统计下载"  type="button" class="Button"  onclick="doDown()">			

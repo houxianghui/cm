@@ -7,56 +7,40 @@
 package com.yly.stor;
 
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.URLEncoder;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.taglib.nested.bean.NestedDefineTei;
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
-import com.eis.base.PageObject;
+
 import com.eis.cache.ReDefSDicMap;
 import com.eis.cache.RedefSDicCodes;
-import com.eis.cache.SingleDic;
-import com.eis.cache.SingleDicMap;
+
 import com.eis.exception.MessageException;
 import com.eis.key.KeyGenerator;
 import com.eis.portal.UserContext;
-import com.eis.util.CheckUtil;
+
 import com.eis.util.DateUtil;
 import com.eis.util.StringUtil;
-import com.eis.util.ValidateUtil;
-import com.ibm.icu.text.DecimalFormat;
+
 import com.yly.exstore.Stoproduct;
-import com.yly.exstore.StoproductBO;
-import com.yly.exstore.StoproductForm;
 import com.yly.issue.Issueapp;
 import com.yly.issue.IssueappBO;
-import com.yly.issue.IssueappForm;
 import com.yly.ls.Lsinfo;
 import com.yly.para.Applytypeinfo;
 import com.yly.para.ApplytypeinfoBO;
-import com.yly.para.ApplytypeinfoForm;
-import com.yly.presscard.PressCardForm;
-import com.yly.presscard.Presscardapptb;
+
 
 
 
@@ -67,15 +51,12 @@ public class StoAppInfoAction extends IbatisBaseAction {
 	public IssueappBO getIssueappBO() {
 		return issueappBO;
 	}
-
 	public void setIssueappBO(IssueappBO issueappBO) {
 		this.issueappBO = issueappBO;
 	}
-
 	public ApplytypeinfoBO getApplytypeinfoBO() {
 		return applytypeinfoBO;
 	}
-
 	public void setApplytypeinfoBO(ApplytypeinfoBO applytypeinfoBO) {
 		this.applytypeinfoBO = applytypeinfoBO;
 	}
@@ -83,21 +64,32 @@ public class StoAppInfoAction extends IbatisBaseAction {
 	public StoAppInfoReport getStoAppInfoReport() {
 		return stoAppInfoReport;
 	}
-
 	public void setStoAppInfoReport(StoAppInfoReport stoAppInfoReport) {
 		this.stoAppInfoReport = stoAppInfoReport;
 	}
 	public PosExStoreReport posExStoreReport;
-
-
 	public PosExStoreReport getPosExStoreReport() {
 		return posExStoreReport;
 	}
-
 	public void setPosExStoreReport(PosExStoreReport posExStoreReport) {
 		this.posExStoreReport = posExStoreReport;
 	}
+	public StockReport stockReport;
+	public StockReport getStockReport() {
+		return stockReport;
+	}
 
+	public void setStockReport(StockReport stockReport) {
+		this.stockReport = stockReport;
+	}
+	public StockBalReport stockBalReport;
+
+	public StockBalReport getStockBalReport() {
+		return stockBalReport;
+	}
+	public void setStockBalReport(StockBalReport stockBalReport) {
+		this.stockBalReport = stockBalReport;
+	}
 	/* 
 	 * @see com.eis.base.BaseAction#process(org.apache.struts.action.ActionMapping, com.eis.base.BaseForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.eis.portal.UserContext)
 	 */
@@ -113,7 +105,7 @@ public class StoAppInfoAction extends IbatisBaseAction {
         }else if("u".equals(act)){		//query active projects
 			return update(form,mapping,request,user);
 		}else if("list".equals(act)){		//query active projects
-			return queryPressAppList(form,mapping,request,user);
+			return querList(form,mapping,request,user);
 		}else if("down".equals(act)){		//query active projects
 			return download(request,response);
 		}else if("listresult".equals(act)){		//query active projects
@@ -142,6 +134,18 @@ public class StoAppInfoAction extends IbatisBaseAction {
 			return posExstaticsDown(request,response,form,user);
 		}else if("posExstatics".equals(act)){		//query active projects
 			return mapping.findForward("posExstatics");
+		}else if("back".equals(act)){		//query active projects
+			return back(form,mapping,request,user);
+		}else if("backlist".equals(act)){		//query active projects
+			return backList(form,mapping,request,user);
+		}else if("stockstatics".equals(act)){		//query active projects
+			return mapping.findForward("stockReport");
+		}else if("stockDown".equals(act)){		//query active projects
+			return stockDown(request,response,form,user); 
+		}else if("stockBalstatics".equals(act)){		//query active projects
+			return mapping.findForward("stockBalReport");
+		}else if("stockBalDown".equals(act)){		//query active projects
+			return stockBalDown(request,response,form,user); 
 		}
 
 
@@ -190,7 +194,7 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		((StoAppInfoBO)bo).update(vo);
 		return forwardSuccessPage(request,mapping,"更新成功","StoApp.do?act=c");
 	}
-	public ActionForward queryPressAppList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+	public ActionForward querList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		
 		String pageNo = request.getParameter("pageNO");		
 		String requery = request.getParameter("requery");
@@ -201,6 +205,17 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		StoAppInfoForm f = (StoAppInfoForm)form;
 		setPageResult(request, ((StoAppInfoBO)bo).getAppList(f));
 		return mapping.findForward("list");
+	}
+	public ActionForward backList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		
+		String requery = request.getParameter("requery");
+		if (requery == null ) {			
+			return mapping.findForward("backList");
+	    }
+		StoAppInfoForm f = (StoAppInfoForm)form;
+		f.setOperationType_f((long)94);//入库冲回操作
+		setPageResult(request, ((StoAppInfoBO)bo).getAppList(f));
+		return mapping.findForward("backList");
 	}
 	public ActionForward queryListResult(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		
@@ -235,8 +250,12 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		return mapping.findForward("ql");
 	}
 	public ActionForward exbackList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		String requery = request.getParameter("requery");
+		if (requery == null ) {			
+			return mapping.findForward("exbackList");
+	    }
 		StoAppInfoForm f = (StoAppInfoForm)form;
-		f.setOperationType_f((long)92);//冲回操作
+		f.setOperationType_f((long)92);//出库冲回操作
 		List list=((StoAppInfoBO)bo).getAppList(f);
 		setPageResult(request, list);
 		return mapping.findForward("exbackList");
@@ -379,6 +398,44 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		copyProperties(form,vo);
 		return mapping.findForward("view");
 	}
+	private ActionForward stockDown(HttpServletRequest request,HttpServletResponse response,  BaseForm form,UserContext user) throws Exception{
+		StoAppInfoForm f = (StoAppInfoForm)form;
+		Stoappinfo vo = new Stoappinfo();
+		vo.setBeginDate_f(f.getBeginDate_f());
+		vo.setEndDate_f(f.getEndDate_f());
+		stockReport.createExcel(vo, false);
+		response.setContentType("application/octet-stream");
+		String filename = stockReport.getEt().getSheetName()+".xls";
+		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
+			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefox浏览器
+		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
+			filename = URLEncoder.encode(filename, "UTF-8");
+		}
+		response.addHeader("Content-Disposition", "attachment; filename="+filename);
+		OutputStream out = response.getOutputStream();
+		stockReport.getEt().write(out);
+		out.close();
+		return null;
+	}
+	private ActionForward stockBalDown(HttpServletRequest request,HttpServletResponse response,  BaseForm form,UserContext user) throws Exception{
+		StoAppInfoForm f = (StoAppInfoForm)form;
+		Stoappinfo vo = new Stoappinfo();
+		vo.setBeginDate_f(f.getBeginDate_f());
+		vo.setEndDate_f(f.getEndDate_f());
+		stockBalReport.createExcel(vo, false);
+		response.setContentType("application/octet-stream");
+		String filename = stockBalReport.getEt().getSheetName()+".xls";
+		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
+			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefox浏览器
+		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
+			filename = URLEncoder.encode(filename, "UTF-8");
+		}
+		response.addHeader("Content-Disposition", "attachment; filename="+filename);
+		OutputStream out = response.getOutputStream();
+		stockBalReport.getEt().write(out);
+		out.close();
+		return null;
+	}
 	private ActionForward staticsdown(HttpServletRequest request,HttpServletResponse response,  BaseForm form,UserContext user) throws Exception{
 		StoAppInfoForm f = (StoAppInfoForm)form;
 		Stoappinfo vo = new Stoappinfo();
@@ -417,4 +474,35 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		out.close();
 		return null;
 	}	
+	public ActionForward back(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		StoAppInfoForm f = (StoAppInfoForm)form;
+		Stoappinfo vo = new Stoappinfo();
+		vo=((StoAppInfoBO)bo).queryForObject(f.getFormNo());
+		if(vo.getCurrPeriodAmt()<f.getPurchaseAmt()){
+			throw new MessageException("可用数量不足，无法冲回！");
+		}else{
+			vo.setCurrPeriodAmt(vo.getCurrPeriodAmt()-f.getPurchaseAmt());
+		}
+				
+		Stoappinfo backnew = new Stoappinfo();
+		Stoappinfo out = ((StoAppInfoBO)bo).queryForObject(f.getFormNo());	
+	
+		copyProperties(backnew, out);
+		backnew.setOperId(user.getUserID());		
+		backnew.setCurrDate(DateUtil.getTimeStr());
+		backnew.setOperationType((short)94); //入库冲回
+		backnew.setPurchaseAmt((long)f.getPurchaseAmt());
+		backnew.setCurrPeriodAmt((long)0);
+		backnew.setFormNo("CH"+StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("StoAppInfo")),14));
+		
+		Lsinfo lsnew= new Lsinfo();
+		copyProperties(lsnew, backnew);		
+		lsnew.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
+		lsnew.setAppNo(f.getFormNo());
+		lsnew.setFormNo(backnew.getFormNo());
+		
+		((StoAppInfoBO)bo).tranBackTb(vo,backnew,lsnew);
+		
+		return forwardSuccessPage(request,mapping,"冲回成功","StoApp.do?act=list");
+	}
 }

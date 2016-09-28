@@ -17,7 +17,7 @@ function doShow(){
 	document.forms[0].submit();
 }
 function doRead(){ 
-	$.get("Mwsissuetb.do?act=R&prodId="+document.forms[0].prodId.value+"&operationType=25",function(result){
+	$.get("Mwsissuetb.do?act=R&prodId="+document.forms[0].prodId.value+"&operationType=25&phiTypeId="+document.forms[0].phiTypeId.value,function(result){
 		var json = $.parseJSON(result);
 		if(json.error!=null){
 			alert(json.error);
@@ -33,7 +33,7 @@ function doRead(){
 
 }
 function doExam(){ 
-	$.get("Mwsissuetb.do?act=E&operationType=25&applyAttr="+document.forms[0].appTypeId.value+"&prodId="+document.forms[0].prodId.value+"&manufacId="+document.forms[0].manufacId.value+"",function(result){
+	$.get("Mwsissuetb.do?act=E&operationType=25&applyAttr="+document.forms[0].appTypeId.value+"&prodId="+document.forms[0].prodId.value+"&manufacId="+document.forms[0].manufacId.value+"&phiTypeId="+document.forms[0].phiTypeId.value,function(result){
 		var json = $.parseJSON(result);
 		if(json.error!=null){
 			alert(json.error);

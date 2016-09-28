@@ -14,8 +14,10 @@ import com.yly.exstore.StoproductDAO;
 import com.yly.issue.Issueapp;
 import com.yly.issue.IssueappDAO;
 import com.yly.issue.Issuetaskctrl;
+import com.yly.issue.MWsIssuetbForm;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoDAO;
+import com.yly.ls.LsinfoExample;
 import com.yly.presscard.Presscardapptb;
 import com.yly.presscard.PresscardapptbExample;
 import com.yly.stor.StoappinfoExample.Criteria;
@@ -85,6 +87,11 @@ public class StoAppInfoBO extends IbatisBO {
 		issueappDAO.updateByPrimaryKey(appinfo);
 		stoappinfoDAO.insert(p);
 	}
+	public void tranBackTb(Stoappinfo vo,Stoappinfo backsto,Lsinfo lsvo) throws Exception {
+		stoappinfoDAO.updateByPrimaryKeySelective(vo);
+		stoappinfoDAO.insert(backsto);
+		lsinfoDAO.insert(lsvo);
+		}
 	/* 
 	 * @see com.eis.base.IbatisBaseBO#queryForObject(java.lang.Object)
 	 */
@@ -155,9 +162,6 @@ public class StoAppInfoBO extends IbatisBO {
 		}else{
 			c.andOperationTypeBetween((short)10, (short)19);
 		}
-//		if(obj.getOperationType()!=null && obj.getOperationType()>0){
-//			c.andOperationTypeEqualTo(obj.getOperationType().shortValue());
-//		}
 		if(!CheckUtil.isEmptry(obj.getManufacId())){
 			c.andManufacIdEqualTo(obj.getManufacId());
 		}
@@ -319,5 +323,70 @@ public class StoAppInfoBO extends IbatisBO {
 		}
 		c.andLsWithStoByPosChargeBack();
 		return  stoappinfoDAO.getPosChargeBackReport(e);
+	}
+	public List getStockReport(Object obj) throws Exception {
+		Stoappinfo vo =(Stoappinfo)obj;
+		StoappinfoExample e = new StoappinfoExample();
+		Criteria c = e.createCriteria();
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+		e.setOrderByClause("ProdId,CurrDate");
+ 		return  stoappinfoDAO.selectByExample(e);
+	}
+	public List getInStockBalReport(Object obj) throws Exception {		
+		Stoappinfo vo =(Stoappinfo)obj;
+		StoappinfoExample e = new StoappinfoExample();
+		Criteria c = e.createCriteria();
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+		c.andOperationTypeBetween((short)10, (short)20);
+ 		return stoappinfoDAO.getStockBalReport(e);
+	}
+	public List getOutStockBalReport(Object obj) throws Exception {		
+		Stoappinfo vo =(Stoappinfo)obj;
+		LsinfoExample e_out = new LsinfoExample();
+		com.yly.ls.LsinfoExample.Criteria c_out = e_out.createCriteria();
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c_out.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c_out.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+		c_out.andApplyAndLsOper((short)30, (short)40);
+ 		return lsinfoDAO.getStockBalReport(e_out);
+	}
+	public List getBackStockBalReport(Object obj) throws Exception {	
+		Stoappinfo vo =(Stoappinfo)obj;
+		LsinfoExample e_back = new LsinfoExample();
+		com.yly.ls.LsinfoExample.Criteria c_back = e_back.createCriteria();
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c_back.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c_back.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+		c_back.andApplyAndLsOper((short)60,(short)70);
+ 		return lsinfoDAO.getStockBalReport(e_back);		
+	}
+	public List getDisStockBalReport(Object obj) throws Exception {	
+		Stoappinfo vo =(Stoappinfo)obj;
+		LsinfoExample e_dis = new LsinfoExample();
+		com.yly.ls.LsinfoExample.Criteria c_dis = e_dis.createCriteria();
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c_dis.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c_dis.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+		c_dis.andApplyAndLsOper((short)70,(short)80);
+ 		return lsinfoDAO.getStockBalReport(e_dis);		
 	}
 }

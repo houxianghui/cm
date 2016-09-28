@@ -65,7 +65,7 @@ public class RepairAction extends IbatisBaseAction {
 		return mapping.findForward("new");
 	}
 
-	private void operSysPort(String prodId,String oper) throws Exception, MessageException {
+	private void operSysPort(RepairForm f,String oper) throws Exception, MessageException {
 		Func func=new Func();
 		Para para=new Para();
 		if(oper.equals("open")){
@@ -73,9 +73,10 @@ public class RepairAction extends IbatisBaseAction {
 		}else{
 			func.setFunc("closeSystemPort");
 		}
-		if(prodId.equals("4"))//Ä£¿é
+		if(f.getProdId().equals("4"))//Ä£¿é
 			para.setCardtype(1);
 		else para.setCardtype(0);
+		para.setPhiTypeId(f.getPhiTypeId());
 		int result=CallFunc.callId(func, para);
 		if(result!=0){
 			throw new MessageException("Çë¼ì²é¶ÁÐ´Æ÷");
@@ -91,7 +92,7 @@ public class RepairAction extends IbatisBaseAction {
 		funDrools.getFunc(func);	
 		String[] paras=func.getPara().split(",");
 		ParaTools.setRepairPara(para, paras, f);
-		operSysPort(f.getProdId(),"open");
+		operSysPort(f,"open");
 		int result=CallFunc.callId(func, para);
 		if(result==0){
 			String cardCsn=para.getCardcsn();
@@ -100,7 +101,7 @@ public class RepairAction extends IbatisBaseAction {
 		}else{
 			res = "{\"error\":\"´íÎó´úÂë"+result+"\"}";
 		}
-		operSysPort(f.getProdId(),"close");
+		operSysPort(f,"close");
 		writeAjaxResponse(response, res);
 	}
 
@@ -108,13 +109,12 @@ public class RepairAction extends IbatisBaseAction {
 	private void setFunc(RepairForm f, Func func) {
 		func.setManufacId(f.getManufacId());
 		func.setProdId(f.getProdId());
-		
 	}
 
 	
 	public ActionForward repair(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		RepairForm f = (RepairForm)form;	
-		operSysPort(f.getProdId(),"open");
+		operSysPort(f,"open");
 		initRepairForm(f);
 		for(int i=1;i<3;i++){
 			Func func=new Func();
@@ -136,11 +136,11 @@ public class RepairAction extends IbatisBaseAction {
 				request.setAttribute("prodId",f.getProdId());
 				String badSamId=stoproductBO.getMaxBadCard();
 				request.setAttribute("samId",badSamId);
-				operSysPort(f.getProdId(),"close");
+				operSysPort(f,"close");
 				return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+f.getCardcsn()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"Repair.do?act=repairInit");
 		    }
 		}
-		operSysPort(f.getProdId(),"close");
+		operSysPort(f,"close");
 		return forwardSuccessPage(request,mapping,"ÐÞ¸´³É¹¦","Repair.do?act=repairInit");
 	}
 	private void initRepairForm(RepairForm f){

@@ -34,7 +34,7 @@ function doIssueDone(){
 } 
 function doExam(){ 
     document.getElementById('exam').style.color="red"; 
-	$.get("Mwsissuetb.do?act=E&operationType=<%=mwsissuetbForm.getOperationType()%>&applyAttr=<%=mwsissuetbForm.getApplyAttr()%>&prodId=<%=mwsissuetbForm.getProdId()%>&manufacId=<%=mwsissuetbForm.getManufacId()%>",function(result){
+	$.get("Mwsissuetb.do?act=E&operationType=<%=mwsissuetbForm.getOperationType()%>&applyAttr=<%=mwsissuetbForm.getApplyAttr()%>&prodId=<%=mwsissuetbForm.getProdId()%>&manufacId=<%=mwsissuetbForm.getManufacId()%>&phiTypeId=<%=mwsissuetbForm.getPhiTypeId()%>",function(result){
 		var json = $.parseJSON(result);
 		if(json.error!=null){
 			alert(json.error);
@@ -73,7 +73,7 @@ function doDown2() {
 <html:hidden property="manufacId"/>
 <html:hidden property="prodId"/>
 <html:hidden property="applyAttr"/>
-
+<html:hidden property="phiTypeId"/>
 <%=ViewUtil.getTitle("发行加工单")%>
 	<table width="98%" class="dtPanel_Line1" border="0" cellspacing="1"
 		align="center" cellpadding="0">
@@ -142,8 +142,6 @@ function doDown2() {
 		<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.APPTYPEID, String.valueOf(mwsissuetbForm.getApplyAttr()))%> 
 		</td>		
 	</tr>	
-
-
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
 		isam认证方式:

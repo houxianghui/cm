@@ -91,7 +91,7 @@ function doShow(){
 
 }
 function doRead(){ 
-	$.get("Mwsissuetb.do?act=R&prodId="+document.forms[1].prodId.value+"&operationType=<%=issueappForm.getOperationType()%>",function(result){
+	$.get("Mwsissuetb.do?act=R&prodId="+document.forms[1].prodId.value+"&operationType=<%=issueappForm.getOperationType()%>&phiTypeId="+document.forms[1].phiTypeId.value,function(result){
 		var json = $.parseJSON(result);
 		if(json.error!=null){
 			alert(json.error);

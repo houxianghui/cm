@@ -2,6 +2,8 @@ package com.yly.reuse;
 
 import java.util.Collection;
 
+import org.apache.struts.upload.FormFile;
+
 import com.eis.base.BaseForm;
 import com.eis.cache.ReDefSDicMap;
 import com.eis.cache.RedefSDicCodes;
@@ -30,6 +32,14 @@ public class StoreuseForm extends BaseForm {
 		this.taskAmtLeft = taskAmtLeft;
 	}
 
+	private FormFile file;
+	public FormFile getFile() {
+		return file;
+	}
+
+	public void setFile(FormFile file) {
+		this.file = file;
+	}
 
 	private Integer operationType;
 	private Collection unitIdcollection;

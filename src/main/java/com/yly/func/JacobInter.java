@@ -10,7 +10,13 @@ public class JacobInter {
 	public static int openSystemPort(Para para) {
 		ActiveXComponent com = new ActiveXComponent("OCXISSUESAM.OCXIssueSAMCtrl.1") ;
 		Dispatch disp = (Dispatch)com.getObject();
-		int i=Dispatch.call(disp,"OpenSystemPort",new Variant("com5"),new Variant(para.getCardtype())).getInt();
+		String comId="HID1";
+		int phiTypeId=0;
+		if(para.getCardtype()==1)
+			comId="COM5";
+		if(para.getPhiTypeId().equals("2"))
+			phiTypeId=1;
+		int i=Dispatch.call(disp,"OpenSystemPort",comId,new Variant(para.getCardtype()),phiTypeId).getInt();
 		return i;
 	}
 	

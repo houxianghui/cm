@@ -13,7 +13,7 @@
 <script language="javascript"> 
 function doRead(){ 
 
-	$.get("Repair.do?act=read&manufacId="+document.forms[0].manufacId.value+"&prodId="+document.forms[0].prodId.value,function(result){
+	$.get("Repair.do?act=read&manufacId="+document.forms[0].manufacId.value+"&prodId="+document.forms[0].prodId.value+"&phiTypeId="+document.forms[0].phiTypeId.value,function(result){
 		var json = $.parseJSON(result);	
 		if(json.error!=null){
 			alert(json.error);
@@ -54,6 +54,14 @@ function doRepair(){
 		<%=SingleDicMap.getRadio("prodId", SingleDic.PROD_ID, "1")%> 
 		</td>
 	</tr>	
+     <tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		<%=ViewUtil.must()%>产品通信速率:
+		</td>
+		<td colspan="3"  class="dtPanel_Main2">&nbsp;
+		<%=SingleDicMap.getRadio("phiTypeId", SingleDic.COMM_RATE, "1")%> 
+		</td>	
+	</tr>		
  	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
 		印刷卡号:

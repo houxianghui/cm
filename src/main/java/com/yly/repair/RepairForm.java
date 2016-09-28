@@ -38,7 +38,14 @@ public class RepairForm extends BaseForm {
 	public String getAuthkey() {
 		return authkey;
 	}
+    private String phiTypeId;
 
+	public String getPhiTypeId() {
+		return phiTypeId;
+	}
+	public void setPhiTypeId(String phiTypeId) {
+		this.phiTypeId = phiTypeId;
+	}
 	private Collection authkeycollection;
 	public Collection getAuthkeycollection() {
 		return SingleDicMap.getOptionCollection(SingleDic.AUTHKEY);

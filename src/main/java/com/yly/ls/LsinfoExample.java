@@ -970,7 +970,7 @@ public class LsinfoExample {
         }
 
         public Criteria andCurrDateGreaterThanOrEqualTo(String value) {
-            addCriterion("CurrDate >=", value, "currDate");
+            addCriterion("lsinfo.CurrDate >=", value, "currDate");
             return this;
         }
 
@@ -980,7 +980,7 @@ public class LsinfoExample {
         }
 
         public Criteria andCurrDateLessThanOrEqualTo(String value) {
-            addCriterion("CurrDate <=", value, "currDate");
+            addCriterion("lsinfo.CurrDate <=", value, "currDate");
             return this;
         }
 
@@ -1013,5 +1013,11 @@ public class LsinfoExample {
             addCriterion("CurrDate not between", value1, value2, "currDate");
             return this;
         }
+
+        public Criteria andApplyAndLsOper(short value1, short value2) {
+            addCriterion("lsinfo.AppNo=applyinfotb.AppNo and lsinfo.SamId is null and lsinfo.OperationType between", value1, value2, "operationType");
+            return this;
+        }
+        
     }
 }

@@ -249,12 +249,8 @@ public class MWsIssueBO extends IbatisBO {
 	@Autowired
 	KeyVDatagram keyVDatagram;
 	public void initMwsissueToPara(MWsIssuetbForm f) {
-//		f.setAuthSign(0);
-//		f.setW2Sign(0);
-//		f.setW2Limits(0);
-//		f.setIsPki(0);
-//		f.setIsHTCard(0);
-//		f.setZeroExauthFlag(0);
+		if(CheckUtil.isEmptry(f.getPhiTypeId()))
+			f.setPhiTypeId("0");
 		short operType=f.getOperationType();
 		if(operType==21||operType==24){
 			f.setOldTranskey(keyVDatagram.getMainKeyMap(getMainKey(f)));
