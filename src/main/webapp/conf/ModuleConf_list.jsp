@@ -28,7 +28,13 @@ function turnPage( pagenm ) {
     	document.forms[0].pageNO.value = pagenm;     
     	document.forms[0].submit(); 
 } 
- 
+function setPKey(moduleId_var) { 
+	document.forms[0].moduleId.value=moduleId_var; 
+} 
+function doNoUse() {  
+	document.forms[0].act.value = "disUse";
+	document.forms[0].submit(); 
+}
 </script>
 </head>
 <body>
@@ -53,16 +59,18 @@ function turnPage( pagenm ) {
 	<table width="98%" class="dtPanel_Line1" border="0" cellspacing="1"
 		align="center" cellpadding="0">
 		<tr align="center" class="dtPanel_Top01" height="28">
-			<td>模块程序代码</td>
-			<td>模块程序名称</td>
-			<td>模块程序版本</td>
-			<td>应用行业</td>
-			<td>适用硬件型号</td>
-			<td>程序作者</td>						
-			<td>发布日期</td>
-			<td>操作员</td>
-			<td>录入日期</td>
-			<td>备注</td>
+			<td width="5%">模块程序代码</td>
+			<td width="12%">模块程序名称</td>
+			<td width="12%">模块程序版本</td>
+			<td width="10%">应用行业</td>
+			<td width="12%">适用硬件型号</td>
+			<td width="5%">程序作者</td>						
+			<td width="8%">发布日期</td>
+			<td width="5%">操作员</td>
+			<td width="8%">录入日期</td>
+			<td width="5%">状态</td>
+			<td width="10%">备注</td>
+			<td>选择</td>
 		</tr>
 		<%if (pageResult != null) {
 	List list = pageResult.getList();
@@ -78,9 +86,11 @@ function turnPage( pagenm ) {
 			<td><%=vo.getFitHardId()%></td>		
 			<td><%=vo.getOwner()%></td>		
 			<td><%=vo.getIssueDate()%></td>						
-			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, vo.getOperId()) %></td>
+			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, vo.getOperId())%></td>
 			<td><%=vo.getCurrDate()%></td>		
-			<td><%=vo.getRemarks()%></td>				
+			<td><%=SingleDicMap.getDicItemVal(SingleDic.STATE, vo.getState())%></td>		
+			<td><%=vo.getRemarks()%></td>	
+			<td align="center"><label><input type="radio" name="param"	onClick="setPKey('<%=vo.getModuleId()%>')">	
 		</tr>
 
 		<%}
@@ -104,6 +114,7 @@ if (pageResult != null) {%>
 		<tr>
 			<td height="25" align="center">
 			<input type="button" value="增加模块程序版本" class="Button" onClick="doAdd()"/>
+			<input type="button" value="作废" class="Button" onClick="doNoUse()"/>
 			</td>
 		</tr>
 	</table>

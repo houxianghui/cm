@@ -34,18 +34,21 @@ public class ModuleconfAction extends IbatisBaseAction {
 		if("list".equals(act)){		//query active projects
 			return queryList(form,mapping,request,user);
 		}
+		if("disUse".equals(act)){		//query active projects
+			return disUse(form,mapping,request,user);
+		}
 	
 
 		return forwardError(request,mapping,"页面未找到,错误发生在"+this.getClass().getName());
 	}
 	
-	public ActionForward addApply(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
-		
+	public ActionForward addApply(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{		
 		Moduleconf vo = new Moduleconf();
 		ModuleconfForm f = (ModuleconfForm)form;
 		copyProperties(vo,f);
 		vo.setOperId(user.getUserID());
 		vo.setCurrDate(DateUtil.getDTStr());
+		vo.setState("1");//正常
 		((ModuleconfBO)bo).insert(vo);		
 		return forwardSuccessPage(request,mapping,"保存成功","Moduleconf.do?act=list");
 		
@@ -61,6 +64,17 @@ public class ModuleconfAction extends IbatisBaseAction {
 		ModuleconfForm f = (ModuleconfForm)form;
 		setPageResult(request, ((ModuleconfBO)bo).queryForList(f));
 		return mapping.findForward("list");
+	}
+	public ActionForward disUse(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		ModuleconfForm f = (ModuleconfForm)form;
+		Moduleconf vo = new Moduleconf();
+		copyProperties(vo,f);
+		vo= ((ModuleconfBO)bo).queryForObject(vo);
+		vo.setState("0");//作废
+		vo.setCurrDate(DateUtil.getDTStr());
+		vo.setOperId(user.getUserID());
+		((ModuleconfBO)bo).update(vo);
+		return forwardSuccessPage(request,mapping,"作废成功","Moduleconf.do?act=list");
 	}
 
 

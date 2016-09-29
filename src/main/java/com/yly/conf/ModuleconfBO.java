@@ -26,7 +26,7 @@ public class ModuleconfBO extends IbatisBO {
 	 * @see com.eis.base.IbatisBaseBO#update(java.lang.Object)
 	 */
 	public void update(Object obj) throws Exception {
-
+		moduleconfDAO.updateByPrimaryKeySelective((Moduleconf)obj);
 	}
 
 	/* 

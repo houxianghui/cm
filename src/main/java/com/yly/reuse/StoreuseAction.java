@@ -51,44 +51,21 @@ public class StoreuseAction extends IbatisBaseAction {
 	public IssueappBO getIssueappBO() {
 		return issueappBO;
 	}
-
-
-
-
 	public void setIssueappBO(IssueappBO issueappBO) {
 		this.issueappBO = issueappBO;
 	}
-
-
-
-
 	public StoproductBO getStoproductBO() {
 		return stoproductBO;
 	}
-
-
-
-
 	public void setStoproductBO(StoproductBO stoproductBO) {
 		this.stoproductBO = stoproductBO;
 	}
-
-
-
-
 	public LsinfoBO getLsinfoBO() {
 		return lsinfoBO;
 	}
-
-
-
-
 	public void setLsinfoBO(LsinfoBO lsinfoBO) {
 		this.lsinfoBO = lsinfoBO;
 	}
-
-
-
 
 	/* 
 	 * @see com.eis.base.BaseAction#process(org.apache.struts.action.ActionMapping, com.eis.base.BaseForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.eis.portal.UserContext)
@@ -138,7 +115,6 @@ public class StoreuseAction extends IbatisBaseAction {
 	}
 	public ActionForward exList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoreuseForm f = (StoreuseForm)form;
-		f.setKeyType((short)2);
 		List<Storeuse> prodList=null;
 		prodList= ((StoreuseBO)bo).queryForExList(f);
 		if(prodList!=null && prodList.size()>0){   

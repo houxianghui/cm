@@ -46,12 +46,23 @@ function operType_fun(obj){
 		document.getElementById("manuIdColl").style.display="";
 		document.getElementById("unit").style.display="none";
 		document.getElementById("unitColl").style.display="none";
+		document.getElementById("key").style.display="none";
+		document.getElementById("keyColl").style.display="none";		
+	}else if(obj.value==35){
+		document.getElementById("manuId").style.display="none";
+		document.getElementById("manuIdColl").style.display="none";
+		document.getElementById("unit").style.display="";
+		document.getElementById("unitColl").style.display="";	
+		document.getElementById("key").style.display="";
+		document.getElementById("keyColl").style.display="";		
 	}else{
 		document.getElementById("manuId").style.display="none";
 		document.getElementById("manuIdColl").style.display="none";
 		document.getElementById("unit").style.display="";
 		document.getElementById("unitColl").style.display="";	
-		}
+		document.getElementById("key").style.display="none";
+		document.getElementById("keyColl").style.display="none";		
+	}
 	 
 }
 </script> 
@@ -168,7 +179,16 @@ function operType_fun(obj){
 		<html:textarea property="remarks" cols="50" rows="1" styleClass="Textfield" value=""/>
 	</td>
 	</tr>	
-	
+	<tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		<div id="key" style="display:none">
+		<%=ViewUtil.must()%>√‹‘ø¿‡–Õ:</div>
+		</td>
+		<td colspan="3" class="dtPanel_Main2">&nbsp;
+		<div id="keyColl" style="display:none">
+		&nbsp;<%=SingleDicMap.getRadio("PaymentType", SingleDic.KEYTYPE, "1")%> </div>
+		</td>
+	</tr>	
   </table> 
  
     <table  class=heightspace_bottom1  border="0" cellspacing="0" cellpadding="0"><tr><td></td></tr></table> 

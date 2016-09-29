@@ -14,6 +14,8 @@ public interface SingleDic {
 
 	String PROJECT_STAT = "9994"; // 项目状态
 	String YES_OR_NO = "0000"; // yes or no
+	String STATE = "0002"; // yes or no
+
 	// 自定义单级数据字典
 	String WORK_STATUS = "1001"; // 任务状态
 	String TITLE = "1002"; // 报表标题

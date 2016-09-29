@@ -135,7 +135,7 @@ function doAdd(){
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<html:textarea property="remarks" cols="50" rows="1" styleClass="Textfield" value=""/>
 	</td>
-	</tr>	
+	</tr>
 	
   </table> 
  

@@ -9,6 +9,15 @@ import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
 
 public class ModuleconfForm extends BaseForm {
+	private String state;
+	public String getState() {
+		return state;
+	}
+
+
+	public void setState(String state) {
+		this.state = state;
+	}
 	private Collection moduleVersioncollection;
     public Collection getModuleVersioncollection() {
 		return ReDefSDicMap.getOptionCollection(RedefSDicCodes.MODULEVERSION);

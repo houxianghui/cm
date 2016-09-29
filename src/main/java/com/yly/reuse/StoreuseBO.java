@@ -118,6 +118,9 @@ public class StoreuseBO extends IbatisBO {
 		}
 		if(f.getKeyType()!=null){
 			c.andKeyTypeEqualTo(f.getKeyType());
+			if(f.getKeyType()==1){
+				c.andUnitIdEqualTo(f.getUnitId());	
+			}
 		}
 		e.setOrderByClause("IOStateChgDate asc");
 		return storeuseDAO.selectByExample(e);

@@ -106,7 +106,7 @@ function cancelCheckAll(field)//全部取消
 </head>
 <body>
 <script type="text/javascript" src="js/calendar.js"></script>
-<html:form method="post" action="Storeuse.do">
+<html:form method="post" enctype="multipart/form-data" action="Storeuse.do">
 <input type=hidden name=act value="upload">
 <input type=hidden name=requery>
 <html:hidden property="operationType"/>

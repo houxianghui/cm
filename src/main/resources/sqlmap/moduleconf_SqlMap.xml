@@ -15,6 +15,7 @@
     <result column="IssueDate" property="issueDate" jdbcType="VARCHAR" />
     <result column="OperId" property="operId" jdbcType="VARCHAR" />
     <result column="CurrDate" property="currDate" jdbcType="VARCHAR" />
+    <result column="State" property="state" jdbcType="VARCHAR" />
     <result column="Remarks" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="ibatorgenerated_Example_Where_Clause" >
@@ -53,7 +54,7 @@
       This element was generated on Thu Jul 21 19:38:04 CST 2016.
     -->
     select ModuleId, ModuleName, ModuleVersion, ApplyHy, FitHardId, Owner, IssueDate, OperId,
-      CurrDate, Remarks
+      CurrDate, State,Remarks
     from moduleconf
     <isParameterPresent >
       <include refid="moduleconf.ibatorgenerated_Example_Where_Clause" />
@@ -68,7 +69,7 @@
       This element was generated on Thu Jul 21 19:38:04 CST 2016.
     -->
     select ModuleId, ModuleName, ModuleVersion, ApplyHy, FitHardId, Owner, IssueDate, OperId,
-      CurrDate, Remarks
+      CurrDate, State,Remarks
     from moduleconf
     where ModuleId = #moduleId:INTEGER#
   </select>
@@ -94,10 +95,10 @@
       This element was generated on Thu Jul 21 19:38:04 CST 2016.
     -->
     insert into moduleconf (ModuleId, ModuleName, ModuleVersion, ApplyHy, FitHardId, Owner,
-      IssueDate, OperId, CurrDate, Remarks)
+      IssueDate, OperId, CurrDate, State,Remarks)
     values (#moduleId:INTEGER#, #moduleName:VARCHAR#, #moduleVersion:VARCHAR#, #applyHy:VARCHAR#,
       #fitHardId:VARCHAR#, #owner:VARCHAR#, #issueDate:VARCHAR#, #operId:VARCHAR#,
-      #currDate:VARCHAR#, #remarks:VARCHAR#)
+      #currDate:VARCHAR#, #state:VARCHAR#, #remarks:VARCHAR#)
   </insert>
   <insert id="ibatorgenerated_insertSelective" parameterClass="com.yly.conf.Moduleconf" >
     <!--
@@ -133,7 +134,10 @@
       <isNotNull prepend="," property="currDate" >
         CurrDate
       </isNotNull>
-      <isNotNull prepend="," property="remarks" >
+      <isNotNull prepend="," property="state" >
+        State
+      </isNotNull>
+       <isNotNull prepend="," property="remarks" >
         Remarks
       </isNotNull>
       )
@@ -166,6 +170,9 @@
       </isNotNull>
       <isNotNull prepend="," property="currDate" >
         #currDate:VARCHAR#
+      </isNotNull>
+       <isNotNull prepend="," property="state" >
+        #state:VARCHAR#
       </isNotNull>
       <isNotNull prepend="," property="remarks" >
         #remarks:VARCHAR#
@@ -215,6 +222,9 @@
       <isNotNull prepend="," property="record.currDate" >
         CurrDate = #record.currDate:VARCHAR#
       </isNotNull>
+       <isNotNull prepend="," property="record.state" >
+        State = #record.state:VARCHAR#
+      </isNotNull>     
       <isNotNull prepend="," property="record.remarks" >
         Remarks = #record.remarks:VARCHAR#
       </isNotNull>
@@ -238,6 +248,7 @@
       IssueDate = #record.issueDate:VARCHAR#,
       OperId = #record.operId:VARCHAR#,
       CurrDate = #record.currDate:VARCHAR#,
+      State = #record.state:VARCHAR#,
       Remarks = #record.remarks:VARCHAR#
     <isParameterPresent >
       <include refid="moduleconf.ibatorgenerated_Example_Where_Clause" />
@@ -274,6 +285,9 @@
       <isNotNull prepend="," property="currDate" >
         CurrDate = #currDate:VARCHAR#
       </isNotNull>
+       <isNotNull prepend="," property="state" >
+        State = #state:VARCHAR#
+      </isNotNull>
       <isNotNull prepend="," property="remarks" >
         Remarks = #remarks:VARCHAR#
       </isNotNull>
@@ -294,6 +308,7 @@
       IssueDate = #issueDate:VARCHAR#,
       OperId = #operId:VARCHAR#,
       CurrDate = #currDate:VARCHAR#,
+      State = #state:VARCHAR#,
       Remarks = #remarks:VARCHAR#
     where ModuleId = #moduleId:INTEGER#
   </update>

@@ -23,7 +23,10 @@ function turnPage( pagenm ) {
     	document.forms[0].pageNO.value = pagenm;     
     	document.forms[0].submit(); 
 } 
- 
+function doLsDown(){ 
+	document.forms[0].act.value = "lsDown";
+	document.forms[0].submit(); 
+} 
 </script>
 </head>
 <body>
@@ -95,6 +98,8 @@ if (pageResult != null) {%>
         <tr> 
 				<td height="25" align="center" class="dtPanel_Bottom"> 
 					<input type="button" value="·µ»Ø" class="Button" onClick="history.back()"/>
+					<input type="button" value="µ¼³ö" class="Button" onClick="doLsDown()"/>
+					
 				</td>
 	    </tr> 
   </table> 

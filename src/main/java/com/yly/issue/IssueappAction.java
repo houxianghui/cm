@@ -446,7 +446,7 @@ public class IssueappAction extends IbatisBaseAction {
 		}else if(operType==32 ||operType==34){
 			url="StoApp.do?act=ql";
 		}else if(operType==35){
-			url="Storeuse.do?act=exlist&unitId="+f.getUnitId();
+			url="Storeuse.do?act=exlist&unitId="+f.getUnitId()+"&keyType="+f.getPaymentType();
 		}else{
 			throw new MessageException("业务类型有误!");
 		}
@@ -506,8 +506,9 @@ public class IssueappAction extends IbatisBaseAction {
 
 	public ActionForward exMainTain(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		IssueappForm f = (IssueappForm)form;
-		String url=getExTypeUrl(f);
 		Issueapp vo=((IssueappBO)bo).queryForObject(f.getAppNo());
+		f.setPaymentType(vo.getPaymentType());
+		String url=getExTypeUrl(f);
 		Lsinfo ls = new Lsinfo();
 		ls.setAppNo(f.getAppNo());
 		ls.setOperationType(vo.getOperationType());
