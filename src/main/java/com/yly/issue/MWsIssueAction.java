@@ -486,6 +486,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		f.setProdId(request.getParameter("prodId"));
 		f.setManufacId(request.getParameter("manufacId"));
 		f.setApplyAttr(request.getParameter("applyAttr"));
+		f.setPhiTypeId(request.getParameter("phiTypeId"));
 		Mwsissuetb vo= new Mwsissuetb();
 		copyProperties(vo, f);
 		operSysPort(vo.getProdId(),"open",f.getPhiTypeId());
