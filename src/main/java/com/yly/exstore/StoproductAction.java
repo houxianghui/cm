@@ -21,6 +21,7 @@ import org.apache.struts.action.ActionMapping;
 
 
 
+
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
 import com.eis.exception.MessageException;
@@ -39,6 +40,7 @@ import com.yly.issue.MWsIssuetbForm;
 import com.yly.issue.Mwsissuetb;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoBO;
+import com.yly.presscard.PressCardForm;
 import com.yly.reuse.Storeuse;
 import com.yly.reuse.StoreuseBO;
 import com.yly.reuse.StoreuseForm;
@@ -363,6 +365,7 @@ public class StoproductAction extends IbatisBaseAction {
 			return mapping.findForward("cardlist");
 	    }
 		StoproductForm f = (StoproductForm)form;
+		((StoproductBO)bo).querySamIdValidate(f);
 		setPageResult(request, ((StoproductBO)bo).queryForList(f));
 		return mapping.findForward("cardlist");
 	}
@@ -550,4 +553,5 @@ public class StoproductAction extends IbatisBaseAction {
 		out.close();
 		return null;
 	}
+
 }

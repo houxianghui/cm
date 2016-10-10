@@ -65,7 +65,7 @@ function switchSysBar(){
         <td height="20" class="IdxFrame_Top_Main">
         <table width="100%" border="0" align="right" cellpadding="0" cellspacing="0">
           <tr>
-            <td  align="left">&nbsp;欢迎您！<%=user.getUserName()%>&nbsp;&nbsp;当前角色：<%=user.getRoleName()%>&nbsp;登录IP：<%=request.getRemoteAddr()%></td>
+            <td  align="left">&nbsp;欢迎您！<%=user.getUserName()%>&nbsp;&nbsp;当前角色：<%=user.getRoleName()%>&nbsp;</td>
             <td width="125" align="right">
             </td>
             <td width="75" align="center"><a href="<%=homepage%>" target="main"><img src="images/ICO_HomePage.gif" alt="回到首页" width="16" height="16" border="0" align="absmiddle"></a>&nbsp;<a href=javascript:window.external.AddFavorite('http://localhost:9080/CreditCard','贷记卡外挂平台')><img src="images/ICO_Favorites.gif" alt="加入收藏夹" width="16" height="16" border="0" align="absmiddle"></a>&nbsp;<a href="UserLogout.do"><img src="images/ICO_Exit.gif" alt="注销"  border="0" width="16" height="16" align="absmiddle"></a>
