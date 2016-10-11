@@ -57,7 +57,7 @@ function doAdd(){
 		<%=ViewUtil.must()%>OA…Í«Î∫≈:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<html:text property="OAappNo" styleClass="Textfield"  size="16" maxlength="30" />
+		<html:text property="OAappNo" styleClass="Textfield"  size="16" maxlength="30"  onblur="noChinese(this)"/>
 	</td>
 	</tr>
  	<tr>

@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionMapping;
 
 
 
+
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
 import com.eis.exception.MessageException;
@@ -191,6 +192,11 @@ public class StoproductAction extends IbatisBaseAction {
 	public ActionForward list(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoproductForm f = (StoproductForm)form;
 		List<Stoproduct> prodList=null;
+		if(!CheckUtil.isEmptry(f.getOAappNo())){
+			String strPtname = f.getOAappNo(); 
+			strPtname = new String(strPtname.getBytes("ISO-8859-1"));  
+			f.setOAappNo(strPtname);
+		}
 		prodList= ((StoproductBO)bo).queryForList(f);
 		if(prodList!=null && prodList.size()>0){   
 			setPageResult(request, prodList);

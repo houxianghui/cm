@@ -1,7 +1,10 @@
 package com.yly.issue;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.List;
+
+
 
 
 
@@ -434,7 +437,8 @@ public class IssueappAction extends IbatisBaseAction {
 		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
 		String url=getExTypeUrl(f);
 		((IssueappBO)bo).insert(vo);
-		return new ActionRedirect(url+"&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+f.getTaskAmt()+"&taskAmtLeft="+f.getTaskAmt()+"&operationType="+f.getOperationType());
+		String OAappNo=URLEncoder.encode(vo.getOAappNo(),"GB2312");
+		return new ActionRedirect(url+"&appNo="+vo.getAppNo()+"&OAappNo="+OAappNo+"&taskAmt="+f.getTaskAmt()+"&taskAmtLeft="+f.getTaskAmt()+"&operationType="+f.getOperationType());
 
 	}
 
@@ -462,6 +466,7 @@ public class IssueappAction extends IbatisBaseAction {
 		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
 		String url=getExChangeUrl(f);
 		((IssueappBO)bo).insert(vo);
+		String OAappNo=URLEncoder.encode(vo.getOAappNo(),"GB2312");
 		return forwardSuccessPage(request,mapping,"±£´æ³É¹¦",url+"&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+f.getTaskAmt()+"&unitId="+f.getUnitId()+"&operationType="+f.getOperationType());
 
 	}
@@ -514,7 +519,8 @@ public class IssueappAction extends IbatisBaseAction {
 		ls.setOperationType(vo.getOperationType());
 		int finishAmt=lsinfoBO.countByExample(ls);
 		int lastAmt=vo.getTaskAmt().shortValue()-finishAmt;
-		return new ActionRedirect(url+"&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+vo.getTaskAmt()+"&taskAmtLeft="+lastAmt+"&operationType="+vo.getOperationType());
+		String OAappNo=URLEncoder.encode(vo.getOAappNo(),"GB2312");
+		return new ActionRedirect(url+"&appNo="+vo.getAppNo()+"&OAappNo="+OAappNo+"&taskAmt="+vo.getTaskAmt()+"&taskAmtLeft="+lastAmt+"&operationType="+vo.getOperationType());
 
 	}
 	public ActionForward makeupMainTain(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{

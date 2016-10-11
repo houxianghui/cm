@@ -354,6 +354,9 @@ public class StoproductBO extends IbatisBO {
 		if(p.getSamId_min().length()!=12 ){
 			throw new MessageException("卡号长度必须满足12位");
 		}
+		if(!p.getSamId_min().substring(0, 5).equals(p.getSamId_max().substring(0, 5)) ){
+			throw new MessageException("卡号前5位必须一致");
+		}		
 		if(p.getSamId_min().compareTo(p.getSamId_max())>0)
 			throw new MessageException("开始卡号不能大于结束卡号");
 		

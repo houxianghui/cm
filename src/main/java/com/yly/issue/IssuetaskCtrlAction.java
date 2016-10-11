@@ -156,7 +156,6 @@ public class IssuetaskCtrlAction extends IbatisBaseAction {
 		IssuetaskctrlForm f = (IssuetaskctrlForm)form;
 		Enumeration<String> e =request.getParameterNames();
 		List<Issuetaskctrl> issues = new ArrayList<Issuetaskctrl>();
-		
 		Pattern iPattern = Pattern.compile("issue_\\d+$");
 		Long tot=0l;
 		HashMap unitMap = new HashMap();

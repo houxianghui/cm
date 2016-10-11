@@ -110,6 +110,7 @@ public class StoreuseAction extends IbatisBaseAction {
 			return mapping.findForward("cardlist");
 	    }
 		StoreuseForm f = (StoreuseForm)form;
+		((StoreuseBO)bo).querySamIdValidate(f);
 		setPageResult(request, ((StoreuseBO)bo).queryForList(f));
 		return mapping.findForward("cardlist");
 	}
