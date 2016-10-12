@@ -2044,19 +2044,19 @@ public class StoproductExample {
             return this;
         }
         public Criteria andAsscoTbs() {
-            addCriterion("stoproduct.OAappNo = applyinfotb.OAappNo and applyinfotb.OperationType=31 ");
+            addCriterion("stoproduct.OAappNo = applyinfotb.OAappNo and applyinfotb.OperationType=31 and applyinfotb.FormState=3 ");
             return this;
         }
         public Criteria andExchangeAsscoTbs() {
-            addCriterion("lsinfo.AppNo = applyinfotb.AppNo and Stoproduct.SamId=lsinfo.SamId and Stoproduct.SamCSN=lsinfo.SamCSN and applyinfotb.OperationType=43 ");
+            addCriterion("lsinfo.AppNo = applyinfotb.AppNo and Stoproduct.SamId=lsinfo.SamId and Stoproduct.SamCSN=lsinfo.SamCSN and applyinfotb.OperationType=43 and applyinfotb.FormState=3");
             return this;
         }
         public Criteria andMakeUpAsscoTbs() {
-            addCriterion("lsinfo.AppNo = applyinfotb.AppNo and Stoproduct.SamId=lsinfo.SamId and Stoproduct.SamCSN=lsinfo.SamCSN and applyinfotb.OperationType=53 ");
+            addCriterion("lsinfo.AppNo = applyinfotb.AppNo and Stoproduct.SamId=lsinfo.SamId and Stoproduct.SamCSN=lsinfo.SamCSN and applyinfotb.OperationType=53 and applyinfotb.FormState=3");
             return this;
         }
         public Criteria andReStoreAsscoTbs() {
-            addCriterion("lsinfo.AppNo = applyinfotb.AppNo and Stoproduct.SamId=lsinfo.SamId and Stoproduct.SamCSN=lsinfo.SamCSN and applyinfotb.OperationType=61 ");
+            addCriterion("lsinfo.AppNo = applyinfotb.AppNo and Stoproduct.SamId=lsinfo.SamId and Stoproduct.SamCSN=lsinfo.SamCSN and applyinfotb.OperationType=61 and applyinfotb.FormState=3");
             return this;
         }        
     }
