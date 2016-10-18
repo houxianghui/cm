@@ -224,7 +224,7 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		f.setProdId(request.getParameter("prodId"));
 		if(f.getProdId().equals("4")){
 			f.setPhiTypeId("");//模块速率不设置
-			f.setOperationType_f((long)92);//发行小模块必须是冲回过的记录
+		//	f.setOperationType_f((long)92);//发行小模块必须是冲回过的记录
 		}else{
 			f.setPhiTypeId(request.getParameter("phiTypeId"));
 		}

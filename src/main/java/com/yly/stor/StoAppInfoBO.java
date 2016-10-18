@@ -160,7 +160,10 @@ public class StoAppInfoBO extends IbatisBO {
 		}else if(obj.getOperationType()!=null && obj.getOperationType()>0){
 			c.andOperationTypeEqualTo(obj.getOperationType().shortValue());
 		}else{
-			c.andOperationTypeBetween((short)10, (short)19);
+			if(obj.getProdId().equals("4")){
+				c.andOperationTypeNotEqualTo((short)94);
+			}
+			else c.andOperationTypeBetween((short)10, (short)19);
 		}
 		if(!CheckUtil.isEmptry(obj.getManufacId())){
 			c.andManufacIdEqualTo(obj.getManufacId());
@@ -241,7 +244,7 @@ public class StoAppInfoBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(obj.getProdId())){
 			c.andProdIdEqualTo(obj.getProdId());
 		}
-		c.andOperationTypeNotEqualTo((short)92);
+		c.andOperationTypeLessThan((short)20);
 		if(!CheckUtil.isEmptry(obj.getManufacId())){
 			c.andManufacIdEqualTo(obj.getManufacId());
 		}
@@ -300,7 +303,7 @@ public class StoAppInfoBO extends IbatisBO {
 		Stoappinfo vo =(Stoappinfo)obj;
 		StoappinfoExample e = new StoappinfoExample();
 		Criteria c = e.createCriteria();
-		c.andOperationTypeNotEqualTo((short)92);
+		c.andOperationTypeLessThan((short)20);
 		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
 			c.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
 		}
