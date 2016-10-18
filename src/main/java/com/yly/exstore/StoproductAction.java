@@ -197,6 +197,9 @@ public class StoproductAction extends IbatisBaseAction {
 			strPtname = new String(strPtname.getBytes("ISO-8859-1"));  
 			f.setOAappNo(strPtname);
 		}
+		if(f.getOperationType()==31){
+			f.setUnitId(null); //成品出库时不考虑申请单位，只OAAPPNO有效
+		}
 		prodList= ((StoproductBO)bo).queryForList(f);
 		if(prodList!=null && prodList.size()>0){   
 			setPageResult(request, prodList);

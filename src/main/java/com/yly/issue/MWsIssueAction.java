@@ -606,6 +606,10 @@ public class MWsIssueAction extends IbatisBaseAction {
 	public ActionForward singleIssue(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		MWsIssuetbForm f = (MWsIssuetbForm)form;	
 		f.setSamId(f.getOrigSamId());
+		Stoproduct sto=stoproductBO.queryObjectBySamId(f.getSamId());
+		if(sto==null ||CheckUtil.isEmptry(sto.getSamCSN())){
+			throw new MessageException("此SAM号找不到原发行记录");
+		}
 		f.setApplyAttr(String.valueOf(f.getAppTypeId()));
 		Mwsissuetb vo = new Mwsissuetb();
  		copyProperties(vo,f);
@@ -640,18 +644,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 						 sec.setPubKey(para.getRetpki());
 						 sec.setKeyType((short)(f.getKeyType()));
 					 }
-					 Stoproduct sto=new Stoproduct();
 					 sto.setSamId(lsvo.getSamId());
 					 sto.setSamCSN(lsvo.getSamCSN());
-					 sto=stoproductBO.queryForObject(sto);
-					 if(sto==null){
-						 sto= new Stoproduct();
-						 copyProperties(sto, f);
-						 sto.setSamCSN(f.getCardcsn());
-						 sto.setKeyType((short)f.getKeyType());
-						 sto.setAppTypeId(String.valueOf(f.getAppTypeId()));
-						 sto.setCardPhyStat((short)1);//好卡
-					 }
 					 sto.setWkState((short)12);
 					 sto.setWkStateChgDate(DateUtil.getTimeStr());
 					 sto.setIssueTime(DateUtil.getTimeStr());

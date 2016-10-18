@@ -346,7 +346,12 @@
    <select id="getMaxSamNum" parameterClass="string" resultClass="long" >
     select max(SamIdEnd) from(select max(SamIdEnd) as SamIdEnd from IssueTaskCtrl where SamIdEnd like #value# 
     union
-    select max(SamId) as SamIdEnd from StoProduct where SamId like #value#) tb1   
+    select max(SamId) as SamIdEnd from StoProduct where SamId like #value#
+    union 
+    select max(SamId) as SamIdEnd from storeuse where SamId like #value#
+    union
+    select max(SamId) as SamIdEnd from disproduct where SamId like #value#
+    ) tb1   
   	
   </select>
     <select id="ibatorgenerated_sumByExample" parameterClass="com.yly.issue.IssuetaskctrlExample" resultClass="java.lang.Integer" >

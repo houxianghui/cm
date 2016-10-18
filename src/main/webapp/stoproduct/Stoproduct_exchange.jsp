@@ -184,7 +184,7 @@ function prodAttr_fun(obj){
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<html:text property="samId" styleClass="Textfield"  size="12" maxlength="12"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  />&nbsp; 
-		<input	name="read" type="button" class="Button" value="读取SAM卡号(选择产品类型)" onClick="doRead()"> &nbsp; <div id=module></div>
+		<input	name="read" type="button" class="Button" value="读取SAM卡号(选择产品类型及速率)" onClick="doRead()"> &nbsp; <div id=module></div>
 		&nbsp;<input name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> 	
 	</td>
 	</tr>	   	
@@ -197,7 +197,7 @@ function prodAttr_fun(obj){
 		</td>	
 	</tr>
 	<%}else{%>
-		<input	name="read" type="button" class="Button" value="读取SAM印刷卡号(选择产品类型和厂商)" onClick="doReadCSN()">&nbsp;
+		<input	name="read" type="button" class="Button" value="读取SAM印刷卡号(选择产品类型速率厂商)" onClick="doReadCSN()">&nbsp;
 	<%}%>	
 	
 </table>

@@ -39,7 +39,7 @@ function turnPage( pagenm ) {
 		align="center" cellpadding="0">
 		<tr>
 			<td>
- 			sam¿¨ºÅ¶Î:	
+ 			SAM¿¨ºÅ¶Î:	
 			´Ó<html:text property="samId_min" styleClass="Textfield" size="12" />
 			µ½<html:text property="samId_max" styleClass="Textfield" size="12" />
 			</td>

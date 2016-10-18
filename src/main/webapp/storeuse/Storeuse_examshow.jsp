@@ -59,7 +59,7 @@ function doRead(){
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<html:text property="samId" styleClass="Textfield"  size="12" maxlength="12"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  value="<%=storeuseForm.getSamId()%>" />&nbsp; 
-		<input	name="read" type="button" class="Button" value="读取SAM卡号(选择产品类型)" onClick="doRead()"> &nbsp; <div id=module></div>
+		<input	name="read" type="button" class="Button" value="读取SAM卡号(选择产品类型及速率)" onClick="doRead()"> &nbsp; <div id=module></div>
 	
 	</td>
 	</tr>	

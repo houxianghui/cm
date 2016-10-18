@@ -97,8 +97,8 @@ if (pageResult != null) {%>
     <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
         <tr> 
 				<td height="25" align="center" class="dtPanel_Bottom"> 
-					<input type="button" value="返回" class="Button" onClick="history.back()"/>
 					<input type="button" value="导出" class="Button" onClick="doLsDown()"/>
+					<input type="button" value="返回" class="Button" onClick="history.back()"/>
 					
 				</td>
 	    </tr> 

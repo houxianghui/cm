@@ -7,7 +7,7 @@
 
 <html> 
 <head>
-<title>产品修复</title> 
+<title>原料修复</title> 
 
 <SCRIPT src="js/apply/cardApply.js" type="text/javascript"></SCRIPT> 
 <script language="javascript"> 
@@ -35,7 +35,7 @@ function doRepair(){
 <input type=hidden name=act value=repair> 
 <input type=hidden name=step value="commit"> 
 
-<%=ViewUtil.getTitle("产品修复")%> 
+<%=ViewUtil.getTitle("原料修复")%> 
  
     <table align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0"> 
 	<tr>
@@ -67,7 +67,7 @@ function doRepair(){
 		印刷卡号:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;	 
-		<html:text property="cardcsn" styleClass="Textfield"  size="20" maxlength="20" />
+		<html:text property="cardcsn" styleClass="Textfield"  size="20" maxlength="20" />"修复时必填"
 		</td>	
 	</tr>
  	<tr>
@@ -78,6 +78,7 @@ function doRepair(){
 			<html:select property="authkey" styleClass="Select">
 				<html:optionsCollection name="repairForm" property="authkeycollection"/>
 			</html:select>
+			"修复时必填"
 		</td>	
 	</tr>
 	
