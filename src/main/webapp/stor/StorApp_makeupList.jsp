@@ -43,7 +43,7 @@ function doExCardCSN(){
 	var tbName = "ex";
 	 var rowIndex = findObj(tbName+".index",document);
 	 var rowID = parseInt(rowIndex.value);
-	innerHtml1 = "<input name='ex_"+rowID+"_CSN' id='ex_"+rowID+"_CSN' type='text' class='TextField' size='20' maxLength='20' onblur=onlyNum(this) onkeyup=onlyNum(this) onkeydown=onlyNum(this) value=''/>";
+	innerHtml1 = "<input name='ex_"+rowID+"_CSN' id='ex_"+rowID+"_CSN' type='text' class='TextField' size='20' maxLength='20' onblur=noChinese(this) onkeyup=EngToUpperCase(this) onkeydown=EngToUpperCase(this) value=''/>";
 	
 	addRow(tbName,new Array(innerHtml1));
 }
@@ -59,6 +59,8 @@ function doAdd(){
 </script>
 </head>
 <body>
+
+<script type="text/javascript" src="js/apply/cardApply.js"></script>
 <script type="text/javascript" src="js/calendar.js"></script>
 <html:form method="post" action="StoApp.do">
 <input type=hidden name=act value="makeUpList">

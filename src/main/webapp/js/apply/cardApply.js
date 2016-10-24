@@ -1,5 +1,5 @@
 
-//¼ì²ìÊÇ·ñÊÇÊäÈëÊý×Ö,Ò²¿ÉÒÔÓÐÐ¡Êýµã
+//æ£€å¯Ÿæ˜¯å¦æ˜¯è¾“å…¥æ•°å­—,ä¹Ÿå¯ä»¥æœ‰å°æ•°ç‚¹
 
 function checkDouble(obj){
 
@@ -20,18 +20,18 @@ function checkForm(){
 	} 
 	/**end*/
 	
-	//¶¨Òå±äÁ¿MsgError£¬´Ë±äÁ¿´æ´¢Ò»ÏµÁÐµÄ´íÎóÌáÊ¾×Ö·û´®£¬ÕâÐ©´íÎó¶¼ÊÇ¿ÉÒÔÇ¿ÖÆÍ¨¹ýµÄ
+	//å®šä¹‰å˜é‡MsgErrorï¼Œæ­¤å˜é‡å­˜å‚¨ä¸€ç³»åˆ—çš„é”™è¯¯æç¤ºå­—ç¬¦ä¸²ï¼Œè¿™äº›é”™è¯¯éƒ½æ˜¯å¯ä»¥å¼ºåˆ¶é€šè¿‡çš„
 	var MsgError = "";
 
 	var field = new Array("app_lmt","cust_name","last_name","first_name","nationality","birthday","fami_member","cert_no","pre_addr","pre_city_code","pre_post","per_income","ave_income","comp_name","comp_addr","comp_city_code","comp_post","comp_zone_no","comp_phone","work_years","lm_name","app_source","exam_node_name"); 
-	var info = new Array("ÄâÉêÇë¶î¶È","¿Í»§ÐÕÃû","¿Í»§ÐÕ(Æ´Òô)","¿Í»§Ãû(Æ´Òô)","¿Í»§¹ú¼®","¿Í»§³öÉúÈÕÆÚ","¼ÒÍ¥ÈË¿Ú","Ö¤¼þºÅÂë","ÏÖ×¡Ö·","ÏÖ×¡Ö·³ÇÊÐ´úÂë","ÏÖ×¡Ö·ÓÊ±à","¸öÈËÄêÊÕÈë","¼ÒÍ¥ÈË¾ùÄêÊÕÈë","µ¥Î»È«³Æ","µ¥Î»µØÖ·","µ¥Î»µØÖ·³ÇÊÐ´úÂë","µ¥Î»ÓÊ±à","µ¥Î»µç»°ÇøºÅ","µ¥Î»µç»°ºÅÂë","ÏÖµ¥Î»¹¤×÷ÄêÏÞ","ÁªÏµÈËÐÕÃû","ÉêÇë±íÀ´Ô´","Íøµã±àºÅ");  
+	var info = new Array("æ‹Ÿç”³è¯·é¢åº¦","å®¢æˆ·å§“å","å®¢æˆ·å§“(æ‹¼éŸ³)","å®¢æˆ·å(æ‹¼éŸ³)","å®¢æˆ·å›½ç±","å®¢æˆ·å‡ºç”Ÿæ—¥æœŸ","å®¶åº­äººå£","è¯ä»¶å·ç ","çŽ°ä½å€","çŽ°ä½å€åŸŽå¸‚ä»£ç ","çŽ°ä½å€é‚®ç¼–","ä¸ªäººå¹´æ”¶å…¥","å®¶åº­äººå‡å¹´æ”¶å…¥","å•ä½å…¨ç§°","å•ä½åœ°å€","å•ä½åœ°å€åŸŽå¸‚ä»£ç ","å•ä½é‚®ç¼–","å•ä½ç”µè¯åŒºå·","å•ä½ç”µè¯å·ç ","çŽ°å•ä½å·¥ä½œå¹´é™","è”ç³»äººå§“å","ç”³è¯·è¡¨æ¥æº","ç½‘ç‚¹ç¼–å·");  
 	
-	//¼ì²ìÊäÈëÐÅÏ¢ÊÇ·ñÎª¿Õ 
+	//æ£€å¯Ÿè¾“å…¥ä¿¡æ¯æ˜¯å¦ä¸ºç©º 
 	var tmp; 
 	for(var i=0;i<field.length;i++)	{ 
 	 	tmp ="document.forms[0]."+field[i]+".value"; 
 	    if(isEmpty(eval(tmp))) { 
-		 	alert('ÇëÊäÈë'+info[i]); 
+		 	alert('è¯·è¾“å…¥'+info[i]); 
 		    eval("document.forms[0]."+field[i]+".focus()"); 
 		    return false; 
 	     	} 
@@ -40,9 +40,9 @@ function checkForm(){
  
     //modified by li xue meng 20070821
     var fieldB = new Array("cust_sex","marr_stat","cert_type","edu_degr","hou_stat","comp_char","trade_kind","tech_grade","tech_posi","get_card_mode","post_addr","lm_sex","relation_bet","exam_mode"); 
-	var infoB = new Array("¿Í»§ÐÔ±ð","»éÒö×´¿ö","Ö¤¼þÀàÐÍ","½ÌÓý³Ì¶È","×¡Õ¬Çé¿ö","µ¥Î»ÐÔÖÊ","ÐÐÒµÀà±ð","Ö°³Æ","Ö°Îñ","Áì¿¨·½Ê½","ÃÜÂë,¶ÔÕÊµ¥ÓÊ¼ÄµØÖ·","ÁªÏµÈËÐÔ±ð","ÓëÉêÇëÈË¹ØÏµ","µ÷²é·½Ê½"); 
+	var infoB = new Array("å®¢æˆ·æ€§åˆ«","å©šå§»çŠ¶å†µ","è¯ä»¶ç±»åž‹","æ•™è‚²ç¨‹åº¦","ä½å®…æƒ…å†µ","å•ä½æ€§è´¨","è¡Œä¸šç±»åˆ«","èŒç§°","èŒåŠ¡","é¢†å¡æ–¹å¼","å¯†ç ,å¯¹å¸å•é‚®å¯„åœ°å€","è”ç³»äººæ€§åˆ«","ä¸Žç”³è¯·äººå…³ç³»","è°ƒæŸ¥æ–¹å¼"); 
  
-	//¼ì²ìÊäÈëÐÅÏ¢ÊÇ·ñÎª¿Õ 
+	//æ£€å¯Ÿè¾“å…¥ä¿¡æ¯æ˜¯å¦ä¸ºç©º 
 	var tmpB; 
 	for(var i=0;i<fieldB.length;i++){ 
 		tmpB ="document.forms[0]."+fieldB[i]+".length"; 
@@ -54,59 +54,59 @@ function checkForm(){
 	        }
 	    } 		        	
 	    if(flag == 0){
-	        alert('ÇëÊäÈë'+infoB[i]); 
+	        alert('è¯·è¾“å…¥'+infoB[i]); 
 			eval("document.forms[0]."+fieldB[i]+"[0].focus()"); 
 			return false; 
 		}	     	
 	}
 	
-	/*¼ì²éÄâÉêÇë¶î¶È==============================*/
+	/*æ£€æŸ¥æ‹Ÿç”³è¯·é¢åº¦==============================*/
 	obj=document.forms[0].app_lmt;
 	if(!checkYForGet(obj)){
-		alert("ÄâÉêÇë½ð¶î²»ÄÜÎª¿Õ");
+		alert("æ‹Ÿç”³è¯·é‡‘é¢ä¸èƒ½ä¸ºç©º");
 		obj.focus();
 		return false;
 	}
 	card_kind=document.forms[0].card_kind;
-	//ÄâÉêÇë¶î¶ÈÏÂÏÞ¼ì²é
+	//æ‹Ÿç”³è¯·é¢åº¦ä¸‹é™æ£€æŸ¥
 	if(!checklmt(card_kind,obj)){
 		return false;
 	}
 	
-	//¼ì²éÐÕÆ´Òô³¤¶ÈÎª8,ÃûÆ´Òô³¤¶ÈÎª16
+	//æ£€æŸ¥å§“æ‹¼éŸ³é•¿åº¦ä¸º8,åæ‹¼éŸ³é•¿åº¦ä¸º16
 	if(document.forms[0].last_name.value.length > 10){
-		alert("ÐÕÆ´Òô³¤¶È×î´óÎª10Î»");
+		alert("å§“æ‹¼éŸ³é•¿åº¦æœ€å¤§ä¸º10ä½");
 		document.forms[0].last_name.focus();
 		return false;
 	}
 	if(document.forms[0].first_name.value.length > 16){
-		alert("ÃûÆ´Òô³¤¶È×î´óÎª16Î»");
+		alert("åæ‹¼éŸ³é•¿åº¦æœ€å¤§ä¸º16ä½");
 		document.forms[0].first_name.focus();
 		return false;
 	}
 	if(!isLetter(document.forms[0].last_name.value)){
-		alert("ÐÕÆ´ÒôÓ¦Îª´óÐ´Ó¢ÎÄ×ÖÄ¸");
+		alert("å§“æ‹¼éŸ³åº”ä¸ºå¤§å†™è‹±æ–‡å­—æ¯");
 		document.forms[0].last_name.focus();
 		return false;
 	}
 	if(!isLetter(document.forms[0].first_name.value)){
-		alert("ÃûÆ´ÒôÓ¦Îª´óÐ´Ó¢ÎÄ×ÖÄ¸");
+		alert("åæ‹¼éŸ³åº”ä¸ºå¤§å†™è‹±æ–‡å­—æ¯");
 		document.forms[0].first_name.focus();
 		return false;
 	}
 	
-	//¼ì²éÐÕÆ´Òô¡¢ÃûÆ´Òô³¤¶ÈºÍ add by lixq 20090811
+	//æ£€æŸ¥å§“æ‹¼éŸ³ã€åæ‹¼éŸ³é•¿åº¦å’Œ add by lixq 20090811
 		if((document.forms[0].last_name.value.length+document.forms[0].first_name.value.length) > 16){
-		alert("ÐÕÆ´Òô¡¢ÃûÆ´Òô³¤¶ÈºÍ×î´óÎª16Î»");
+		alert("å§“æ‹¼éŸ³ã€åæ‹¼éŸ³é•¿åº¦å’Œæœ€å¤§ä¸º16ä½");
 		document.forms[0].last_name.focus();
 		return false;
 	}
 
 	
-	/*¼ì²é³öÉúÈÕÆÚ=======================================*/
+	/*æ£€æŸ¥å‡ºç”Ÿæ—¥æœŸ=======================================*/
 	obj=document.forms[0].birthday;
 	if(!checkdateNumber(obj)){
-		alert("ÉêÇëÈË³öÉúÈÕÆÚÓ¦Îª8Î»");
+		alert("ç”³è¯·äººå‡ºç”Ÿæ—¥æœŸåº”ä¸º8ä½");
 		obj.focus();
 		return false;
 	}
@@ -115,45 +115,45 @@ function checkForm(){
 		return false;
 	}
 	
-	/*¼ì²éÉêÇëÈËÄêÁä====================================*/	
-    //ÄêÁäÒªÇóÔÚ18ÖÁ99ÖÜËêÖ®¼ä
+	/*æ£€æŸ¥ç”³è¯·äººå¹´é¾„====================================*/	
+    //å¹´é¾„è¦æ±‚åœ¨18è‡³99å‘¨å²ä¹‹é—´
     currentDate = new Date();
     currentYear = parseInt(currentDate.getFullYear());
     
     strBirthday = document.forms[0].birthday.value;
     intAge = currentYear - parseInt(strBirthday.substring(0,4));
     if(intAge < 18){
-		alert("ÄêÁä²»·ûºÏ·¢¿¨ÒªÇó£¡");
+		alert("å¹´é¾„ä¸ç¬¦åˆå‘å¡è¦æ±‚ï¼");
 		document.forms[0].birthday.focus();
 		return false;
     }
     if(intAge > 99){
-		alert("ÄêÁä²»·ûºÏ·¢¿¨ÒªÇó£¡");
+		alert("å¹´é¾„ä¸ç¬¦åˆå‘å¡è¦æ±‚ï¼");
 		document.forms[0].birthday.focus();
 		return false;
     }
     
 
    	
-   	//ÏÖµ¥Î»¹¤×÷ÄêÏÞ²»ÄÜ´óÓÚ(ÄêÁä-15),Ö»ÊÇÌáÊ¾,¿ÉÇ¿ÐÐÍ¨¹ý
+   	//çŽ°å•ä½å·¥ä½œå¹´é™ä¸èƒ½å¤§äºŽ(å¹´é¾„-15),åªæ˜¯æç¤º,å¯å¼ºè¡Œé€šè¿‡
     var workyears = document.forms[0].work_years.value;
     if(workyears <=0){
-    	alert("¹¤×÷ÄêÏÞÓÐÎó");
+    	alert("å·¥ä½œå¹´é™æœ‰è¯¯");
     	document.forms[0].work_years.focus();
     	return false;   	
     }
     
     if((intAge-15) < workyears){
-    	//alert("ÖØÐÂÉó²é¹¤×÷ÄêÏÞ");
+    	//alert("é‡æ–°å®¡æŸ¥å·¥ä½œå¹´é™");
     	if(MsgError == ""){
-			MsgError = MsgError + "ÖØÐÂÉó²é¹¤×÷ÄêÏÞ";
+			MsgError = MsgError + "é‡æ–°å®¡æŸ¥å·¥ä½œå¹´é™";
 		}
 		else{
-			MsgError = MsgError + "\nÖØÐÂÉó²é¹¤×÷ÄêÏÞ";
+			MsgError = MsgError + "\né‡æ–°å®¡æŸ¥å·¥ä½œå¹´é™";
 		}
     }
     
-    /*¼ì²éÖ¤¼þºÅÂë=========================================*/
+    /*æ£€æŸ¥è¯ä»¶å·ç =========================================*/
    if(getSelectedButton(document.forms[0].cert_type)== 0){
     	obj = document.forms[0].cert_no;
     	if(!isIDNO(obj)){
@@ -163,15 +163,15 @@ function checkForm(){
 	}
    
     
-    /*¼ì²éµç×ÓÐÅÏä=========================================*/
+    /*æ£€æŸ¥ç”µå­ä¿¡ç®±=========================================*/
     if(!isEmpty(document.forms[0].email.value)){
 	    if(!isEmail(document.forms[0].email)){
-	    	alert("µç×ÓÐÅÏä³ö´í");
+	    	alert("ç”µå­ä¿¡ç®±å‡ºé”™");
 	    	document.forms[0].email.focus();
 	    	return false;
 	    }
 	    if(!ChineseIn(document.forms[0].email.value)){
-	    	alert("µç×ÓÐÅÏäÓÐ²»ºÏ·¨×Ö·û");
+	    	alert("ç”µå­ä¿¡ç®±æœ‰ä¸åˆæ³•å­—ç¬¦");
 	    	document.forms[0].email.focus();
 	    	return false;	
 	    }
@@ -181,40 +181,40 @@ function checkForm(){
  
     /********* modified by li xue meng 20070822 ********/
  	var field = new Array("pre_post","comp_post"); 
-	var info = new Array("ÏÖ×¡Ö·ÓÊ±à","µ¥Î»ÓÊ±à"); 
+	var info = new Array("çŽ°ä½å€é‚®ç¼–","å•ä½é‚®ç¼–"); 
  
 	var tmp; 
 	for(var i=0;i<field.length;i++)	{ 
 		tmp ="document.forms[0]."+field[i]+".value.length"; 
 	    if((eval(tmp)) != 6) { 
-	        alert(info[i]+'Ó¦ÎªÁùÎ»'); 
+	        alert(info[i]+'åº”ä¸ºå…­ä½'); 
 	        eval("document.forms[0]."+field[i]+".focus()"); 
 	        return false; 
 	    } 
 	} 
 	
-	/*¼ì²éÊÖ»úºÅ=======================================*/
+	/*æ£€æŸ¥æ‰‹æœºå·=======================================*/
 	var field = new Array("pre_mobile","lm_mobile"); 
-	var info = new Array("ÉêÇëÈËÊÖ»úºÅ","ÁªÏµÈËÊÖ»úºÅ"); 
+	var info = new Array("ç”³è¯·äººæ‰‹æœºå·","è”ç³»äººæ‰‹æœºå·"); 
 	
 	var tmp;
 	for(var i=0;i<field.length;i++){
 		tmp = "document.forms[0]."+field[i]+".value";
 		if(!isEmpty(eval(tmp))){
 			if(!isMobile(eval(tmp))){
-				alert(info[i]+'ÊäÈëÓÐÎó');
+				alert(info[i]+'è¾“å…¥æœ‰è¯¯');
 				eval("document.forms[0]."+field[i]+".focus()");
 				return false;
 			}
 			//if(parseInt(trim(eval(tmp)))==0){
 			if(isZero(trim(eval(tmp)))){
-				alert(info[i]+'²»ÄÜÈ«ÊäÈë0');
+				alert(info[i]+'ä¸èƒ½å…¨è¾“å…¥0');
 				eval("document.forms[0]."+field[i]+".focus()");
 				return false;
 			}
 			tmp1 ="document.forms[0]."+field[i]+".value.length"; 
 		    if((eval(tmp1)) < 11) { 
-		        alert(info[i]+'Ó¦Îª11Î»Êý×Ö'); 
+		        alert(info[i]+'åº”ä¸º11ä½æ•°å­—'); 
 		        eval("document.forms[0]."+field[i]+".focus()"); 
 		        return false; 
 		    } 
@@ -223,13 +223,13 @@ function checkForm(){
 	
 	//modified by Li xue meng 20070822
 	var field = new Array("comp_phone"); 
-	var info = new Array("ÉêÇëÈËµ¥Î»µç»°"); 
+	var info = new Array("ç”³è¯·äººå•ä½ç”µè¯"); 
 	
 	var tmp;
 	for(var i=0;i<field.length;i++){
 		tmp = "document.forms[0]."+field[i]+".value.length";
 		if(eval(tmp) < 7){
-			alert(info[i]+'³¤¶È²»ÄÜÐ¡ÓÚ7Î»');
+			alert(info[i]+'é•¿åº¦ä¸èƒ½å°äºŽ7ä½');
 			eval("document.forms[0]."+field[i]+".focus()");
 			return false;
 		}
@@ -238,51 +238,51 @@ function checkForm(){
 
 	//modified by li xue meng 20070822
 	var field = new Array("comp_zone_no","comp_phone"); 
-	var info = new Array("ÉêÇëÈËµ¥Î»µç»°ÇøºÅ","ÉêÇëÈËµ¥Î»µç»°ºÅÂë"); 
+	var info = new Array("ç”³è¯·äººå•ä½ç”µè¯åŒºå·","ç”³è¯·äººå•ä½ç”µè¯å·ç "); 
 	
 	var tmp;
 	for(var i=0;i<field.length;i++){
 		tmp = "document.forms[0]."+field[i]+".value";
 		//if(parseInt(trim(eval(tmp)))==0){
 		if(isZero(trim(eval(tmp)))){
-			alert(info[i]+'²»ÄÜÈ«ÊäÈë0');
+			alert(info[i]+'ä¸èƒ½å…¨è¾“å…¥0');
 			eval("document.forms[0]."+field[i]+".focus()");
 			return false;
 		}
 	}	
 	
   	
-  	//ÉêÇëÈËÎ´»é£¬²»µÃÓëÁªÏµÈË¹ØÏµÎªÅäÅ¼
+  	//ç”³è¯·äººæœªå©šï¼Œä¸å¾—ä¸Žè”ç³»äººå…³ç³»ä¸ºé…å¶
   	var marr_stat = getSelectedButton(document.forms[0].marr_stat);  	
   	if(marr_stat == 0){
   		var relation = getSelectedButton(document.forms[0].relation_bet);
   		if(relation == 0){
-			alert("ÉêÇëÈËÎ´»é£¬²»µÃÓëÁªÏµÈË¹ØÏµÎªÅäÅ¼£¡");
+			alert("ç”³è¯·äººæœªå©šï¼Œä¸å¾—ä¸Žè”ç³»äººå…³ç³»ä¸ºé…å¶ï¼");
 			document.forms[0].relation_bet[0].focus();
 			return false;
 		}
   	}
 
-  	//ÉêÇëÈËÓëÁªÏµÈËÍ¬ÐÔ£¬Æä¹ØÏµ²»ÄÜÎªÅäÅ¼
+  	//ç”³è¯·äººä¸Žè”ç³»äººåŒæ€§ï¼Œå…¶å…³ç³»ä¸èƒ½ä¸ºé…å¶
   	var cust_sex = getSelectedButton(document.forms[0].cust_sex);  
   	var lm_sex = getSelectedButton(document.forms[0].lm_sex);	
   	if(cust_sex == lm_sex && getSelectedButton(document.forms[0].relation_bet)== 0){
-		alert("ÉêÇëÈËÓëÁªÏµÈËÍ¬ÐÔ£¬Æä¹ØÏµ²»ÄÜÎªÅäÅ¼£¡");
+		alert("ç”³è¯·äººä¸Žè”ç³»äººåŒæ€§ï¼Œå…¶å…³ç³»ä¸èƒ½ä¸ºé…å¶ï¼");
 		document.forms[0].lm_sex[0].focus();
 		return false;
   	}
 
-	//Ñ¡ÔñÖ¤¼þÀàÐÍ,ÈôÎªÉí·ÝÖ¤,¼ì²é;ÈôÎªÆäËû,Ôò"Çë×¢Ã÷"Îª±ØÌîÏî
+	//é€‰æ‹©è¯ä»¶ç±»åž‹,è‹¥ä¸ºèº«ä»½è¯,æ£€æŸ¥;è‹¥ä¸ºå…¶ä»–,åˆ™"è¯·æ³¨æ˜Ž"ä¸ºå¿…å¡«é¡¹
 	var cert_type = getSelectedButton(document.forms[0].cert_type);
 	if(cert_type == 0){
-		//ºÅÂëºÍÉúÈÕµÄÒ»ÖÂÐÔ
+		//å·ç å’Œç”Ÿæ—¥çš„ä¸€è‡´æ€§
 		str = document.forms[0].cert_no.value;
 		str2 = document.forms[0].birthday.value;
 		if(str.length==15){
 			strb=str.substring(6,12);
 			str3=str2.substring(2,8);
 			if(strb!=str3){
-				alert("Éí·ÝÖ¤ºÅÂëÓë³öÉúÈÕÆÚ²»·û!");
+				alert("èº«ä»½è¯å·ç ä¸Žå‡ºç”Ÿæ—¥æœŸä¸ç¬¦!");
 				document.forms[0].cert_no.focus();
 				return false;
 			}
@@ -291,54 +291,54 @@ function checkForm(){
 		if(str.length==18){
 			strb=str.substring(6,14);
 			if(strb!=str2) {
-				alert("Éí·ÝÖ¤ºÅÂëÓë³öÉúÈÕÆÚ²»·û!");
+				alert("èº«ä»½è¯å·ç ä¸Žå‡ºç”Ÿæ—¥æœŸä¸ç¬¦!");
 				document.forms[0].cert_no.focus();
 				return false;
 			}
 			var strsex=str.charAt(16);
 		}
-		//ÐÔ±ðºÍºÅÂëµÄÒ»ÖÂÐÔ
+		//æ€§åˆ«å’Œå·ç çš„ä¸€è‡´æ€§
 		if(strsex % 2==0) strsex="F";
 		else strsex="M";
 		obj = document.forms[0].cust_sex
 		if(!((obj[0].checked && strsex=="M")||(obj[1].checked && strsex=="F"))){
-			alert("Éí·ÝÖ¤ºÅÂëÓëÐÔ±ð²»·û!!");
+			alert("èº«ä»½è¯å·ç ä¸Žæ€§åˆ«ä¸ç¬¦!!");
 			document.forms[0].cert_no.focus();
 			return false;
 		}
 	    
-	    //¼ì²éÐ£ÑéÂë
+	    //æ£€æŸ¥æ ¡éªŒç 
 		if(str.length==18){
-			//Ð£ÑéÂë
+			//æ ¡éªŒç 
 			var strjiaoyan=new Array("1","0","X","9","8","7","6","5","4","3","2");
-			//¼ÓÈ¨Òò×Ó
+			//åŠ æƒå› å­
 			var intQuan=new Array("7","9","10","5","8","4","2","1","6","3","7","9","10","5","8","4","2","1");
 			var sum=0;
 			for(var inum=0;inum<17;inum++)	sum+=str.substring(inum,inum+1) * intQuan[inum];
 			var strresult=strjiaoyan[sum % 11];
 			if(str.substring(17,18).toUpperCase()!=strresult) {
-				alert("Éí·ÝÖ¤ºÅÂëÐ£ÑéÂë²»ÕýÈ·!");
+				alert("èº«ä»½è¯å·ç æ ¡éªŒç ä¸æ­£ç¡®!");
 				document.forms[0].cert_no.focus();
 				return false;
 			}
 		}
 	}
 	
-	//ÈôÖ¤¼þÀàÐÍÎªÆäËû¾ü¶Óµ¥Î»¹«Îñ¿¨2009-8-6 modify lixq
+	//è‹¥è¯ä»¶ç±»åž‹ä¸ºå…¶ä»–å†›é˜Ÿå•ä½å…¬åŠ¡å¡2009-8-6 modify lixq
 	if(document.forms[0].card_single_code.value=="DO")
 	{
 	 if(cert_type == 3){
 		if(isEmpty(document.forms[0].cert_name.value)){
-		   	alert("ÇëÊäÈëÆäËûÖ¤¼þÃû³Æ");
+		   	alert("è¯·è¾“å…¥å…¶ä»–è¯ä»¶åç§°");
 			document.forms[0].cert_name.focus();
 			return false;
 		}
 
 	 }
-	//ÈôÖ¤¼þÀàÐÍ²»Îª"ÆäËû",Ôò"Çë×¢Ã÷"ÎÄ±¾¿òÎª¿Õ,²»ÌîÖµ
+	//è‹¥è¯ä»¶ç±»åž‹ä¸ä¸º"å…¶ä»–",åˆ™"è¯·æ³¨æ˜Ž"æ–‡æœ¬æ¡†ä¸ºç©º,ä¸å¡«å€¼
 	if(cert_type != 3){
 		if(!isEmpty(document.forms[0].cert_name.value)){
-			alert("Ö¤¼þÀàÐÍ³åÍ»");
+			alert("è¯ä»¶ç±»åž‹å†²çª");
 			document.forms[0].cert_name.focus();
 			return false;
 		}
@@ -347,53 +347,53 @@ function checkForm(){
 	}else{
 	 if(cert_type == 2){
 		if(isEmpty(document.forms[0].cert_name.value)){
-		   	alert("ÇëÊäÈëÆäËûÖ¤¼þÃû³Æ");
+		   	alert("è¯·è¾“å…¥å…¶ä»–è¯ä»¶åç§°");
 			document.forms[0].cert_name.focus();
 			return false;
 		}
 
 	 }
-	//ÈôÖ¤¼þÀàÐÍ²»Îª"ÆäËû",Ôò"Çë×¢Ã÷"ÎÄ±¾¿òÎª¿Õ,²»ÌîÖµ
+	//è‹¥è¯ä»¶ç±»åž‹ä¸ä¸º"å…¶ä»–",åˆ™"è¯·æ³¨æ˜Ž"æ–‡æœ¬æ¡†ä¸ºç©º,ä¸å¡«å€¼
 	if(cert_type != 2){
 		if(!isEmpty(document.forms[0].cert_name.value)){
-			alert("Ö¤¼þÀàÐÍ³åÍ»");
+			alert("è¯ä»¶ç±»åž‹å†²çª");
 			document.forms[0].cert_name.focus();
 			return false;
 		}
 	 }
 	
 	}
-	//Ñ¡Ôñ×¡Ö·Çé¿ö,ÈôÎª'×Ô¹ºÓÐ´û¿î·¿',Ôò"ÔÂ»¹¿î"ÎÄ±¾¿òÎª±ØÌîÏî
+	//é€‰æ‹©ä½å€æƒ…å†µ,è‹¥ä¸º'è‡ªè´­æœ‰è´·æ¬¾æˆ¿',åˆ™"æœˆè¿˜æ¬¾"æ–‡æœ¬æ¡†ä¸ºå¿…å¡«é¡¹
 	var hou_stat = getSelectedButton(document.forms[0].hou_stat);
-	//Èô×¡Õ¬Çé¿öÎª"×Ô¹ºÓÐ´û¿î·¿"
+	//è‹¥ä½å®…æƒ…å†µä¸º"è‡ªè´­æœ‰è´·æ¬¾æˆ¿"
 	if(hou_stat == 1){
 		if(isEmpty(document.forms[0].hou_mon_loan.value)){
-			alert("ÇëÊäÈë´û¿î·¿µÄÔÂ»¹¿î");
+			alert("è¯·è¾“å…¥è´·æ¬¾æˆ¿çš„æœˆè¿˜æ¬¾");
 			document.forms[0].hou_mon_loan.focus();
 			return false;
 		}
 		if(document.forms[0].hou_mon_loan.value == 0){
-			alert("´û¿î·¿µÄÔÂ»¹¿î²»ÄÜÎªÁã");
+			alert("è´·æ¬¾æˆ¿çš„æœˆè¿˜æ¬¾ä¸èƒ½ä¸ºé›¶");
 			document.forms[0].hou_mon_loan.focus();
 			return false;
 		}	
 	}
-	//Èô²»ÊÇ´û¿î·¿,Ôò"ÔÂ»¹¿î"²»Ìî
+	//è‹¥ä¸æ˜¯è´·æ¬¾æˆ¿,åˆ™"æœˆè¿˜æ¬¾"ä¸å¡«
 	if(hou_stat != 1){
 		if(!isEmpty(document.forms[0].hou_mon_loan.value)){
 			if(document.forms[0].hou_mon_loan.value != 0){
-				alert("ÔÂ»¹¿îÓÐÂß¼­´íÎó");
+				alert("æœˆè¿˜æ¬¾æœ‰é€»è¾‘é”™è¯¯");
 				document.forms[0].hou_mon_loan.focus();
 				return false;
 			}
 		}
 	}
 	
-	//¼ì²éÔ¼¶¨»¹¿î×ÊÁÏÐÅÏ¢,»¹¿î¿¨ºÅ±ØÐëÎª19Î»Êý×Ö
+	//æ£€æŸ¥çº¦å®šè¿˜æ¬¾èµ„æ–™ä¿¡æ¯,è¿˜æ¬¾å¡å·å¿…é¡»ä¸º19ä½æ•°å­—
 	var repay_card = document.forms[0].repay_card;
 	if(!isEmpty(repay_card.value)){
 		if(!(repay_card.value.length == 19 || repay_card.value.length == 16)){
-			alert("¿¨ºÅÎª16Î»»ò19Î»Êý×Ö");
+			alert("å¡å·ä¸º16ä½æˆ–19ä½æ•°å­—");
 			repay_card.focus();
 			return false;
 		}
@@ -401,12 +401,12 @@ function checkForm(){
 	var card_lmmark = document.forms[0].card_single_code.value;
 	if(card_lmmark!="AL"){
 	
-		//¼ì²éÔ¼¶¨»¹¿î×ÊÁÏÐÅÏ¢;ÆðÊ¼,ÖÕÖ¹ÈÕÆÚ
+		//æ£€æŸ¥çº¦å®šè¿˜æ¬¾èµ„æ–™ä¿¡æ¯;èµ·å§‹,ç»ˆæ­¢æ—¥æœŸ
 		var start_date = document.forms[0].start_date;
 		var expire_date = document.forms[0].expire_date;
-		if(!isEmpty(start_date.value)){    //ÊÇ·ñÊÇÈÕÆÚÐÎÊ½(yyyymmdd)
+		if(!isEmpty(start_date.value)){    //æ˜¯å¦æ˜¯æ—¥æœŸå½¢å¼(yyyymmdd)
 			if(!checkdateNumber(start_date)){
-				alert("ÆðÊ¼ÈÕÆÚÓ¦Îª8Î»");
+				alert("èµ·å§‹æ—¥æœŸåº”ä¸º8ä½");
 				start_date.focus();
 				return false;
 			}
@@ -417,7 +417,7 @@ function checkForm(){
 		}
 		if(!isEmpty(expire_date.value)){
 			if(!checkdateNumber(expire_date)){
-				alert("ÖÕÖ¹ÈÕÆÚÓ¦Îª8Î»");
+				alert("ç»ˆæ­¢æ—¥æœŸåº”ä¸º8ä½");
 				expire_date.focus();
 				return false;
 			}
@@ -426,20 +426,20 @@ function checkForm(){
 				return false;
 			}
 		}
-		if(!(isEmpty(start_date.value) || isEmpty(expire_date.value))){//ÆðÊ¼ÈÕÆÚÐ¡ÓÚÖÕÖ¹ÈÕÆÚ
+		if(!(isEmpty(start_date.value) || isEmpty(expire_date.value))){//èµ·å§‹æ—¥æœŸå°äºŽç»ˆæ­¢æ—¥æœŸ
 			if(expire_date.value <= start_date.value){
-				alert("½ØÖ¹ÈÕÆÚÓ¦´óÓÚÆðÊ¼ÈÕÆÚ");
+				alert("æˆªæ­¢æ—¥æœŸåº”å¤§äºŽèµ·å§‹æ—¥æœŸ");
 				expire_date.focus();
 				return false;
 			}	
 		}	
 		
-	/**Ð£ÑéÔ¼¶¨»¹¿î£¬1¡¢Èô»¹¿î¿¨ºÅ²»Îª¿Õ£¬Ôò»¹¿î·½Ê½Îª±ØÊäÏî
+	/**æ ¡éªŒçº¦å®šè¿˜æ¬¾ï¼Œ1ã€è‹¥è¿˜æ¬¾å¡å·ä¸ä¸ºç©ºï¼Œåˆ™è¿˜æ¬¾æ–¹å¼ä¸ºå¿…è¾“é¡¹
 	*/
 	if(!isEmpty(document.forms[0].repay_card.value)){
 
 		if((document.forms[0].repay_mark.value == "")){
-			alert("ÇëÑ¡Ôñ»¹¿î·½Ê½£¡");
+			alert("è¯·é€‰æ‹©è¿˜æ¬¾æ–¹å¼ï¼");
 			document.forms[0].repay_mark.focus();
 			return false;
 		}
@@ -447,48 +447,48 @@ function checkForm(){
 	}else{
 		
 		if(isEmpty(repay_card.value)){
-			alert("»¹¿î¿¨ºÅÎª±ØÊäÏî");
+			alert("è¿˜æ¬¾å¡å·ä¸ºå¿…è¾“é¡¹");
 			repay_card.focus();
 			return false;
 		}
 	}
 	
-	//Ð£ÑéÔ¤ÁôÐÅÏ¢,ÈôÌîÐ´ÁËÎÊÌâ,Ôò´ð°¸±ØÊä;ÈôÌîÐ´ÁË´ð°¸,ÔòÎÊÌâ±ØÊä
+	//æ ¡éªŒé¢„ç•™ä¿¡æ¯,è‹¥å¡«å†™äº†é—®é¢˜,åˆ™ç­”æ¡ˆå¿…è¾“;è‹¥å¡«å†™äº†ç­”æ¡ˆ,åˆ™é—®é¢˜å¿…è¾“
 	var ques = document.forms[0].remain_ques;
 	var ans = document.forms[0].remain_ans;
 	if((!isEmpty(ques.value)) == isEmpty(ans.value)){
-		alert("Çë½«Ô¤ÁôÐÅÏ¢ÊäÈëÍêÕû");
+		alert("è¯·å°†é¢„ç•™ä¿¡æ¯è¾“å…¥å®Œæ•´");
 		ques.focus();
 		return false;
 	}
 	
-	//ÄâÉêÇë¶î¶ÈÐ£ÑéÊÇ·ñÎªºÏ·¨µÄÐ¡Êý
+	//æ‹Ÿç”³è¯·é¢åº¦æ ¡éªŒæ˜¯å¦ä¸ºåˆæ³•çš„å°æ•°
 	var app_lmt = document.forms[0].app_lmt;
 	if(!IsDecimal(app_lmt.value)){
-		alert("ÄâÉêÇë¶î¶È²»ºÏ·¨");
+		alert("æ‹Ÿç”³è¯·é¢åº¦ä¸åˆæ³•");
 		app_lmt.focus();
 		return false;
 	}
-	//¸öÈËÄêÊÕÈëÐ£ÑéÊÇ·ñÎªºÏ·¨µÄÐ¡Êý
+	//ä¸ªäººå¹´æ”¶å…¥æ ¡éªŒæ˜¯å¦ä¸ºåˆæ³•çš„å°æ•°
 	var per_income = document.forms[0].per_income;
 	if(!IsDecimal(per_income.value)){
-		alert("¸öÈËÄêÊÕÈë²»ºÏ·¨");
+		alert("ä¸ªäººå¹´æ”¶å…¥ä¸åˆæ³•");
 		per_income.focus();
 		return false;
 	}
 
-	//¼ÒÍ¥ÈË¾ùÄêÊÕÈëÐ£ÑéÊÇ·ñÎªºÏ·¨µÄÐ¡Êý
+	//å®¶åº­äººå‡å¹´æ”¶å…¥æ ¡éªŒæ˜¯å¦ä¸ºåˆæ³•çš„å°æ•°
 	var ave_income = document.forms[0].ave_income;
 	if(!IsDecimal(ave_income.value)){
-		alert("¼ÒÍ¥ÈË¾ùÄêÊÕÈë²»ºÏ·¨");
+		alert("å®¶åº­äººå‡å¹´æ”¶å…¥ä¸åˆæ³•");
 		ave_income.focus();
 		return false;
 	}
-	//ÔÂ»¹¿î¼ìÑéÊÇ·ñÎªºÏ·¨Ð¡Êý
+	//æœˆè¿˜æ¬¾æ£€éªŒæ˜¯å¦ä¸ºåˆæ³•å°æ•°
 	var hou_mon_loan = document.forms[0].hou_mon_loan;
 	if(!isEmpty(hou_mon_loan.value)){
 		if(!IsDecimal(hou_mon_loan.value)){
-			alert("´û¿î·¿ÔÂ»¹¿î²»ºÏ·¨");
+			alert("è´·æ¬¾æˆ¿æœˆè¿˜æ¬¾ä¸åˆæ³•");
 			hou_mon_loan.focus();
 			return false;
 		}
@@ -497,18 +497,18 @@ function checkForm(){
  	
  	/*********modified by li xue meng 20070821 ***/
  	var fieldv = new Array("cust_name","cert_no","pre_addr","pre_phone","comp_name","comp_addr","comp_phone","remain_ques","remain_ans","lm_name","lm_pre_phone","cert_name"); 
-	var infov = new Array("ÐÕÃû(ÖÐÎÄ)","Ö¤¼þºÅÂë","ÏÖ×¡Ö·","ÏÖ×¡Ö·µç»°ºÅÂë","µ¥Î»È«³Æ","µ¥Î»µØÖ·","µ¥Î»µç»°ºÅÂë","Ô¤ÁôÎÊÌâ","Ô¤Áô´ð°¸","ÁªÏµÈËÐÕÃû(ÖÐÎÄ)","ÁªÏµÈËÏÖ×¡Ö·µç»°ºÅÂë","ÆäËûÖ¤¼þÃû³Æ"); 
+	var infov = new Array("å§“å(ä¸­æ–‡)","è¯ä»¶å·ç ","çŽ°ä½å€","çŽ°ä½å€ç”µè¯å·ç ","å•ä½å…¨ç§°","å•ä½åœ°å€","å•ä½ç”µè¯å·ç ","é¢„ç•™é—®é¢˜","é¢„ç•™ç­”æ¡ˆ","è”ç³»äººå§“å(ä¸­æ–‡)","è”ç³»äººçŽ°ä½å€ç”µè¯å·ç ","å…¶ä»–è¯ä»¶åç§°"); 
 
- 	//edit by yly,Ð£ÑéÓÐÎó
+ 	//edit by yly,æ ¡éªŒæœ‰è¯¯
  	var fvaluev = new Array(40,20,80,17,40,80,17,20,20,20,17,19); 
   	
-	//¼ì²ìÊäÈëÐÅÏ¢ÊÇ·ñÎª¿Õ 
+	//æ£€å¯Ÿè¾“å…¥ä¿¡æ¯æ˜¯å¦ä¸ºç©º 
 	var tmp; 
 	for(var i=0;i<fieldv.length;i++)	{ 
 	 	tmp ="document.forms[0]."+fieldv[i]+".value"; 
 	    if(!isEmpty(eval(tmp))) {
 	    	if( getChineseStrLength(eval(tmp)) > fvaluev[i] ){
-	    	 	alert(infov[i]+'³¤¶È³¬¹ýÏÞÖÆ'); 
+	    	 	alert(infov[i]+'é•¿åº¦è¶…è¿‡é™åˆ¶'); 
 			    eval("document.forms[0]."+fieldv[i]+".focus()"); 
 			    return false; 
 		    }
@@ -520,14 +520,14 @@ function checkForm(){
  
     //modified by Li xue meng 20070822
     var fieldv = new Array("app_lmt","per_income","ave_income","hou_mon_loan"); 
-	var infov = new Array("ÄâÉêÇë¶î¶È","¸öÈËÄêÊÕÈë","¼ÒÍ¥ÈË¾ùÄêÊÕÈë","·¿´ûÔÂ»¹¿î"); 
-	//¼ì²ìÊäÈëÐÅÏ¢ÊÇ·ñÎª¿Õ 
+	var infov = new Array("æ‹Ÿç”³è¯·é¢åº¦","ä¸ªäººå¹´æ”¶å…¥","å®¶åº­äººå‡å¹´æ”¶å…¥","æˆ¿è´·æœˆè¿˜æ¬¾"); 
+	//æ£€å¯Ÿè¾“å…¥ä¿¡æ¯æ˜¯å¦ä¸ºç©º 
 	var tmp; 
 	for(var i=0;i<fieldv.length;i++)	{ 
 	 	tmp ="document.forms[0]."+fieldv[i]+".value"; 
 	    if(!isEmpty(eval(tmp))) {
 	    	if( !isZ(eval(tmp))){
-	    	 	alert(infov[i]+'Ó¦ÎªÕûÊý'); 
+	    	 	alert(infov[i]+'åº”ä¸ºæ•´æ•°'); 
 			    eval("document.forms[0]."+fieldv[i]+".focus()"); 
 			    return false; 
 		    }
@@ -537,14 +537,14 @@ function checkForm(){
 	
 
 	
-	/**Ð£ÑéÔ±¹¤¿¨£¬1¡¢ÈôÁªÃû¿¨±êÊ¶Îª31(Ô±¹¤¿¨)£¬Ôòµ¥Î»Ãû³Æ×Ö·û´®ÖÐ±ØÐë³öÏÖ¡°Å©ÐÐ¡±×Ö
+	/**æ ¡éªŒå‘˜å·¥å¡ï¼Œ1ã€è‹¥è”åå¡æ ‡è¯†ä¸º31(å‘˜å·¥å¡)ï¼Œåˆ™å•ä½åç§°å­—ç¬¦ä¸²ä¸­å¿…é¡»å‡ºçŽ°â€œå†œè¡Œâ€å­—
 	*/
 	if(document.forms[0].card_single_code.value=="31"){
 		
 		var compname = document.forms[0].comp_name.value;
 
-		if(!(compname.match("Å©ÐÐ")||compname.match("Å©ÒµÒøÐÐ"))){
-			alert("¿¨Æ¬ÉêÇëÈË²»ÊÇÅ©ÐÐÔ±¹¤£¡");
+		if(!(compname.match("å†œè¡Œ")||compname.match("å†œä¸šé“¶è¡Œ"))){
+			alert("å¡ç‰‡ç”³è¯·äººä¸æ˜¯å†œè¡Œå‘˜å·¥ï¼");
 			document.forms[0].comp_name.focus();
 			return false;
 		}
@@ -554,10 +554,10 @@ function checkForm(){
 	
 	
 	
-	/**Ð£Ñé£º¼ÒÍ¥ÈË¿Ú´óÓÚ0£¬ÏÖ×¡Ö·ÄêÏÞ´óÓÚ0*/
+	/**æ ¡éªŒï¼šå®¶åº­äººå£å¤§äºŽ0ï¼ŒçŽ°ä½å€å¹´é™å¤§äºŽ0*/
 	var jtrk = document.forms[0].fami_member.value;
     if(jtrk <=0){
-    	alert("¼ÒÍ¥ÈË¿Ú²»ÄÜÎª0");
+    	alert("å®¶åº­äººå£ä¸èƒ½ä¸º0");
     	document.forms[0].fami_member.focus();
     	return false;   	
     }
@@ -569,59 +569,59 @@ function checkForm(){
 		
 	
 
-	//Ö¤¼þºÅÂë18Î»»ò15Î»Ê±£¬Ö¤¼þÀàÐÍÓ¦ÎªÉí·ÝÖ¤»òÁÙÊ±Éí·ÝÖ¤£¬ÆäËû²»·ûºÏ±ê×¼µÄ£¬
-	//ÏµÍ³ÌáÊ¾¡°Ö¤¼þÀàÐÍ´íÎó¡±£¬µ«¿ÉÒÔÇ¿ÖÆÍ¨¹ý¡£
+	//è¯ä»¶å·ç 18ä½æˆ–15ä½æ—¶ï¼Œè¯ä»¶ç±»åž‹åº”ä¸ºèº«ä»½è¯æˆ–ä¸´æ—¶èº«ä»½è¯ï¼Œå…¶ä»–ä¸ç¬¦åˆæ ‡å‡†çš„ï¼Œ
+	//ç³»ç»Ÿæç¤ºâ€œè¯ä»¶ç±»åž‹é”™è¯¯â€ï¼Œä½†å¯ä»¥å¼ºåˆ¶é€šè¿‡ã€‚
 	str = document.forms[0].cert_no.value;
 	if((str.length==15) || (str.length==18)){
 		if(getSelectedButton(document.forms[0].cert_type) != 0){		
-		//alert("Ö¤¼þÀàÐÍ´íÎó!");
+		//alert("è¯ä»¶ç±»åž‹é”™è¯¯!");
 			if(MsgError == ""){
-				MsgError = MsgError + "Ö¤¼þÀàÐÍ´íÎó";
+				MsgError = MsgError + "è¯ä»¶ç±»åž‹é”™è¯¯";
 			}
 			else{
-				MsgError = MsgError + "\nÖ¤¼þÀàÐÍ´íÎó";
+				MsgError = MsgError + "\nè¯ä»¶ç±»åž‹é”™è¯¯";
 			}
 		}
 	} 
 	
 	/*
-	 * Í¬Ò»±ÊÉêÇë×ÊÁÏÖÐ£¬ÈçÏÖ×¡Ö·³ÇÊÐ´úÂëÓëµ¥Î»³ÇÊÐ´úÂëÏàÍ¬£¬
-	 * ÏÖ×¡Ö·µç»°ÇøºÅÓëµ¥Î»µç»°ÇøºÅ¡¢ÏÖ×¡Ö·µç»°ºÅÂëÎ»ÊýÓëµ¥Î»¹Ì¶¨µç»°ºÅÂëÎ»Êý¡¢
-	 * ÏÖ×¡Ö·ÓÊ±àÇ°ÈýÎ»Óëµ¥Î»ÓÊ±àÇ°ÈýÎ»Ó¦¸Ã±£³ÖÒ»ÖÂ£¬Èç²»Ò»ÖÂ£¬
-	 * ÏµÍ³·Ö±ðÒÀ´ÎÌáÊ¾£º¡°ÏÖ×¡Ö·µç»°ÇøºÅ»òµ¥Î»µç»°ÇøºÅ´íÎó¡±£¬
-	 * ¡°ÏÖ×¡Ö·µç»°Î»ÊýÓëµ¥Î»µç»°Î»Êý²»Ò»ÖÂ¡±¡¢
-	 * ¡°ÏÖ×¡Ö·ÓÊ±àÇ°ÈýÎ»Óëµ¥Î»ÓÊ±àÇ°ÈýÎ»²»Ò»ÖÂ¡±£¬µ«¿ÉÒÔÇ¿ÐÐÍ¨¹ý¡£
+	 * åŒä¸€ç¬”ç”³è¯·èµ„æ–™ä¸­ï¼Œå¦‚çŽ°ä½å€åŸŽå¸‚ä»£ç ä¸Žå•ä½åŸŽå¸‚ä»£ç ç›¸åŒï¼Œ
+	 * çŽ°ä½å€ç”µè¯åŒºå·ä¸Žå•ä½ç”µè¯åŒºå·ã€çŽ°ä½å€ç”µè¯å·ç ä½æ•°ä¸Žå•ä½å›ºå®šç”µè¯å·ç ä½æ•°ã€
+	 * çŽ°ä½å€é‚®ç¼–å‰ä¸‰ä½ä¸Žå•ä½é‚®ç¼–å‰ä¸‰ä½åº”è¯¥ä¿æŒä¸€è‡´ï¼Œå¦‚ä¸ä¸€è‡´ï¼Œ
+	 * ç³»ç»Ÿåˆ†åˆ«ä¾æ¬¡æç¤ºï¼šâ€œçŽ°ä½å€ç”µè¯åŒºå·æˆ–å•ä½ç”µè¯åŒºå·é”™è¯¯â€ï¼Œ
+	 * â€œçŽ°ä½å€ç”µè¯ä½æ•°ä¸Žå•ä½ç”µè¯ä½æ•°ä¸ä¸€è‡´â€ã€
+	 * â€œçŽ°ä½å€é‚®ç¼–å‰ä¸‰ä½ä¸Žå•ä½é‚®ç¼–å‰ä¸‰ä½ä¸ä¸€è‡´â€ï¼Œä½†å¯ä»¥å¼ºè¡Œé€šè¿‡ã€‚
 	 *
-	 * ×¢Òâ£º¡°ÏÖ×¡Ö·µç»°Î»ÊýÓëµ¥Î»µç»°Î»Êý²»Ò»ÖÂ¡±µÄÐ£ÑéÃ»ÓÐÐ´
+	 * æ³¨æ„ï¼šâ€œçŽ°ä½å€ç”µè¯ä½æ•°ä¸Žå•ä½ç”µè¯ä½æ•°ä¸ä¸€è‡´â€çš„æ ¡éªŒæ²¡æœ‰å†™
 	 */
 	if(document.forms[0].pre_city_code.value == document.forms[0].comp_city_code.value){
 		if((document.forms[0].pre_zone_no.value) != document.forms[0].comp_zone_no.value){
-			//alert("ÏÖ×¡Ö·µç»°ÇøºÅ»òµ¥Î»µç»°ÇøºÅ´íÎó");
+			//alert("çŽ°ä½å€ç”µè¯åŒºå·æˆ–å•ä½ç”µè¯åŒºå·é”™è¯¯");
 			if(document.forms[0].pre_zone_no.value !=""){
 				if(MsgError == ""){
-					MsgError = MsgError + "ÏÖ×¡Ö·µç»°ÇøºÅ»òµ¥Î»µç»°ÇøºÅ´íÎó";}
+					MsgError = MsgError + "çŽ°ä½å€ç”µè¯åŒºå·æˆ–å•ä½ç”µè¯åŒºå·é”™è¯¯";}
 				else{
-					MsgError = MsgError + "\nÏÖ×¡Ö·µç»°ÇøºÅ»òµ¥Î»µç»°ÇøºÅ´íÎó";}
+					MsgError = MsgError + "\nçŽ°ä½å€ç”µè¯åŒºå·æˆ–å•ä½ç”µè¯åŒºå·é”™è¯¯";}
 			}
 		}
 		if((document.forms[0].pre_post.value).substring(0,3) != (document.forms[0].comp_post.value).substring(0,3)){
-			//alert("ÏÖ×¡Ö·ÓÊ±àÇ°ÈýÎ»Óëµ¥Î»ÓÊ±àÇ°ÈýÎ»²»Ò»ÖÂ");
+			//alert("çŽ°ä½å€é‚®ç¼–å‰ä¸‰ä½ä¸Žå•ä½é‚®ç¼–å‰ä¸‰ä½ä¸ä¸€è‡´");
 			if(MsgError == ""){
-				MsgError = MsgError + "ÏÖ×¡Ö·ÓÊ±àÇ°ÈýÎ»Óëµ¥Î»ÓÊ±àÇ°ÈýÎ»²»Ò»ÖÂ";}
+				MsgError = MsgError + "çŽ°ä½å€é‚®ç¼–å‰ä¸‰ä½ä¸Žå•ä½é‚®ç¼–å‰ä¸‰ä½ä¸ä¸€è‡´";}
 			else{
-				MsgError = MsgError + "\nÏÖ×¡Ö·ÓÊ±àÇ°ÈýÎ»Óëµ¥Î»ÓÊ±àÇ°ÈýÎ»²»Ò»ÖÂ";}
+				MsgError = MsgError + "\nçŽ°ä½å€é‚®ç¼–å‰ä¸‰ä½ä¸Žå•ä½é‚®ç¼–å‰ä¸‰ä½ä¸ä¸€è‡´";}
 		}
 	}
-	if(MsgError != ""){//ÈôMsgError²»Îª¿Õ£¬Ôò±¨´í
+	if(MsgError != ""){//è‹¥MsgErrorä¸ä¸ºç©ºï¼Œåˆ™æŠ¥é”™
 		alert(MsgError);
 	}
 	  
-	return true;	//¼ìÑé½áÊø,·µ»Øtrue
+	return true;	//æ£€éªŒç»“æŸ,è¿”å›žtrue
 	
 }
 
 
-/*=============================ÒÔÏÂÎªËùÓÃµ½µÄ×Óº¯Êý====================*/
+/*=============================ä»¥ä¸‹ä¸ºæ‰€ç”¨åˆ°çš„å­å‡½æ•°====================*/
 
 function rmlines(str){
 	var s = '';
@@ -645,7 +645,7 @@ function checkEnter(str){
 }
 
 
-//¶ÔÏó²»ÄÜÎª¿Õ»òÕß¿ªÍ·Îª0
+//å¯¹è±¡ä¸èƒ½ä¸ºç©ºæˆ–è€…å¼€å¤´ä¸º0
 function checkYForGet(obj){
 	str=obj.value;
 	if(str.length==0) return false;
@@ -653,7 +653,7 @@ function checkYForGet(obj){
 	return true;
 }
 
-//µÃµ½µ¥Ñ¡¿òÖÐÑ¡ÖÐµÄÏî
+//å¾—åˆ°å•é€‰æ¡†ä¸­é€‰ä¸­çš„é¡¹
 function getSelectedButton(buttonGroup){ 	
 	for(var i=0;i<buttonGroup.length;i++){
 		if(buttonGroup[i].checked){
@@ -663,24 +663,24 @@ function getSelectedButton(buttonGroup){
 	return 0;
 }
 
-//¼ì²éÉúÈÕ
+//æ£€æŸ¥ç”Ÿæ—¥
 function checkDate(obj){
 	str=obj.value;
-	if(str.length==0){alert("ÈÕÆÚÊäÈë²»ÕýÈ·");return false;}
+	if(str.length==0){alert("æ—¥æœŸè¾“å…¥ä¸æ­£ç¡®");return false;}
 	Y=str.substring(0,4);
 	M=str.substring(4,6);
 	D=str.substring(6,8);
 	if(Y<1900 || Y>2100){
-		alert("ÈÕÆÚÊäÈë²»ÕýÈ·");
+		alert("æ—¥æœŸè¾“å…¥ä¸æ­£ç¡®");
 		return false;
 	}
 	Months= new Array(31,28,31,30,31,30,31,31,30,31,30,31);
 	Leap = false;
 	if((Y % 4 == 0) && ((Y % 100 != 0) || (Y %400 == 0)))	Leap = true;
-	if((D < 1) || (D > 31) || (M < 1) || (M > 12) || (Y < 0))	{alert("ÈÕÆÚÊäÈë²»ÕýÈ·");return false;}
-	if((D > Months[M-1]) && !((M == 2) && (D > 28)))	{alert("ÈÕÆÚÊäÈë²»ÕýÈ·");return false;}
-	if(!(Leap) && (M == 2) && (D > 28))	{alert("ÈÕÆÚÊäÈë²»ÕýÈ·");return false;} 
-	if((Leap) && (M == 2) && (D > 29)) 	{alert("ÈÕÆÚÊäÈë²»ÕýÈ·");return false;} 
+	if((D < 1) || (D > 31) || (M < 1) || (M > 12) || (Y < 0))	{alert("æ—¥æœŸè¾“å…¥ä¸æ­£ç¡®");return false;}
+	if((D > Months[M-1]) && !((M == 2) && (D > 28)))	{alert("æ—¥æœŸè¾“å…¥ä¸æ­£ç¡®");return false;}
+	if(!(Leap) && (M == 2) && (D > 28))	{alert("æ—¥æœŸè¾“å…¥ä¸æ­£ç¡®");return false;} 
+	if((Leap) && (M == 2) && (D > 29)) 	{alert("æ—¥æœŸè¾“å…¥ä¸æ­£ç¡®");return false;} 
 	return true;
 }
 
@@ -693,18 +693,18 @@ function checkdateNumber(obj){
   return true
 }
 
-//¼ì²éÉí·ÝÖ¤ºÅÂë
+//æ£€æŸ¥èº«ä»½è¯å·ç 
 function isIDNO(obj){
 	var s = trim(obj.value);
 	if (!((s.length==18) || (s.length==15))){
 		//alert(s.length);
-		alert("Éí·ÝÖ¤ºÅÂë³¤¶ÈÖ»ÄÜÎª15»ò18Î»");
+		alert("èº«ä»½è¯å·ç é•¿åº¦åªèƒ½ä¸º15æˆ–18ä½");
 		
 		return false;
 	}
 	else if (s.length==15){
 		if (!warnCharsInBag(s, "0123456789")){
-			alert("Éí·ÝÖ¤ºÅÂë³¤Îª15Î»Ê±,±ØÐëÈ«²¿ÊÇÊý×Ö");
+			alert("èº«ä»½è¯å·ç é•¿ä¸º15ä½æ—¶,å¿…é¡»å…¨éƒ¨æ˜¯æ•°å­—");
 			return false;
 		}
 	}
@@ -712,12 +712,12 @@ function isIDNO(obj){
 		if (!isNumber(s)){
 			var sub=s.substring(1,17)
 			if (!warnCharsInBag(sub, "0123456789")){
-				alert("Éí·ÝÖ¤ºÅÂë³¤Îª18Î»Ê±,Ç°17Î»±ØÐëÈ«²¿ÊÇÊý×Ö");
+				alert("èº«ä»½è¯å·ç é•¿ä¸º18ä½æ—¶,å‰17ä½å¿…é¡»å…¨éƒ¨æ˜¯æ•°å­—");
 				return false;
 			}
 			if(!warnCharsInBag(s, "0123456789")){							    
 				if ((s.charAt(17)!="x") && (s.charAt(17)!="X")){
-					alert("Éí·ÝÖ¤ºÅÂëÖ»ÄÜÔÚ×îºóÒ»Î»¿ÉÒÔÊäÈë×Ö·ûX»òx");
+					alert("èº«ä»½è¯å·ç åªèƒ½åœ¨æœ€åŽä¸€ä½å¯ä»¥è¾“å…¥å­—ç¬¦Xæˆ–x");
 				    return false;
 				}
 			}
@@ -725,18 +725,18 @@ function isIDNO(obj){
 	}
 	return true;
   }
-// ÅÐ¶Ï×Ö·û´®µÄ×Ö·ûÊÇ·ñÔÚ¸ø¶¨µÄ×Ö·û´®·¶Î§ÄÚ
+// åˆ¤æ–­å­—ç¬¦ä¸²çš„å­—ç¬¦æ˜¯å¦åœ¨ç»™å®šçš„å­—ç¬¦ä¸²èŒƒå›´å†…
 function warnCharsInBag(s,Bag)
 {
    var SubString,ContainString;
-   var NotContain=false; //ÅÐ¶Ï¸Ã×Ö·û»ò´®ÊÇ·ñ°üº¬ÔÚÄÚ²¿
-   var IsEqual=false; //ÅÐ¶ÏÄ³¸ö×Ö·ûÊÇ·ñÓë°üÖÐ×Ö·ûÏàµÈ
+   var NotContain=false; //åˆ¤æ–­è¯¥å­—ç¬¦æˆ–ä¸²æ˜¯å¦åŒ…å«åœ¨å†…éƒ¨
+   var IsEqual=false; //åˆ¤æ–­æŸä¸ªå­—ç¬¦æ˜¯å¦ä¸ŽåŒ…ä¸­å­—ç¬¦ç›¸ç­‰
    
    SubString=new String("");
    ContainString=new String("");
    SubString=s;
    ContainString=Bag;
-   //´¦Àíµ¥×Ö·û
+   //å¤„ç†å•å­—ç¬¦
    if (SubString.length=1)
    {
       SubString=SubString+"a";
@@ -744,7 +744,7 @@ function warnCharsInBag(s,Bag)
    }
    for(var SubIndex=0; SubIndex<SubString.length-1; SubIndex++)
    {
-      IsEqual=false;//¼ÙÉè¸Ã×Ó×Ö·û²»ÔÚ°üÖÐ
+      IsEqual=false;//å‡è®¾è¯¥å­å­—ç¬¦ä¸åœ¨åŒ…ä¸­
       for (var ContainIndex=0; 
            ContainIndex<ContainString.length-1; 
            ContainIndex++)
@@ -754,9 +754,9 @@ function warnCharsInBag(s,Bag)
                IsEqual=true;
                break;
            }
-       }   //Èç¹û¸Ã×Ö·ûÔÚ°üÖÐ£¬Ìø³ö£¬²¢ÉèÖÃÎªÏàµÈ
+       }   //å¦‚æžœè¯¥å­—ç¬¦åœ¨åŒ…ä¸­ï¼Œè·³å‡ºï¼Œå¹¶è®¾ç½®ä¸ºç›¸ç­‰
       if (!(IsEqual))
-      {//Èç¹û²»ÔÚ°üÖÐ£¬¿ÉÒÔÖ±½ÓÍÆ³ö
+      {//å¦‚æžœä¸åœ¨åŒ…ä¸­ï¼Œå¯ä»¥ç›´æŽ¥æŽ¨å‡º
           NotContain=true;
           return false;
           break;
@@ -764,14 +764,14 @@ function warnCharsInBag(s,Bag)
    }
    if(!NotContain)
    {
-      return true;//Ñ­»·ÖÐ³öÀ´Èç¹û»¹Ã»ÓÐ·µ»Ø£¬ÕâÖ¤Ã÷°üº¬ÔÚ°üÖÐ
+      return true;//å¾ªçŽ¯ä¸­å‡ºæ¥å¦‚æžœè¿˜æ²¡æœ‰è¿”å›žï¼Œè¿™è¯æ˜ŽåŒ…å«åœ¨åŒ…ä¸­
    }
    else
    {
       return false;
    }
 }
-//ÊÇ·ñÎªÊý×Ö
+//æ˜¯å¦ä¸ºæ•°å­—
 function isNumber(s)
 
 {   var i;
@@ -794,7 +794,7 @@ function isNumber(s)
     // All characters are numbers.
     return true;
 }
-// ÅÐ¶ÏÊÇ·ñÎª¿Õ.
+// åˆ¤æ–­æ˜¯å¦ä¸ºç©º.
 function isEmpty(s)
 {   
 	if(s == null || s.length == 0 || trim(s) == "")
@@ -806,32 +806,32 @@ function isEmpty(s)
 		return false;
 	}
 }
-//ÊÇ·ñÎªÊý×Ö·ûºÅ
+//æ˜¯å¦ä¸ºæ•°å­—ç¬¦å·
 function isDigit (c)
 {   return ((c >= "0") && (c <= "9"))
 }
 /*
-È¥³ý×Ö·û´®Á½±ßµÄ¿Õ×Ö·û
-À´×Ôdefault.js
-²âÊÔieÏÂok
+åŽ»é™¤å­—ç¬¦ä¸²ä¸¤è¾¹çš„ç©ºå­—ç¬¦
+æ¥è‡ªdefault.js
+æµ‹è¯•ieä¸‹ok
 */
 function trim(s)
 {
 	return trimRight(trimLeft(s))
 }
 function trimLeft(s) {
-	while (s.charAt(0) ==" " ||s.charAt(0) =="£ " ){
+	while (s.charAt(0) ==" " ||s.charAt(0) =="î—¥" ){
 		s = s.substr(1,s.length-1)
 	}
 	return s;
 }
 function trimRight(s) {
-	while (s.charAt(s.length-1) == " " || s.charAt(s.length-1) == "£ ")	{
+	while (s.charAt(s.length-1) == " " || s.charAt(s.length-1) == "î—¥")	{
 		s = s.substr(0,s.length-1)
 	}
 	return s;
 }
-//¼ì²éµç×ÓÐÅÏä
+//æ£€æŸ¥ç”µå­ä¿¡ç®±
 function isEmail(obj) 
 { 
   	var email=obj.value; 
@@ -865,25 +865,25 @@ function isEmail(obj)
 	return true; 
 } 
 
-//Ð£ÑéÊÖ»úºÅÂë£º±ØÐëÒÔÊý×Ö¿ªÍ·£¬³ýÊý×ÖÍâ£¬¿Éº¬ÓÐ¡°-¡± 
+//æ ¡éªŒæ‰‹æœºå·ç ï¼šå¿…é¡»ä»¥æ•°å­—å¼€å¤´ï¼Œé™¤æ•°å­—å¤–ï¼Œå¯å«æœ‰â€œ-â€ 
 function isMobile(s){ 
 	var patrn=/^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/; 
 	if (!patrn.exec(s)) return false ;
 	return true ;
 } 
 
-//¼ì²ésÊÇ·ñÎªÕýÐ¡Êý
-//ÈôÐèÇóÎª¸ºÐ¡Êý,ÄÇÃ´¿ÉÒÔÈ¥µô"-",È»ºóÓÃ´Ëº¯ÊýÐ£Ñé
+//æ£€æŸ¥sæ˜¯å¦ä¸ºæ­£å°æ•°
+//è‹¥éœ€æ±‚ä¸ºè´Ÿå°æ•°,é‚£ä¹ˆå¯ä»¥åŽ»æŽ‰"-",ç„¶åŽç”¨æ­¤å‡½æ•°æ ¡éªŒ
 function IsDecimal(s)
 {
-	var floatStr = "0123456789."; //¿ÉÒÔ×é³ÉÐ¡ÊýµÄ×Ö·û
-	var sLength = s.length;		//´ýÐ£Ñé×Ö·û´®µÄ³¤¶È
+	var floatStr = "0123456789."; //å¯ä»¥ç»„æˆå°æ•°çš„å­—ç¬¦
+	var sLength = s.length;		//å¾…æ ¡éªŒå­—ç¬¦ä¸²çš„é•¿åº¦
 	
-	if(s.charAt(0) == "."){   //Ð¡ÊýµÚÒ»Î»²»ÄÜÊÇ"."
+	if(s.charAt(0) == "."){   //å°æ•°ç¬¬ä¸€ä½ä¸èƒ½æ˜¯"."
 		return false;
 	}
 	
-	//Ð¡Êý²»ÄÜÓÐÁ½¸öÐ¡Êýµã
+	//å°æ•°ä¸èƒ½æœ‰ä¸¤ä¸ªå°æ•°ç‚¹
 	var dot = 0;
 	for(var i=0;i<sLength;i++){
 		if(s.charAt(i) == "."){
@@ -892,16 +892,16 @@ function IsDecimal(s)
 	}
 	if(dot > 1)return false;
 	
-	//Ð¡ÊýµÄ×îºóÒ»Î»²»ÄÜÊÇÐ¡Êýµã
+	//å°æ•°çš„æœ€åŽä¸€ä½ä¸èƒ½æ˜¯å°æ•°ç‚¹
 	if(s.charAt(sLength-1) == ".")return false;
 	
-	//Ð¡Êý²»ÄÜµÚÒ»µÚ¶þÎ»Í¬Ê±Îª0
+	//å°æ•°ä¸èƒ½ç¬¬ä¸€ç¬¬äºŒä½åŒæ—¶ä¸º0
 	if(sLength > 1 && s.charAt(0) == "0" && s.charAt(1) == "0")return false;
 	
-	//ÈôµÚ¶þÎ»²»ÊÇÐ¡ÊýµãµÄ»°,µÚÒ»Î»²»ÄÜÊÇ0
+	//è‹¥ç¬¬äºŒä½ä¸æ˜¯å°æ•°ç‚¹çš„è¯,ç¬¬ä¸€ä½ä¸èƒ½æ˜¯0
 	if(sLength > 1 && s.charAt(0) == "0" && s.charAt(1) != ".")return false;
 		
-	//Ð¡ÊýµÄ±ØÐëÓÉºÏ·¨µÄ×Ö·û×é³É
+	//å°æ•°çš„å¿…é¡»ç”±åˆæ³•çš„å­—ç¬¦ç»„æˆ
 	for(var i=0;i<sLength;i++){
 		var flag = 0;
 		for(var j=0;j<11;j++){
@@ -918,23 +918,23 @@ function IsDecimal(s)
 	
 }
 
-//¼ì²ésÊÇ·ñÎªÕûÊý
-//1000»ò100.00£¬²»ÄÜÊÇ1000.23
+//æ£€æŸ¥sæ˜¯å¦ä¸ºæ•´æ•°
+//1000æˆ–100.00ï¼Œä¸èƒ½æ˜¯1000.23
 function isZ(s)
 {
-	var sLength = s.length;		//´ýÐ£Ñé×Ö·û´®µÄ³¤¶È
+	var sLength = s.length;		//å¾…æ ¡éªŒå­—ç¬¦ä¸²çš„é•¿åº¦
 		
-	//¼ì²éÐ¡ÊýµãËùÔÚÎ»
+	//æ£€æŸ¥å°æ•°ç‚¹æ‰€åœ¨ä½
 	var i = 0;
 	for(;i<sLength;i++){
 		if(s.charAt(i) == "."){
 			break;
 		}
 	}
-	if(i == sLength - 1){//Èô×Ö·û´®Ã»ÓÐÐ¡Êýµã
+	if(i == sLength - 1){//è‹¥å­—ç¬¦ä¸²æ²¡æœ‰å°æ•°ç‚¹
 		return true;
 	}
-	for(var j=i+1;j<sLength;j++){//Èô×Ö·û´®ÓÐÐ¡Êýµã
+	for(var j=i+1;j<sLength;j++){//è‹¥å­—ç¬¦ä¸²æœ‰å°æ•°ç‚¹
 		if(s.charAt(j) != "0"){
 			return false;
 		}
@@ -943,7 +943,7 @@ function isZ(s)
 }
 
 /*
-¼ì²éÊäÈë×Ö·û´®ÊÇ·ñÊÇÓ¢ÎÄ×ÖÄ¸
+æ£€æŸ¥è¾“å…¥å­—ç¬¦ä¸²æ˜¯å¦æ˜¯è‹±æ–‡å­—æ¯
 */
 function isLetter( inputVal )
 {
@@ -963,13 +963,13 @@ function isLetter( inputVal )
 	return true;
 }
 
-//½«×Ö·û´®ÖÐµÄ¿ÕÂËµô
+//å°†å­—ç¬¦ä¸²ä¸­çš„ç©ºæ»¤æŽ‰
 function KillSpace(s){
     var s1="";
-     if (isEmpty(s))//ÅÐ¶ÏÊÇ·ñÎª¿Õ
+     if (isEmpty(s))//åˆ¤æ–­æ˜¯å¦ä¸ºç©º
      {	
 	    return s;
-     }else{//²»Îª¿Õ
+     }else{//ä¸ä¸ºç©º
 	    var len=s.length;
 		for (var i=0;i<len;i++)
 		{
@@ -981,7 +981,7 @@ function KillSpace(s){
 	 }
 	 return s1;
 }
-//ÅÐ¶Ï×Ö·û´®ÖÐÊÇ·ñ°üÀ¨ÖÐÎÄ»òÆäËû²»ºÏ·¨µÄ×Ö·û 
+//åˆ¤æ–­å­—ç¬¦ä¸²ä¸­æ˜¯å¦åŒ…æ‹¬ä¸­æ–‡æˆ–å…¶ä»–ä¸åˆæ³•çš„å­—ç¬¦ 
 function ChineseIn(inputVal){
 	
 	var strCheck = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@_.-";
@@ -998,7 +998,7 @@ function ChineseIn(inputVal){
 	}
 	return true;
 }
-//ÅÐ¶Ï×Ö·û´®ÊÇ·ñÈ«ÊÇ0 ,È«0·µ»Øtrue
+//åˆ¤æ–­å­—ç¬¦ä¸²æ˜¯å¦å…¨æ˜¯0 ,å…¨0è¿”å›žtrue
 function isZero(inputVal){
 	
 	var strCheck = "0";
@@ -1017,10 +1017,10 @@ function isZero(inputVal){
 }
 
 /**
-*´¦Àí×Ö·û´®£¬·µ»Ø×Ö·û´®³¤¶È¡£
-*×÷ÓÃ£º¿ØÖÆ´øºº×ÖµÄ×Ö·û´®µÄ³¤¶È£¬ºº×Ö¿éµÄÁ½¶ËÐèÒª¸½¼ÓÒ»¸ö×Ö½Ú
-*strÎªÊäÈëµÄ×Ö·û´®
-*Èç£º¡°123ÄãºÃ456¡±³¤¶ÈÎª10£¬¶øÔÚ´Ëº¯Êý´¦ÀíÖÐ£¬·µ»Ø³¤¶ÈÎª12£¬ÒòÎªÔÚ¡°ÄãºÃ¡±Á½¶ËÐè¸½¼ÓÒ»¸ö×Ö½Ú
+*å¤„ç†å­—ç¬¦ä¸²ï¼Œè¿”å›žå­—ç¬¦ä¸²é•¿åº¦ã€‚
+*ä½œç”¨ï¼šæŽ§åˆ¶å¸¦æ±‰å­—çš„å­—ç¬¦ä¸²çš„é•¿åº¦ï¼Œæ±‰å­—å—çš„ä¸¤ç«¯éœ€è¦é™„åŠ ä¸€ä¸ªå­—èŠ‚
+*strä¸ºè¾“å…¥çš„å­—ç¬¦ä¸²
+*å¦‚ï¼šâ€œ123ä½ å¥½456â€é•¿åº¦ä¸º10ï¼Œè€Œåœ¨æ­¤å‡½æ•°å¤„ç†ä¸­ï¼Œè¿”å›žé•¿åº¦ä¸º12ï¼Œå› ä¸ºåœ¨â€œä½ å¥½â€ä¸¤ç«¯éœ€é™„åŠ ä¸€ä¸ªå­—èŠ‚
 */
 function getChineseStrLength(str ) {
     num = str.length;
@@ -1046,7 +1046,7 @@ function getChineseStrLength(str ) {
 	return num+2*ChineseBlock;
 }
 
-//¹ú¼®·Ö¸³Öµ
+//å›½ç±åˆ†èµ‹å€¼
 function mainCardNationality(selObj){ //v3.0
 	var selectedIndex = getSelectedButton(document.forms[0].select);
  	document.forms[0].nationality.value=selObj.options[selObj.selectedIndex].value;
@@ -1055,24 +1055,25 @@ function mainCardNationality(selObj){ //v3.0
 
 
 var country_code;
-country_code="<option value=\"\">--ÇëÑ¡Ôñ¹ú¼®--</option><option value=\"CHN\">CHN-ÖÐ¹ú</option> <option value=\"HKG\">HKG-Ïã¸Û</option> <option value=\"MAC\">MAC-°ÄÃÅ</option> <option value=\"TWN\">TWN-ÖÐ¹úÌ¨Íå</option> <option value=\"USA\">USA-ÃÀ¹ú</option> <option value=\"GBR\">GBR-Ó¢¹ú</option> <option value=\"FRA\">FRA-·¨¹ú</option> <option value=\"DEU\">DEU-µÂ¹ú</option> <option value=\"ITA\">ITA-Òâ´óÀû</option> <option value=\"GRC\">GRC-Ï£À°</option> <option value=\"RUS\">RUS-¶íÂÞË¹Áª°î</option> <option value=\"ESP\">ESP-Î÷°àÑÀ</option> <option value=\"PRT\">PRT-ÆÏÌÑÑÀ</option> <option value=\"SWE\">SWE-Èðµä</option> <option value=\"CHE\">CHE-ÈðÊ¿</option> <option value=\"PRK\">PRK-³¯ÏÊ</option> <option value=\"KOR\">KOR-º«¹ú</option> <option value=\"IND\">IND-Ó¡¶È</option> <option value=\"AUS\">AUS-°Ä´óÀûÑÇ</option> <option value=\"ISR\">ISR-ÒÔÉ«ÁÐ</option> <option value=\"JPN\">JPN-ÈÕ±¾</option> <option value=\"BRA\">BRA-°ÍÎ÷</option> <option value=\"AFG\">AFG-°¢¸»º¹</option> <option value=\"ALB\">ALB-°¢¶û°ÍÄáÑÇ</option> <option value=\"ADZ\">ADZ-°¢¶û¼°ÀûÑÇ</option> <option value=\"ASM\">ASM-ÃÀÊôÈøÄ¦ÑÇÈºµº</option> <option value=\"AND\">AND-°²µÀ¶û</option> <option value=\"AGO\">AGO-°²¸çÀ­</option> <option value=\"AIA\">AIA-°²¹çÀ­</option> <option value=\"ATG\">ATG-°²Ìá¹Ï¼°°Í²¼´ï</option> <option value=\"ARG\">ARG-°¢¸ùÍ¢</option> <option value=\"ARM\">ARM-ÑÇÃÀÄáÑÇ</option> <option value=\"ABW\">ABW-°¢Â¬°Í</option> <option value=\"AUT\">AUT-°ÂµØÀû</option> <option value=\"AZE\">AZE-°¢Èû°Ý½®</option> <option value=\"BHS\">BHS-°Í¹þÂí</option> <option value=\"BHR\">BHR-°ÍÁÖ</option> <option value=\"BGD\">BGD-ÃÏ¼ÓÀ­</option> <option value=\"BRB\">BRB-°Í°Í¶àË¹</option> <option value=\"BLR\">BLR-°×¶íÂÞË¹</option> <option value=\"BEL\">BEL-±ÈÀûÊ±</option> <option value=\"BLZ\">BLZ-²®Àû×È</option> <option value=\"BEN\">BEN-±´ÄþÍå</option> <option value=\"BMU\">BMU-°ÙÄ½´ïÈºµº</option> <option value=\"BTN\">BTN-²»µ¤</option> <option value=\"BOL\">BOL-²£ÀûÎ¬ÑÇ</option> <option value=\"BIH\">BIH-²¨Ê¿ÄáÑÇºÕÈû¸çÎ¬ÄÉÁª°î</option> <option value=\"BWA\">BWA-²©´ÄÍßÄÉ</option> <option value=\"BRN\">BRN-ãëÀ³</option> <option value=\"BGR\">BGR-±£¼ÓÀûÑÇ</option> <option value=\"BFA\">BFA-²¼»ùÄÉ·¨Ë÷</option> <option value=\"BDI\">BDI-²¼Â¡µÏ</option> <option value=\"KHM\">KHM-¸ßÃÞ</option> <option value=\"CMR\">CMR-¿¦ÂóÂ¡ÁªºÏµÄ¹²ºÍ¹ú</option> <option value=\"CAN\">CAN-¼ÓÄÃ´ó</option> <option value=\"TCD\">TCD-Õ§µÃ</option> <option value=\"CHL\">CHL-ÖÇÀû</option> <option value=\"COL\">COL-¸çÂ×±ÈÑÇ</option> <option value=\"COM\">COM-¿ÆÄ¦Âå</option> <option value=\"COG\">COG-¸Õ¹û</option> <option value=\"COK\">COK-¿â¿ËÈºµº</option> <option value=\"CRI\">CRI-¸çË¹´ïÀè¼Ó</option> <option value=\"HRV\">HRV-¿ËÂÞ°£Î÷ÑÇ</option> <option value=\"CUB\">CUB-¹Å°Í</option> <option value=\"CYP\">CYP-ÈüÆÕÀÕË¹</option> <option value=\"CZE\">CZE-½Ý¿Ë</option> <option value=\"DNK\">DNK-µ¤Âó</option> <option value=\"DJI\">DJI-¼ª²¼Ìá</option> <option value=\"DMA\">DMA-¶àÃ×Äá¼ÓÁª°î</option> <option value=\"DOM\">DOM-¶àÃ×Äá¼Ó¹²ºÍ¹ú</option> <option value=\"TMP\">TMP-¶«µÛãë</option> <option value=\"ECU\">ECU-¶ò¹Ï¶à¶û</option> <option value=\"EGY\">EGY-°£¼°</option> <option value=\"SLV\">SLV-Èø¶ûÍß¶à</option> <option value=\"GNQ\">GNQ-³àµÀ¼¸ÄÚÑÇ</option> <option value=\"ERI\">ERI-ÒÀÀû´¹ÑÇ</option> <option value=\"EST\">EST-°®É³ÄáÑÇ</option> <option value=\"ETH\">ETH-°£Èû¶í±ÈÑÇ</option> <option value=\"FJI\">FJI-ì³¼Ã</option> <option value=\"FIN\">FIN-·ÒÀ¼</option> <option value=\"GAB\">GAB-¼ÓÅí</option> <option value=\"GMB\">GMB-¸Ô±ÈÑÇ</option> <option value=\"GEO\">GEO-ÇÇÖÎÑÇÖÝ</option> <option value=\"GHA\">GHA-åÈÄÉ</option> <option value=\"GIB\">GIB-Ö±²¼ÂÞÍÓ</option> <option value=\"GRL\">GRL-¸ñÁêÀ¼</option> <option value=\"GRD\">GRD-¸ñÁÖÄÉ´ï</option> <option value=\"GLP\">GLP-¸çµÂÆÕÂåµº</option> <option value=\"GUM\">GUM-¹Øµº</option> <option value=\"GTM\">GTM-Î£µØÂíÀ­</option> <option value=\"GIN\">GIN-¼¸ÄÚÑÇ</option> <option value=\"GNB\">GNB-¼¸ÄÚÑÇ±ÈÉÜ¹²ºÍ¹ú</option> <option value=\"GUY\">GUY-¹çÑÇÄÇ</option> <option value=\"HTI\">HTI-º£µØ</option> <option value=\"HMD\">HMD-HEARD AND MCDONALD IS</option> <option value=\"HND\">HND-ºé¶¼À­Ë¹</option> <option value=\"HUN\">HUN-ÐÙÑÀÀû</option> <option value=\"ISL\">ISL-±ùµº</option> <option value=\"IDN\">IDN-Ó¡Äá</option> <option value=\"IRN\">IRN-ÒÁÀÊÍõ¹ú</option> <option value=\"IRQ\">IRQ-ÒÁÀ­¿Ë</option> <option value=\"IRL\">IRL-°®¶ûÀ¼</option> <option value=\"CIV\">CIV-ÏóÑÀº£°¶</option> <option value=\"JAM\">JAM-ÑÀÂò¼Ó</option> <option value=\"JOR\">JOR-Ô¼µ©</option> <option value=\"KAZ\">KAZ-¹þÈø¿Ë</option> <option value=\"KEN\">KEN-¿ÏÄáÑÇ</option> <option value=\"KIR\">KIR-¼ª¶û°ÍË¹</option> <option value=\"KWT\">KWT-¿ÆÍþÌØ</option> <option value=\"KGZ\">KGZ-¼ª¶û¼ªË¹</option> <option value=\"LAO\">LAO-ÀÏÎÎ</option> <option value=\"LVA\">LVA-À­ÍÑÎ¬ÑÇ</option> <option value=\"LBN\">LBN-Àè°ÍÄÛ</option> <option value=\"LSO\">LSO-À³Ë÷ÍÐ</option> <option value=\"LBR\">LBR-Àû±ÈÀïÑÇ</option> <option value=\"LBY\">LBY-Àû±ÈÑÇ</option> <option value=\"LIE\">LIE-ÁÐÖ§¶ØÊ¿µÇ</option> <option value=\"LTU\">LTU-Á¢ÌÕÍð</option> <option value=\"LUX\">LUX-Â¬É­±¤</option> <option value=\"MKD\">MKD-ÂíÆä¶Ù</option> <option value=\"MDG\">MDG-Âí´ï¼ÓË¹¼Ó</option> <option value=\"MWI\">MWI-ÂíÀ­Î¬</option> <option value=\"MYS\">MYS-ÂíÀ´Î÷ÑÇ</option> <option value=\"MDV\">MDV-Âí¶û´ú·ò</option> <option value=\"MLI\">MLI-ÂíÀï</option> <option value=\"MLT\">MLT-Âí¶ûËû</option> <option value=\"MHL\">MHL-ÂíÐª¶ûµº</option> <option value=\"MTQ\">MTQ-ÂíÌáÄá¿Ëµº</option> <option value=\"MRT\">MRT-Ã«ÀïËþÄáÑÇ</option> <option value=\"MUS\">MUS-Ã«ÀïÇóË¹</option> <option value=\"MYT\">MYT-ÂíÔ¼ÌØ</option> <option value=\"MEX\">MEX-Ä«Î÷¸ç</option> <option value=\"FSM\">FSM-ÃÜ¿ËÂÞÄáÎ÷ÑÇ</option> <option value=\"MDA\">MDA-Ä¦¶û¶àÍß¹²ºÍ¹ú</option> <option value=\"MCO\">MCO-Ä¦ÄÉ¸ç</option> <option value=\"MNG\">MNG-ÃÉ¹ÅÈË</option> <option value=\"MSR\">MSR-ÃÉÌØÉ«ÄÉ</option> <option value=\"MAR\">MAR-Ä¦Âå¸ç</option> <option value=\"MOZ\">MOZ-ÄªÉ£±È¿Ë</option> <option value=\"MMR\">MMR-Ãåµé</option> <option value=\"NAM\">NAM-ÄÇÃ×±ÈÑÇ</option> <option value=\"NRU\">NRU-è§Â³</option> <option value=\"NPL\">NPL-Äá²´¶û</option> <option value=\"NLD\">NLD-ºÉÀ¼</option> <option value=\"ANT\">ANT-ºÉÀ¼°²µÄÁÐË¹Èºµº</option> <option value=\"NCL\">NCL-ÐÂ¼ÓÀÕ¶àÄáÑÇ</option> <option value=\"NZL\">NZL-ÐÂÎ÷À¼</option> <option value=\"NIC\">NIC-Äá¼ÓÀ­¹Ï</option> <option value=\"NER\">NER-ÄáÈÕ¶û</option> <option value=\"NGA\">NGA-ÄáÈÕÀûÑÇ</option> <option value=\"NIU\">NIU-Å¦¶õµº</option> <option value=\"NFK\">NFK-Åµ¸£¿Ëµº</option> <option value=\"MNP\">MNP-±±·½ÂíÀïÑÇÄÉÈºµº</option> <option value=\"NOR\">NOR-Å²Íþ</option> <option value=\"OMN\">OMN-°¢Âü</option> <option value=\"PAK\">PAK-°Í»ùË¹Ì¹</option> <option value=\"PLW\">PLW-²¯Áð</option> <option value=\"PAN\">PAN-°ÍÄÃÂí</option> <option value=\"PNG\">PNG-°Í²¼ÑÇÐÂ¼¸ÄÚÑÇ</option> <option value=\"PRY\">PRY-°ÍÀ­¹ç</option> <option value=\"PER\">PER-ÃØÂ³</option> <option value=\"PHL\">PHL-·ÆÂÉ±ö¹²ºÍ¹ú</option> <option value=\"PCN\">PCN-Æ¤ÌØ¿­¶÷µº</option> <option value=\"POL\">POL-²¨À¼</option> <option value=\"PRI\">PRI-²¨¶àÀè¸÷</option> <option value=\"QAT\">QAT-¿¨Ëþ¶û</option> <option value=\"REU\">REU-ÍÅÔ²</option> <option value=\"ROM\">ROM-ÂÞÂíÄáÑÇ</option> <option value=\"RWA\">RWA-Â¬Íú´ï</option> <option value=\"WSM\">WSM-ÃÀÊôÈøÄ¦ÑÇ</option> <option value=\"SMR\">SMR-Ê¥ÂíÁ¦Åµ</option> <option value=\"STP\">STP-Ê¥¶àÃÀºÍÆÕÁÖÎ÷±È</option> <option value=\"SAU\">SAU-É³ÌØ°¢À­²®</option> <option value=\"SEN\">SEN-ÈûÄÚ¼Ó¶û</option> <option value=\"SYC\">SYC-ÈûÎý¶ûÈºµº</option> <option value=\"SLE\">SLE-ÈûÀ­Àû°º</option> <option value=\"SGP\">SGP-ÐÂ¼ÓÆÂ</option> <option value=\"SVK\">SVK-Ë¹Âå·¥¿Ë</option> <option value=\"SVN\">SVN-Ë¹ÂåÎÄÄáÑÇ</option> <option value=\"SLB\">SLB-ËùÂÞÃÅµº</option> <option value=\"SOM\">SOM-Ë÷ÂíÀï</option> <option value=\"ZAF\">ZAF-ÄÏ·Ç</option> <option value=\"SGS\">SGS-¸ñÂ³¼ªÑÇ</option> <option value=\"LKA\">LKA-Ë¹ÀïÀ¼¿¨</option> <option value=\"SDN\">SDN-ËÕµ¤</option> <option value=\"SDA\">SDA-ËÕµ¤º½¿Õ¹«Ë¾</option> <option value=\"SUR\">SUR-ËÕÀïÄÏ</option> <option value=\"SJM\">SJM-Àä°¶¼°ÑëÂó¶÷Èºµº</option> <option value=\"SWZ\">SWZ-Ë¹ÍþÊ¿À¼</option> <option value=\"SYR\">SYR-ÐðÀûÑÇ</option> <option value=\"TJK\">TJK-Ëþ¼ª¿Ë</option> <option value=\"TZA\">TZA-Ì¹É£ÄáÑÇÁªºÏµÄ¹²ºÍ¹ú</option> <option value=\"THA\">THA-Ì©¹ú</option> <option value=\"TGO\">TGO-¶à¸ç</option> <option value=\"TKL\">TKL-ÍÐ¿ËÀÍ</option> <option value=\"TON\">TON-ÌÀ¼Ó</option> <option value=\"TTO\">TTO-Ç§Àï´ïÍÐ±´¸ç¹²ºÍ¹ú</option> <option value=\"TUN\">TUN-±±·ÇµÄ¹²ºÍ¹ú</option> <option value=\"TUR\">TUR-ÍÁ¶úÆä</option> <option value=\"TKM\">TKM-ÍÁ¿âÂü</option> <option value=\"TUV\">TUV-Í¼ÍßÂ¬</option> <option value=\"UGA\">UGA-ÎÚ¸É´ï</option> <option value=\"UKR\">UKR-ÎÚ¿ËÀ¼</option> <option value=\"ARE\">ARE-°¢À­²®ÁªºÏÇõ³¤¹ú</option> <option value=\"URY\">URY-ÎÚÀ­¹ç</option> <option value=\"UZB\">UZB-ÎÚ×È±ð¿ËË¹Ì¹</option> <option value=\"VUT\">VUT-ÍòÄÇ¶È</option> <option value=\"VAT\">VAT-ÂÞÂí½ÌÍ¥</option> <option value=\"VEN\">VEN-Î¯ÄÚÈðÀ­</option> <option value=\"VNM\">VNM-Ô½ÄÏ</option> <option value=\"ESH\">ESH-Î÷Èö¹þÀ­</option> <option value=\"YEM\">YEM-Ò²ÃÅ</option> <option value=\"YUG\">YUG-ÄÏË¹À­·ò</option> <option value=\"ZAR\">ZAR-ÔúÒÁ¶û</option> <option value=\"ZMB\">ZMB-ÔÞ±ÈÑÇ</option> <option value=\"ZWE\">ZWE-½ò°Í²¼Î¤</option>";
+country_code="<option value=\"\">--è¯·é€‰æ‹©å›½ç±--</option><option value=\"CHN\">CHN-ä¸­å›½</option> <option value=\"HKG\">HKG-é¦™æ¸¯</option> <option value=\"MAC\">MAC-æ¾³é—¨</option> <option value=\"TWN\">TWN-ä¸­å›½å°æ¹¾</option> <option value=\"USA\">USA-ç¾Žå›½</option> <option value=\"GBR\">GBR-è‹±å›½</option> <option value=\"FRA\">FRA-æ³•å›½</option> <option value=\"DEU\">DEU-å¾·å›½</option> <option value=\"ITA\">ITA-æ„å¤§åˆ©</option> <option value=\"GRC\">GRC-å¸Œè…Š</option> <option value=\"RUS\">RUS-ä¿„ç½—æ–¯è”é‚¦</option> <option value=\"ESP\">ESP-è¥¿ç­ç‰™</option> <option value=\"PRT\">PRT-è‘¡è„ç‰™</option> <option value=\"SWE\">SWE-ç‘žå…¸</option> <option value=\"CHE\">CHE-ç‘žå£«</option> <option value=\"PRK\">PRK-æœé²œ</option> <option value=\"KOR\">KOR-éŸ©å›½</option> <option value=\"IND\">IND-å°åº¦</option> <option value=\"AUS\">AUS-æ¾³å¤§åˆ©äºš</option> <option value=\"ISR\">ISR-ä»¥è‰²åˆ—</option> <option value=\"JPN\">JPN-æ—¥æœ¬</option> <option value=\"BRA\">BRA-å·´è¥¿</option> <option value=\"AFG\">AFG-é˜¿å¯Œæ±—</option> <option value=\"ALB\">ALB-é˜¿å°”å·´å°¼äºš</option> <option value=\"ADZ\">ADZ-é˜¿å°”åŠåˆ©äºš</option> <option value=\"ASM\">ASM-ç¾Žå±žè¨æ‘©äºšç¾¤å²›</option> <option value=\"AND\">AND-å®‰é“å°”</option> <option value=\"AGO\">AGO-å®‰å“¥æ‹‰</option> <option value=\"AIA\">AIA-å®‰åœ­æ‹‰</option> <option value=\"ATG\">ATG-å®‰æç“œåŠå·´å¸ƒè¾¾</option> <option value=\"ARG\">ARG-é˜¿æ ¹å»·</option> <option value=\"ARM\">ARM-äºšç¾Žå°¼äºš</option> <option value=\"ABW\">ABW-é˜¿å¢å·´</option> <option value=\"AUT\">AUT-å¥¥åœ°åˆ©</option> <option value=\"AZE\">AZE-é˜¿å¡žæ‹œç–†</option> <option value=\"BHS\">BHS-å·´å“ˆé©¬</option> <option value=\"BHR\">BHR-å·´æž—</option> <option value=\"BGD\">BGD-å­ŸåŠ æ‹‰</option> <option value=\"BRB\">BRB-å·´å·´å¤šæ–¯</option> <option value=\"BLR\">BLR-ç™½ä¿„ç½—æ–¯</option> <option value=\"BEL\">BEL-æ¯”åˆ©æ—¶</option> <option value=\"BLZ\">BLZ-ä¼¯åˆ©å…¹</option> <option value=\"BEN\">BEN-è´å®æ¹¾</option> <option value=\"BMU\">BMU-ç™¾æ…•è¾¾ç¾¤å²›</option> <option value=\"BTN\">BTN-ä¸ä¸¹</option> <option value=\"BOL\">BOL-çŽ»åˆ©ç»´äºš</option> <option value=\"BIH\">BIH-æ³¢å£«å°¼äºšèµ«å¡žå“¥ç»´çº³è”é‚¦</option> <option value=\"BWA\">BWA-åšèŒ¨ç“¦çº³</option> <option value=\"BRN\">BRN-æ±¶èŽ±</option> <option value=\"BGR\">BGR-ä¿åŠ åˆ©äºš</option> <option value=\"BFA\">BFA-å¸ƒåŸºçº³æ³•ç´¢</option> <option value=\"BDI\">BDI-å¸ƒéš†è¿ª</option> <option value=\"KHM\">KHM-é«˜æ£‰</option> <option value=\"CMR\">CMR-å–€éº¦éš†è”åˆçš„å…±å’Œå›½</option> <option value=\"CAN\">CAN-åŠ æ‹¿å¤§</option> <option value=\"TCD\">TCD-ä¹å¾—</option> <option value=\"CHL\">CHL-æ™ºåˆ©</option> <option value=\"COL\">COL-å“¥ä¼¦æ¯”äºš</option> <option value=\"COM\">COM-ç§‘æ‘©æ´›</option> <option value=\"COG\">COG-åˆšæžœ</option> <option value=\"COK\">COK-åº“å…‹ç¾¤å²›</option> <option value=\"CRI\">CRI-å“¥æ–¯è¾¾é»ŽåŠ </option> <option value=\"HRV\">HRV-å…‹ç½—åŸƒè¥¿äºš</option> <option value=\"CUB\">CUB-å¤å·´</option> <option value=\"CYP\">CYP-èµ›æ™®å‹’æ–¯</option> <option value=\"CZE\">CZE-æ·å…‹</option> <option value=\"DNK\">DNK-ä¸¹éº¦</option> <option value=\"DJI\">DJI-å‰å¸ƒæ</option> <option value=\"DMA\">DMA-å¤šç±³å°¼åŠ è”é‚¦</option> <option value=\"DOM\">DOM-å¤šç±³å°¼åŠ å…±å’Œå›½</option> <option value=\"TMP\">TMP-ä¸œå¸æ±¶</option> <option value=\"ECU\">ECU-åŽ„ç“œå¤šå°”</option> <option value=\"EGY\">EGY-åŸƒåŠ</option> <option value=\"SLV\">SLV-è¨å°”ç“¦å¤š</option> <option value=\"GNQ\">GNQ-èµ¤é“å‡ å†…äºš</option> <option value=\"ERI\">ERI-ä¾åˆ©åž‚äºš</option> <option value=\"EST\">EST-çˆ±æ²™å°¼äºš</option> <option value=\"ETH\">ETH-åŸƒå¡žä¿„æ¯”äºš</option> <option value=\"FJI\">FJI-æ–æµŽ</option> <option value=\"FIN\">FIN-èŠ¬å…°</option> <option value=\"GAB\">GAB-åŠ å½­</option> <option value=\"GMB\">GMB-å†ˆæ¯”äºš</option> <option value=\"GEO\">GEO-ä¹”æ²»äºšå·ž</option> <option value=\"GHA\">GHA-è¿¦çº³</option> <option value=\"GIB\">GIB-ç›´å¸ƒç½—é™€</option> <option value=\"GRL\">GRL-æ ¼é™µå…°</option> <option value=\"GRD\">GRD-æ ¼æž—çº³è¾¾</option> <option value=\"GLP\">GLP-å“¥å¾·æ™®æ´›å²›</option> <option value=\"GUM\">GUM-å…³å²›</option> <option value=\"GTM\">GTM-å±åœ°é©¬æ‹‰</option> <option value=\"GIN\">GIN-å‡ å†…äºš</option> <option value=\"GNB\">GNB-å‡ å†…äºšæ¯”ç»å…±å’Œå›½</option> <option value=\"GUY\">GUY-åœ­äºšé‚£</option> <option value=\"HTI\">HTI-æµ·åœ°</option> <option value=\"HMD\">HMD-HEARD AND MCDONALD IS</option> <option value=\"HND\">HND-æ´ªéƒ½æ‹‰æ–¯</option> <option value=\"HUN\">HUN-åŒˆç‰™åˆ©</option> <option value=\"ISL\">ISL-å†°å²›</option> <option value=\"IDN\">IDN-å°å°¼</option> <option value=\"IRN\">IRN-ä¼Šæœ—çŽ‹å›½</option> <option value=\"IRQ\">IRQ-ä¼Šæ‹‰å…‹</option> <option value=\"IRL\">IRL-çˆ±å°”å…°</option> <option value=\"CIV\">CIV-è±¡ç‰™æµ·å²¸</option> <option value=\"JAM\">JAM-ç‰™ä¹°åŠ </option> <option value=\"JOR\">JOR-çº¦æ—¦</option> <option value=\"KAZ\">KAZ-å“ˆè¨å…‹</option> <option value=\"KEN\">KEN-è‚¯å°¼äºš</option> <option value=\"KIR\">KIR-å‰å°”å·´æ–¯</option> <option value=\"KWT\">KWT-ç§‘å¨ç‰¹</option> <option value=\"KGZ\">KGZ-å‰å°”å‰æ–¯</option> <option value=\"LAO\">LAO-è€æŒ</option> <option value=\"LVA\">LVA-æ‹‰è„±ç»´äºš</option> <option value=\"LBN\">LBN-é»Žå·´å«©</option> <option value=\"LSO\">LSO-èŽ±ç´¢æ‰˜</option> <option value=\"LBR\">LBR-åˆ©æ¯”é‡Œäºš</option> <option value=\"LBY\">LBY-åˆ©æ¯”äºš</option> <option value=\"LIE\">LIE-åˆ—æ”¯æ•¦å£«ç™»</option> <option value=\"LTU\">LTU-ç«‹é™¶å®›</option> <option value=\"LUX\">LUX-å¢æ£®å ¡</option> <option value=\"MKD\">MKD-é©¬å…¶é¡¿</option> <option value=\"MDG\">MDG-é©¬è¾¾åŠ æ–¯åŠ </option> <option value=\"MWI\">MWI-é©¬æ‹‰ç»´</option> <option value=\"MYS\">MYS-é©¬æ¥è¥¿äºš</option> <option value=\"MDV\">MDV-é©¬å°”ä»£å¤«</option> <option value=\"MLI\">MLI-é©¬é‡Œ</option> <option value=\"MLT\">MLT-é©¬å°”ä»–</option> <option value=\"MHL\">MHL-é©¬æ­‡å°”å²›</option> <option value=\"MTQ\">MTQ-é©¬æå°¼å…‹å²›</option> <option value=\"MRT\">MRT-æ¯›é‡Œå¡”å°¼äºš</option> <option value=\"MUS\">MUS-æ¯›é‡Œæ±‚æ–¯</option> <option value=\"MYT\">MYT-é©¬çº¦ç‰¹</option> <option value=\"MEX\">MEX-å¢¨è¥¿å“¥</option> <option value=\"FSM\">FSM-å¯†å…‹ç½—å°¼è¥¿äºš</option> <option value=\"MDA\">MDA-æ‘©å°”å¤šç“¦å…±å’Œå›½</option> <option value=\"MCO\">MCO-æ‘©çº³å“¥</option> <option value=\"MNG\">MNG-è’™å¤äºº</option> <option value=\"MSR\">MSR-è’™ç‰¹è‰²çº³</option> <option value=\"MAR\">MAR-æ‘©æ´›å“¥</option> <option value=\"MOZ\">MOZ-èŽ«æ¡‘æ¯”å…‹</option> <option value=\"MMR\">MMR-ç¼…ç”¸</option> <option value=\"NAM\">NAM-é‚£ç±³æ¯”äºš</option> <option value=\"NRU\">NRU-ç‘™é²</option> <option value=\"NPL\">NPL-å°¼æ³Šå°”</option> <option value=\"NLD\">NLD-è·å…°</option> <option value=\"ANT\">ANT-è·å…°å®‰çš„åˆ—æ–¯ç¾¤å²›</option> <option value=\"NCL\">NCL-æ–°åŠ å‹’å¤šå°¼äºš</option> <option value=\"NZL\">NZL-æ–°è¥¿å…°</option> <option value=\"NIC\">NIC-å°¼åŠ æ‹‰ç“œ</option> <option value=\"NER\">NER-å°¼æ—¥å°”</option> <option value=\"NGA\">NGA-å°¼æ—¥åˆ©äºš</option> <option value=\"NIU\">NIU-çº½é„‚å²›</option> <option value=\"NFK\">NFK-è¯ºç¦å…‹å²›</option> <option value=\"MNP\">MNP-åŒ—æ–¹é©¬é‡Œäºšçº³ç¾¤å²›</option> <option value=\"NOR\">NOR-æŒªå¨</option> <option value=\"OMN\">OMN-é˜¿æ›¼</option> <option value=\"PAK\">PAK-å·´åŸºæ–¯å¦</option> <option value=\"PLW\">PLW-å¸›ç‰</option> <option value=\"PAN\">PAN-å·´æ‹¿é©¬</option> <option value=\"PNG\">PNG-å·´å¸ƒäºšæ–°å‡ å†…äºš</option> <option value=\"PRY\">PRY-å·´æ‹‰åœ­</option> <option value=\"PER\">PER-ç§˜é²</option> <option value=\"PHL\">PHL-è²å¾‹å®¾å…±å’Œå›½</option> <option value=\"PCN\">PCN-çš®ç‰¹å‡¯æ©å²›</option> <option value=\"POL\">POL-æ³¢å…°</option> <option value=\"PRI\">PRI-æ³¢å¤šé»Žå„</option> <option value=\"QAT\">QAT-å¡å¡”å°”</option> <option value=\"REU\">REU-å›¢åœ†</option> <option value=\"ROM\">ROM-ç½—é©¬å°¼äºš</option> <option value=\"RWA\">RWA-å¢æ—ºè¾¾</option> <option value=\"WSM\">WSM-ç¾Žå±žè¨æ‘©äºš</option> <option value=\"SMR\">SMR-åœ£é©¬åŠ›è¯º</option> <option value=\"STP\">STP-åœ£å¤šç¾Žå’Œæ™®æž—è¥¿æ¯”</option> <option value=\"SAU\">SAU-æ²™ç‰¹é˜¿æ‹‰ä¼¯</option> <option value=\"SEN\">SEN-å¡žå†…åŠ å°”</option> <option value=\"SYC\">SYC-å¡žé”¡å°”ç¾¤å²›</option> <option value=\"SLE\">SLE-å¡žæ‹‰åˆ©æ˜‚</option> <option value=\"SGP\">SGP-æ–°åŠ å¡</option> <option value=\"SVK\">SVK-æ–¯æ´›ä¼å…‹</option> <option value=\"SVN\">SVN-æ–¯æ´›æ–‡å°¼äºš</option> <option value=\"SLB\">SLB-æ‰€ç½—é—¨å²›</option> <option value=\"SOM\">SOM-ç´¢é©¬é‡Œ</option> <option value=\"ZAF\">ZAF-å—éž</option> <option value=\"SGS\">SGS-æ ¼é²å‰äºš</option> <option value=\"LKA\">LKA-æ–¯é‡Œå…°å¡</option> <option value=\"SDN\">SDN-è‹ä¸¹</option> <option value=\"SDA\">SDA-è‹ä¸¹èˆªç©ºå…¬å¸</option> <option value=\"SUR\">SUR-è‹é‡Œå—</option> <option value=\"SJM\">SJM-å†·å²¸åŠå¤®éº¦æ©ç¾¤å²›</option> <option value=\"SWZ\">SWZ-æ–¯å¨å£«å…°</option> <option value=\"SYR\">SYR-å™åˆ©äºš</option> <option value=\"TJK\">TJK-å¡”å‰å…‹</option> <option value=\"TZA\">TZA-å¦æ¡‘å°¼äºšè”åˆçš„å…±å’Œå›½</option> <option value=\"THA\">THA-æ³°å›½</option> <option value=\"TGO\">TGO-å¤šå“¥</option> <option value=\"TKL\">TKL-æ‰˜å…‹åŠ³</option> <option value=\"TON\">TON-æ±¤åŠ </option> <option value=\"TTO\">TTO-åƒé‡Œè¾¾æ‰˜è´å“¥å…±å’Œå›½</option> <option value=\"TUN\">TUN-åŒ—éžçš„å…±å’Œå›½</option> <option value=\"TUR\">TUR-åœŸè€³å…¶</option> <option value=\"TKM\">TKM-åœŸåº“æ›¼</option> <option value=\"TUV\">TUV-å›¾ç“¦å¢</option> <option value=\"UGA\">UGA-ä¹Œå¹²è¾¾</option> <option value=\"UKR\">UKR-ä¹Œå…‹å…°</option> <option value=\"ARE\">ARE-é˜¿æ‹‰ä¼¯è”åˆé…‹é•¿å›½</option> <option value=\"URY\">URY-ä¹Œæ‹‰åœ­</option> <option value=\"UZB\">UZB-ä¹Œå…¹åˆ«å…‹æ–¯å¦</option> <option value=\"VUT\">VUT-ä¸‡é‚£åº¦</option> <option value=\"VAT\">VAT-ç½—é©¬æ•™åº­</option> <option value=\"VEN\">VEN-å§”å†…ç‘žæ‹‰</option> <option value=\"VNM\">VNM-è¶Šå—</option> <option value=\"ESH\">ESH-è¥¿æ’’å“ˆæ‹‰</option> <option value=\"YEM\">YEM-ä¹Ÿé—¨</option> <option value=\"YUG\">YUG-å—æ–¯æ‹‰å¤«</option> <option value=\"ZAR\">ZAR-æ‰Žä¼Šå°”</option> <option value=\"ZMB\">ZMB-èµžæ¯”äºš</option> <option value=\"ZWE\">ZWE-æ´¥å·´å¸ƒéŸ¦</option>";
 
 var country_code1;
-country_code1="<option value=\"\">--ÇëÑ¡Ôñ¹ú¼®--</option><option value=\"CHN\" selected=\"selected\">CHN-ÖÐ¹ú</option> <option value=\"HKG\">HKG-Ïã¸Û</option> <option value=\"MAC\">MAC-°ÄÃÅ</option> <option value=\"TWN\">TWN-ÖÐ¹úÌ¨Íå</option> <option value=\"USA\">USA-ÃÀ¹ú</option> <option value=\"GBR\">GBR-Ó¢¹ú</option> <option value=\"FRA\">FRA-·¨¹ú</option> <option value=\"DEU\">DEU-µÂ¹ú</option> <option value=\"ITA\">ITA-Òâ´óÀû</option> <option value=\"GRC\">GRC-Ï£À°</option> <option value=\"RUS\">RUS-¶íÂÞË¹Áª°î</option> <option value=\"ESP\">ESP-Î÷°àÑÀ</option> <option value=\"PRT\">PRT-ÆÏÌÑÑÀ</option> <option value=\"SWE\">SWE-Èðµä</option> <option value=\"CHE\">CHE-ÈðÊ¿</option> <option value=\"PRK\">PRK-³¯ÏÊ</option> <option value=\"KOR\">KOR-º«¹ú</option> <option value=\"IND\">IND-Ó¡¶È</option> <option value=\"AUS\">AUS-°Ä´óÀûÑÇ</option> <option value=\"ISR\">ISR-ÒÔÉ«ÁÐ</option> <option value=\"JPN\">JPN-ÈÕ±¾</option> <option value=\"BRA\">BRA-°ÍÎ÷</option> <option value=\"AFG\">AFG-°¢¸»º¹</option> <option value=\"ALB\">ALB-°¢¶û°ÍÄáÑÇ</option> <option value=\"ADZ\">ADZ-°¢¶û¼°ÀûÑÇ</option> <option value=\"ASM\">ASM-ÃÀÊôÈøÄ¦ÑÇÈºµº</option> <option value=\"AND\">AND-°²µÀ¶û</option> <option value=\"AGO\">AGO-°²¸çÀ­</option> <option value=\"AIA\">AIA-°²¹çÀ­</option> <option value=\"ATG\">ATG-°²Ìá¹Ï¼°°Í²¼´ï</option> <option value=\"ARG\">ARG-°¢¸ùÍ¢</option> <option value=\"ARM\">ARM-ÑÇÃÀÄáÑÇ</option> <option value=\"ABW\">ABW-°¢Â¬°Í</option> <option value=\"AUT\">AUT-°ÂµØÀû</option> <option value=\"AZE\">AZE-°¢Èû°Ý½®</option> <option value=\"BHS\">BHS-°Í¹þÂí</option> <option value=\"BHR\">BHR-°ÍÁÖ</option> <option value=\"BGD\">BGD-ÃÏ¼ÓÀ­</option> <option value=\"BRB\">BRB-°Í°Í¶àË¹</option> <option value=\"BLR\">BLR-°×¶íÂÞË¹</option> <option value=\"BEL\">BEL-±ÈÀûÊ±</option> <option value=\"BLZ\">BLZ-²®Àû×È</option> <option value=\"BEN\">BEN-±´ÄþÍå</option> <option value=\"BMU\">BMU-°ÙÄ½´ïÈºµº</option> <option value=\"BTN\">BTN-²»µ¤</option> <option value=\"BOL\">BOL-²£ÀûÎ¬ÑÇ</option> <option value=\"BIH\">BIH-²¨Ê¿ÄáÑÇºÕÈû¸çÎ¬ÄÉÁª°î</option> <option value=\"BWA\">BWA-²©´ÄÍßÄÉ</option> <option value=\"BRN\">BRN-ãëÀ³</option> <option value=\"BGR\">BGR-±£¼ÓÀûÑÇ</option> <option value=\"BFA\">BFA-²¼»ùÄÉ·¨Ë÷</option> <option value=\"BDI\">BDI-²¼Â¡µÏ</option> <option value=\"KHM\">KHM-¸ßÃÞ</option> <option value=\"CMR\">CMR-¿¦ÂóÂ¡ÁªºÏµÄ¹²ºÍ¹ú</option> <option value=\"CAN\">CAN-¼ÓÄÃ´ó</option> <option value=\"TCD\">TCD-Õ§µÃ</option> <option value=\"CHL\">CHL-ÖÇÀû</option> <option value=\"COL\">COL-¸çÂ×±ÈÑÇ</option> <option value=\"COM\">COM-¿ÆÄ¦Âå</option> <option value=\"COG\">COG-¸Õ¹û</option> <option value=\"COK\">COK-¿â¿ËÈºµº</option> <option value=\"CRI\">CRI-¸çË¹´ïÀè¼Ó</option> <option value=\"HRV\">HRV-¿ËÂÞ°£Î÷ÑÇ</option> <option value=\"CUB\">CUB-¹Å°Í</option> <option value=\"CYP\">CYP-ÈüÆÕÀÕË¹</option> <option value=\"CZE\">CZE-½Ý¿Ë</option> <option value=\"DNK\">DNK-µ¤Âó</option> <option value=\"DJI\">DJI-¼ª²¼Ìá</option> <option value=\"DMA\">DMA-¶àÃ×Äá¼ÓÁª°î</option> <option value=\"DOM\">DOM-¶àÃ×Äá¼Ó¹²ºÍ¹ú</option> <option value=\"TMP\">TMP-¶«µÛãë</option> <option value=\"ECU\">ECU-¶ò¹Ï¶à¶û</option> <option value=\"EGY\">EGY-°£¼°</option> <option value=\"SLV\">SLV-Èø¶ûÍß¶à</option> <option value=\"GNQ\">GNQ-³àµÀ¼¸ÄÚÑÇ</option> <option value=\"ERI\">ERI-ÒÀÀû´¹ÑÇ</option> <option value=\"EST\">EST-°®É³ÄáÑÇ</option> <option value=\"ETH\">ETH-°£Èû¶í±ÈÑÇ</option> <option value=\"FJI\">FJI-ì³¼Ã</option> <option value=\"FIN\">FIN-·ÒÀ¼</option> <option value=\"GAB\">GAB-¼ÓÅí</option> <option value=\"GMB\">GMB-¸Ô±ÈÑÇ</option> <option value=\"GEO\">GEO-ÇÇÖÎÑÇÖÝ</option> <option value=\"GHA\">GHA-åÈÄÉ</option> <option value=\"GIB\">GIB-Ö±²¼ÂÞÍÓ</option> <option value=\"GRL\">GRL-¸ñÁêÀ¼</option> <option value=\"GRD\">GRD-¸ñÁÖÄÉ´ï</option> <option value=\"GLP\">GLP-¸çµÂÆÕÂåµº</option> <option value=\"GUM\">GUM-¹Øµº</option> <option value=\"GTM\">GTM-Î£µØÂíÀ­</option> <option value=\"GIN\">GIN-¼¸ÄÚÑÇ</option> <option value=\"GNB\">GNB-¼¸ÄÚÑÇ±ÈÉÜ¹²ºÍ¹ú</option> <option value=\"GUY\">GUY-¹çÑÇÄÇ</option> <option value=\"HTI\">HTI-º£µØ</option> <option value=\"HMD\">HMD-HEARD AND MCDONALD IS</option> <option value=\"HND\">HND-ºé¶¼À­Ë¹</option> <option value=\"HUN\">HUN-ÐÙÑÀÀû</option> <option value=\"ISL\">ISL-±ùµº</option> <option value=\"IDN\">IDN-Ó¡Äá</option> <option value=\"IRN\">IRN-ÒÁÀÊÍõ¹ú</option> <option value=\"IRQ\">IRQ-ÒÁÀ­¿Ë</option> <option value=\"IRL\">IRL-°®¶ûÀ¼</option> <option value=\"CIV\">CIV-ÏóÑÀº£°¶</option> <option value=\"JAM\">JAM-ÑÀÂò¼Ó</option> <option value=\"JOR\">JOR-Ô¼µ©</option> <option value=\"KAZ\">KAZ-¹þÈø¿Ë</option> <option value=\"KEN\">KEN-¿ÏÄáÑÇ</option> <option value=\"KIR\">KIR-¼ª¶û°ÍË¹</option> <option value=\"KWT\">KWT-¿ÆÍþÌØ</option> <option value=\"KGZ\">KGZ-¼ª¶û¼ªË¹</option> <option value=\"LAO\">LAO-ÀÏÎÎ</option> <option value=\"LVA\">LVA-À­ÍÑÎ¬ÑÇ</option> <option value=\"LBN\">LBN-Àè°ÍÄÛ</option> <option value=\"LSO\">LSO-À³Ë÷ÍÐ</option> <option value=\"LBR\">LBR-Àû±ÈÀïÑÇ</option> <option value=\"LBY\">LBY-Àû±ÈÑÇ</option> <option value=\"LIE\">LIE-ÁÐÖ§¶ØÊ¿µÇ</option> <option value=\"LTU\">LTU-Á¢ÌÕÍð</option> <option value=\"LUX\">LUX-Â¬É­±¤</option> <option value=\"MKD\">MKD-ÂíÆä¶Ù</option> <option value=\"MDG\">MDG-Âí´ï¼ÓË¹¼Ó</option> <option value=\"MWI\">MWI-ÂíÀ­Î¬</option> <option value=\"MYS\">MYS-ÂíÀ´Î÷ÑÇ</option> <option value=\"MDV\">MDV-Âí¶û´ú·ò</option> <option value=\"MLI\">MLI-ÂíÀï</option> <option value=\"MLT\">MLT-Âí¶ûËû</option> <option value=\"MHL\">MHL-ÂíÐª¶ûµº</option> <option value=\"MTQ\">MTQ-ÂíÌáÄá¿Ëµº</option> <option value=\"MRT\">MRT-Ã«ÀïËþÄáÑÇ</option> <option value=\"MUS\">MUS-Ã«ÀïÇóË¹</option> <option value=\"MYT\">MYT-ÂíÔ¼ÌØ</option> <option value=\"MEX\">MEX-Ä«Î÷¸ç</option> <option value=\"FSM\">FSM-ÃÜ¿ËÂÞÄáÎ÷ÑÇ</option> <option value=\"MDA\">MDA-Ä¦¶û¶àÍß¹²ºÍ¹ú</option> <option value=\"MCO\">MCO-Ä¦ÄÉ¸ç</option> <option value=\"MNG\">MNG-ÃÉ¹ÅÈË</option> <option value=\"MSR\">MSR-ÃÉÌØÉ«ÄÉ</option> <option value=\"MAR\">MAR-Ä¦Âå¸ç</option> <option value=\"MOZ\">MOZ-ÄªÉ£±È¿Ë</option> <option value=\"MMR\">MMR-Ãåµé</option> <option value=\"NAM\">NAM-ÄÇÃ×±ÈÑÇ</option> <option value=\"NRU\">NRU-è§Â³</option> <option value=\"NPL\">NPL-Äá²´¶û</option> <option value=\"NLD\">NLD-ºÉÀ¼</option> <option value=\"ANT\">ANT-ºÉÀ¼°²µÄÁÐË¹Èºµº</option> <option value=\"NCL\">NCL-ÐÂ¼ÓÀÕ¶àÄáÑÇ</option> <option value=\"NZL\">NZL-ÐÂÎ÷À¼</option> <option value=\"NIC\">NIC-Äá¼ÓÀ­¹Ï</option> <option value=\"NER\">NER-ÄáÈÕ¶û</option> <option value=\"NGA\">NGA-ÄáÈÕÀûÑÇ</option> <option value=\"NIU\">NIU-Å¦¶õµº</option> <option value=\"NFK\">NFK-Åµ¸£¿Ëµº</option> <option value=\"MNP\">MNP-±±·½ÂíÀïÑÇÄÉÈºµº</option> <option value=\"NOR\">NOR-Å²Íþ</option> <option value=\"OMN\">OMN-°¢Âü</option> <option value=\"PAK\">PAK-°Í»ùË¹Ì¹</option> <option value=\"PLW\">PLW-²¯Áð</option> <option value=\"PAN\">PAN-°ÍÄÃÂí</option> <option value=\"PNG\">PNG-°Í²¼ÑÇÐÂ¼¸ÄÚÑÇ</option> <option value=\"PRY\">PRY-°ÍÀ­¹ç</option> <option value=\"PER\">PER-ÃØÂ³</option> <option value=\"PHL\">PHL-·ÆÂÉ±ö¹²ºÍ¹ú</option> <option value=\"PCN\">PCN-Æ¤ÌØ¿­¶÷µº</option> <option value=\"POL\">POL-²¨À¼</option> <option value=\"PRI\">PRI-²¨¶àÀè¸÷</option> <option value=\"QAT\">QAT-¿¨Ëþ¶û</option> <option value=\"REU\">REU-ÍÅÔ²</option> <option value=\"ROM\">ROM-ÂÞÂíÄáÑÇ</option> <option value=\"RWA\">RWA-Â¬Íú´ï</option> <option value=\"WSM\">WSM-ÃÀÊôÈøÄ¦ÑÇ</option> <option value=\"SMR\">SMR-Ê¥ÂíÁ¦Åµ</option> <option value=\"STP\">STP-Ê¥¶àÃÀºÍÆÕÁÖÎ÷±È</option> <option value=\"SAU\">SAU-É³ÌØ°¢À­²®</option> <option value=\"SEN\">SEN-ÈûÄÚ¼Ó¶û</option> <option value=\"SYC\">SYC-ÈûÎý¶ûÈºµº</option> <option value=\"SLE\">SLE-ÈûÀ­Àû°º</option> <option value=\"SGP\">SGP-ÐÂ¼ÓÆÂ</option> <option value=\"SVK\">SVK-Ë¹Âå·¥¿Ë</option> <option value=\"SVN\">SVN-Ë¹ÂåÎÄÄáÑÇ</option> <option value=\"SLB\">SLB-ËùÂÞÃÅµº</option> <option value=\"SOM\">SOM-Ë÷ÂíÀï</option> <option value=\"ZAF\">ZAF-ÄÏ·Ç</option> <option value=\"SGS\">SGS-¸ñÂ³¼ªÑÇ</option> <option value=\"LKA\">LKA-Ë¹ÀïÀ¼¿¨</option> <option value=\"SDN\">SDN-ËÕµ¤</option> <option value=\"SDA\">SDA-ËÕµ¤º½¿Õ¹«Ë¾</option> <option value=\"SUR\">SUR-ËÕÀïÄÏ</option> <option value=\"SJM\">SJM-Àä°¶¼°ÑëÂó¶÷Èºµº</option> <option value=\"SWZ\">SWZ-Ë¹ÍþÊ¿À¼</option> <option value=\"SYR\">SYR-ÐðÀûÑÇ</option> <option value=\"TJK\">TJK-Ëþ¼ª¿Ë</option> <option value=\"TZA\">TZA-Ì¹É£ÄáÑÇÁªºÏµÄ¹²ºÍ¹ú</option> <option value=\"THA\">THA-Ì©¹ú</option> <option value=\"TGO\">TGO-¶à¸ç</option> <option value=\"TKL\">TKL-ÍÐ¿ËÀÍ</option> <option value=\"TON\">TON-ÌÀ¼Ó</option> <option value=\"TTO\">TTO-Ç§Àï´ïÍÐ±´¸ç¹²ºÍ¹ú</option> <option value=\"TUN\">TUN-±±·ÇµÄ¹²ºÍ¹ú</option> <option value=\"TUR\">TUR-ÍÁ¶úÆä</option> <option value=\"TKM\">TKM-ÍÁ¿âÂü</option> <option value=\"TUV\">TUV-Í¼ÍßÂ¬</option> <option value=\"UGA\">UGA-ÎÚ¸É´ï</option> <option value=\"UKR\">UKR-ÎÚ¿ËÀ¼</option> <option value=\"ARE\">ARE-°¢À­²®ÁªºÏÇõ³¤¹ú</option> <option value=\"URY\">URY-ÎÚÀ­¹ç</option> <option value=\"UZB\">UZB-ÎÚ×È±ð¿ËË¹Ì¹</option> <option value=\"VUT\">VUT-ÍòÄÇ¶È</option> <option value=\"VAT\">VAT-ÂÞÂí½ÌÍ¥</option> <option value=\"VEN\">VEN-Î¯ÄÚÈðÀ­</option> <option value=\"VNM\">VNM-Ô½ÄÏ</option> <option value=\"ESH\">ESH-Î÷Èö¹þÀ­</option> <option value=\"YEM\">YEM-Ò²ÃÅ</option> <option value=\"YUG\">YUG-ÄÏË¹À­·ò</option> <option value=\"ZAR\">ZAR-ÔúÒÁ¶û</option> <option value=\"ZMB\">ZMB-ÔÞ±ÈÑÇ</option> <option value=\"ZWE\">ZWE-½ò°Í²¼Î¤</option>";
+country_code1="<option value=\"\">--è¯·é€‰æ‹©å›½ç±--</option><option value=\"CHN\" selected=\"selected\">CHN-ä¸­å›½</option> <option value=\"HKG\">HKG-é¦™æ¸¯</option> <option value=\"MAC\">MAC-æ¾³é—¨</option> <option value=\"TWN\">TWN-ä¸­å›½å°æ¹¾</option> <option value=\"USA\">USA-ç¾Žå›½</option> <option value=\"GBR\">GBR-è‹±å›½</option> <option value=\"FRA\">FRA-æ³•å›½</option> <option value=\"DEU\">DEU-å¾·å›½</option> <option value=\"ITA\">ITA-æ„å¤§åˆ©</option> <option value=\"GRC\">GRC-å¸Œè…Š</option> <option value=\"RUS\">RUS-ä¿„ç½—æ–¯è”é‚¦</option> <option value=\"ESP\">ESP-è¥¿ç­ç‰™</option> <option value=\"PRT\">PRT-è‘¡è„ç‰™</option> <option value=\"SWE\">SWE-ç‘žå…¸</option> <option value=\"CHE\">CHE-ç‘žå£«</option> <option value=\"PRK\">PRK-æœé²œ</option> <option value=\"KOR\">KOR-éŸ©å›½</option> <option value=\"IND\">IND-å°åº¦</option> <option value=\"AUS\">AUS-æ¾³å¤§åˆ©äºš</option> <option value=\"ISR\">ISR-ä»¥è‰²åˆ—</option> <option value=\"JPN\">JPN-æ—¥æœ¬</option> <option value=\"BRA\">BRA-å·´è¥¿</option> <option value=\"AFG\">AFG-é˜¿å¯Œæ±—</option> <option value=\"ALB\">ALB-é˜¿å°”å·´å°¼äºš</option> <option value=\"ADZ\">ADZ-é˜¿å°”åŠåˆ©äºš</option> <option value=\"ASM\">ASM-ç¾Žå±žè¨æ‘©äºšç¾¤å²›</option> <option value=\"AND\">AND-å®‰é“å°”</option> <option value=\"AGO\">AGO-å®‰å“¥æ‹‰</option> <option value=\"AIA\">AIA-å®‰åœ­æ‹‰</option> <option value=\"ATG\">ATG-å®‰æç“œåŠå·´å¸ƒè¾¾</option> <option value=\"ARG\">ARG-é˜¿æ ¹å»·</option> <option value=\"ARM\">ARM-äºšç¾Žå°¼äºš</option> <option value=\"ABW\">ABW-é˜¿å¢å·´</option> <option value=\"AUT\">AUT-å¥¥åœ°åˆ©</option> <option value=\"AZE\">AZE-é˜¿å¡žæ‹œç–†</option> <option value=\"BHS\">BHS-å·´å“ˆé©¬</option> <option value=\"BHR\">BHR-å·´æž—</option> <option value=\"BGD\">BGD-å­ŸåŠ æ‹‰</option> <option value=\"BRB\">BRB-å·´å·´å¤šæ–¯</option> <option value=\"BLR\">BLR-ç™½ä¿„ç½—æ–¯</option> <option value=\"BEL\">BEL-æ¯”åˆ©æ—¶</option> <option value=\"BLZ\">BLZ-ä¼¯åˆ©å…¹</option> <option value=\"BEN\">BEN-è´å®æ¹¾</option> <option value=\"BMU\">BMU-ç™¾æ…•è¾¾ç¾¤å²›</option> <option value=\"BTN\">BTN-ä¸ä¸¹</option> <option value=\"BOL\">BOL-çŽ»åˆ©ç»´äºš</option> <option value=\"BIH\">BIH-æ³¢å£«å°¼äºšèµ«å¡žå“¥ç»´çº³è”é‚¦</option> <option value=\"BWA\">BWA-åšèŒ¨ç“¦çº³</option> <option value=\"BRN\">BRN-æ±¶èŽ±</option> <option value=\"BGR\">BGR-ä¿åŠ åˆ©äºš</option> <option value=\"BFA\">BFA-å¸ƒåŸºçº³æ³•ç´¢</option> <option value=\"BDI\">BDI-å¸ƒéš†è¿ª</option> <option value=\"KHM\">KHM-é«˜æ£‰</option> <option value=\"CMR\">CMR-å–€éº¦éš†è”åˆçš„å…±å’Œå›½</option> <option value=\"CAN\">CAN-åŠ æ‹¿å¤§</option> <option value=\"TCD\">TCD-ä¹å¾—</option> <option value=\"CHL\">CHL-æ™ºåˆ©</option> <option value=\"COL\">COL-å“¥ä¼¦æ¯”äºš</option> <option value=\"COM\">COM-ç§‘æ‘©æ´›</option> <option value=\"COG\">COG-åˆšæžœ</option> <option value=\"COK\">COK-åº“å…‹ç¾¤å²›</option> <option value=\"CRI\">CRI-å“¥æ–¯è¾¾é»ŽåŠ </option> <option value=\"HRV\">HRV-å…‹ç½—åŸƒè¥¿äºš</option> <option value=\"CUB\">CUB-å¤å·´</option> <option value=\"CYP\">CYP-èµ›æ™®å‹’æ–¯</option> <option value=\"CZE\">CZE-æ·å…‹</option> <option value=\"DNK\">DNK-ä¸¹éº¦</option> <option value=\"DJI\">DJI-å‰å¸ƒæ</option> <option value=\"DMA\">DMA-å¤šç±³å°¼åŠ è”é‚¦</option> <option value=\"DOM\">DOM-å¤šç±³å°¼åŠ å…±å’Œå›½</option> <option value=\"TMP\">TMP-ä¸œå¸æ±¶</option> <option value=\"ECU\">ECU-åŽ„ç“œå¤šå°”</option> <option value=\"EGY\">EGY-åŸƒåŠ</option> <option value=\"SLV\">SLV-è¨å°”ç“¦å¤š</option> <option value=\"GNQ\">GNQ-èµ¤é“å‡ å†…äºš</option> <option value=\"ERI\">ERI-ä¾åˆ©åž‚äºš</option> <option value=\"EST\">EST-çˆ±æ²™å°¼äºš</option> <option value=\"ETH\">ETH-åŸƒå¡žä¿„æ¯”äºš</option> <option value=\"FJI\">FJI-æ–æµŽ</option> <option value=\"FIN\">FIN-èŠ¬å…°</option> <option value=\"GAB\">GAB-åŠ å½­</option> <option value=\"GMB\">GMB-å†ˆæ¯”äºš</option> <option value=\"GEO\">GEO-ä¹”æ²»äºšå·ž</option> <option value=\"GHA\">GHA-è¿¦çº³</option> <option value=\"GIB\">GIB-ç›´å¸ƒç½—é™€</option> <option value=\"GRL\">GRL-æ ¼é™µå…°</option> <option value=\"GRD\">GRD-æ ¼æž—çº³è¾¾</option> <option value=\"GLP\">GLP-å“¥å¾·æ™®æ´›å²›</option> <option value=\"GUM\">GUM-å…³å²›</option> <option value=\"GTM\">GTM-å±åœ°é©¬æ‹‰</option> <option value=\"GIN\">GIN-å‡ å†…äºš</option> <option value=\"GNB\">GNB-å‡ å†…äºšæ¯”ç»å…±å’Œå›½</option> <option value=\"GUY\">GUY-åœ­äºšé‚£</option> <option value=\"HTI\">HTI-æµ·åœ°</option> <option value=\"HMD\">HMD-HEARD AND MCDONALD IS</option> <option value=\"HND\">HND-æ´ªéƒ½æ‹‰æ–¯</option> <option value=\"HUN\">HUN-åŒˆç‰™åˆ©</option> <option value=\"ISL\">ISL-å†°å²›</option> <option value=\"IDN\">IDN-å°å°¼</option> <option value=\"IRN\">IRN-ä¼Šæœ—çŽ‹å›½</option> <option value=\"IRQ\">IRQ-ä¼Šæ‹‰å…‹</option> <option value=\"IRL\">IRL-çˆ±å°”å…°</option> <option value=\"CIV\">CIV-è±¡ç‰™æµ·å²¸</option> <option value=\"JAM\">JAM-ç‰™ä¹°åŠ </option> <option value=\"JOR\">JOR-çº¦æ—¦</option> <option value=\"KAZ\">KAZ-å“ˆè¨å…‹</option> <option value=\"KEN\">KEN-è‚¯å°¼äºš</option> <option value=\"KIR\">KIR-å‰å°”å·´æ–¯</option> <option value=\"KWT\">KWT-ç§‘å¨ç‰¹</option> <option value=\"KGZ\">KGZ-å‰å°”å‰æ–¯</option> <option value=\"LAO\">LAO-è€æŒ</option> <option value=\"LVA\">LVA-æ‹‰è„±ç»´äºš</option> <option value=\"LBN\">LBN-é»Žå·´å«©</option> <option value=\"LSO\">LSO-èŽ±ç´¢æ‰˜</option> <option value=\"LBR\">LBR-åˆ©æ¯”é‡Œäºš</option> <option value=\"LBY\">LBY-åˆ©æ¯”äºš</option> <option value=\"LIE\">LIE-åˆ—æ”¯æ•¦å£«ç™»</option> <option value=\"LTU\">LTU-ç«‹é™¶å®›</option> <option value=\"LUX\">LUX-å¢æ£®å ¡</option> <option value=\"MKD\">MKD-é©¬å…¶é¡¿</option> <option value=\"MDG\">MDG-é©¬è¾¾åŠ æ–¯åŠ </option> <option value=\"MWI\">MWI-é©¬æ‹‰ç»´</option> <option value=\"MYS\">MYS-é©¬æ¥è¥¿äºš</option> <option value=\"MDV\">MDV-é©¬å°”ä»£å¤«</option> <option value=\"MLI\">MLI-é©¬é‡Œ</option> <option value=\"MLT\">MLT-é©¬å°”ä»–</option> <option value=\"MHL\">MHL-é©¬æ­‡å°”å²›</option> <option value=\"MTQ\">MTQ-é©¬æå°¼å…‹å²›</option> <option value=\"MRT\">MRT-æ¯›é‡Œå¡”å°¼äºš</option> <option value=\"MUS\">MUS-æ¯›é‡Œæ±‚æ–¯</option> <option value=\"MYT\">MYT-é©¬çº¦ç‰¹</option> <option value=\"MEX\">MEX-å¢¨è¥¿å“¥</option> <option value=\"FSM\">FSM-å¯†å…‹ç½—å°¼è¥¿äºš</option> <option value=\"MDA\">MDA-æ‘©å°”å¤šç“¦å…±å’Œå›½</option> <option value=\"MCO\">MCO-æ‘©çº³å“¥</option> <option value=\"MNG\">MNG-è’™å¤äºº</option> <option value=\"MSR\">MSR-è’™ç‰¹è‰²çº³</option> <option value=\"MAR\">MAR-æ‘©æ´›å“¥</option> <option value=\"MOZ\">MOZ-èŽ«æ¡‘æ¯”å…‹</option> <option value=\"MMR\">MMR-ç¼…ç”¸</option> <option value=\"NAM\">NAM-é‚£ç±³æ¯”äºš</option> <option value=\"NRU\">NRU-ç‘™é²</option> <option value=\"NPL\">NPL-å°¼æ³Šå°”</option> <option value=\"NLD\">NLD-è·å…°</option> <option value=\"ANT\">ANT-è·å…°å®‰çš„åˆ—æ–¯ç¾¤å²›</option> <option value=\"NCL\">NCL-æ–°åŠ å‹’å¤šå°¼äºš</option> <option value=\"NZL\">NZL-æ–°è¥¿å…°</option> <option value=\"NIC\">NIC-å°¼åŠ æ‹‰ç“œ</option> <option value=\"NER\">NER-å°¼æ—¥å°”</option> <option value=\"NGA\">NGA-å°¼æ—¥åˆ©äºš</option> <option value=\"NIU\">NIU-çº½é„‚å²›</option> <option value=\"NFK\">NFK-è¯ºç¦å…‹å²›</option> <option value=\"MNP\">MNP-åŒ—æ–¹é©¬é‡Œäºšçº³ç¾¤å²›</option> <option value=\"NOR\">NOR-æŒªå¨</option> <option value=\"OMN\">OMN-é˜¿æ›¼</option> <option value=\"PAK\">PAK-å·´åŸºæ–¯å¦</option> <option value=\"PLW\">PLW-å¸›ç‰</option> <option value=\"PAN\">PAN-å·´æ‹¿é©¬</option> <option value=\"PNG\">PNG-å·´å¸ƒäºšæ–°å‡ å†…äºš</option> <option value=\"PRY\">PRY-å·´æ‹‰åœ­</option> <option value=\"PER\">PER-ç§˜é²</option> <option value=\"PHL\">PHL-è²å¾‹å®¾å…±å’Œå›½</option> <option value=\"PCN\">PCN-çš®ç‰¹å‡¯æ©å²›</option> <option value=\"POL\">POL-æ³¢å…°</option> <option value=\"PRI\">PRI-æ³¢å¤šé»Žå„</option> <option value=\"QAT\">QAT-å¡å¡”å°”</option> <option value=\"REU\">REU-å›¢åœ†</option> <option value=\"ROM\">ROM-ç½—é©¬å°¼äºš</option> <option value=\"RWA\">RWA-å¢æ—ºè¾¾</option> <option value=\"WSM\">WSM-ç¾Žå±žè¨æ‘©äºš</option> <option value=\"SMR\">SMR-åœ£é©¬åŠ›è¯º</option> <option value=\"STP\">STP-åœ£å¤šç¾Žå’Œæ™®æž—è¥¿æ¯”</option> <option value=\"SAU\">SAU-æ²™ç‰¹é˜¿æ‹‰ä¼¯</option> <option value=\"SEN\">SEN-å¡žå†…åŠ å°”</option> <option value=\"SYC\">SYC-å¡žé”¡å°”ç¾¤å²›</option> <option value=\"SLE\">SLE-å¡žæ‹‰åˆ©æ˜‚</option> <option value=\"SGP\">SGP-æ–°åŠ å¡</option> <option value=\"SVK\">SVK-æ–¯æ´›ä¼å…‹</option> <option value=\"SVN\">SVN-æ–¯æ´›æ–‡å°¼äºš</option> <option value=\"SLB\">SLB-æ‰€ç½—é—¨å²›</option> <option value=\"SOM\">SOM-ç´¢é©¬é‡Œ</option> <option value=\"ZAF\">ZAF-å—éž</option> <option value=\"SGS\">SGS-æ ¼é²å‰äºš</option> <option value=\"LKA\">LKA-æ–¯é‡Œå…°å¡</option> <option value=\"SDN\">SDN-è‹ä¸¹</option> <option value=\"SDA\">SDA-è‹ä¸¹èˆªç©ºå…¬å¸</option> <option value=\"SUR\">SUR-è‹é‡Œå—</option> <option value=\"SJM\">SJM-å†·å²¸åŠå¤®éº¦æ©ç¾¤å²›</option> <option value=\"SWZ\">SWZ-æ–¯å¨å£«å…°</option> <option value=\"SYR\">SYR-å™åˆ©äºš</option> <option value=\"TJK\">TJK-å¡”å‰å…‹</option> <option value=\"TZA\">TZA-å¦æ¡‘å°¼äºšè”åˆçš„å…±å’Œå›½</option> <option value=\"THA\">THA-æ³°å›½</option> <option value=\"TGO\">TGO-å¤šå“¥</option> <option value=\"TKL\">TKL-æ‰˜å…‹åŠ³</option> <option value=\"TON\">TON-æ±¤åŠ </option> <option value=\"TTO\">TTO-åƒé‡Œè¾¾æ‰˜è´å“¥å…±å’Œå›½</option> <option value=\"TUN\">TUN-åŒ—éžçš„å…±å’Œå›½</option> <option value=\"TUR\">TUR-åœŸè€³å…¶</option> <option value=\"TKM\">TKM-åœŸåº“æ›¼</option> <option value=\"TUV\">TUV-å›¾ç“¦å¢</option> <option value=\"UGA\">UGA-ä¹Œå¹²è¾¾</option> <option value=\"UKR\">UKR-ä¹Œå…‹å…°</option> <option value=\"ARE\">ARE-é˜¿æ‹‰ä¼¯è”åˆé…‹é•¿å›½</option> <option value=\"URY\">URY-ä¹Œæ‹‰åœ­</option> <option value=\"UZB\">UZB-ä¹Œå…¹åˆ«å…‹æ–¯å¦</option> <option value=\"VUT\">VUT-ä¸‡é‚£åº¦</option> <option value=\"VAT\">VAT-ç½—é©¬æ•™åº­</option> <option value=\"VEN\">VEN-å§”å†…ç‘žæ‹‰</option> <option value=\"VNM\">VNM-è¶Šå—</option> <option value=\"ESH\">ESH-è¥¿æ’’å“ˆæ‹‰</option> <option value=\"YEM\">YEM-ä¹Ÿé—¨</option> <option value=\"YUG\">YUG-å—æ–¯æ‹‰å¤«</option> <option value=\"ZAR\">ZAR-æ‰Žä¼Šå°”</option> <option value=\"ZMB\">ZMB-èµžæ¯”äºš</option> <option value=\"ZWE\">ZWE-æ´¥å·´å¸ƒéŸ¦</option>";
 
-//add by yly,¼ì²é×îµÍÄâÉêÇë¶î¶ÈÐ£Ñé
+//add by yly,æ£€æŸ¥æœ€ä½Žæ‹Ÿç”³è¯·é¢åº¦æ ¡éªŒ
 function checklmt(card_kind,lmt){
 	var flag = true;
 	if(parseInt(lmt.value,10) < 0){
-		alert("×îµÍÉêÇë¶î¶ÈÈËÃñ±Ò0Ôª!");
+		alert("æœ€ä½Žç”³è¯·é¢åº¦äººæ°‘å¸0å…ƒ!");
 		obj.focus();
 		flag = false;
 	}		
 	return flag;
 	
 }
-
-
+function EngToUpperCase(obj){
+	obj.value=obj.value.toUpperCase();
+}
 
 
 

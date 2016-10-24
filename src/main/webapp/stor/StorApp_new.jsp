@@ -149,7 +149,7 @@ function dofindBatchIdParts(){
 		<%=ViewUtil.must()%>产品是否支持Pki:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("isPki", SingleDic.YES_OR_NO, "0")%> 
+		<%=SingleDicMap.getRadio("isPki", SingleDic.YES_OR_NO, "1")%> 
 		</td>
 	</tr>	
 	<tr>
