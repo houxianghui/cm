@@ -6,11 +6,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
 import com.eis.portal.UserContext;
+import com.eis.util.CheckUtil;
 
 
 
@@ -49,7 +52,7 @@ public class SecpkitbAction extends IbatisBaseAction {
 		((SecpkitbBO)bo).querySamIdValidate(f);
 		String scale="";
 		String title="";
-		if(f.getBeginDate_f()!=null ||f.getEndDate_f()!=null){
+		if(!CheckUtil.isEmptry(f.getBeginDate_f())||!CheckUtil.isEmptry(f.getEndDate_f())){
 			 title=f.getBeginDate_f()+"_"+f.getEndDate_f();
 		}else{
 			 title=f.getSamId_min()+"_"+f.getSamId_max();
