@@ -349,7 +349,7 @@ public class IssueappAction extends IbatisBaseAction {
 		f.setProdId(prodvo.getProdId());
 		f.setKeyType(prodvo.getKeyType());
 		f.setPhiTypeId(prodvo.getPhiTypeId());
-		f.setAppTypeId(Integer.parseInt(prodvo.getAppTypeId()));
+		f.setAppTypeId(Integer.parseInt(CheckUtil.isEmptry(prodvo.getAppTypeId())?"0":prodvo.getAppTypeId()));
 		f.setBinFileVer(prodvo.getBinFileVer());
 		f.setAuthSign(prodvo.getAuthSign());
 		f.setW2Sign(prodvo.getW2Sign());

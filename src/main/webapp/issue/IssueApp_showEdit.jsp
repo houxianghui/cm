@@ -275,7 +275,7 @@ function keyType_fun(obj){
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
 		<div id="hiddenId">
-		<%=ReDefSDicMap.getRadioWithHiddenId("appTypeId", RedefSDicCodes.APPTYPEID, String.valueOf(issueappForm.getAppTypeId()),"106") %>
+		<%=ReDefSDicMap.getRadioWithHiddenId("appTypeId", RedefSDicCodes.APPTYPEID, String.valueOf(issueappForm.getAppTypeId()),"105","106") %>
 		</div>
 		<div id="showId"  style="display:none">
 		<%=ReDefSDicMap.getRadio("appTypeId", RedefSDicCodes.APPTYPEID, String.valueOf(issueappForm.getAppTypeId())) %>

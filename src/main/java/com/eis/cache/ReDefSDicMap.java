@@ -249,7 +249,7 @@ public class ReDefSDicMap {
 		}
 		return (Collection) optionMap.get(typeID);
 	}
-	public static String getRadioWithHiddenId(String radioName, String typeID, String tagVal,String hiddenId) {
+	public static String getRadioWithHiddenId(String radioName, String typeID, String tagVal,String hiddenId,String hiddenId2) {
 
 		if (tagVal == null || tagVal.trim().length() <= 0)
 			return getRadio(radioName, typeID);
@@ -259,7 +259,7 @@ public class ReDefSDicMap {
 
 		for (int i = 1; i < options.size(); i++) {
 			LabelValueBean bean = (LabelValueBean) (options.get(i));
-			if (hiddenId.equals(bean.getValue()))
+			if (hiddenId.equals(bean.getValue()) ||hiddenId2.equals(bean.getValue()))
 				continue;
 			else{
 				if (tagVal.equals(bean.getValue()))

@@ -290,7 +290,7 @@ function keyType_fun(obj){
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
 		<div id="hiddenId">
-		<%=ReDefSDicMap.getRadioWithHiddenId("appTypeId", RedefSDicCodes.APPTYPEID, "101","106") %>
+		<%=ReDefSDicMap.getRadioWithHiddenId("appTypeId", RedefSDicCodes.APPTYPEID, "101","105","106") %>
 		</div>
 		<div id="showId"  style="display:none">
 		<%=ReDefSDicMap.getRadio("appTypeId", RedefSDicCodes.APPTYPEID, "101") %>
@@ -352,7 +352,7 @@ if (list != null) {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td height="25" align="center"> &nbsp;
-						</td>
+					</td>
 				</tr>
 			</table>
 			</td>

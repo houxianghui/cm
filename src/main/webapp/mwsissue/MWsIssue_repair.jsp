@@ -128,24 +128,6 @@ function applyAttr_fun(obj){
 	</tr>	   
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>申请单位:
-		</td>
-		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<html:select property="unitId" styleClass="Select">
-			<html:optionsCollection name="mwsissuetbForm" property="unitIdcollection"/>
-		</html:select>
-		</td>
-	</tr>	   	
-     <tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>密钥类型:
-		</td>
-		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio_WithFun("keyType", SingleDic.KEYTYPE, "1","keyType_fun(this)")%> 
-		</td>	
-	</tr>	
-	<tr>
-		<td width="16%" align="left" class="dtPanel_Left">
 		<%=ViewUtil.must()%>卡片厂商名称:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
@@ -160,67 +142,20 @@ function applyAttr_fun(obj){
 		<%=SingleDicMap.getRadio("phiTypeId", SingleDic.COMM_RATE, "1")%> 
 		</td>	
 	</tr>	
-	<tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>产品应用类型:
-		</td>
-		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<div id="hiddenId">
-		<%=ReDefSDicMap.getRadioWithHiddenIdFun("appTypeId", RedefSDicCodes.APPTYPEID, "101","106","applyAttr_fun(this)") %>
-		</div>
-		<div id="showId"  style="display:none">
-		<%=ReDefSDicMap.getRadioWithFun("appTypeId", RedefSDicCodes.APPTYPEID, "101","applyAttr_fun(this)") %>
-		</div>
-		</td>	
-	</tr>	
-	<tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>模块程序版本:
-		</td>
-		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<html:select property="binFileVer" styleClass="Select">
-				<html:optionsCollection name="mwsissuetbForm" property="moduleVerEffcollection"/>
-		</html:select>
-		</td>	
-	</tr>	
- 	<tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		主控密钥:
-		</td>
-		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-			<html:select property="authkey" styleClass="Select">
-				<html:optionsCollection name="mwsissuetbForm" property="authkeycollection"/>
-			</html:select>
-		</td>	
-	</tr>
+
 </table>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td height="25" align="center"> &nbsp;
-						</td>
-				</tr>
-			</table>
+ 
 			</td>
 		</tr>
 	</table>
 </html:form>
     <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
         <tr> 
-				<td height="25" align="center" class="dtPanel_Bottom"> 
-					<div id="button_module1"  style="display:none"><input type="button" id="down1" value="下载" class="Button" onClick="doDown1()" />--></div>
-		 		</td> 
 		 		<td height="25" align="center" class="dtPanel_Bottom"> 
-					<input type="button" value="修复发行" class="Button" onClick="doIssue()"/>--> 
-		 		</td> 
-		 		<td height="25" align="center" class="dtPanel_Bottom"> 
-					<div id="button_module2"  style="display:none"><input type="button"  id="down2" value="下载" class="Button" onClick="doDown2()" />--> </div>
-		 		</td> 
-		 		<td height="25" align="center" class="dtPanel_Bottom"> 
-					<input type="button" value="检测" class="Button" onClick="doExam()"/> 
 		 		</td>
 	    </tr> 
   </table> 

@@ -12,12 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
-
+import com.eis.exception.MessageException;
 import com.eis.key.KeyGenerator;
 import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
@@ -75,6 +76,9 @@ public class IssuetaskAction extends IbatisBaseAction {
 		Issuetask vo = new Issuetask();
 		Applytypeinfo apply = new Applytypeinfo();
 		apply.setApplyTypeId(String.valueOf(f.getAppTypeId()));
+		if(f.getKeyType()==1 &&(f.getAppTypeId()==105 ||f.getAppTypeId()==106)){
+			throw new MessageException("正式密钥不允许选择此应用类型");
+		}
 		apply =(Applytypeinfo)applytypeinfoBO.queryForObject(apply);
 		copyProperties(vo,f);
 		if(!CheckUtil.isEmptry(f.getOrigSamId()))

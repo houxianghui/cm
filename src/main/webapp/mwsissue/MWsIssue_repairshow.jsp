@@ -10,31 +10,6 @@
 <head>
 <title>修复发行</title> 
 <script language="javascript"> 
-
-function doShow(){ 
-	if(document.forms[0].origSamId.value == null ||document.forms[0].origSamId.value == ''){
-		alert('请先录入原SAM号'); 
-		return; 
-	}
-	document.forms[0].act.value = "repair";
-	document.forms[0].submit();
-}
-function doRead(){ 
-	$.get("Mwsissuetb.do?act=R&prodId="+document.forms[0].prodId.value+"&operationType=25&phiTypeId="+document.forms[0].phiTypeId.value,function(result){
-		var json = $.parseJSON(result);
-		if(json.error!=null){
-			alert(json.error);
-		}else{
-			document.forms[0].origSamId.value=json.origSamId;
-			if(document.forms[0].prodId.value==4){
-				$("#module").text(json.module);
-			}
-		 		
-		}
-		return;
-	});
-
-}
 function doExam(){ 
 	$.get("Mwsissuetb.do?act=E&operationType=25&applyAttr="+document.forms[0].appTypeId.value+"&prodId="+document.forms[0].prodId.value+"&manufacId="+document.forms[0].manufacId.value+"&phiTypeId="+document.forms[0].phiTypeId.value,function(result){
 		var json = $.parseJSON(result);
@@ -93,99 +68,95 @@ function applyAttr_fun(obj){
 </head>
 <body> 
 <p>&nbsp;</p> 
- <html:form method="post" action="Mwsissuetb.do" >
- 	<input type=hidden name=act value="singleIssue">
-	<input type=hidden name=requery>
-	<input type=hidden name=operationType value="25">
+<html:form method="post" action="Mwsissuetb.do" >
+<input type=hidden name=act value="singleIssue">
+<input type=hidden name=requery>
+<input type=hidden name=operationType value="25">	
+<html:hidden property="prodId"/>
+<html:hidden property="unitId"/>
+<html:hidden property="keyType"/>
+<html:hidden property="manufacId"/>
+<html:hidden property="phiTypeId"/>
+<html:hidden property="appTypeId"/>
+<html:hidden property="binFileVer"/>
  <%=ViewUtil.getTitle("修复发行")%> 
 
  <table id="issue" align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0">
 		<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>SAM卡号:
+		SAM卡号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<html:text property="origSamId" styleClass="Textfield"  size="12" maxlength="12"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  value="<%=mwsissuetbForm.getOrigSamId()%>" />&nbsp; 
-		<input	name="read" type="button" class="Button" value="读取SAM卡号(选择产品类型及速率)" onClick="doRead()"> &nbsp; <div id=module></div>
-		&nbsp;<input name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> 	
+		<html:text property="origSamId" styleClass="Textfield"  size="12" maxlength="12"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  value="<%=mwsissuetbForm.getOrigSamId()%>" readonly="true"/>
 	</td>
 	</tr>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>SAM印刷卡号:
+		SAM印刷卡号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<html:text property="cardcsn" styleClass="Textfield"  size="20" maxlength="20"  value="<%=mwsissuetbForm.getCardcsn()%>"  />&nbsp; 
+		<html:text property="cardcsn" styleClass="Textfield"  size="20" maxlength="20"  value="<%=mwsissuetbForm.getCardcsn()%>"  readonly="true"/>&nbsp; 
 	</td>
 	</tr>
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>产品类型:
+		产品类型:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadioWithFun("prodId", SingleDic.PROD_ID, mwsissuetbForm.getProdId(),"prodAttr_fun(this)")%>
+		<%=SingleDicMap.getDicItemVal(SingleDic.PROD_ID, mwsissuetbForm.getProdId())%>
 		</td>
 	</tr>	   
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>申请单位:
+		申请单位:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<html:select property="unitId" styleClass="Select">
-			<html:optionsCollection name="mwsissuetbForm" property="unitIdcollection"/>
-		</html:select>
+		<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.UNITID,  String.valueOf(mwsissuetbForm.getUnitId())) %>
 		</td>
 	</tr>	   	
      <tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>密钥类型:
+		密钥类型:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio_WithFun("keyType", SingleDic.KEYTYPE, String.valueOf( mwsissuetbForm.getKeyType()),"keyType_fun(this)")%> 
+		<%=SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf( mwsissuetbForm.getKeyType()))%>
 		</td>	
 	</tr>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>卡片厂商名称:
+		卡片厂商名称:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=ReDefSDicMap.getRadio("manufacId", RedefSDicCodes.MAUN_ID, mwsissuetbForm.getManufacId())%> 
+		<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.MAUN_ID, mwsissuetbForm.getManufacId()) %>
 		</td>
 	</tr>	   	
      <tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>产品通信速率:
+		产品通信速率:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("phiTypeId", SingleDic.COMM_RATE, mwsissuetbForm.getPhiTypeId())%> 
+		<%=SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, mwsissuetbForm.getPhiTypeId())%>
 		</td>	
 	</tr>	
 	 <tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>产品应用类型:
+		产品应用类型:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<div id="hiddenId">
-		<%=ReDefSDicMap.getRadioWithHiddenIdFun("appTypeId", RedefSDicCodes.APPTYPEID,String.valueOf(mwsissuetbForm.getAppTypeId()),"106","applyAttr_fun(this)") %>
-		</div>
-		<div id="showId"  style="display:none">
-		<%=ReDefSDicMap.getRadioWithFun("appTypeId", RedefSDicCodes.APPTYPEID,String.valueOf(mwsissuetbForm.getAppTypeId()),"applyAttr_fun(this)") %>
-		</div>
+		<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.APPTYPEID, String.valueOf(mwsissuetbForm.getAppTypeId())) %>
 		</td>	
 	</tr>
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>模块程序版本:
+		模块程序版本:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<html:select property="binFileVer" styleClass="Select">
-				<html:optionsCollection name="mwsissuetbForm" property="moduleVerEffcollection"/>
-		</html:select>
+		<%=mwsissuetbForm.getBinFileVer()==""?"":ReDefSDicMap.getDicItemVal(RedefSDicCodes.MODULEVERSION, mwsissuetbForm.getBinFileVer()) %>
 		</td>	
 	</tr>	
 	 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		主控密钥:
+		<%=ViewUtil.must()%>主控密钥:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
 			<html:select property="authkey" styleClass="Select">
@@ -210,15 +181,19 @@ function applyAttr_fun(obj){
 </html:form>
     <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
         <tr> 
+        	<%if(mwsissuetbForm.getProdId().equals("4")){%>
 				<td height="25" align="center" class="dtPanel_Bottom"> 
-					<div id="button_module1"  style="display:none"><input type="button" id="down1" value="下载" class="Button" onClick="doDown1()" />--></div>
+					<input type="button" id="down1" value="下载" class="Button" onClick="doDown1()" />-->
 		 		</td> 
+		 	<%} %>
 		 		<td height="25" align="center" class="dtPanel_Bottom"> 
 					<input type="button" value="修复发行" class="Button" onClick="doIssue()"/>--> 
 		 		</td> 
+		 	<%if(mwsissuetbForm.getAppTypeId()==302){%>
 		 		<td height="25" align="center" class="dtPanel_Bottom"> 
-					<div id="button_module2"  style="display:none"><input type="button"  id="down2" value="下载" class="Button" onClick="doDown2()" />--> </div>
+					<input type="button"  id="down2" value="下载" class="Button" onClick="doDown2()" />--> 
 		 		</td> 
+		 	<%} %>	
 		 		<td height="25" align="center" class="dtPanel_Bottom"> 
 					<input type="button" value="检测" class="Button" onClick="doExam()"/> 
 		 		</td>

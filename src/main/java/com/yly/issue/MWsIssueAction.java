@@ -598,6 +598,9 @@ public class MWsIssueAction extends IbatisBaseAction {
 		}
  		copyProperties(f, prodvo);
  		f.setCardcsn(prodvo.getSamCSN());
+		if(f.getAppTypeId()==null || f.getAppTypeId()<100){
+			throw new MessageException("此SAM号应用类型不存在,不允许修复发行");
+		}
 		f.setAppTypeId(Integer.parseInt(prodvo.getAppTypeId()));
 		return mapping.findForward("show");	
 	}
@@ -609,6 +612,9 @@ public class MWsIssueAction extends IbatisBaseAction {
 		Stoproduct sto=stoproductBO.queryObjectBySamId(f.getSamId());
 		if(sto==null ||CheckUtil.isEmptry(sto.getSamCSN())){
 			throw new MessageException("此SAM号找不到原发行记录");
+		}
+ 		if(CheckUtil.isEmptry(f.getPhiTypeId())){
+			throw new MessageException("此SAM号通信速率不存在,不允许修复发行");
 		}
 		f.setApplyAttr(String.valueOf(f.getAppTypeId()));
 		Mwsissuetb vo = new Mwsissuetb();
