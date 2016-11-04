@@ -645,4 +645,9 @@
 	 where issuetaskctrl.TaskCtrlNo=mwsissuetb.TaskCtrlNo and mwsissuetb.TaskCtrlNo= #taskCtrlNo:VARCHAR#
  	 group by ProdId,KeyType,TaskCtrlNo
   </select> 
+   <select id="getMyIssueTask"  resultClass="java.lang.Integer"  parameterClass="java.lang.String" >
+	 select count(*)
+	 from mwsissuetb  
+	 where  (IssueOperID= #issueOperID:VARCHAR# and FormState=2) or FormState=1 
+  </select>   
 </sqlMap>

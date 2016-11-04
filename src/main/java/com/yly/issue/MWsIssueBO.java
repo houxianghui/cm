@@ -386,4 +386,9 @@ public class MWsIssueBO extends IbatisBO {
 		}		
 		return  result;
 	}
+	public int getMyIssueTask(String user) throws Exception {
+		int num=0;
+		num=mwsissuetbDAO.getMyIssueTask(user);
+		return  num;
+	}	
 }

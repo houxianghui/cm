@@ -15,6 +15,7 @@ import com.eis.base.IbatisBaseAction;
 import com.eis.portal.UserContext;
 import com.huateng.blue.notice.Ep_noticeBO;
 import com.projectmaintain.ProjectDistributeBO;
+import com.yly.issue.MWsIssueBO;
 public class InfoAction extends IbatisBaseAction {
 	@Autowired
 	private Ep_noticeBO noticeBO;
@@ -24,6 +25,8 @@ public class InfoAction extends IbatisBaseAction {
 	private DailyRecordBO recordBO;
 	@Autowired
 	private MailConfigBO configBO;
+	@Autowired	
+	private MWsIssueBO mwsissuetbBO;
 	@Override
 	public ActionForward process(ActionMapping mapping, BaseForm form, HttpServletRequest request,
 			HttpServletResponse response, UserContext user) throws Exception {
@@ -36,9 +39,7 @@ public class InfoAction extends IbatisBaseAction {
 
 	private ActionForward info(HttpServletRequest request, HttpServletResponse response, ActionMapping mapping,UserContext user) throws Exception{
 		request.setAttribute("notice", noticeBO.getNotice("1".equals(request.getParameter("flag"))));
-		request.setAttribute("task", distributeBO.getMyProjects(user.getUserID()).size());
-		request.setAttribute("report", recordBO.queryForYestodayRecord().size());
-//		request.setAttribute("info", configBO.getConfigTable());
+		request.setAttribute("task", mwsissuetbBO.getMyIssueTask(user.getUserID()));
 		return mapping.findForward("info");
 	}
 

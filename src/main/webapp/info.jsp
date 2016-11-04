@@ -59,8 +59,7 @@ $(function(){
 	<div>
 		<fieldset>
 		<legend>待办任务</legend>
-		<div>当前共有&nbsp;&nbsp;<a href="ProjectDistribute.do?act=gmp"><%out.println(request.getAttribute("task")); %></a>笔我接收的任务</div>
-		<div>昨日<%=((Integer)request.getAttribute("report")).intValue()>0?"没有":"有" %>未报工时</div>
+		<div>当前共有&nbsp;&nbsp;<a href="Mwsissuetb.do?act=list"><%out.println(request.getAttribute("task")); %></a>笔我接收的任务</div>
 		</fieldset>
 	</div>
 </body>
