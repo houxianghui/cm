@@ -11,7 +11,11 @@
 <head>
 <title>产品换损</title> 
 <script language="javascript"> 
-
+function turnPage( pagenm ) {   
+	document.forms[0].act.value = "exchange";  
+	document.forms[0].pageNO.value = pagenm;     
+	document.forms[0].submit(); 
+}
 function doShow(){ 
 	if(document.forms[0].samId.value == null ||document.forms[0].samId.value == ''){
 		alert('请先录入原SAM号'); 

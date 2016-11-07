@@ -155,7 +155,7 @@ public class StoreuseAction extends IbatisBaseAction {
 		Storeuse storeuse = new Storeuse();
 
 		if(sto==null ||sto.getSamId()==null){
-			if(!sto.getSamId().startsWith("88888")){
+			if(!sf.getSamId().startsWith("88888")){
 				throw new MessageException("该卡号未找到原发行记录，不允许退回!");
 			}
 			sto=new Stoproduct();

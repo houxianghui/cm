@@ -134,7 +134,10 @@ public class MWsIssueAction extends IbatisBaseAction {
 			return addApply(form,mapping,request,user);
 		} else if("list".equals(act)){		//query active projects
 			return queryList(form,mapping,request,user);
-		}else if("issueInit".equals(act)){		//query active projects
+		}else if("pagelist".equals(act)){		//query active projects
+			return pageList(form,mapping,request,user);
+		}
+		else if("issueInit".equals(act)){		//query active projects
 			return issueInit(form,mapping,request,user);
 		}else if("issue".equals(act)){		//query active projects
 			return issue(form,mapping,request,user);
@@ -309,10 +312,6 @@ public class MWsIssueAction extends IbatisBaseAction {
 		return mapping.findForward("list");
 	}
 	public ActionForward closePort(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
-//		MWsIssuetbForm f = (MWsIssuetbForm)form;
-//		operSysPort(f.getProdId(),"close"); 
-//		Mwsissuetb vo=((MWsIssueBO)bo).queryIssueTaskCtrl(f.getFormNo());
-//		copyProperties(form, vo);
 		return mapping.findForward("list");
 	}
 	public ActionForward popList(BaseForm form,ActionMapping mapping,HttpServletRequest request)throws Exception{
@@ -337,7 +336,19 @@ public class MWsIssueAction extends IbatisBaseAction {
 		copyProperties(form, vo);
 		return mapping.findForward("issue");
 	}
-
+	public ActionForward pageList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		MWsIssuetbForm f = (MWsIssuetbForm)form;
+		Mwsissuetb vo=((MWsIssueBO)bo).queryForObject(f.getFormNo());
+		String pageNo = request.getParameter("pageNO");		
+		String requery = request.getParameter("requery");
+		if (CheckUtil.isEmptry(pageNo)  && requery == null ) {			
+			f.setFormState_f((short)1);
+	    }		
+		setPageResult(request, lsinfoBO.queryForListByFormNo(vo.getFormNo()));
+        request.setAttribute("pageResultLsInfo", request.getAttribute("pageResult"));
+		copyProperties(form, vo);
+		return mapping.findForward("issue");
+	}
 	private void operSysPort(String prodId,String oper,String phiTypeId) throws Exception, MessageException {
 		Func func=new Func();
 		Para para=new Para();

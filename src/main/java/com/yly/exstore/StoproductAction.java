@@ -11,18 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
-
-
-
-
-
-
-
-
-
-
-
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
 import com.eis.exception.MessageException;
@@ -31,25 +19,13 @@ import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
 import com.eis.util.StringUtil;
-import com.yly.drools.Func;
-import com.yly.func.Para;
-import com.yly.func.ParaTools;
 import com.yly.issue.Issueapp;
 import com.yly.issue.IssueappBO;
-import com.yly.issue.MWsIssueBO;
-import com.yly.issue.MWsIssuetbForm;
-import com.yly.issue.Mwsissuetb;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoBO;
-import com.yly.presscard.PressCardForm;
-import com.yly.reuse.Storeuse;
+ import com.yly.reuse.Storeuse;
 import com.yly.reuse.StoreuseBO;
-import com.yly.reuse.StoreuseForm;
- 
-
-
-
-
+   
 
 public class StoproductAction extends IbatisBaseAction {
 	private LsinfoBO lsinfoBO;
@@ -460,6 +436,8 @@ public class StoproductAction extends IbatisBaseAction {
 		if(l!=null &&l.size()>0){
 			setPageResult(request,l);
 		}
+		sf.setSamCSN("");
+		sf.setSamId("");
 		return mapping.findForward("exchange");
 	}
 	public ActionForward show(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{

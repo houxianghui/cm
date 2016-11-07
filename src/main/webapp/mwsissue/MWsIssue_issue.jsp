@@ -17,7 +17,7 @@ if (pageResultLsInfo != null)
 <script language="javascript"> 
 
 function turnPage( pagenm ) {   
-    	document.forms[0].act.value = "list";  
+    	document.forms[0].act.value = "pagelist";  
     	document.forms[0].pageNO.value = pagenm;     
     	document.forms[0].submit(); 
 }
@@ -66,7 +66,7 @@ function doDown2() {
 <body>
 <script type="text/javascript" src="js/calendar.js"></script>
 <html:form method="post" action="Mwsissuetb.do">
-<input type=hidden name=act value="list">
+<input type=hidden name=act value="pagelist">
 <input type=hidden name=requery> 
 <input type=hidden name=operationType> 
 <html:hidden property="formNo"/>
@@ -251,13 +251,11 @@ function doDown2() {
 				<tr align="center" class="dtPanel_Top01">
 					<td width="10%">流水号</td>
 					<td width="10%">SAM卡号</td>
-					<td width="10%">SAM印刷卡号</td>
+					<td width="10%">SAM印刷卡号</td>				
 					<td width="10%">检测结果</td>	
-					<td width="10%">错误码</td>						
-					<td width="10%">原SAM号</td>	
-					<td width="10%">原SAM印刷号</td>
 					<td width="10%">发行员</td>	
-					<td width="10%">发行时间</td>					
+					<td width="10%">发行时间</td>			
+					<td width="10%">错误码</td>				
 				</tr>
 				<%List list = pageResultLsInfo.getList();
 
@@ -270,11 +268,9 @@ if (list != null) {
 					<td><%=vo.getSamId()%></td>
 					<td><%=vo.getSamCSN()%></td>
 					<td><div id="detectSign<%=vo.getFlowNo()%>"></div><div id="detect<%=vo.getFlowNo()%>"><%=vo.getDetectSign()==null?"":SingleDicMap.getDicItemVal(SingleDic.DETECSIGN, String.valueOf(vo.getDetectSign()))%></div></td>
-					<td><%=vo.getErrorCode()==null?"":SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(vo.getErrorCode()))%></td>
-					<td><%=vo.getSamIdOld()%></td>
-					<td><%=vo.getSamCSNOld()%></td>			
 					<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, String.valueOf(vo.getOperId())) %></td>
 					<td><%=vo.getCurrDate()%></td>		
+					<td><%=vo.getErrorCode()==null?"":SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(vo.getErrorCode()))%></td>	
 				</tr>
 				<%}
 }%>
