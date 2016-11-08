@@ -279,6 +279,55 @@ if (list != null) {
 		</tr>
 
 	</table>
+  <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+  <script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="jqueryui/style.css">
+  <style>
+  .ui-progressbar {
+    position: relative;
+    width:98%; 
+  }
+  .progress-label {
+    position: absolute;
+    left: 50%;
+    top: 4px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #fff;
+    width:98%; 
+  }
+  </style>
+  <script>
+  $(function() {
+    var progressbar = $( "#progressbar" ),
+      progressLabel = $( ".progress-label" );
+ 
+    progressbar.progressbar({
+      value: false,
+      change: function() {
+        progressLabel.text( progressbar.progressbar( "value" ) + "%" );
+      },
+      complete: function() {
+        progressLabel.text( "完成！" );
+      }
+    });
+ 
+    function progress() {
+      var val=<%=mwsissuetbForm.getIssueDoneAmt()*100/mwsissuetbForm.getWorkSheetAmt()%>;
+      progressbar.progressbar( "value", val );
+    }
+ 
+    setTimeout( progress, 0 );
+  });
+  </script>
+</head>
+<body>
+ 
+<div id="progressbar"><div class="progress-label">加载...</div></div>
+ 
+ 
+</body>
+	
 	<%
 //产生翻页脚注 
 if (pageResultLsInfo != null) {%>
