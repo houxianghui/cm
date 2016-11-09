@@ -248,7 +248,7 @@ public class MWsIssueBO extends IbatisBO {
 		if(CheckUtil.isEmptry(f.getPhiTypeId()))
 			f.setPhiTypeId("0");
 		short operType=f.getOperationType();
-		if(operType==21||operType==24){
+		if(operType==21||operType==24||operType==43||operType==53){
 			f.setOldTranskey(keyVDatagram.getMainKeyMap(getMainKey(f)));
 			f.setNewTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));    
 		}else if(operType==22 || operType==23||operType==26){

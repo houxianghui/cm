@@ -287,7 +287,7 @@ if (list != null) {
   .ui-progressbar {
     position: relative;
     width:98%; 
-  }
+   }
   .progress-label {
     position: absolute;
     left: 50%;
@@ -322,10 +322,7 @@ if (list != null) {
   </script>
 </head>
 <body>
- 
 <div id="progressbar"><div class="progress-label">╪сть...</div></div>
- 
- 
 </body>
 	
 	<%
