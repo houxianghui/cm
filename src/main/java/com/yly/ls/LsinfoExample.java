@@ -1015,7 +1015,7 @@ public class LsinfoExample {
         }
 
         public Criteria andApplyAndLsOper(short value1, short value2) {
-            addCriterion("lsinfo.AppNo=applyinfotb.AppNo and lsinfo.SamId is null and lsinfo.OperationType between", value1, value2, "operationType");
+            addCriterion("applyinfotb.formstate='3' and lsinfo.AppNo=applyinfotb.AppNo and lsinfo.SamId is not null and lsinfo.OperationType between", value1, value2, "operationType");
             return this;
         }
         

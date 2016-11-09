@@ -355,16 +355,16 @@ public class StoAppInfoBO extends IbatisBO {
 	}
 	public List getOutStockBalReport(Object obj) throws Exception {		
 		Stoappinfo vo =(Stoappinfo)obj;
-		LsinfoExample e_out = new LsinfoExample();
-		com.yly.ls.LsinfoExample.Criteria c_out = e_out.createCriteria();
+		LsinfoExample o_back = new LsinfoExample();
+		com.yly.ls.LsinfoExample.Criteria c_back = o_back.createCriteria();
 		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
-			c_out.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+			c_back.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
 		}
 		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
-			c_out.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+			c_back.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
 		}
-		c_out.andApplyAndLsOper((short)30, (short)40);
- 		return lsinfoDAO.getStockBalReport(e_out);
+		
+ 		return lsinfoDAO.getStockBalReport(o_back);
 	}
 	public List getBackStockBalReport(Object obj) throws Exception {	
 		Stoappinfo vo =(Stoappinfo)obj;
@@ -377,7 +377,7 @@ public class StoAppInfoBO extends IbatisBO {
 			c_back.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
 		}
 		c_back.andApplyAndLsOper((short)60,(short)70);
- 		return lsinfoDAO.getStockBalReport(e_back);		
+ 		return lsinfoDAO.getLSBackReport(e_back);		
 	}
 	public List getDisStockBalReport(Object obj) throws Exception {	
 		Stoappinfo vo =(Stoappinfo)obj;
@@ -389,7 +389,7 @@ public class StoAppInfoBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
 			c_dis.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
 		}
-		c_dis.andApplyAndLsOper((short)70,(short)80);
- 		return lsinfoDAO.getStockBalReport(e_dis);		
+		c_dis.andOperationTypeEqualTo((short)71);
+ 		return lsinfoDAO.getLsDisCardReport(e_dis);		
 	}
 }

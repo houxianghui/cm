@@ -348,7 +348,25 @@
     where FlowNo = #flowNo:VARCHAR#
   </update>
   <select id="getStockBalReport" resultMap="StockBalReportMap" parameterClass="com.yly.ls.LsinfoExample" >
-    select sum(TaskAmt) as PurchaseAmt ,0 as CurrPeriodAmt,ProdId 
+   select sum(PurchaseAmt) as PurchaseAmt,0 as CurrPeriodAmt,ProdId from (select count(SamId) as PurchaseAmt,0 as CurrPeriodAmt,ProdId
+	from applyinfotb,lsinfo                      
+    <isParameterPresent >
+      <include refid="lsinfo.ibatorgenerated_Example_Where_Clause" />
+	</isParameterPresent>
+	and   lsinfo.AppNo=applyinfotb.AppNo and lsinfo.SamId is not null and (lsinfo.OperationType=31 or lsinfo.OperationType=33 or lsinfo.OperationType=35) and applyinfotb.formstate='3'
+	group by ProdId
+	union
+	select sum(TaskAmt) as PurchaseAmt ,0 as CurrPeriodAmt,ProdId      
+	from applyinfotb,lsinfo                    
+    <isParameterPresent >
+      <include refid="lsinfo.ibatorgenerated_Example_Where_Clause" />
+	</isParameterPresent>
+    and   lsinfo.AppNo=applyinfotb.AppNo and lsinfo.SamId is null and (lsinfo.OperationType =32 or lsinfo.OperationType=34 or lsinfo.OperationType=41 or lsinfo.OperationType=51)  and applyinfotb.formstate='3'   
+    group by ProdId ) tb1 
+    group by ProdId 
+  </select>
+  <select id="getLSBackReport" resultMap="StockBalReportMap" parameterClass="com.yly.ls.LsinfoExample" >
+    select  count(*) as PurchaseAmt ,0 as CurrPeriodAmt,ProdId 
     from applyinfotb,lsinfo  
     <isParameterPresent >
       <include refid="lsinfo.ibatorgenerated_Example_Where_Clause" />
@@ -357,5 +375,13 @@
         order by $orderByClause$
       </isNotNull>
     </isParameterPresent>
-  </select>
+</select>
+  <select id="getLsDisCardReport" resultMap="StockBalReportMap" parameterClass="com.yly.ls.LsinfoExample" >
+    select count(*) as PurchaseAmt ,0 as CurrPeriodAmt,ProdId 
+    from lsinfo  
+    <isParameterPresent >
+      <include refid="lsinfo.ibatorgenerated_Example_Where_Clause" />
+      group by ProdId 
+    </isParameterPresent>
+</select>  
 </sqlMap>

@@ -156,7 +156,7 @@ function doBack(){
 		</td>	
 	</tr>	
 </table>
- <%=ViewUtil.getTitle("检测流水信息")%> 		
+ <%=ViewUtil.getTitle("退回流水信息")%> 		
 	<table width="98%" border="0" cellspacing="1" align="center"
 		cellpadding="0">
 		<tr>

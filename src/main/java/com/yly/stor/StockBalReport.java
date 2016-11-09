@@ -42,7 +42,7 @@ public class StockBalReport extends BaseReport {
 			for(int i=1;i<6;i++){
 				boolean flag=false;
 				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PROD_ID, String.valueOf(i)));
-				if(inl.size()>1){
+				if(inl.size()>0){
 					for(Stoappinfo p : inl){
 						if(p.getProdId().equals(String.valueOf(i))){
 							tools.setCell(rowIndex, colIndex++, p.getPurchaseAmt());
@@ -62,7 +62,7 @@ public class StockBalReport extends BaseReport {
 					tools.setCell(rowIndex, colIndex++, 0);
 					tools.setCell(rowIndex, colIndex++, 0);
 				}
-				if(outl.size()>1){
+				if(outl.size()>0){
 					for(Stoappinfo p : outl){
 						if(p.getProdId().equals(String.valueOf(i))){
 							tools.setCell(rowIndex, colIndex++, p.getPurchaseAmt());
@@ -80,7 +80,7 @@ public class StockBalReport extends BaseReport {
 				}else{
 					tools.setCell(rowIndex, colIndex++, 0);
 				}
-				if(backl.size()>1){
+				if(backl.size()>0){
 					for(Stoappinfo p : backl){
 						if(p.getProdId().equals(String.valueOf(i))){
 							tools.setCell(rowIndex, colIndex++, p.getPurchaseAmt());
@@ -98,7 +98,7 @@ public class StockBalReport extends BaseReport {
 				}else{
 					tools.setCell(rowIndex, colIndex++, 0);
 				}
-				if(disl.size()>1){
+				if(disl.size()>0){
 					for(Stoappinfo p : disl){
 						if(p.getProdId().equals(String.valueOf(i))){
 							tools.setCell(rowIndex, colIndex++, p.getPurchaseAmt());
