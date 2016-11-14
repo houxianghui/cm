@@ -173,4 +173,9 @@ public class LsinfoDAOImpl extends SqlMapClientDaoSupport implements LsinfoDAO {
             return record;
         }
     }
+    public List getStockLsByProd(LsinfoExample example) {
+        List list = getSqlMapClientTemplate().queryForList("lsinfo.getStockLsByProd", example);
+        return list;
+    }
+    
 }

@@ -1,8 +1,12 @@
 package com.yly.stor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.map.HashedMap;
 
 import com.abc.logic.IbatisBO;
 import com.eis.base.IbatisBaseBO;
@@ -339,6 +343,44 @@ public class StoAppInfoBO extends IbatisBO {
 		}
 		e.setOrderByClause("ProdId,CurrDate");
  		return  stoappinfoDAO.selectByExample(e);
+	}
+	public List getStockMap(Object obj) throws Exception {
+		Map<String,List> prodMap = new HashMap<String, List>();
+		Stoappinfo vo =(Stoappinfo)obj;
+		StoappinfoExample e = new StoappinfoExample();
+		Criteria c = e.createCriteria();
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+		List operList=new ArrayList();
+		operList.add("11");
+		operList.add("12");
+		operList.add("13");
+		operList.add("61");
+		operList.add("92");
+		operList.add("94");
+		c.andOperationTypeIn(operList);
+		e.setOrderByClause("ProdId,CurrDate");
+ 		List stoInfo=stoappinfoDAO.selectByExample(e);
+ 	
+		LsinfoExample o_back = new LsinfoExample();
+		com.yly.ls.LsinfoExample.Criteria c_back = o_back.createCriteria();
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			c_back.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			c_back.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+		}
+ 		List appInfo=lsinfoDAO.getStockLsByProd(o_back);
+ 		if(stoInfo.size()>0){
+ 			stoInfo.addAll(appInfo);
+ 		}else if(appInfo.size()>0){
+ 			return appInfo;
+ 		}
+ 		return stoInfo;
 	}
 	public List getInStockBalReport(Object obj) throws Exception {		
 		Stoappinfo vo =(Stoappinfo)obj;
