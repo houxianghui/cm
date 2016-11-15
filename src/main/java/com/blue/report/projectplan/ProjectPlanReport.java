@@ -88,5 +88,7 @@ public class ProjectPlanReport extends BaseReport {
 		}
 		tools.setCellValueUseString("total", total+"");
 	}
-
+	protected void setValueMultiSheet(HashMap map, Object obj,String i) throws Exception{
+		;
+	}	
 }

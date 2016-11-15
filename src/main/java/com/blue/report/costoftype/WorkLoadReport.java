@@ -160,5 +160,7 @@ public class WorkLoadReport extends BaseReport {
 		c.setBgColor("yellow");
 		tools.setCellValueUseCell(c);
 	}
-
+	protected void setValueMultiSheet(HashMap map, Object obj,String i) throws Exception{
+		;
+	}	
 }

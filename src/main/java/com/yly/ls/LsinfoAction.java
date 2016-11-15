@@ -14,11 +14,19 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
+
+
+
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
+import com.eis.cache.ReDefSDicMap;
+import com.eis.cache.RedefSDicCodes;
+import com.eis.cache.SingleDic;
+import com.eis.cache.SingleDicMap;
 import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
 import com.eis.util.DateUtil;
@@ -114,6 +122,8 @@ public class LsinfoAction extends IbatisBaseAction {
 			byte[] b=null;
 			if(!CheckUtil.isEmptry(tmp.getSamId())){
 				 b= (tmp.getSamId()+","+tmp.getSamCSN()).getBytes();
+			}else if(!CheckUtil.isEmptry(tmp.getFlowNo())){
+				 b= (tmp.getFlowNo()+","+tmp.getAppNo()+","+tmp.getFormNo()+","+SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(tmp.getOperationType()))+","+SingleDicMap.getDicItemVal(SingleDic.PROD_ID, tmp.getProdId())+","+tmp.getCurrDate()+","+ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, tmp.getOperId())).getBytes();
 			}else{
 				continue;
 			}

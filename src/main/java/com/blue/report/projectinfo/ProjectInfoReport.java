@@ -48,5 +48,7 @@ public class ProjectInfoReport extends BaseReport {
 			e.printStackTrace();
 		}
 	}
-
+	protected void setValueMultiSheet(HashMap map, Object obj,String i) throws Exception{
+		;
+	}	
 }

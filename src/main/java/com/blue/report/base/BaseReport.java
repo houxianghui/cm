@@ -2,6 +2,7 @@ package com.blue.report.base;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,8 +46,25 @@ public abstract class BaseReport {
 			et.write(filePath+"/"+fileName+param+".xls");
 		}
 	}	
-
+	public void createExcelSheet(Object param,boolean write,List<String> sheetNames)throws Exception{	
+		et = new ExcelTools();
+		Config c = new Config(getConfig());
+		int i=0;
+		for(String l:sheetNames){
+			i++;
+ 			et.setSheetName(l);		
+			et.setTemplate(c);	
+			HashMap map = et.getPropertyMap(c);
+			setValueMultiSheet(map,param,String.valueOf(i));
+		}
+		if(write){
+			mkdirs(filePath);
+			et.write(filePath+"/"+fileName+param+".xls");
+		}
+		 
+	}	
 	protected abstract void setValue(HashMap map,Object projectId)throws Exception;
+	protected abstract void setValueMultiSheet(HashMap map,Object projectId,String i)throws Exception;
 
 	public DBQuery getDb() {
 		return db;

@@ -47,5 +47,7 @@ public class PressCardReport extends BaseReport {
 			;
 		}
 	}
-		
+	protected void setValueMultiSheet(HashMap map, Object obj,String i) throws Exception{
+		;
+	}	
 }

@@ -34,7 +34,8 @@ function doLsDown(){
 <html:form method="post" action="Lsinfo.do">
 <input type=hidden name=act value="list">
 <html:hidden property="appNo"/>
-<%=ViewUtil.getTitle("流水记录")%>
+<html:hidden property="formNo"/>
+ <%=ViewUtil.getTitle("流水记录")%>
 
 	<table width="98%" class="dtPanel_Line1" border="0" cellspacing="1"
 		align="center" cellpadding="0">

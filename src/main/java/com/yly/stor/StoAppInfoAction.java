@@ -403,7 +403,12 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		Stoappinfo vo = new Stoappinfo();
 		vo.setBeginDate_f(f.getBeginDate_f());
 		vo.setEndDate_f(f.getEndDate_f());
-		stockReport.createExcel(vo, false);
+		List<String> l=new ArrayList<String>();
+		l.add("出入库账本-ISAM");
+		l.add("出入库账本-PSAM");
+		l.add("出入库账本-ESAM");
+		l.add("出入库账本-小模块");
+		stockReport.createExcelSheet(vo, false,l);
 		response.setContentType("application/octet-stream");
 		String filename = stockReport.getEt().getSheetName()+".xls";
 		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
