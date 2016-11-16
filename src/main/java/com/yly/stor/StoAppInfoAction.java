@@ -410,7 +410,7 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		l.add("出入库账本-小模块");
 		stockReport.createExcelSheet(vo, false,l);
 		response.setContentType("application/octet-stream");
-		String filename = stockReport.getEt().getSheetName()+".xls";
+		String filename = "出入库账本.xls";
 		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
 			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefox浏览器
 		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
