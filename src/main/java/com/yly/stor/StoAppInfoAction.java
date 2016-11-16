@@ -411,6 +411,7 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		stockReport.createExcelSheet(vo, false,l);
 		response.setContentType("application/octet-stream");
 		String filename = "³öÈë¿âÕË±¾.xls";
+		
 		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
 			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
 		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
