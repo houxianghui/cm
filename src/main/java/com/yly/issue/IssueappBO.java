@@ -198,6 +198,7 @@ public class IssueappBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(obj.getEndDate_f())){
 			c.andCurrDateLessThanOrEqualTo(obj.getEndDate_f()+"999999");
 		}
+		e.setOrderByClause("CurrDate desc");
 		return issueappDAO.selectByExample(e);
 	}
 	public List getMakeUpList(IssueappForm obj)throws Exception {
