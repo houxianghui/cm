@@ -25,10 +25,12 @@ function doExam(){
 	
 } 
 function doIssue(){ 
+	document.getElementById('issue').style.color="red"; 
 	document.forms[0].act.value = "singleIssue";
 	document.forms[0].submit();
 	
 } 
+
 function prodAttr_fun(obj){
 	if(obj.value==4){
 		document.getElementById("button_module1").style.display="";
@@ -162,6 +164,12 @@ function applyAttr_fun(obj){
 			<html:select property="authkey" styleClass="Select">
 				<html:optionsCollection name="mwsissuetbForm" property="authkeycollection"/>
 			</html:select>
+			<%if(mwsissuetbForm.getProdId().equals("4")){%>
+			<%=ViewUtil.must()%>请选择配件厂商:
+			<html:select property="partManufacId" styleClass="Select">
+				<html:optionsCollection name="mwsissuetbForm" property="partManufacIdCollection"/>
+			</html:select>
+			<%}%>
 		</td>	
 	</tr>
 </table>
@@ -187,7 +195,7 @@ function applyAttr_fun(obj){
 		 		</td> 
 		 	<%} %>
 		 		<td height="25" align="center" class="dtPanel_Bottom"> 
-					<input type="button" value="修复发行" class="Button" onClick="doIssue()"/>--> 
+					<input type="button" id="issue" value="修复发行" class="Button" onClick="doIssue()"/>--> 
 		 		</td> 
 		 	<%if(mwsissuetbForm.getAppTypeId()==302){%>
 		 		<td height="25" align="center" class="dtPanel_Bottom"> 

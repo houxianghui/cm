@@ -630,7 +630,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		f.setApplyAttr(String.valueOf(f.getAppTypeId()));
 		Mwsissuetb vo = new Mwsissuetb();
  		copyProperties(vo,f);
-		operSysPort(vo.getProdId(),"open",f.getPhiTypeId());
+		operSysPort(vo.getProdId(),"open",f.getPhiTypeId());		
 		Lsinfo lsvo = ((MWsIssueBO)bo).setLsInfo(user, vo);
 		lsvo.setSamId(f.getSamId());
 		lsvo.setSamCSN(f.getCardcsn());
@@ -642,6 +642,29 @@ public class MWsIssueAction extends IbatisBaseAction {
 		Func func=new Func();
 		Para para=new Para();
 		((MWsIssueBO)bo).setFunc(f, func);
+		if(vo.getProdId().equals("4")){
+			if(!CheckUtil.isEmptry(f.getPartManufacId()))
+				func.setManufacId(f.getPartManufacId());
+			else if(!CheckUtil.isEmptry(sto.getBatchIdParts())){
+				Stoappinfo part_sto=stoAppBO.queryForObject(sto.getBatchIdParts());
+				if(part_sto!=null)
+					func.setManufacId(part_sto.getManufacId());
+				else {
+					operSysPort(vo.getProdId(),"close","0");
+					throw new MessageException("无法找到配件批次号的厂商信息!"+sto.getBatchIdParts());
+				}
+			}else{
+				operSysPort(vo.getProdId(),"close","0");
+				throw new MessageException("无法找到配件厂商信息!");
+			}
+		}else{
+			if(!CheckUtil.isEmptry(sto.getManufacId())){
+				func.setManufacId(sto.getManufacId());
+			}else{
+				operSysPort(vo.getProdId(),"close","0");
+				throw new MessageException("无法找到厂商信息!");
+			}
+		}
 		for(int i=2;i<4;i++){
 			((MWsIssueBO)bo).setOperAct(vo,func,i);//洗卡\发行
 			funDrools.getFunc(func);
@@ -684,7 +707,11 @@ public class MWsIssueAction extends IbatisBaseAction {
 			}
 		}
 		operSysPort(vo.getProdId(),"close","0");
-		return forwardSuccessPage(request,mapping,"修复成功","Mwsissuetb.do?act=repair");
+		if(!vo.getProdId().equals("4")){
+			return forwardSuccessPage(request,mapping,"修复成功","Mwsissuetb.do?act=repair");
+		}else{
+			throw new MessageException("修复成功");
+		}
 	}
 	public void down(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response)throws Exception{
 		String url=SysConfig.getProperty("IAP.URL")+File.separator+"IAP.exe";

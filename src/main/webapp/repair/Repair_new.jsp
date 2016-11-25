@@ -40,7 +40,7 @@ function doRepair(){
     <table align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0"> 
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>产品厂商:
+		<%=ViewUtil.must()%>产品厂商(模块填写ESAM厂商):
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<%=ReDefSDicMap.getRadio("manufacId", RedefSDicCodes.MAUN_ID, "1")%> 	

@@ -249,7 +249,7 @@ public class IssueappAction extends IbatisBaseAction {
 			return mapping.findForward("list");
 	    }
 		IssueappForm f = (IssueappForm)form;
-		setPageResult(request, ((IssueappBO)bo).getAppList(f));
+		setPageResult(request, ((IssueappBO)bo).getAppListByOperType(f));
 		return mapping.findForward("list");
 	}
 	public ActionForward exList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
