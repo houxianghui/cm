@@ -245,6 +245,22 @@ public class JacobInter {
 		disp.safeRelease();
 		return i;
     }		
+	public static int wqIssueAccIsamcard(Para para){
+		ActiveXComponent com = new ActiveXComponent("OCXISSUESAM.OCXIssueSAMCtrl.1") ;
+		Dispatch disp = (Dispatch)com.getObject();
+		byte[] b = new byte[256];
+		int i=-1;
+		try {
+			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;			
+			i=Dispatch.call(disp,"WqIssueAccIsamcard",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getAuthSign()),new Variant(para.getZeroExauthFlag()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getMotEf17()),new Variant(para.getInpki()),v1).getInt();
+			String ret = new String(v1.toString());
+			para.setRetpki(ret);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		disp.safeRelease();
+		return i;
+    }		
 	public static int tyIssueMotPsamcard(Para para){
 		ActiveXComponent com = new ActiveXComponent("OCXISSUESAM.OCXIssueSAMCtrl.1") ;
 		Dispatch disp = (Dispatch)com.getObject();
