@@ -70,13 +70,13 @@ function doAdd(){
          </td> 
        </tr> 
         <tr bgcolor="#FFFFFF"> 
-          <td width="35%" align="right" class="dtPanel_Left">&nbsp;Isam认证：</td> 
+          <td width="35%" align="right" class="dtPanel_Left">&nbsp;充值密钥使用权限不需要认证：</td> 
          <td align="left" class="dtPanel_Main2">&nbsp; 
          	<%=SingleDicMap.getRadio("isIsamSign",SingleDic.YES_OR_NO)%> 
          </td> 
        </tr> 
         <tr bgcolor="#FFFFFF"> 
-          <td width="35%" align="right" class="dtPanel_Left">&nbsp;测试密钥外部认证是否全0：</td> 
+          <td width="35%" align="right" class="dtPanel_Left">&nbsp;测试密钥外部认证密钥为全零：</td> 
          <td align="left" class="dtPanel_Main2">&nbsp; 
          	<%=SingleDicMap.getRadio("isIsamTestAllO",SingleDic.YES_OR_NO)%> 
          </td> 

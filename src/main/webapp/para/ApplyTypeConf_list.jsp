@@ -58,8 +58,8 @@ function turnPage( pagenm ) {
 			<td>维2存在</td>
 			<td>维2认证</td>
 			<td>支持互通</td>						
-			<td>Isam认证</td>
-			<td>测试密钥外部认证全0</td>
+			<td>充值密钥使用权限不需要认证</td>
+			<td>测试密钥外部认证密钥为全零</td>
 			<td>SAM卡片产品类别编号</td>
 			<td>操作员</td>
 			<td>录入日期</td>
