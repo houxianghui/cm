@@ -256,6 +256,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 				vos[i].setPhiTypeId(f.getPhiTypeId());
 				vos[i].setOperationType(f.getOperationType().shortValue());
 				vos[i].setW2limit(f.getW2limit());
+				vos[i].setW2Sign(f.getW2Sign());
 				vos[i].setIsHTCard(f.getIsHTCard());
 				vos[i].setIsPki(f.getIsPki());
 				vos[i].setZeroExauthFlag(f.getZeroExauthFlag());
@@ -370,6 +371,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 		MWsIssuetbForm f = (MWsIssuetbForm)form;	
 		Mwsissuetb vo=((MWsIssueBO)bo).queryIssueTaskCtrl(f.getFormNo());
 		copyProperties(f,vo);
+		f.setW2Limits(vo.getW2limit());
+		f.setW2Sign(vo.getW2Sign());
 		operSysPort(vo.getProdId(),"open",vo.getPhiTypeId());
 		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
