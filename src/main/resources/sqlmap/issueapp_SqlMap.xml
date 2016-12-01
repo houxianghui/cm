@@ -49,7 +49,7 @@
     <result column="FormState" jdbcType="DECIMAL" property="formState" />
     <result column="CurrDate" jdbcType="VARCHAR" property="currDate" />
     <result column="IsPki" jdbcType="DECIMAL" property="isPki" />
-	<result column="W2limit" jdbcType="DECIMAL" property="w2limit" />
+	<result column="W2limit" jdbcType="DECIMAL" property="w2Limit" />
 	<result column="ZeroExauthFlag" jdbcType="DECIMAL" property="zeroExauthFlag" />
 	<result column="IsHTCard" jdbcType="DECIMAL" property="isHTCard" />
   </resultMap> 

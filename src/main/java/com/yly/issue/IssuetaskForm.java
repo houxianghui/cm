@@ -454,16 +454,16 @@ public class IssuetaskForm  extends BaseForm {
 	public void setTaskAmt(Long taskAmt) {
 		this.taskAmt = taskAmt;
 	}
-    private Integer w2limit;
+    private Integer w2Limit;
     private Integer zeroExauthFlag;
     private Integer isPki;
 	private Integer isHTCard;
-	public Integer getW2limit() {
-		return w2limit;
+	public Integer getW2Limit() {
+		return w2Limit;
 	}
 
-	public void setW2limit(Integer w2limit) {
-		this.w2limit = w2limit;
+	public void setW2Limit(Integer w2Limit) {
+		this.w2Limit = w2Limit;
 	}
 
 	public Integer getZeroExauthFlag() {

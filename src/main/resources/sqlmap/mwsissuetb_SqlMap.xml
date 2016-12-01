@@ -29,7 +29,7 @@
     <result column="Remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="ManufacId" jdbcType="VARCHAR" property="manufacId" />
     <result column="OperationType" property="operationType" jdbcType="DECIMAL" />
-    <result column="W2limit" jdbcType="DECIMAL" property="w2limit" />
+    <result column="W2limit" jdbcType="DECIMAL" property="w2Limit" />
     <result column="ZeroExauthFlag" jdbcType="DECIMAL" property="zeroExauthFlag" />
     <result column="IsPki" jdbcType="DECIMAL" property="isPki" />
     <result column="IsHTCard" jdbcType="DECIMAL" property="isHTCard" />
@@ -63,7 +63,7 @@
     <result column="Remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="ManufacId" jdbcType="VARCHAR" property="manufacId" />
     <result column="OperationType" property="operationType" jdbcType="DECIMAL" />
-    <result column="W2limit" jdbcType="DECIMAL" property="w2limit" />
+    <result column="W2limit" jdbcType="DECIMAL" property="w2Limit" />
     <result column="ZeroExauthFlag" jdbcType="DECIMAL" property="zeroExauthFlag" />
     <result column="IsPki" jdbcType="DECIMAL" property="isPki" />
     <result column="IsHTCard" jdbcType="DECIMAL" property="isHTCard" />
@@ -174,7 +174,7 @@
       #applyAttr:VARCHAR#, #authSign:DECIMAL#, #w2Sign:DECIMAL#, #batchId:VARCHAR#,
       #pressCardScale:VARCHAR#, #workSheetAmt:DECIMAL#, #samIdBegin:VARCHAR#, #samIdEnd:VARCHAR#,
       #samId:VARCHAR#, #issueDoneAmt:DECIMAL#, #formState:DECIMAL#, #issueOperID:VARCHAR#, #manufacId:VARCHAR#,  
-      #operationType:DECIMAL#,#w2limit:DECIMAL#,#zeroExauthFlag:DECIMAL#,#isPki:DECIMAL#,#isHTCard:DECIMAL#, #remarks:VARCHAR#, #OAappNo:VARCHAR#)
+      #operationType:DECIMAL#,#w2Limit:DECIMAL#,#zeroExauthFlag:DECIMAL#,#isPki:DECIMAL#,#isHTCard:DECIMAL#, #remarks:VARCHAR#, #OAappNo:VARCHAR#)
   </insert>
   <insert id="ibatorgenerated_insertSelective" parameterClass="com.yly.issue.Mwsissuetb" >
     <!--
@@ -252,7 +252,7 @@
       <isNotNull prepend="," property="operationType" >
         OperationType
       </isNotNull>
-       <isNotNull prepend="," property="w2limit">
+       <isNotNull prepend="," property="w2Limit">
         W2limit
       </isNotNull>
        <isNotNull prepend="," property="zeroExauthFlag">
@@ -340,8 +340,8 @@
        <isNotNull prepend="," property="operationType" >
         #operationType:DECIMAL#
       </isNotNull>
-       <isNotNull prepend="," property="w2limit">
-        #w2limit:DECIMAL#
+       <isNotNull prepend="," property="w2Limit">
+        #w2Limit:DECIMAL#
       </isNotNull>
        <isNotNull prepend="," property="zeroExauthFlag">
         #zeroExauthFlag:DECIMAL#
@@ -442,8 +442,8 @@
        <isNotNull prepend="," property="record.operationType" >
         OperationType = #record.operationType:DECIMAL#
       </isNotNull>
-       <isNotNull prepend="," property="record.w2limit">
-        W2limit = #record.w2limit:DECIMAL#
+       <isNotNull prepend="," property="record.w2Limit">
+        W2limit = #record.w2Limit:DECIMAL#
       </isNotNull>
       <isNotNull prepend="," property="record.zeroExauthFlag">
         ZeroExauthFlag = #record.zeroExauthFlag:DECIMAL#
@@ -491,7 +491,7 @@
       Remarks = #record.remarks:VARCHAR#,
       ManufacId = #record.manufacId:VARCHAR#,
       OperationType = #record.operationType:DECIMAL#,
-      W2limit = #record.w2limit:DECIMAL#,
+      W2limit = #record.w2Limit:DECIMAL#,
       ZeroExauthFlag = #record.zeroExauthFlag:DECIMAL#,
       IsPki = #record.isPki:DECIMAL#,
       IsHTCard = #record.isHTCard:DECIMAL#,
@@ -573,8 +573,8 @@
       <isNotNull prepend="," property="operationType" >
         OperationType = #operationType:DECIMAL#
       </isNotNull>
-       <isNotNull prepend="," property="w2limit">
-        W2limit = #w2limit:DECIMAL#
+       <isNotNull prepend="," property="w2Limit">
+        W2limit = #w2Limit:DECIMAL#
       </isNotNull>
       <isNotNull prepend="," property="zeroExauthFlag">
         ZeroExauthFlag = #zeroExauthFlag:DECIMAL#
@@ -619,7 +619,7 @@
       Remarks = #remarks:VARCHAR#,
       ManufacId = #manufacId:VARCHAR#,
       OperationType = #operationType:DECIMAL#,
-      W2limit = #w2limit:DECIMAL#,
+      W2limit = #w2Limit:DECIMAL#,
       ZeroExauthFlag = #zeroExauthFlag:DECIMAL#,
       IsPki = #isPki:DECIMAL#,
       IsHTCard = #isHTCard:DECIMAL#,

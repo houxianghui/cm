@@ -19,7 +19,7 @@
     <result column="AuthSign" jdbcType="DECIMAL" property="authSign" />
     <result column="W2Sign" jdbcType="DECIMAL" property="w2Sign" />
     <result column="Remarks" jdbcType="VARCHAR" property="remarks" />
-    <result column="W2limit" jdbcType="DECIMAL" property="w2limit" />
+    <result column="W2limit" jdbcType="DECIMAL" property="w2Limit" />
     <result column="ZeroExauthFlag" jdbcType="DECIMAL" property="zeroExauthFlag" />
     <result column="IsPki" jdbcType="DECIMAL" property="isPki" />
     <result column="IsHTCard" jdbcType="DECIMAL" property="isHTCard" />
@@ -104,7 +104,7 @@
       PhiTypeId, AppTypeId, BinFileVer, AuthSign, W2Sign, W2limit,ZeroExauthFlag,IsPki,IsHTCard,Remarks)
     values (#taskNo:VARCHAR#, #OAappNo:VARCHAR#, #appNo:VARCHAR#, #operationType:DECIMAL#,
       #prodId:VARCHAR#, #issueAmt:DECIMAL#, #keyType:DECIMAL#, #phiTypeId:VARCHAR#,
-      #appTypeId:DECIMAL#, #binFileVer:VARCHAR#, #authSign:DECIMAL#, #w2Sign:DECIMAL#,#w2limit:DECIMAL#,#zeroExauthFlag:DECIMAL#,#isPki:DECIMAL#,#isHTCard:DECIMAL#, 
+      #appTypeId:DECIMAL#, #binFileVer:VARCHAR#, #authSign:DECIMAL#, #w2Sign:DECIMAL#,#w2Limit:DECIMAL#,#zeroExauthFlag:DECIMAL#,#isPki:DECIMAL#,#isHTCard:DECIMAL#, 
        #remarks:VARCHAR#)
   </insert>
   <insert id="ibatorgenerated_insertSelective" parameterClass="com.yly.issue.Issuetask">
@@ -150,7 +150,7 @@
       <isNotNull prepend="," property="w2Sign">
         W2Sign
       </isNotNull>
- 	  <isNotNull prepend="," property="w2limit">
+ 	  <isNotNull prepend="," property="w2Limit">
         W2limit
       </isNotNull>
        <isNotNull prepend="," property="zeroExauthFlag">
@@ -205,8 +205,8 @@
       <isNotNull prepend="," property="w2Sign">
         #w2Sign:DECIMAL#
       </isNotNull>
-       <isNotNull prepend="," property="w2limit">
-        #w2limit:DECIMAL#
+       <isNotNull prepend="," property="w2Limit">
+        #w2Limit:DECIMAL#
       </isNotNull>
        <isNotNull prepend="," property="zeroExauthFlag">
         #zeroExauthFlag:DECIMAL#
@@ -274,8 +274,8 @@
       <isNotNull prepend="," property="record.w2Sign">
         W2Sign = #record.w2Sign:DECIMAL#
       </isNotNull>
-      <isNotNull prepend="," property="record.w2limit">
-        W2limit = #record.w2limit:DECIMAL#
+      <isNotNull prepend="," property="record.w2Limit">
+        W2limit = #record.w2Limit:DECIMAL#
       </isNotNull>
       <isNotNull prepend="," property="record.zeroExauthFlag">
         ZeroExauthFlag = #record.zeroExauthFlag:DECIMAL#
@@ -312,7 +312,7 @@
       BinFileVer = #record.binFileVer:VARCHAR#,
       AuthSign = #record.authSign:DECIMAL#,
       W2Sign = #record.w2Sign:DECIMAL#,
-      W2limit = #record.w2limit:DECIMAL#,
+      W2limit = #record.w2Limit:DECIMAL#,
       ZeroExauthFlag = #record.zeroExauthFlag:DECIMAL#,
       IsPki = #record.isPki:DECIMAL#,
       IsHTCard = #record.isHTCard:DECIMAL#,
@@ -361,8 +361,8 @@
       <isNotNull prepend="," property="w2Sign">
         W2Sign = #w2Sign:DECIMAL#
       </isNotNull>
-       <isNotNull prepend="," property="w2limit">
-        W2limit = #w2limit:DECIMAL#
+       <isNotNull prepend="," property="w2Limit">
+        W2limit = #w2Limit:DECIMAL#
       </isNotNull>
       <isNotNull prepend="," property="zeroExauthFlag">
         ZeroExauthFlag = #record.zeroExauthFlag:DECIMAL#
@@ -396,7 +396,7 @@
       BinFileVer = #binFileVer:VARCHAR#,
       AuthSign = #authSign:DECIMAL#,
       W2Sign = #w2Sign:DECIMAL#,
-      W2limit = #w2limit:DECIMAL#,
+      W2limit = #w2Limit:DECIMAL#,
       ZeroExauthFlag = #zeroExauthFlag:DECIMAL#,
       IsPki = #isPki:DECIMAL#,
       IsHTCard = #isHTCard:DECIMAL#,

@@ -342,15 +342,15 @@ public class IssueappForm  extends BaseForm {
 	public void setOperationTypecollection(Collection operationTypecollection) {
 		this.operationTypecollection = operationTypecollection;
 	}
-    private Integer w2limit;
+    private Integer w2Limit;
 	private Integer zeroExauthFlag;
     private Integer isPki;
 	private Integer isHTCard;
-	public Integer getW2limit() {
-		return w2limit;
+	public Integer getW2Limit() {
+		return w2Limit;
 	}
-	public void setW2limit(Integer w2limit) {
-		this.w2limit = w2limit;
+	public void setW2Limit(Integer w2Limit) {
+		this.w2Limit = w2Limit;
 	}
 	public Integer getZeroExauthFlag() {
 		return zeroExauthFlag;

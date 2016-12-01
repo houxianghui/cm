@@ -86,7 +86,7 @@ public class IssuetaskAction extends IbatisBaseAction {
 		vo.setTaskNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("IssueTask")),16));
 		vo.setW2Sign(Short.valueOf(apply.getIsV2()));
 		vo.setAuthSign(Short.valueOf(apply.getIsIsamSign()==null?"0":apply.getIsIsamSign()));
-		vo.setW2limit(Integer.parseInt(apply.getIsV2Sign()));
+		vo.setW2Limit(Integer.parseInt(apply.getIsV2Sign()));
 		vo.setIsHTCard(Integer.parseInt(apply.getIsHLCard()));
 		vo.setIsPki(Integer.parseInt(apply.getIsPki()));
 		vo.setZeroExauthFlag(Integer.parseInt(apply.getIsIsamTestAllO()==null?"0":apply.getIsIsamTestAllO()));
