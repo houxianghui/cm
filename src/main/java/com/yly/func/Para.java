@@ -41,11 +41,11 @@ public class Para {
 		this.isPki = isPki;
 	}
 
-	public int getW2Limits() {
-		return w2Limits;
+	public int getW2limit() {
+		return W2limit;
 	}
-	public void setW2Limits(int w2Limits) {
-		this.w2Limits = w2Limits;
+	public void setW2limit(int W2limit) {
+		this.W2limit = W2limit;
 	}
 	public String getFivePara() {
 		return fivePara;
@@ -134,7 +134,7 @@ public class Para {
 	private int keyType;
 	private int isPki;
 	private int w2Sign;
-	private int w2Limits;
+	private int W2limit;
 	private String fivePara;
 	private String ef15;
 	private String ef16;

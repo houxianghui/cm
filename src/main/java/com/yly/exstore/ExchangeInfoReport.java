@@ -48,7 +48,7 @@ public class ExchangeInfoReport extends BaseReport {
 				tools.setCell(rowIndex, colIndex++, p.getUnitId());
 				tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.UNITID, String.valueOf(p.getExUnitId())));
 				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PROD_ID, String.valueOf(p.getProdId())));
-				tools.setCell(rowIndex, colIndex++, p.getKeyType()==0?"":SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(p.getKeyType())));
+				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(p.getKeyType())));
 				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(p.getIssueAmt())));
 				tools.setCell(rowIndex, colIndex++, p.getExAmt());
 				rowIndex++;
@@ -58,7 +58,7 @@ public class ExchangeInfoReport extends BaseReport {
 				tools.setCell(rowIndex, colIndex++, p_raw.getUnitId());
 				tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.UNITID, String.valueOf(p_raw.getExUnitId())));
 				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PROD_ID, String.valueOf(p_raw.getProdId())));
-				tools.setCell(rowIndex, colIndex++, p_raw.getKeyType()==0?"":SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(p_raw.getKeyType())));
+				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(p_raw.getKeyType())));
 				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(p_raw.getIssueAmt())));
 				tools.setCell(rowIndex, colIndex++, p_raw.getExAmt());
 				rowIndex++;

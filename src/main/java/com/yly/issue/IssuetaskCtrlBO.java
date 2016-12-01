@@ -115,7 +115,7 @@ public class IssuetaskCtrlBO extends IbatisBO {
 		Applytypeinfo apply=new Applytypeinfo();
 		String[] samNum={"0","0"};
 		String ABBBB="";
-		if(prod.getKeyType()==2){
+		if(prod.getKeyType()==0){
 			 ABBBB="99999"; //≤‚ ‘√‹‘ø
 		}else{
 			ABBBB=String.valueOf(obj.getUnitId()).substring(3);

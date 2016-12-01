@@ -371,8 +371,6 @@ public class MWsIssueAction extends IbatisBaseAction {
 		MWsIssuetbForm f = (MWsIssuetbForm)form;	
 		Mwsissuetb vo=((MWsIssueBO)bo).queryIssueTaskCtrl(f.getFormNo());
 		copyProperties(f,vo);
-		f.setW2Limits(vo.getW2limit());
-		f.setW2Sign(vo.getW2Sign());
 		operSysPort(vo.getProdId(),"open",vo.getPhiTypeId());
 		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
@@ -748,7 +746,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		apply =(Applytypeinfo)applytypeinfoBO.queryForObject(apply);
 		f.setW2Sign(Short.valueOf(apply.getIsV2()));
 		f.setAuthSign(Short.valueOf(apply.getIsIsamSign()==null?"0":apply.getIsIsamSign()));
-		f.setW2Limits(Integer.parseInt(apply.getIsV2Sign()));
+		f.setW2limit(Integer.parseInt(apply.getIsV2Sign()));
 		f.setIsHTCard(Integer.parseInt(apply.getIsHLCard()));
 		f.setIsPki(Integer.parseInt(apply.getIsPki()));
 		f.setZeroExauthFlag(Integer.parseInt(apply.getIsIsamTestAllO()==null?"0":apply.getIsIsamTestAllO()));

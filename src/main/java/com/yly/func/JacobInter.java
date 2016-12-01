@@ -105,7 +105,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;
-			i=Dispatch.call(disp,"WqIssuePsamcard",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
+			i=Dispatch.call(disp,"WqIssuePsamcard",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
 			String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -121,7 +121,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;
-		    i=Dispatch.call(disp,"WqIssueAccessPsam",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
+		    i=Dispatch.call(disp,"WqIssueAccessPsam",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
 		    String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -137,7 +137,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;		
-		    i=Dispatch.call(disp,"WqIssueEasyTermPsam",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getInpki()),v1).getInt();
+		    i=Dispatch.call(disp,"WqIssueEasyTermPsam",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getInpki()),v1).getInt();
 		    String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -153,7 +153,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;			
-		    i=Dispatch.call(disp,"WqIssueMotPsamcard",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getMotEf17()),v1).getInt();
+		    i=Dispatch.call(disp,"WqIssueMotPsamcard",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getMotEf17()),v1).getInt();
 		    String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -170,7 +170,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;			
-			i=Dispatch.call(disp,"WqIssueMotEasyTermPsam",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getMotEf17()),new Variant(para.getInpki()),v1).getInt();
+			i=Dispatch.call(disp,"WqIssueMotEasyTermPsam",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getMotEf17()),new Variant(para.getInpki()),v1).getInt();
 			String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -187,7 +187,7 @@ public class JacobInter {
 		try {
 			byte[] b = new byte[256];
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;					
-			i=Dispatch.call(disp,"WqIssueQzEasyTermPsam",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getInpki()),v1).getInt();
+			i=Dispatch.call(disp,"WqIssueQzEasyTermPsam",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getInpki()),v1).getInt();
 			String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -203,7 +203,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;			
-			i=Dispatch.call(disp,"WqIssueQzPsamcard",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
+			i=Dispatch.call(disp,"WqIssueQzPsamcard",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
 			String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -219,7 +219,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;			
-			i=Dispatch.call(disp,"WqIssueZqEasyTermPsam",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getInpki()),v1).getInt();
+			i=Dispatch.call(disp,"WqIssueZqEasyTermPsam",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getInpki()),v1).getInt();
 			String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -236,7 +236,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;			
-			i=Dispatch.call(disp,"WqIssueIsamcard",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getAuthSign()),new Variant(para.getZeroExauthFlag()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
+			i=Dispatch.call(disp,"WqIssueIsamcard",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getAuthSign()),new Variant(para.getZeroExauthFlag()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
 			String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -252,7 +252,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;			
-			i=Dispatch.call(disp,"WqIssueAccIsamcard",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getAuthSign()),new Variant(para.getZeroExauthFlag()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getMotEf17()),new Variant(para.getInpki()),v1).getInt();
+			i=Dispatch.call(disp,"WqIssueAccIsamcard",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getAuthSign()),new Variant(para.getZeroExauthFlag()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getMotEf17()),new Variant(para.getInpki()),v1).getInt();
 			String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -268,7 +268,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;			
-			i=Dispatch.call(disp,"TyIssueMotPsamcard",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getMotEf17()),v1).getInt();
+			i=Dispatch.call(disp,"TyIssueMotPsamcard",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getMotEf17()),v1).getInt();
 			String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -285,7 +285,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;					
-			i=Dispatch.call(disp,"TyIssuePsamcard",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
+			i=Dispatch.call(disp,"TyIssuePsamcard",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
 			String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -303,7 +303,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;					
-			i=Dispatch.call(disp,"TyIssueEasyTermPsam",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getInpki()),v1).getInt();
+			i=Dispatch.call(disp,"TyIssueEasyTermPsam",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getInpki()),v1).getInt();
 			String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -319,7 +319,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;		
-			i=Dispatch.call(disp,"TyIssueMotEasyTermPsam",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getMotEf17()),new Variant(para.getInpki()),v1).getInt();
+			i=Dispatch.call(disp,"TyIssueMotEasyTermPsam",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),new Variant(para.getMotEf17()),new Variant(para.getInpki()),v1).getInt();
 			String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -336,7 +336,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;		
-			i=Dispatch.call(disp,"GdIssuePsamcard",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
+			i=Dispatch.call(disp,"GdIssuePsamcard",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
 			String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -353,7 +353,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;		
-			i=Dispatch.call(disp,"WqIssueEsamcard",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
+			i=Dispatch.call(disp,"WqIssueEsamcard",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
 			String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {
@@ -370,7 +370,7 @@ public class JacobInter {
 		int i=-1;
 		try {
 			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;		
-		    i=Dispatch.call(disp,"TyIssueEsamcard",new Variant(para.getKeyType()==2?0:1),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2Limits()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
+		    i=Dispatch.call(disp,"TyIssueEsamcard",new Variant(para.getKeyType()),new Variant(para.getIsPki()),new Variant(para.getW2Sign()),new Variant(para.getW2limit()),new Variant(para.getSJL05PORT()),new Variant(para.getSJL05IP()),new Variant(para.getFivePara()),new Variant(para.getEf15()),new Variant(para.getEf16()),new Variant(para.getEf17()),v1).getInt();
 		    String ret = new String(v1.toString());
 			para.setRetpki(ret);
 		} catch (UnsupportedEncodingException e) {

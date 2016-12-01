@@ -80,7 +80,7 @@ if (pageResultLsInfo != null)
 		√‹‘ø¿‡–Õ:
 		</td>
 		<td class="dtPanel_Main2">&nbsp;
-		<%=stoproductForm.getKeyType()==0?"":SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(stoproductForm.getKeyType()))%> 
+		<%=SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(stoproductForm.getKeyType()))%> 
 		</td>
 	</tr>	
 		<tr>
