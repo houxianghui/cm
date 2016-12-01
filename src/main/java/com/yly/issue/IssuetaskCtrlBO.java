@@ -26,7 +26,7 @@ public class IssuetaskCtrlBO extends IbatisBO {
 	public void setApplytypeinfoDAO(ApplytypeinfoDAO applytypeinfoDAO) {
 		this.applytypeinfoDAO = applytypeinfoDAO;
 	}
-	private static String EREADER = "4";
+
 
 
 
