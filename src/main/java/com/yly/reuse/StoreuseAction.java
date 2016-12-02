@@ -198,7 +198,7 @@ public class StoreuseAction extends IbatisBaseAction {
 			}
 		}
 		((StoreuseBO)bo).transUpdateTB(null,sto,storeuse,lsinfo);
-		return forwardSuccessPage(request,mapping,"退回成功","Storeuse.do?act=back_init&appNo="+sf.getAppNo()+"&taskAmt="+sf.getTaskAmt());
+		return forwardSuccessPage(request,mapping,"退回成功","Storeuse.do?act=back_init&appNo="+sf.getAppNo()+"&taskAmt="+sf.getTaskAmt()+"&unitId="+sf.getUnitId());
 	}
 	public ActionForward retrive(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoreuseForm sf = (StoreuseForm)form;

@@ -47,6 +47,9 @@ function doBack(){
 	}else{
 		document.forms[0].wkState.value = "12";
 	}
+	if(document.forms[0].unitId.value == 0){
+		document.forms[0].unitId.value = <%=storeuseForm.getUnitId()%>;
+	}
 	document.forms[0].act.value = "back";
 	document.forms[0].submit();
 	
@@ -64,7 +67,6 @@ function doBack(){
 <html:hidden property="detectSign"/>
 <html:hidden property="taskAmt"/>
 <html:hidden property="wkState"/>
-
 <%=ViewUtil.getTitle("产品退回,数量"+storeuseForm.getTaskAmt())%> 
 
  <table id="issue" align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0">

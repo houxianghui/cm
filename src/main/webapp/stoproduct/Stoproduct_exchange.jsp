@@ -71,6 +71,7 @@ function doBack(){
 	}else{
 		document.forms[0].wkState.value = "12";
 	}
+	
 	document.forms[0].act.value = "back";
 	document.forms[0].submit();
 	

@@ -506,7 +506,7 @@ public class IssueappAction extends IbatisBaseAction {
 		vo.setCurrDate(DateUtil.getTimeStr());
 		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
 		((IssueappBO)bo).insert(vo);
-		return forwardSuccessPage(request,mapping,"保存成功","Storeuse.do?act=back_init&appNo="+vo.getAppNo()+"&taskAmt="+vo.getTaskAmt());
+		return forwardSuccessPage(request,mapping,"保存成功","Storeuse.do?act=back_init&appNo="+vo.getAppNo()+"&taskAmt="+vo.getTaskAmt()+"&unitId="+vo.getUnitId());
 	}	
 
 	public ActionForward exMainTain(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
@@ -553,6 +553,6 @@ public class IssueappAction extends IbatisBaseAction {
 		Lsinfo ls = new Lsinfo();
 		ls.setAppNo(f.getAppNo());
 		setPageResult(request,lsinfoBO.queryForList(ls));
-		return new ActionRedirect("Storeuse.do?act=back_init&appNo="+vo.getAppNo()+"&taskAmt="+f.getTaskAmt());
+		return new ActionRedirect("Storeuse.do?act=back_init&appNo="+vo.getAppNo()+"&taskAmt="+f.getTaskAmt()+"&unitId="+vo.getUnitId());
 	}
 }

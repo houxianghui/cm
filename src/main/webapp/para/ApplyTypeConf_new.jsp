@@ -64,7 +64,7 @@ function doAdd(){
          </td> 
        </tr> 
         <tr bgcolor="#FFFFFF"> 
-          <td width="35%" align="right" class="dtPanel_Left">&nbsp;<%=ViewUtil.must()%>维2认证：</td> 
+          <td width="35%" align="right" class="dtPanel_Left">&nbsp;<%=ViewUtil.must()%>维2加使用权限：</td> 
          <td align="left" class="dtPanel_Main2">&nbsp; 
          	<%=SingleDicMap.getRadio("isV2Sign",SingleDic.YES_OR_NO,"0")%> 
          </td> 

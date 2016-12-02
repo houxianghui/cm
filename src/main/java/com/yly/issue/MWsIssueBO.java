@@ -165,6 +165,7 @@ public class MWsIssueBO extends IbatisBO {
 			c.andFormStateEqualTo(obj.getFormState_f());
 		}
 		c.andIssueOperIDisNullorEqual(user.getUserID());
+		e.setOrderByClause("FormTime desc");
 		return mwsissuetbDAO.selectByExample(e);
 
 	}

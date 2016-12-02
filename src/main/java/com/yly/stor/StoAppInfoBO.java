@@ -178,9 +178,12 @@ public class StoAppInfoBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(obj.getEndDate_f())){
 			c.andCurrDateLessThanOrEqualTo(obj.getEndDate_f()+"999999");
 		}
-//		if(!CheckUtil.isEmptry(obj.getFormNo())){
-//			c.andFormNoEqualTo(obj.getFormNo());
-//		}
+		if(!CheckUtil.isEmptry(obj.getPhiTypeId_f())){
+			c.andPhiTypeIdEqualTo(obj.getPhiTypeId_f());
+		}
+		if(!CheckUtil.isEmptry(String.valueOf(obj.getCurrPeriodAmt_f()))){
+			c.andCurrPeriodAmtGreaterThanOrEqualTo(obj.getCurrPeriodAmt_f());
+		}		
 		if(!CheckUtil.isEmptry(obj.getPhiTypeId())){
 			c.andPhiTypeIdEqualTo(obj.getPhiTypeId());
 		}

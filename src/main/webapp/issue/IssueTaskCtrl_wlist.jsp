@@ -164,10 +164,6 @@ function doSingleAssign(){
 			<html:select property="operationType_f" styleClass="Select">
 				<html:optionsCollection name="issueappForm" property="operationTypecollection"/>
 			</html:select>
-			</td>
-		</tr>
-		<tr>	
-			<td>
 			²úÆ·:
 			<html:select property="prodId" styleClass="Select">
 				<html:optionsCollection name="issueappForm" property="prodIdcollection"/>

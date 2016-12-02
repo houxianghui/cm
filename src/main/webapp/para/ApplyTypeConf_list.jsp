@@ -56,7 +56,7 @@ function turnPage( pagenm ) {
 			<td>应用类型名称</td>
 			<td>Pki存在</td>
 			<td>维2存在</td>
-			<td>维2认证</td>
+			<td>维2加使用权限</td>
 			<td>支持互通</td>						
 			<td>充值密钥使用权限不需要认证</td>
 			<td>测试密钥外部认证密钥为全零</td>
@@ -78,8 +78,8 @@ function turnPage( pagenm ) {
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, vo.getIsV2()) %></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, vo.getIsV2Sign()) %></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, vo.getIsHLCard()) %></td>						
-			<td><%=vo.getIsIsamSign()==null?"":SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, vo.getIsIsamSign()) %></td>
-			<td><%=vo.getIsIsamTestAllO()==null?"":SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, vo.getIsIsamTestAllO()) %></td>
+			<td><%=CheckUtil.isEmptry(vo.getIsIsamSign())?"":SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, vo.getIsIsamSign()) %></td>
+			<td><%=CheckUtil.isEmptry(vo.getIsIsamTestAllO())?"":SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, vo.getIsIsamTestAllO()) %></td>
 			<td><%=vo.getProdClassId()==null?"":vo.getProdClassId()%></td>	
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, vo.getOperId()) %></td>
 			<td><%=vo.getCurrDate()%></td>		

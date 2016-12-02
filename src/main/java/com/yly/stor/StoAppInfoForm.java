@@ -527,6 +527,7 @@ public class StoAppInfoForm  extends BaseForm {
 	private Collection prodIdCollection;
 	private Collection operationTypeCollection;
 	private Collection phiTypeIdCollection;
+	private String phiTypeId_f;
 	public String getBeginDate_f() {
 		return beginDate_f;
 	}
@@ -576,7 +577,24 @@ public class StoAppInfoForm  extends BaseForm {
 		this.flag = flag;
 	}
     private Long currPeriodAmt;
-    public Long getCurrPeriodAmt() {
+    private Long currPeriodAmt_f;
+    public String getPhiTypeId_f() {
+		return phiTypeId_f;
+	}
+
+	public void setPhiTypeId_f(String phiTypeId_f) {
+		this.phiTypeId_f = phiTypeId_f;
+	}
+
+	public Long getCurrPeriodAmt_f() {
+		return currPeriodAmt_f;
+	}
+
+	public void setCurrPeriodAmt_f(Long currPeriodAmt_f) {
+		this.currPeriodAmt_f = currPeriodAmt_f;
+	}
+
+	public Long getCurrPeriodAmt() {
 		return currPeriodAmt;
 	}
 

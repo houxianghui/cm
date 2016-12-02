@@ -97,7 +97,14 @@ function doBack(){
 			<html:select property="operationType_f" styleClass="Select">
 				<html:optionsCollection name="stoAppForm" property="operationTypeCollection"/>
 			</html:select>	
+			速率:
+			<html:select property="phiTypeId_f" styleClass="Select">
+				<html:optionsCollection name="stoAppForm" property="phiTypeIdCollection"/>
+			</html:select>				
+			当前库存满足:
+			<html:text property="currPeriodAmt_f" styleClass="Textfield" size="3" onblur="onlyNum(this)" onkeyup="onlyNum(this)" />				
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
+			
 			</td>
 		</tr>
 		

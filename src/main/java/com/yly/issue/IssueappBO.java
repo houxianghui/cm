@@ -165,6 +165,7 @@ public class IssueappBO extends IbatisBO {
 		if(obj.getFormState()!=null && obj.getFormState()>0){
 			c.andFormStateEqualTo(obj.getFormState().shortValue());
 		}
+		e.setOrderByClause("CurrDate desc");
 		return issueappDAO.selectByExample(e);
 	}
 	public List getExChangeList(IssueappForm obj)throws Exception {

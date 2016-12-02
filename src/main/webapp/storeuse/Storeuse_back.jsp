@@ -50,6 +50,9 @@ function doBack(){
 	}else{
 		document.forms[0].wkState.value = "12";
 	}
+	if(document.forms[0].unitId.value == 0){
+		document.forms[0].unitId.value = <%=storeuseForm.getUnitId()%>;
+	}
 	document.forms[0].act.value = "back";
 	document.forms[0].submit();
 	

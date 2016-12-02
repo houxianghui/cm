@@ -43,10 +43,7 @@ function turnPage( pagenm ) {
          <tr > 
           <td>单位名称：
 			<html:text property="chnshort_f" styleClass="Textfield" size="16" maxlength="16"  />
-  		  </td> 		  
-       </tr> 
-        <tr > 
-          <td>行业代码：
+  			行业代码：
 			<html:text property="hyid_f" styleClass="Textfield" size="4" maxlength="4"  />
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
   		  </td> 		  

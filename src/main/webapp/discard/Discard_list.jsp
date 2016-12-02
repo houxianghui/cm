@@ -42,10 +42,6 @@ function turnPage( pagenm ) {
  			SAM卡号段:	
 			从<html:text property="samId_min" styleClass="Textfield" size="12" />
 			到<html:text property="samId_max" styleClass="Textfield" size="12" />
-			</td>
-		</tr>
-		<tr>
-			<td>
 			产品类型:
 			<html:select property="prodId" styleClass="Select">
 				<html:optionsCollection name="disproductForm" property="prodIdcollection"/>

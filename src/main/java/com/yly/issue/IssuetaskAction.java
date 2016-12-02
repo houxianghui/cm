@@ -85,11 +85,11 @@ public class IssuetaskAction extends IbatisBaseAction {
 			vo.setRemarks(f.getOrigSamId().trim());
 		vo.setTaskNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("IssueTask")),16));
 		vo.setW2Sign(Short.valueOf(apply.getIsV2()));
-		vo.setAuthSign(Short.valueOf(apply.getIsIsamSign()==null?"0":apply.getIsIsamSign()));
+		vo.setAuthSign(Short.valueOf(CheckUtil.isEmptry(apply.getIsIsamSign())?"0":apply.getIsIsamSign()));
 		vo.setW2Limit(Integer.parseInt(apply.getIsV2Sign()));
 		vo.setIsHTCard(Integer.parseInt(apply.getIsHLCard()));
 		vo.setIsPki(Integer.parseInt(apply.getIsPki()));
-		vo.setZeroExauthFlag(Integer.parseInt(apply.getIsIsamTestAllO()==null?"0":apply.getIsIsamTestAllO()));
+		vo.setZeroExauthFlag(Integer.parseInt(CheckUtil.isEmptry(apply.getIsIsamTestAllO())?"0":apply.getIsIsamTestAllO()));
 		((IssuetaskBO)bo).insert(vo);
 		return forwardSuccessPage(request,mapping,"±£´æ³É¹¦","Issueapp.do?act=u&appNo="+vo.getAppNo());
 		
