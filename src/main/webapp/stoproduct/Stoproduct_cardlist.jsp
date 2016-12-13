@@ -42,6 +42,8 @@ function doCardDown(){
 		align="center" cellpadding="0">
          <tr > 
          <td>
+         	OA申请单号:			
+			<html:text property="OAappNo" styleClass="Textfield"  size="16" maxlength="30"  onblur="noChinese(this)"/>
 			发行卡号:			
 			从<html:text property="samId_min" styleClass="Textfield" size="12" />
 			到<html:text property="samId_max" styleClass="Textfield" size="12" />

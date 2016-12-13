@@ -62,7 +62,7 @@ function doLsDown(){
 			Lsinfo vo = (Lsinfo) iter.next();%>
 		<tr align="left" class="dtPanel_Main" onclick="_clickTr( this )">			
 			<td><%=vo.getFlowNo() %></td>	
-			<td><%=vo.getAppNo()%></td>			
+			<td><%=vo.getAppNo()==null?"":vo.getAppNo()%></td>			
 			<td><%=vo.getFormNo()==null?"":vo.getFormNo()%></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(vo.getOperationType())) %></td>			
 			<td><%=vo.getSamId()==null?"":vo.getSamId()%></td>

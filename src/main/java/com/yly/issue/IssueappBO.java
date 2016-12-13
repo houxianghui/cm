@@ -266,7 +266,7 @@ public class IssueappBO extends IbatisBO {
 			c.andPhiTypeIdEqualTo(obj.getPhiTypeId());
 		}
 		c.andFormStateEqualTo(READY);
-		
+		e.setOrderByClause("CurrDate desc");
 		return issueappDAO.queryIssuExample(e);
 	}			
 	public List getExchangeRawReport(Object obj) throws Exception {

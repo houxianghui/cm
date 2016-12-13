@@ -196,6 +196,7 @@ public class StoAppInfoBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(String.valueOf(obj.getCurrPeriodAmt()))){
 			c.andCurrPeriodAmtGreaterThanOrEqualTo(obj.getCurrPeriodAmt());
 		}
+		e.setOrderByClause("CurrDate desc");
 		return stoappinfoDAO.selectByExample(e);
 	}
 	public List getAppListByExample(StoAppInfoForm obj)throws Exception {

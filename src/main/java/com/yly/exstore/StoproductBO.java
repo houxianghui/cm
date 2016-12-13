@@ -345,20 +345,25 @@ public class StoproductBO extends IbatisBO {
 		return samId;
 	}
 	public void querySamIdValidate(StoproductForm p)throws MessageException{
-		if(CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max())){	
-			throw new MessageException("开始卡号和结束卡号必须填写");
+		if(CheckUtil.isEmptry(p.getOAappNo()) && (CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max()))){	
+			throw new MessageException("OA申请单号或者开始卡号和结束卡号必须填写");
 		}
-		if(p.getSamId_min().length()!=p.getSamId_max().length()){
-			throw new MessageException("开始卡号长度和结束卡号长度必须一致");
+		if(!CheckUtil.isEmptry(p.getSamId_min()) && !CheckUtil.isEmptry(p.getSamId_max())){	
+			if(CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max())){	
+				throw new MessageException("开始卡号和结束卡号必须填写");
+			}
+			if(p.getSamId_min().length()!=p.getSamId_max().length()){
+				throw new MessageException("开始卡号长度和结束卡号长度必须一致");
+			}
+			if(p.getSamId_min().length()!=12 ){
+				throw new MessageException("卡号长度必须满足12位");
+			}
+			if(!p.getSamId_min().substring(0, 5).equals(p.getSamId_max().substring(0, 5)) ){
+				throw new MessageException("卡号前5位必须一致");
+			}		
+			if(p.getSamId_min().compareTo(p.getSamId_max())>0)
+				throw new MessageException("开始卡号不能大于结束卡号");
 		}
-		if(p.getSamId_min().length()!=12 ){
-			throw new MessageException("卡号长度必须满足12位");
-		}
-		if(!p.getSamId_min().substring(0, 5).equals(p.getSamId_max().substring(0, 5)) ){
-			throw new MessageException("卡号前5位必须一致");
-		}		
-		if(p.getSamId_min().compareTo(p.getSamId_max())>0)
-			throw new MessageException("开始卡号不能大于结束卡号");
 		
 	}
 	public void transInsert(Stoproduct sto,Lsinfo ls) throws Exception {
