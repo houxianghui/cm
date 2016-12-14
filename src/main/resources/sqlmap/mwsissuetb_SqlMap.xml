@@ -75,6 +75,8 @@
     <result column="UnitPrice" jdbcType="DECIMAL" property="unitPrice" />
     <result column="TaskState" jdbcType="DECIMAL" property="taskState" />
     <result column="OAappNo" property="OAappNo" jdbcType="VARCHAR" />
+    <result column="FormTime" property="formTime" jdbcType="DATE" />
+    
   </resultMap>
     <resultMap id="getReportResMap" class="com.yly.issue.MWsIssuetbForm" >
     <!--
@@ -635,7 +637,7 @@
       ConsumeType, PaymentType,  TaskState, UnitPrice,
       WsSnr, ProdId, KeyType, BinFileVer, PhiTypeId, ApplyAttr,
       AuthSign, W2Sign, BatchId, PressCardScale, WorkSheetAmt, mwsissuetb.SamIdBegin, mwsissuetb.SamIdEnd, SamId,
-      mwsissuetb.IssueDoneAmt, FormState, IssueOperID,ManufacId,OperationType,W2limit,ZeroExauthFlag,IsPki,IsHTCard,mwsissuetb.Remarks
+      mwsissuetb.IssueDoneAmt, FormState, IssueOperID,ManufacId,OperationType,W2limit,ZeroExauthFlag,IsPki,IsHTCard,FormTime,mwsissuetb.Remarks
       from IssueTaskCtrl, mwsissuetb
       where mwsissuetb.TaskCtrlNo=IssueTaskCtrl.TaskCtrlNo and FormNo = #formNo:VARCHAR#
   </select>

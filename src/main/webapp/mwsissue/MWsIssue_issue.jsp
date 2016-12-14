@@ -145,7 +145,7 @@ function doDown2() {
 	</tr>	
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		isam认证方式:
+		充值密钥使用权限不需要认证:
 		</td>
 		<td class="dtPanel_Main2">&nbsp;
 		<%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, String.valueOf(mwsissuetbForm.getAuthSign()))%> 
