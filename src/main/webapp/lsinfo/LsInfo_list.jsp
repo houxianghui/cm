@@ -35,6 +35,9 @@ function doLsDown(){
 <input type=hidden name=act value="list">
 <html:hidden property="appNo"/>
 <html:hidden property="formNo"/>
+<html:hidden property="samId"/>
+<html:hidden property="samCSN"/>
+<html:hidden property="operationType"/>
  <%=ViewUtil.getTitle("Á÷Ë®¼ÇÂ¼")%>
 
 	<table width="98%" class="dtPanel_Line1" border="0" cellspacing="1"
