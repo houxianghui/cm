@@ -68,6 +68,8 @@ function doEdit(){
 			录入日期:			
 			从<html:text property="beginDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
 			到<html:text property="endDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
+			OA申请单号:			
+			<html:text property="OAappNo" styleClass="Textfield"  size="16" maxlength="30"  onblur="noChinese(this)"/>
  			申请单位:
 			<html:select property="unitId" styleClass="Select">
 				<html:optionsCollection name="issueappForm" property="unitIdcollection"/>

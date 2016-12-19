@@ -315,11 +315,6 @@ public class MWsIssueAction extends IbatisBaseAction {
 	public ActionForward closePort(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		return mapping.findForward("list");
 	}
-	public ActionForward popList(BaseForm form,ActionMapping mapping,HttpServletRequest request)throws Exception{
-		IssueappForm f = (IssueappForm)form;
-		setPageResult(request, ((IssueappBO)bo).getAppList(f));
-		return mapping.findForward("popList");
-	}
 	public ActionForward issueInit(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		MWsIssuetbForm f = (MWsIssuetbForm)form;
 		Mwsissuetb vo=((MWsIssueBO)bo).queryForObject(f.getFormNo());

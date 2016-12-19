@@ -122,7 +122,25 @@ public class IssueappBO extends IbatisBO {
 		IssueappExample e = new IssueappExample();
 		Criteria c = e.createCriteria();
 		c.andOperationTypeBetween((short)21, (short)29);//发行业务
-		queryListByExample(obj, c);
+		if(obj.getOperationType()!=null && obj.getOperationType()>0){
+			c.andOperationTypeEqualTo(obj.getOperationType().shortValue());
+		}
+		if(obj.getUnitId()!=null && obj.getUnitId()>0){
+			c.andUnitIdEqualTo(obj.getUnitId());
+		}
+		if(!CheckUtil.isEmptry(obj.getBeginDate_f())){
+			c.andCurrDateGreaterThanOrEqualTo(obj.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(obj.getEndDate_f())){
+			c.andCurrDateLessThanOrEqualTo(obj.getEndDate_f()+"999999");
+		}
+		if(obj.getFormState()!=null && obj.getFormState()>0){
+			c.andFormStateEqualTo(obj.getFormState().shortValue());
+		}
+		if(!CheckUtil.isEmptry(obj.getOAappNo())){
+			c.andOAappNoEqualTo(obj.getOAappNo());
+		}	
+		e.setOrderByClause("CurrDate desc");
 		return issueappDAO.selectByExample(e);
 	}
 
