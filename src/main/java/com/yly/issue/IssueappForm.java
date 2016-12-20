@@ -66,6 +66,13 @@ public class IssueappForm  extends BaseForm {
 	private Double totalPrice;
 	private Integer appTypeId;
 	private Integer formState;
+	private Integer formState_f;
+	public Integer getFormState_f() {
+		return formState_f;
+	}
+	public void setFormState_f(Integer formState_f) {
+		this.formState_f = formState_f;
+	}
 	private Integer operationType;
 	private Integer operationType_f;
 	public Integer getOperationType_f() {
@@ -114,7 +121,7 @@ public class IssueappForm  extends BaseForm {
 		this.cx = cx;
 	}
 	public Collection getFormStatecollection() {
-		return formStatecollection;
+		return SingleDicMap.getOptionCollection(SingleDic.FORMTYPE);
 	}
 	public void setFormStatecollection(Collection formStatecollection) {
 		this.formStatecollection = formStatecollection;

@@ -392,7 +392,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 							func.setManufacId(part_sto.getManufacId());
 						}
 					}else if(func.getOperAct().equals("R")){
-						f.setSamId(para.getSamId());						
+						f.setSamId(para.getSamId());		
+						lsvo.setSamIdOld(para.getSamId());
 						prod = stoproductBO.queryObjectBySamId(f.getSamId());
 						if(prod==null){	
 							prod =(Stoproduct)storeuseBO.queryForObject(f.getSamId());
@@ -427,6 +428,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 
 						vo.setManufacId(prod.getManufacId());
 						f.setCardcsn(prod.getSamCSN());
+						lsvo.setSamCSNOld(f.getCardcsn());
 						prod.setWkState((short)14);//×¢Ïú
 						prod.setWkStateChgDate(DateUtil.getTimeStr());
 					}
