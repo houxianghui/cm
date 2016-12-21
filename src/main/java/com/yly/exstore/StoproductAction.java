@@ -292,7 +292,7 @@ public class StoproductAction extends IbatisBaseAction {
 		copyProperties(vo,f);
 		vo.setWkStateChgDate(DateUtil.getTimeStr());
 		((StoproductBO)bo).insert(vo);
-		String url=request.getParameter("url");
+		String url=request.getParameter("url")+"&formNo="+request.getParameter("formNo");
 		return forwardSuccessPage(request,mapping,"更新成功",url);
 	}
 	public ActionForward disCard(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{

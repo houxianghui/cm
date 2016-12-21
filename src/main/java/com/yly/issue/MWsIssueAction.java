@@ -470,8 +470,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 					lsvo.setErrorCode((short)result);
 					lsinfoBO.insert(lsvo);
 					request.setAttribute("samCSN", lsvo.getSamCSN());
-					request.setAttribute("prodId", lsvo.getSamCSN());
-					request.setAttribute("manufacId", lsvo.getSamCSN());	
+					request.setAttribute("prodId", lsvo.getProdId());
+					request.setAttribute("manufacId", func.getManufacId());	
 					String badSamId=stoproductBO.getMaxBadCard();
 					request.setAttribute("samId",badSamId);
 					operSysPort(vo.getProdId(),"close","0");
@@ -695,8 +695,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 				lsvo.setErrorCode((short)result);
 				lsinfoBO.insert(lsvo);
 				request.setAttribute("samCSN", lsvo.getSamCSN());
-				request.setAttribute("prodId", lsvo.getSamCSN());
-				request.setAttribute("manufacId", lsvo.getSamCSN());	
+				request.setAttribute("prodId", lsvo.getProdId());
+				request.setAttribute("manufacId", func.getManufacId());	
 				String badSamId=stoproductBO.getMaxBadReturnCard();
 				request.setAttribute("samId",badSamId);
 				operSysPort(vo.getProdId(),"close","0");
