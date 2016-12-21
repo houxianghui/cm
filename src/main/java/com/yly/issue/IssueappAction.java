@@ -284,7 +284,7 @@ public class IssueappAction extends IbatisBaseAction {
 	}
 
 				
-	@SuppressWarnings("unchecked")
+ 
 	public ActionForward back(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		IssueappForm f= (IssueappForm)form;
 		
@@ -467,7 +467,7 @@ public class IssueappAction extends IbatisBaseAction {
 		String url=getExChangeUrl(f);
 		((IssueappBO)bo).insert(vo);
 		String OAappNo=URLEncoder.encode(vo.getOAappNo(),"GB2312");
-		return forwardSuccessPage(request,mapping,"保存成功",url+"&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+f.getTaskAmt()+"&unitId="+f.getUnitId()+"&operationType="+f.getOperationType());
+		return forwardSuccessPage(request,mapping,"保存成功",url+"&appNo="+vo.getAppNo()+"&OAappNo="+OAappNo+"&taskAmt="+f.getTaskAmt()+"&unitId="+f.getUnitId()+"&operationType="+f.getOperationType());
 
 	}
 	private String getExChangeUrl(IssueappForm f)throws Exception{
@@ -492,10 +492,11 @@ public class IssueappAction extends IbatisBaseAction {
 		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
 		((IssueappBO)bo).insert(vo);
 		int opertype=f.getOperationType();
+		String OAappNo=URLEncoder.encode(vo.getOAappNo(),"GB2312");
 		if(opertype!=53){
 			return new ActionRedirect("StoApp.do?act=makeUpList&appNo="+vo.getAppNo()+"&currPeriodAmt="+f.getTaskAmt()+"&operationType="+f.getOperationType());
 		}else{
-			return forwardSuccessPage(request,mapping,"保存成功","Issueapp.do?act=u&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+f.getTaskAmt()+"&operationType="+f.getOperationType());
+			return forwardSuccessPage(request,mapping,"保存成功","Issueapp.do?act=u&appNo="+vo.getAppNo()+"&OAappNo="+OAappNo+"&taskAmt="+f.getTaskAmt()+"&operationType="+f.getOperationType());
 		}
 	}
 	public ActionForward addStoreuse(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{		
@@ -506,7 +507,8 @@ public class IssueappAction extends IbatisBaseAction {
 		vo.setCurrDate(DateUtil.getTimeStr());
 		vo.setAppNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("applyinfotb")),16));
 		((IssueappBO)bo).insert(vo);
-		return forwardSuccessPage(request,mapping,"保存成功","Storeuse.do?act=back_init&appNo="+vo.getAppNo()+"&taskAmt="+vo.getTaskAmt()+"&unitId="+vo.getUnitId());
+		String OAappNo=URLEncoder.encode(vo.getOAappNo(),"GB2312");
+		return forwardSuccessPage(request,mapping,"保存成功","Storeuse.do?act=back_init&appNo="+vo.getAppNo()+"&taskAmt="+vo.getTaskAmt()+"&unitId="+vo.getUnitId()+"&OAappNo="+OAappNo);
 	}	
 
 	public ActionForward exMainTain(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
@@ -526,8 +528,9 @@ public class IssueappAction extends IbatisBaseAction {
 	public ActionForward makeupMainTain(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		IssueappForm f = (IssueappForm)form;
 		Issueapp vo=((IssueappBO)bo).queryForObject(f.getAppNo());
+		String OAappNo=URLEncoder.encode(vo.getOAappNo(),"GB2312");
 		if(f.getOperationType()!=53){
-			return new ActionRedirect("StoApp.do?act=makeUpList&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&currPeriodAmt="+vo.getTaskAmt()+"&operationType="+f.getOperationType());
+			return new ActionRedirect("StoApp.do?act=makeUpList&appNo="+vo.getAppNo()+"&OAappNo="+OAappNo+"&currPeriodAmt="+vo.getTaskAmt()+"&operationType="+f.getOperationType());
 		}else{
 			Lsinfo ls = new Lsinfo();
 			ls.setAppNo(f.getAppNo());
@@ -543,7 +546,8 @@ public class IssueappAction extends IbatisBaseAction {
 	public ActionForward exchangeMainTain(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		IssueappForm f = (IssueappForm)form;
 		Issueapp vo=((IssueappBO)bo).queryForObject(f.getAppNo());
-		return new ActionRedirect(getExChangeUrl(f)+"&appNo="+vo.getAppNo()+"&OAappNo="+vo.getOAappNo()+"&taskAmt="+vo.getTaskAmt()+"&unitId="+vo.getUnitId()+"&operationType="+vo.getOperationType());
+		String OAappNo=URLEncoder.encode(vo.getOAappNo(),"GB2312");
+		return new ActionRedirect(getExChangeUrl(f)+"&appNo="+vo.getAppNo()+"&OAappNo="+OAappNo+"&taskAmt="+vo.getTaskAmt()+"&unitId="+vo.getUnitId()+"&operationType="+vo.getOperationType());
 
 
 	}
@@ -553,6 +557,7 @@ public class IssueappAction extends IbatisBaseAction {
 		Lsinfo ls = new Lsinfo();
 		ls.setAppNo(f.getAppNo());
 		setPageResult(request,lsinfoBO.queryForList(ls));
-		return new ActionRedirect("Storeuse.do?act=back_init&appNo="+vo.getAppNo()+"&taskAmt="+f.getTaskAmt()+"&unitId="+vo.getUnitId());
+		String OAappNo=URLEncoder.encode(vo.getOAappNo(),"GB2312");
+		return new ActionRedirect("Storeuse.do?act=back_init&appNo="+vo.getAppNo()+"&taskAmt="+f.getTaskAmt()+"&unitId="+vo.getUnitId()+"&OAappNo="+OAappNo);
 	}
 }

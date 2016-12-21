@@ -137,7 +137,7 @@ public class StoreuseAction extends IbatisBaseAction {
 		StoreuseForm sf = (StoreuseForm)form;
 		StoproductForm stf = new StoproductForm();
 		if(CheckUtil.isEmptry(sf.getSamId()) ||sf.getSamId().equals("0")){
-			sf.setSamId(stoproductBO.getMaxBadReturnCard());
+			sf.setSamId(stoproductBO.getMaxBadReturnCard());	
 		}
 		if(CheckUtil.isEmptry(sf.getSamCSN()) ||sf.getSamCSN().equals("0")){
 			sf.setSamCSN("0");
@@ -166,6 +166,7 @@ public class StoreuseAction extends IbatisBaseAction {
 			sto.setDetectTime(DateUtil.getTimeStr());
 			sto.setDetectSign(sf.getDetectSign());
 			sto.setCardPhyStat(sf.getCardPhyStat());
+			sto.setOAappNo(sf.getOAappNo());
 		}
 		if(sf.getDetectSign()==2 ||sf.getCardPhyStat()==2){
 			sto.setWkStateChgDate(DateUtil.getTimeStr());
@@ -188,7 +189,7 @@ public class StoreuseAction extends IbatisBaseAction {
 		Lsinfo vo =  new Lsinfo();
 		vo.setAppNo(sf.getAppNo());
 		List<Lsinfo> l=lsinfoBO.queryForList(vo);
-		if(l!=null &&l.size()>0){
+		if((l!=null &&l.size()>0)||sf.getTaskAmt()==1){
 			setPageResult(request,l);
 			if(l.size()+1==sf.getTaskAmt()){
 				Issueapp app=issueappBO.queryForObject(sf.getAppNo());
@@ -198,7 +199,8 @@ public class StoreuseAction extends IbatisBaseAction {
 			}
 		}
 		((StoreuseBO)bo).transUpdateTB(null,sto,storeuse,lsinfo);
-		return forwardSuccessPage(request,mapping,"退回成功","Storeuse.do?act=back_init&appNo="+sf.getAppNo()+"&taskAmt="+sf.getTaskAmt()+"&unitId="+sf.getUnitId());
+		String OAappNo=URLEncoder.encode(sf.getOAappNo(),"GB2312");
+		return forwardSuccessPage(request,mapping,"退回成功","Storeuse.do?act=back_init&appNo="+sf.getAppNo()+"&taskAmt="+sf.getTaskAmt()+"&unitId="+sf.getUnitId()+"&OAappNo="+OAappNo);
 	}
 	public ActionForward retrive(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoreuseForm sf = (StoreuseForm)form;
