@@ -428,7 +428,11 @@ public class StoproductAction extends IbatisBaseAction {
 		copyProperties(sto, sf);
 		copyProperties(vo, sf);		
 		vo.setOperationType((short)61);//ÍË»Ø
-		((StoproductBO)bo).transUpdateSto(sto, vo);
+		Storeuse reusevo=new Storeuse();
+		if(sf.getWkState()==(short)12){
+			copyProperties(reusevo,sto);
+		}
+		((StoproductBO)bo).transUpdateSto(sto, vo, reusevo);
 		Lsinfo queryvo=new Lsinfo();
 		queryvo.setAppNo(sf.getAppNo());
 		queryvo.setOperationType(vo.getOperationType().shortValue());	

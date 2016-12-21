@@ -268,7 +268,7 @@ if (pageResult != null) {%>
     <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
         <tr> 
 				<td height="25" align="center" class="dtPanel_Bottom"> 
-						<input name="back" type="button" class="Button" value="坏卡回库" onClick="doBack()">&nbsp; 	  
+						<input name="back" type="button" class="Button" value="产品回库" onClick="doBack()">&nbsp; 	  
 						<input name="exchange" type="button" class="Button" value="批量换损" onClick="doExchange()">&nbsp;   
 						<input name="return" type="button" class="Button" value="返回" onClick="history.back()">  
 		 		</td> 

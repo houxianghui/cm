@@ -72,7 +72,6 @@ function turnPage( pagenm ) {
 			<td>认证方式</td>
 			<td>发行时间</td>
 			<td>作废时间</td>
-			<td>领用类型</td>
 			<td>检测结果</td>
 			<td>产品状态</td>
 		</tr>
@@ -91,9 +90,8 @@ function turnPage( pagenm ) {
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.APPTYPEID, vo.getAppTypeId()) %></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(vo.getKeyType()))%></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, vo.getAuthSign().toString())%></td>
-			<td><%=vo.getIssueTime() %></td>	
+			<td><%=vo.getIssueTime()==null?"":vo.getIssueTime()%></td>	
 			<td><%=vo.getWkStateChgDate()%></td>	
-			<td><%=SingleDicMap.getDicItemVal(SingleDic.CONSUTYPE, String.valueOf(vo.getConsumeType()))%></td>	
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.DETECSIGN, String.valueOf(vo.getDetectSign()))%></td>	
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.WKSTATE, String.valueOf(vo.getWkState()))%></td>						
 		</tr>

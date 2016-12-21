@@ -168,7 +168,7 @@ if (pageResultLsInfo != null)
 		¼ì²â½á¹û:
 		</td>
 		<td class="dtPanel_Main2">&nbsp;
-		<%=storeuseForm.getDetectSign()==null?"":storeuseForm.getDetectSign()%>
+		<%=storeuseForm.getDetectSign()==null?"":SingleDicMap.getDicItemVal(SingleDic.DETECSIGN,String.valueOf(storeuseForm.getDetectSign()))%>
 		</td>
 	</tr>	
 		<tr>

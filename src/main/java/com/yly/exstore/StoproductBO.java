@@ -4,31 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 
 import com.abc.logic.IbatisBO;
-import com.eis.base.IbatisBaseBO;
-import com.eis.cache.ReDefSDicMap;
 import com.eis.exception.MessageException;
-import com.eis.key.KeyGenerator;
-import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
-import com.eis.util.DateUtil;
-import com.eis.util.StringUtil;
 import com.yly.discard.Disproduct;
 import com.yly.discard.DisproductDAO;
+import com.yly.discard.DisproductExample;
 import com.yly.exstore.StoproductExample.Criteria;
 import com.yly.issue.Issueapp;
 import com.yly.issue.IssueappDAO;
-import com.yly.issue.IssueappForm;
-import com.yly.issue.MWsIssuetbForm;
-import com.yly.issue.Mwsissuetb;
-import com.yly.issue.MwsissuetbExample;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoDAO;
-import com.yly.pki.SecpkitbForm;
 import com.yly.reuse.Storeuse;
 import com.yly.reuse.StoreuseDAO;
 import com.yly.reuse.StoreuseExample;
@@ -281,17 +270,8 @@ public class StoproductBO extends IbatisBO {
 	//81xxx‘≠¡œªµø® samid
 	public String getMaxBadCard() throws Exception{
 		String samId="";
-		StoproductExample e = new StoproductExample();
-		Criteria c = e.createCriteria();
-		c.andSamIdLike("81%");
- 		e.setOrderByClause("SamId desc");
-		List<Stoproduct> il=stoproductDAO.selectByExample(e);
-		if(il != null && il.size()>0){
-			for(Stoproduct vo:il){
-				samId=vo.getSamId();
-				break;
-			}	
-		}else{
+		samId=stoproductDAO.selectMaxCard("81");
+		if(CheckUtil.isEmptry(samId)){
 			samId="810000000000";
 		}
 		Long tmp=Long.parseLong(samId)+1;
@@ -306,6 +286,7 @@ public class StoproductBO extends IbatisBO {
 	public String getMaxBadReturnCard() throws Exception{
 		String samId="";
 		String r_samId="";
+		String d_samId="";
 		StoproductExample e = new StoproductExample();
 		Criteria c = e.createCriteria();
 		c.andSamIdLike("88888%");
@@ -317,6 +298,13 @@ public class StoproductBO extends IbatisBO {
 		rc.andSamIdLike("88888%");
  		re.setOrderByClause("SamId desc");
 		List<Storeuse> ril=storeuseDAO.selectByExample(re);		
+		
+		
+		DisproductExample dis=new DisproductExample();
+		com.yly.discard.DisproductExample.Criteria dc = dis.createCriteria();
+		dc.andSamIdLike("88888%");
+		dis.setOrderByClause("SamId desc");
+		List<Disproduct> dl=disproductDAO.selectByExample(dis);		
 		
 		if(il != null && il.size()>0){
 			for(Stoproduct vo:il){
@@ -330,9 +318,19 @@ public class StoproductBO extends IbatisBO {
 				break;
 			}	
 		}
-		if(!CheckUtil.isEmptry(samId) || !CheckUtil.isEmptry(r_samId)){
+		
+		if(dl != null && dl.size()>0){
+			for(Disproduct dvo:dl){
+				d_samId=dvo.getSamId();
+				break;
+			}	
+		}
+				
+		if(!CheckUtil.isEmptry(samId) || !CheckUtil.isEmptry(r_samId) || !CheckUtil.isEmptry(d_samId) ){
 			if((samId).compareTo(r_samId)<0)
 				samId=r_samId;	
+			if((samId).compareTo(d_samId)<0)
+				samId=d_samId;
 		}else{
 			samId="888880000000";
 		}
@@ -374,16 +372,20 @@ public class StoproductBO extends IbatisBO {
 			lsinfoDAO.insert(ls);			
 		}
 	}
-	public void transUpdateSto(Stoproduct sto,Lsinfo ls) throws Exception {
-		if(sto != null){
+	public void transUpdateSto(Stoproduct sto,Lsinfo ls,Storeuse reusevo) throws Exception {
+		if(ls!=null){
+			lsinfoDAO.insert(ls);			
+		}
+		if(reusevo!=null){
+			storeuseDAO.insert(reusevo);
+			stoproductDAO.deleteByPrimaryKey(sto);
+		}else{
 			int row=stoproductDAO.updateByPrimaryKeySelective(sto);	
 			if(row<1){
 				stoproductDAO.insert(sto);
 			}
 		}
-		if(ls!=null){
-			lsinfoDAO.insert(ls);			
-		}
+		
 		
 	}
 	

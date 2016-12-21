@@ -736,4 +736,13 @@
 	    </isParameterPresent>
 		group by Stoproduct.UnitId,applyinfotb.UnitId,Stoproduct.ProdId,KeyType,CardPhyStat 
 	  </select>	 	 	      
+	  <select id="getMaxCard" parameterClass="string" resultClass="long" >
+    	select max(SamId) from(
+    	select max(SamId) as SamId from StoProduct where SamId like #value#
+    	union 
+    	select max(SamId) as SamId from storeuse where SamId like #value#
+  		union
+    	select max(SamId) as SamId from disproduct where SamId like #value#
+   		 ) tb1   
+  </select>
 </sqlMap>

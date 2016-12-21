@@ -59,8 +59,12 @@ public class DisproductBO extends IbatisBO {
 		Criteria c = e.createCriteria();
 		if(!CheckUtil.isEmptry(f.getSamCSN()))
 			c.andSamCSNEqualTo(f.getSamCSN());
-		if(!CheckUtil.isEmptry(f.getSamId()))
-			c.andSamIdEqualTo(f.getSamId());	
+		if(!CheckUtil.isEmptry(f.getSamId_min())){
+			c.andSamIdGreaterThanOrEqualTo(f.getSamId_min().trim());
+		}		
+		if(!CheckUtil.isEmptry(f.getSamId_max())){
+			c.andSamIdLessThanOrEqualTo(f.getSamId_max().trim());
+		}
 		e.setOrderByClause("WkStateChgDate asc");
 		return disproductDAO.selectByExample(e);
 	}

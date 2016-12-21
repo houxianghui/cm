@@ -7,6 +7,9 @@
 	String samId =  (String)request.getAttribute("samId");	
 	String prodId =  (String)request.getAttribute("prodId");
 	String manufacId =  (String)request.getAttribute("manufacId");
+	String OAappNo =  (String)request.getAttribute("OAappNo");
+	String phiTypeId =  (String)request.getAttribute("phiTypeId");
+	String batchId =  (String)request.getAttribute("batchId");
 	String url =  '"'+(String)request.getAttribute("backurl")+'"';
 	String url1 = "Stoproduct.do?act=insertBad&wkState=13&samCSN="+samCSN+"&samId="+samId+"&prodId="+prodId+"&manufacId="+manufacId+"&url="+url;
 %>
@@ -16,8 +19,8 @@
 <script language="javascript"> 
 function doUpdate(){ 
 	//Ôö¼Ó 
-	window.location="Stoproduct.do?act=insertBad&wkState=13&samCSN="+"<%=(String)request.getAttribute("samCSN")%>"+"&samId="+"<%=(String)request.getAttribute("samId")%>"+"&prodId="+"<%=(String)request.getAttribute("prodId")%>"+"&manufacId="+"<%=(String)request.getAttribute("manufacId")%>"+"&url="+"<%=(String)request.getAttribute("backurl")%>";
-	
+	window.location="Stoproduct.do?act=insertBad&wkState=13&samCSN="+"<%=(String)request.getAttribute("samCSN")%>"+"&samId="+"<%=(String)request.getAttribute("samId")%>"+"&prodId="+"<%=(String)request.getAttribute("prodId")%>"+"&manufacId="+"<%=(String)request.getAttribute("manufacId")%>"+"&url="+"<%=(String)request.getAttribute("backurl")%>"+"&OAappNo="+"<%=(String)request.getAttribute("OAappNo")%>"+"&phiTypeId="+"<%=(String)request.getAttribute("phiTypeId")%>"+"&batchId="+"<%=(String)request.getAttribute("batchId")%>";
+	   
 } 
 function doBack() {  
 	window.location="<%=request.getAttribute("backurl")%>"; 
