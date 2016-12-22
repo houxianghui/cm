@@ -65,7 +65,6 @@ function doCardDown(){
 			<td>公钥信息</td>
 			<td>发行卡号</td>
 			<td>印刷卡号</td>
-			<td>公开指数E</td>
 			<td>密钥类型</td>
 			<td>发行时间</td>						
 			<td>更新时间</td>
@@ -80,7 +79,6 @@ function doCardDown(){
 			<td><%=vo.getPubKey() %></td>	
 			<td><%=vo.getSamId()%></td>	
 			<td><%=vo.getSamCSN()%></td>		
-			<td><%=vo.getPubExponent()%></td>		
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(vo.getKeyType()))%></td>	
 			<td><%=vo.getIssueTime()%></td>		
 			<td><%=vo.getCurrPeriod()%></td>		

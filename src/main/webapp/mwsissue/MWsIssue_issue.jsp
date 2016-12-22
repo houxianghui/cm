@@ -265,13 +265,31 @@ if (list != null) {
     while (iter.hasNext()) {
     	Lsinfo vo = (Lsinfo)iter.next();%>
 				<tr align="center" class="dtPanel_Main2" onclick="_clickTr( this )">
+				<%if(vo.getErrorCode()!=null){%>
+					<td bgcolor="#FF2400"><%=vo.getFlowNo()%></td>	
+					<td bgcolor="#FF2400"><%=vo.getSamId()%></td>
+					<td bgcolor="#FF2400"><%=vo.getSamCSN()%></td>
+					<td bgcolor="#FF2400"><div id="detectSign<%=vo.getFlowNo()%>"></div><div id="detect<%=vo.getFlowNo()%>"><%=vo.getDetectSign()==null?"":SingleDicMap.getDicItemVal(SingleDic.DETECSIGN, String.valueOf(vo.getDetectSign()))%></div></td>
+					<td bgcolor="#FF2400"><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, String.valueOf(vo.getOperId())) %></td>
+					<td bgcolor="#FF2400"><%=vo.getCurrDate()%></td>		
+					<td bgcolor="#FF2400"><%=SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(vo.getErrorCode()))%></td>	
+				<%}else if(vo.getSamId().startsWith("81")){ %>
+					<td bgcolor="#CFB53B"><%=vo.getFlowNo()%></td>	
+					<td bgcolor="#CFB53B"><%=vo.getSamId()%></td>
+					<td bgcolor="#CFB53B"><%=vo.getSamCSN()%></td>
+					<td bgcolor="#CFB53B"><div id="detectSign<%=vo.getFlowNo()%>"></div><div id="detect<%=vo.getFlowNo()%>"><%=vo.getDetectSign()==null?"":SingleDicMap.getDicItemVal(SingleDic.DETECSIGN, String.valueOf(vo.getDetectSign()))%></div></td>
+					<td bgcolor="#CFB53B"><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, String.valueOf(vo.getOperId())) %></td>
+					<td bgcolor="#CFB53B"><%=vo.getCurrDate()%></td>		
+					<td bgcolor="#CFB53B"></td>	
+				<%}else{ %>
 					<td><%=vo.getFlowNo()%></td>	
 					<td><%=vo.getSamId()%></td>
 					<td><%=vo.getSamCSN()%></td>
 					<td><div id="detectSign<%=vo.getFlowNo()%>"></div><div id="detect<%=vo.getFlowNo()%>"><%=vo.getDetectSign()==null?"":SingleDicMap.getDicItemVal(SingleDic.DETECSIGN, String.valueOf(vo.getDetectSign()))%></div></td>
 					<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, String.valueOf(vo.getOperId())) %></td>
 					<td><%=vo.getCurrDate()%></td>		
-					<td><%=vo.getErrorCode()==null?"":SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(vo.getErrorCode()))%></td>	
+					<td></td>	
+				<%}%>
 				</tr>
 				<%}
 }%>

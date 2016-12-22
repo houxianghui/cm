@@ -122,6 +122,10 @@ function doPrint(){
 			<html:select property="operationType_f" styleClass="Select">
 				<html:optionsCollection name="issueappForm" property="exOperTypecollection"/>
 			</html:select>
+			µ¥¾Ý×´Ì¬:
+			<html:select property="formState_f" styleClass="Select">
+				<html:optionsCollection name="issueappForm" property="formStatecollection"/>
+			</html:select>
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
 			</td>
 		</tr>

@@ -19,7 +19,7 @@
 <script language="javascript"> 
 function doUpdate(){ 
 	//Ôö¼Ó 
-	window.location="Stoproduct.do?act=insertBad&wkState=13&samCSN="+"<%=(String)request.getAttribute("samCSN")%>"+"&samId="+"<%=(String)request.getAttribute("samId")%>"+"&prodId="+"<%=(String)request.getAttribute("prodId")%>"+"&manufacId="+"<%=(String)request.getAttribute("manufacId")%>"+"&url="+"<%=(String)request.getAttribute("backurl")%>"+"&OAappNo="+"<%=(String)request.getAttribute("OAappNo")%>"+"&phiTypeId="+"<%=(String)request.getAttribute("phiTypeId")%>"+"&batchId="+"<%=(String)request.getAttribute("batchId")%>";
+	window.location="Stoproduct.do?act=insertBad&wkState=13&samCSN="+"<%=(String)request.getAttribute("samCSN")%>"+"&samId="+"<%=(String)request.getAttribute("samId")%>"+"&prodId="+"<%=(String)request.getAttribute("prodId")%>"+"&manufacId="+"<%=(String)request.getAttribute("manufacId")%>"+"&url="+"<%=(String)request.getAttribute("backurl")%>"+"&OAappNo="+"<%=(String)request.getAttribute("OAappNo")%>"+"&phiTypeId="+"<%=(String)request.getAttribute("phiTypeId")%>"+"&batchId="+"<%=(String)request.getAttribute("batchId")%>"+"&appTypeId="+"<%=(String)request.getAttribute("applyAttr")%>"+"&appNo="+"<%=(String)request.getAttribute("appNo")%>"+"&operationType="+"<%=request.getAttribute("operationType")%>"+"&formNo="+"<%=(String)request.getAttribute("formNo")%>"+"&unitId="+"<%=request.getAttribute("unitId")%>";
 	   
 } 
 function doBack() {  

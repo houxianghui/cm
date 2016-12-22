@@ -473,8 +473,13 @@ public class MWsIssueAction extends IbatisBaseAction {
 					request.setAttribute("prodId", lsvo.getProdId());
 					request.setAttribute("manufacId", func.getManufacId());	
 					request.setAttribute("OAappNo", f.getOAappNo());
+					request.setAttribute("appNo", f.getAppNo());
 					request.setAttribute("phiTypeId", f.getPhiTypeId());
 					request.setAttribute("batchId", f.getBatchId());
+					request.setAttribute("applyAttr", f.getApplyAttr());
+					request.setAttribute("operationType", f.getOperationType());
+					request.setAttribute("formNo", f.getFormNo());
+					request.setAttribute("unitId", f.getUnitId());
 					String badSamId=stoproductBO.getMaxBadCard();
 					request.setAttribute("samId",badSamId);
 					operSysPort(vo.getProdId(),"close","0");
@@ -701,12 +706,16 @@ public class MWsIssueAction extends IbatisBaseAction {
 				request.setAttribute("prodId", lsvo.getProdId());
 				request.setAttribute("manufacId", func.getManufacId());	
 				request.setAttribute("OAappNo", f.getOAappNo());
+				request.setAttribute("appNo","");
 				request.setAttribute("phiTypeId", f.getPhiTypeId());
 				request.setAttribute("batchId", f.getBatchId());
-				String badSamId=stoproductBO.getMaxBadReturnCard();
-				request.setAttribute("samId",badSamId);
+				request.setAttribute("applyAttr", f.getApplyAttr());
+				request.setAttribute("operationType", f.getOperationType());
+				request.setAttribute("formNo", "");
+				request.setAttribute("unitId", f.getUnitId());
+				request.setAttribute("samId",lsvo.getSamId());
 				operSysPort(vo.getProdId(),"close","0");
-				return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+lsvo.getSamCSN()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"Mwsissuetb.do?act=repair");
+				return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+lsvo.getSamCSN()+"·¢ÐÐ¿¨ºÅ"+lsvo.getSamId()+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"Mwsissuetb.do?act=repair");
 
 			}
 		}

@@ -96,7 +96,7 @@ if (pageResultLsInfo != null)
 		Èë¿âÅú´ÎºÅ:
 		</td>
 		<td class="dtPanel_Main2">&nbsp;
-		<%=storeuseForm.getBatchId()%>
+		<%=storeuseForm.getBatchId()==null?"":storeuseForm.getBatchId()%>
 		</td>
 	</tr>	
 		<tr>

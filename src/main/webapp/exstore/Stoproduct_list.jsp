@@ -148,10 +148,6 @@ function doExStore(){
  			SAM卡号段:	
 			从<html:text property="samId_min" styleClass="Textfield" size="12" />
 			到<html:text property="samId_max" styleClass="Textfield" size="12" />
-			</td>
-		</tr>
-		<tr>
-			<td>
 			产品类型:
 			<html:select property="prodId" styleClass="Select">
 				<html:optionsCollection name="stoproductForm" property="prodIdcollection"/>
@@ -200,7 +196,7 @@ function doExStore(){
 			<label>
 			<input type="checkbox" name="cx" value="<%=vo.getSamId()+","+vo.getSamCSN()%>"> 
 			</label></td> 
-			<td><a href="Stoproduct.do?act=r&SamId=<%=vo.getSamId()%>&SamCSN=<%=vo.getSamCSN()%>"><%=vo.getSamId() %></a></td>	
+			<td><a href="Stoproduct.do?act=r&samId=<%=vo.getSamId()%>&samCSN=<%=vo.getSamCSN()%>"><%=vo.getSamId() %></a></td>	
 			<td><%=vo.getSamCSN()%></td>	
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.ALL_UNITID, String.valueOf(vo.getUnitId()))%></td>			
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.PROD_ID, vo.getProdId())%></td>

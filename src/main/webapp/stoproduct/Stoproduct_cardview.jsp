@@ -41,7 +41,7 @@ if (pageResultLsInfo != null)
 		OA…Í«Î∫≈:
 		</td>
 		<td class="dtPanel_Main2">&nbsp;
-		<%=stoproductForm.getOAappNo()%>
+		<%=stoproductForm.getOAappNo()==null||stoproductForm.getOAappNo().equals("null")?"":stoproductForm.getOAappNo()%>
 		</td>
 	</tr>		
 	<tr>
@@ -96,7 +96,7 @@ if (pageResultLsInfo != null)
 		»Îø‚≈˙¥Œ∫≈:
 		</td>
 		<td class="dtPanel_Main2">&nbsp;
-		<%=stoproductForm.getBatchId()%>
+		<%=stoproductForm.getBatchId()==null||stoproductForm.getBatchId().equals("null")?"":stoproductForm.getBatchId()%>
 		</td>
 	</tr>	
 		<tr>

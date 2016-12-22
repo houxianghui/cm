@@ -137,6 +137,11 @@ public class RepairAction extends IbatisBaseAction {
 				request.setAttribute("OAappNo", "");
 				request.setAttribute("phiTypeId", f.getPhiTypeId());
 				request.setAttribute("batchId", "");
+				request.setAttribute("applyAttr","");
+				request.setAttribute("OAappNo","");
+				request.setAttribute("operationType", f.getOperationType());
+				request.setAttribute("formNo", "");
+				request.setAttribute("unitId", "");
 				String badSamId=stoproductBO.getMaxBadCard();
 				request.setAttribute("samId",badSamId);
 				operSysPort(f,"close");

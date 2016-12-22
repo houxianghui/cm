@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
 import com.eis.exception.MessageException;
@@ -23,7 +24,7 @@ import com.yly.issue.Issueapp;
 import com.yly.issue.IssueappBO;
 import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoBO;
- import com.yly.reuse.Storeuse;
+import com.yly.reuse.Storeuse;
 import com.yly.reuse.StoreuseBO;
    
 
@@ -256,8 +257,6 @@ public class StoproductAction extends IbatisBaseAction {
 			int opertype, List<Stoproduct> issueCard, List<Lsinfo> lsList,
 			StoproductForm sf) throws Exception,
 			MessageException {
-		
-		
 		Stoproduct vo = ((StoproductBO)bo).queryForObjByKey(sf);
 		Lsinfo lsvo = new Lsinfo();
 		lsvo.setAppNo(f.getAppNo());
@@ -291,7 +290,19 @@ public class StoproductAction extends IbatisBaseAction {
 		StoproductForm f = (StoproductForm)form;
 		copyProperties(vo,f);
 		vo.setWkStateChgDate(DateUtil.getTimeStr());
-		((StoproductBO)bo).insert(vo);
+		vo.setIOState((short)1);
+		vo.setIOStateChgDate(DateUtil.getTimeStr());
+		vo.setIssueTime(DateUtil.getTimeStr());
+		vo.setCardPhyStat((short)1);//物理好卡
+		Lsinfo lsinfo=new Lsinfo();
+		copyProperties(lsinfo,f);
+		lsinfo.setFormNo(request.getParameter("formNo"));
+		lsinfo.setCurrDate(DateUtil.getTimeStr());
+		lsinfo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("LsInfo")),20));
+		lsinfo.setOperId(user.getUserID());
+		lsinfo.setSamCSNOld("");
+		lsinfo.setSamIdOld("");
+		((StoproductBO)bo).transLsInsert(vo,lsinfo);
 		String url=request.getParameter("url")+"&formNo="+request.getParameter("formNo");
 		return forwardSuccessPage(request,mapping,"更新成功",url);
 	}

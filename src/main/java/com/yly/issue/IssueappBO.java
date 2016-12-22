@@ -161,8 +161,12 @@ public class IssueappBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(obj.getEndDate_f())){
 			c.andCurrDateLessThanOrEqualTo(obj.getEndDate_f()+"999999");
 		}
-		if(obj.getFormState()!=null && obj.getFormState()>0){
+		if(obj.getFormState()>0){
 			c.andFormStateEqualTo(obj.getFormState().shortValue());
+		}else if(obj.getFormState_f()>0){
+			c.andFormStateEqualTo(obj.getFormState_f().shortValue());
+		}else{
+			c.andFormStateEqualTo((short)0);
 		}
 //		if(!CheckUtil.isEmptry(obj.getAppNo())){
 //			c.andAppNoEqualTo(obj.getAppNo());
@@ -184,8 +188,12 @@ public class IssueappBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(obj.getEndDate_f())){
 			c.andCurrDateLessThanOrEqualTo(obj.getEndDate_f()+"999999");
 		}
-		if(obj.getFormState()!=null && obj.getFormState()>0){
+		if(obj.getFormState()>0){
 			c.andFormStateEqualTo(obj.getFormState().shortValue());
+		}else if(obj.getFormState_f()>0){
+			c.andFormStateEqualTo(obj.getFormState_f().shortValue());
+		}else{
+			c.andFormStateEqualTo((short)0);
 		}
 		e.setOrderByClause("CurrDate desc");
 		return issueappDAO.selectByExample(e);
