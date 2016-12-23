@@ -41,6 +41,7 @@ function doNoUse() {
 <script type="text/javascript" src="js/calendar.js"></script>
 <html:form method="post" action="Moduleconf.do">
 <input type=hidden name=act value="list">
+<html:hidden property="moduleId"/>
 
 <%=ViewUtil.getTitle("模块程序版本配置")%>
 	
@@ -48,7 +49,7 @@ function doNoUse() {
 		align="center" cellpadding="0">
          <tr > 
           <td>模块程序版本：
-			<html:select property="moduleId" styleClass="Select">
+			<html:select property="moduleId_f" styleClass="Select">
 				<html:optionsCollection name="moduleconfForm" property="moduleVersioncollection"/>
 			</html:select>
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">

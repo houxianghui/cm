@@ -50,7 +50,7 @@ public class ModuleconfBO extends IbatisBO {
 	public List queryForList(Object obj) throws Exception {
 		ModuleconfExample e = new ModuleconfExample();
 		Criteria c = e.createCriteria();
-		int moduleid=((ModuleconfForm)obj).getModuleId();
+		int moduleid=((ModuleconfForm)obj).getModuleId_f();
 		if(moduleid!=0)
 			c.andModuleIdEqualTo(moduleid);
 		return moduleconfDAO.selectByExample(e);
