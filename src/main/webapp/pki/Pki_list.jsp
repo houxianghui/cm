@@ -20,6 +20,10 @@ function doAdd(){
 } 
 
 function doQuery() {  
+	if(document.forms[0].samId_min.value=="" ||document.forms[0].samId_max.value==""){
+		alert("发行卡号段必须输入!");
+		return;
+	}
 	document.forms[0].act.value = "list";
 	document.forms[0].submit(); 
 }
@@ -42,7 +46,7 @@ function doCardDown(){
 <input type=hidden name=requery>
 <%=ViewUtil.getTitle("公钥信息列表")%>
 	
-	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
+	<table class=heightspace_top3 width="100%" border="0" cellspacing="1"
 		align="center" cellpadding="0">
          <tr > 
          <td>
@@ -60,9 +64,9 @@ function doCardDown(){
 	</table>
  
 	<table width="98%" class="dtPanel_Line1" border="0" cellspacing="1"
-		align="center" cellpadding="0">
+		align="center" cellpadding="0" style=“table-layout:fixed;”>
 		<tr align="center" class="dtPanel_Top01" height="28">
-			<td>公钥信息</td>
+			<td width="50%">公钥信息</td>
 			<td>发行卡号</td>
 			<td>印刷卡号</td>
 			<td>密钥类型</td>
@@ -76,7 +80,7 @@ function doCardDown(){
 		while (iter.hasNext()) {
 			Secpkitb vo = (Secpkitb) iter.next();%>
 		<tr align="left" class="dtPanel_Main" onclick="_clickTr( this )">			
-			<td><%=vo.getPubKey() %></td>	
+			<td width="50%"><div style="width:600px;word-wrap:break-word;" ><%=vo.getPubKey() %></div></td>	
 			<td><%=vo.getSamId()%></td>	
 			<td><%=vo.getSamCSN()%></td>		
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(vo.getKeyType()))%></td>	
