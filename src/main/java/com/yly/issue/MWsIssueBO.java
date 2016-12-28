@@ -266,7 +266,7 @@ public class MWsIssueBO extends IbatisBO {
 		f.setSJL05PORT("192.168.1.82");               
 		f.setFivePara("0100010000");       
 		if(f.getSamId()!=null && f.getSamId().length()==12){
-			f.setEf15("00001000"+f.getSamId()+ "01011000");           
+			f.setEf15("00000000"+f.getSamId()+ "01011000");           
 			f.setEf16(f.getSamId());      
 		}else{
 			f.setEf15("");
