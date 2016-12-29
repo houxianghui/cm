@@ -10,6 +10,8 @@ import java.util.List;
 
 
 
+
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,6 +33,8 @@ import com.yly.ls.Lsinfo;
 import com.yly.ls.LsinfoBO;
 import com.yly.exstore.Stoproduct;
 import com.yly.exstore.StoproductBO;
+import com.yly.reuse.Storeuse;
+import com.yly.reuse.StoreuseBO;
 import com.yly.stor.StoAppInfoBO;
 import com.yly.stor.StoAppInfoForm;
 import com.yly.stor.Stoappinfo;
@@ -42,6 +46,15 @@ public class IssueappAction extends IbatisBaseAction {
 	private IssuetaskBO issuetaskBO;
 	private StoproductBO stoproductBO;
 	private StoAppInfoBO stoAppBO;
+	private StoreuseBO storeuseBO;
+	
+	public StoreuseBO getStoreuseBO() {
+		return storeuseBO;
+	}
+
+	public void setStoreuseBO(StoreuseBO storeuseBO) {
+		this.storeuseBO = storeuseBO;
+	}
 	private LsinfoBO lsinfoBO;
 
 	public StoAppInfoBO getStoAppBO() {
@@ -358,10 +371,25 @@ public class IssueappAction extends IbatisBaseAction {
 		IssueappForm f = (IssueappForm)form;
 		Stoproduct prodvo = new Stoproduct();
 		prodvo.setSamId(f.getOrigSamId());
-		prodvo = stoproductBO.queryObjectBySamId(prodvo.getSamId());
+		if(f.getOperationType()==26){
+			Storeuse reuseprodvo=(Storeuse)storeuseBO.queryObjectBySamId(prodvo.getSamId());
+			if(reuseprodvo==null){
+				throw new MessageException("此SAM号没有进行退回操作");
+			}else{
+				if(!reuseprodvo.getAppTypeId().equals("105") && !reuseprodvo.getAppTypeId().equals("106"))
+					throw new MessageException("此卡号不允许做此业务");	
+				copyProperties(prodvo,reuseprodvo);
+			}
+		}else{
+			prodvo = stoproductBO.queryObjectBySamId(prodvo.getSamId());
+			if(prodvo==null){
+				prodvo=(Stoproduct)storeuseBO.queryObjectBySamId(prodvo.getSamId());
+			}
+		}
 		if(prodvo==null){
 			throw new MessageException("此SAM号找不到原发行记录");
 		}
+		
 		Issueapp vo = ((IssueappBO)bo).queryForObject(f.getAppNo());
 		copyProperties(form,vo);
 		formatIssuetask(prodvo,f);

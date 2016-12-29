@@ -205,23 +205,31 @@ public class MWsIssueBO extends IbatisBO {
 		mwsissuetbDAO.updateByPrimaryKeySelective(mtb);
 	}
 	public void transSixTb(Mwsissuetb mtb,Stoproduct s,Lsinfo ls,Issueapp issue,Secpkitb sec,Stoproduct prod) throws Exception {
-		stoproductDAO.insert(s);
 		lsinfoDAO.insert(ls);
 		if(sec!=null)
 			secpkitbDAO.insert(sec);
+		if(mtb.getOperationType()==22){
+			Storeuse reuse= new Storeuse();
+			copyProperties(reuse, prod);
+			storeuseDAO.updateByPrimaryKeySelective(reuse);
+			stoproductDAO.insert(s);
+		}else if(mtb.getOperationType()==23){
+			stoproductDAO.insert(s);
+			stoproductDAO.updateByPrimaryKeySelective(prod);
+		}else if(mtb.getOperationType()==25){
+			stoproductDAO.updateByPrimaryKeySelective(s);
+		}else if(mtb.getOperationType()==26){
+			Storeuse reuse= new Storeuse();
+			copyProperties(reuse, prod);
+			stoproductDAO.insert(s);
+			storeuseDAO.deleteByPrimaryKey(reuse);
+		}else{
+			stoproductDAO.insert(s);
+		}
 		mwsissuetbDAO.updateByPrimaryKeySelective(mtb);
 		if(issue!=null && issue.getFormState()==3)
 			issueappDAO.updateByPrimaryKeySelective(issue);
-		if(prod!=null && !CheckUtil.isEmptry(prod.getSamId())){
-			int i=stoproductDAO.updateByPrimaryKeySelective(prod);
-			if(i<1){
-				Storeuse reuse= new Storeuse();
-				copyProperties(reuse, prod);
-				stoproductDAO.insert(prod);
-				storeuseDAO.deleteByPrimaryKey(reuse);
-			}
-				
-		}
+
 			
 	}
 	

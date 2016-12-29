@@ -227,17 +227,20 @@ function keyType_fun(obj){
 
  <table id="issue" align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0">
 	<%if(issueappForm.getOperationType()==24 ||issueappForm.getOperationType()==26){%>
-		<tr>
-		<td width="16%" align="left" class="dtPanel_Left">
+	<tr>
+	<td width="16%" align="left" class="dtPanel_Left">
 		<%=ViewUtil.must()%>SAM卡号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<html:text property="origSamId" styleClass="Textfield"  size="12" maxlength="12"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  />&nbsp; 
-		<input	name="read" type="button" class="Button" value="读取SAMID" onClick="doRead()"> &nbsp; <div id=module></div>
-		&nbsp;<input name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> 
+		<input	name="read" type="button" class="Button" value="读取SAMID" onClick="doRead()"> &nbsp;<input name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> <div id=module></div> 
+		<input type=hidden name=prodId>	
+		<input type=hidden name=phiTypeId>
+		<input type=hidden name=appTypeId>	
+		<input type=hidden name=keyType>	
 	</td>
 	</tr>	
-	<%} %>
+	<%}else{%>
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
 		<%=ViewUtil.must()%>发行数量:
@@ -295,13 +298,17 @@ function keyType_fun(obj){
 		<div id="showId"  style="display:none">
 		<%=ReDefSDicMap.getRadio("appTypeId", RedefSDicCodes.APPTYPEID, "101") %>
 		</div>
+	
 		</td>	
 	</tr>	
+	<%}%>	
 </table>
     <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
         <tr> 
 				<td height="25" align="center" class="dtPanel_Bottom"> 
+				<%if(issueappForm.getOperationType()!=24 && issueappForm.getOperationType()!=26){%>
 					<input	name="add" type="button" class="Button" value="保存" onClick="doAdd()"> &nbsp; 
+				<%}%>	
 		 		</td> 
 	    </tr> 
   </table> 

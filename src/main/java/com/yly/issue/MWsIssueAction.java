@@ -37,6 +37,7 @@ import com.yly.ls.LsinfoBO;
 import com.yly.para.Applytypeinfo;
 import com.yly.para.ApplytypeinfoBO;
 import com.yly.pki.Secpkitb;
+import com.yly.reuse.Storeuse;
 import com.yly.reuse.StoreuseBO;
 import com.yly.stor.StoAppInfoBO;
 import com.yly.stor.StoAppInfoForm;
@@ -392,15 +393,23 @@ public class MWsIssueAction extends IbatisBaseAction {
 							func.setManufacId(part_sto.getManufacId());
 						}
 					}else if(func.getOperAct().equals("R")){
+						if(f.getOperationType()==26 && !f.getSamId().equals(para.getSamId())){
+							operSysPort(vo.getProdId(),"close","0");
+							throw new MessageException("此业务类型必须为同号重发!当前卡片为"+para.getSamId());
+						}
 						f.setSamId(para.getSamId());		
 						lsvo.setSamIdOld(para.getSamId());
-						prod = stoproductBO.queryObjectBySamId(f.getSamId());
-						if(prod==null){	
-							prod =(Stoproduct)storeuseBO.queryForObject(f.getSamId());
-							if(prod==null){
-								operSysPort(vo.getProdId(),"close","0");
-								throw new MessageException("无法找到原sam卡号!");
-							}
+						String alert="";
+						if(f.getOperationType()==22 ||f.getOperationType()==26){
+							prod =(Stoproduct)storeuseBO.queryObjectBySamId(f.getSamId());
+							alert="该卡片在回收库中未找到,请确认已退回:卡号";
+						}else{
+							prod = stoproductBO.queryObjectBySamId(f.getSamId());
+							alert="该卡片在成品库中未找到,请确认:卡号";
+						}
+						if(prod==null){
+							operSysPort(vo.getProdId(),"close","0");
+							throw new MessageException(alert+f.getSamId());
 						}
 						if(vo.getProdId().equals("4")){
 							if(!CheckUtil.isEmptry(f.getPartManufacId()))

@@ -116,9 +116,11 @@ function keyType_fun(obj){
 	if(obj.value==1){
 		document.getElementById("hiddenId").style.display="";
 		document.getElementById("showId").style.display="none";
+		document.getElementById("showEditInit").style.display="none";
 	}else{
 		document.getElementById("hiddenId").style.display="none";
 		document.getElementById("showId").style.display="";
+		document.getElementById("showEditInit").style.display="none";
 	}
 }
 </script> 
@@ -132,7 +134,6 @@ function keyType_fun(obj){
 <html:hidden property="unitId" />
 <html:hidden property="origSamId" />
 <html:hidden property="operationType" />
-
 <%=ViewUtil.getTitle("制定发行任务")%> 
  
     <table align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0"> 
@@ -210,6 +211,10 @@ function keyType_fun(obj){
 	<input type=hidden name=operationType value="<%=issueappForm.getOperationType()%>">
 	<input type=hidden name=taskAmt>
 	<input type=hidden name=taskNo>		
+	<input type=hidden name=keyType value="<%=issueappForm.getKeyType()%>">
+	<input type=hidden name=prodId value="<%=issueappForm.getProdId()%>">
+	<input type=hidden name=phiTypeId value="<%=issueappForm.getPhiTypeId()%>">
+	<input type=hidden name=binFileVer value="<%=issueappForm.getBinFileVer()%>">
  <%=ViewUtil.getTitle("增加发行任务")%> 
 
  <table id="issue" align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0">
@@ -218,11 +223,9 @@ function keyType_fun(obj){
 		<%=ViewUtil.must()%>SAM卡号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<html:text property="origSamId" styleClass="Textfield"  size="12" maxlength="12"  onblur="onlyNum(this)" onkeyup="onlyNum(this)" value="<%=issueappForm.getOrigSamId()%>"/>
-		<input	name="read" type="button" class="Button" value="读取SAMID" onClick="doRead()"> &nbsp; <div id=module></div>
-		<input	name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> &nbsp; 
-
-	</td>
+		<html:text property="origSamId" styleClass="Textfield"  size="12" maxlength="12"  onblur="onlyNum(this)" onkeyup="onlyNum(this)" value="<%=issueappForm.getOrigSamId()%>"  readonly="true"/>
+		 <div id=module></div>
+		</td>
 	</tr>	
 
 	<tr>
@@ -238,7 +241,7 @@ function keyType_fun(obj){
 		<%=ViewUtil.must()%>产品类型:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("prodId", SingleDic.PROD_ID, issueappForm.getProdId())%>
+		<%=SingleDicMap.getDicItemVal(SingleDic.PROD_ID, issueappForm.getProdId())%> 
 		</td>
 	</tr>	   
      <tr>
@@ -246,7 +249,7 @@ function keyType_fun(obj){
 		<%=ViewUtil.must()%>密钥类型:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio_WithFun("keyType", SingleDic.KEYTYPE, String.valueOf(issueappForm.getKeyType()),"keyType_fun(this)")%> 
+		<%=SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(issueappForm.getKeyType()))%> 
 		</td>	
 	</tr>	
 	<tr>
@@ -257,15 +260,13 @@ function keyType_fun(obj){
 		<%=ViewUtil.must()%>模块程序版本:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<html:select property="binFileVer" styleClass="Select">
-			<html:optionsCollection name="issuetaskForm" property="moduleVerEffcollection"/>
-		</html:select>
+		<%=ReDefSDicMap.getDicItemVal( RedefSDicCodes.MODULEVERSION, issueappForm.getBinFileVer())%>
 		<input type=hidden name=phiTypeId value="1">	
 		<%}else{%>
 		<%=ViewUtil.must()%>产品通信速率:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio("phiTypeId", SingleDic.COMM_RATE, issueappForm.getPhiTypeId())%> 
+			<%=SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, issueappForm.getPhiTypeId())%> 
 		<%}%>
 		</td>	
 	</tr>		
@@ -274,12 +275,12 @@ function keyType_fun(obj){
 		<%=ViewUtil.must()%>产品应用类型:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
-		<div id="hiddenId">
-		<%=ReDefSDicMap.getRadioWithHiddenId("appTypeId", RedefSDicCodes.APPTYPEID, String.valueOf(issueappForm.getAppTypeId()),"105","106") %>
-		</div>
-		<div id="showId"  style="display:none">
-		<%=ReDefSDicMap.getRadio("appTypeId", RedefSDicCodes.APPTYPEID, String.valueOf(issueappForm.getAppTypeId())) %>
-		</div>
+		<%if(issueappForm.getOperationType()==24){%>
+		<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.APPTYPEID, String.valueOf(issueappForm.getAppTypeId()))%>
+		<input type=hidden name=appTypeId value="<%=String.valueOf(issueappForm.getAppTypeId())%>">
+		<%}else{%>
+		<%=ReDefSDicMap.getRadio("appTypeId", RedefSDicCodes.TESTAPPTYPEID, String.valueOf(issueappForm.getAppTypeId()))%>
+		<%}%>
 		</td>	
 	</tr>
 </table>
@@ -325,7 +326,7 @@ if (list != null) {
 					<td><%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, vo.getAuthSign().toString())%></td>
 					<td><%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, vo.getW2Sign().toString())%></td>
 					<td><label><input type="radio" name="param"
-						onClick="setPKey('<%=vo.getTaskNo()%>','<%=vo.getProdId()%>','<%=vo.getPhiTypeId()%>','<%=vo.getAppTypeId()%>','<%=vo.getIssueAmt()%>')">
+						onClick="setPKey('<%=vo.getTaskNo()%>','<%=vo.getProdId()%>','<%=vo.getPhiTypeId()%>','<%=vo.getAppTypeId()%>','<%=vo.getIssueAmt()%>','<%=vo.getRemarks()==null?null:vo.getRemarks().trim()%>')">
 					</label></td>
 				</tr>
 
