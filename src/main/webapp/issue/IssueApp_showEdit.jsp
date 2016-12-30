@@ -34,15 +34,14 @@ function doAdd(){
 	document.forms[1].submit(); 
 } 
 
-function setPKey(taskNo_var,prodId_var,phiTypeId_var,appTypeId_var,issueAmt_var,remarks_var) { 
-
+function setPKey(OAappNo_var,taskNo_var,prodId_var,phiTypeId_var,appTypeId_var,issueAmt_var,remarks_var) { 
+	document.forms[1].OAappNo.value=OAappNo_var; 
 	document.forms[1].taskNo.value=taskNo_var; 
 	document.forms[1].prodId.value=prodId_var; 
 	document.forms[1].phiTypeId.value=phiTypeId_var; 
 	document.forms[1].appTypeId.value=appTypeId_var; 
 	document.forms[1].taskAmt.value=issueAmt_var; 
 	document.forms[1].origSamId.value=remarks_var; 
-
 } 
 function doAssignUnit(){ 
 	//修改 
@@ -52,7 +51,7 @@ function doAssignUnit(){
 		return; 
 	} 
 	//提交表单 
-	openWin("Issuetaskctrl.do?act=listpop&taskAmt="+document.forms[1].taskAmt.value+"&unitId="+document.forms[0].unitId.value+"&prodId="+document.forms[1].prodId.value+"&phiTypeId="+document.forms[1].phiTypeId.value+"&appTypeId="+document.forms[1].appTypeId.value+"&taskNo="+document.forms[1].taskNo.value+"&appNo="+document.forms[0].appNo.value+"&operationType="+document.forms[1].operationType.value+"&samIdBegin="+document.forms[1].origSamId.value+"","org_pop");
+	openWin("Issuetaskctrl.do?act=listpop&OAappNo="+document.forms[1].OAappNo.value+"&keyType="+document.forms[1].keyType.value+"&taskAmt="+document.forms[1].taskAmt.value+"&unitId="+document.forms[0].unitId.value+"&prodId="+document.forms[1].prodId.value+"&phiTypeId="+document.forms[1].phiTypeId.value+"&appTypeId="+document.forms[1].appTypeId.value+"&taskNo="+document.forms[1].taskNo.value+"&appNo="+document.forms[0].appNo.value+"&operationType="+document.forms[1].operationType.value+"&samIdBegin="+document.forms[1].origSamId.value+"","org_pop");
 
 }  
 function doDelete(){ 
@@ -305,8 +304,6 @@ function keyType_fun(obj){
 					<td width="10%">产品通信速率</td>						
 					<td width="10%">产品应用类型</td>	
 					<td width="10%">模块程序版本</td>
-					<td width="10%">是否认证</td>
-					<td width="10%">是否装载维护密钥二</td>
 					<td>选择</td>
 				</tr>
 				<%List list = pageResultIssuetask.getList();
@@ -323,10 +320,8 @@ if (list != null) {
 					<td><%=SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, vo.getPhiTypeId())%></td>					
 					<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.APPTYPEID, String.valueOf(vo.getAppTypeId())) %></td>
 					<td><%=vo.getBinFileVer()!=null?SingleDicMap.getDicItemVal(SingleDic.BINFILEVER, vo.getBinFileVer()):""%></td>
-					<td><%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, vo.getAuthSign().toString())%></td>
-					<td><%=SingleDicMap.getDicItemVal(SingleDic.YES_OR_NO, vo.getW2Sign().toString())%></td>
 					<td><label><input type="radio" name="param"
-						onClick="setPKey('<%=vo.getTaskNo()%>','<%=vo.getProdId()%>','<%=vo.getPhiTypeId()%>','<%=vo.getAppTypeId()%>','<%=vo.getIssueAmt()%>','<%=vo.getRemarks()==null?null:vo.getRemarks().trim()%>')">
+						onClick="setPKey('<%=vo.getOAappNo()%>','<%=vo.getTaskNo()%>','<%=vo.getProdId()%>','<%=vo.getPhiTypeId()%>','<%=vo.getAppTypeId()%>','<%=vo.getIssueAmt()%>','<%=vo.getRemarks()==null?null:vo.getRemarks().trim()%>')">
 					</label></td>
 				</tr>
 
