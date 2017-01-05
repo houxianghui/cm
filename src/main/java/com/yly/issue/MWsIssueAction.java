@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
+import com.eis.cache.ReDefSDicMap;
+import com.eis.cache.RedefSDicCodes;
 import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
 import com.eis.config.SysConfig;
@@ -513,6 +515,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		f.setManufacId(request.getParameter("manufacId"));
 		f.setApplyAttr(request.getParameter("applyAttr"));
 		f.setPhiTypeId(request.getParameter("phiTypeId"));
+		f.setBinFileVer(request.getParameter("binFileVer"));
 		Mwsissuetb vo= new Mwsissuetb();
 		copyProperties(vo, f);
 		operSysPort(vo.getProdId(),"open",f.getPhiTypeId());
@@ -558,6 +561,11 @@ public class MWsIssueAction extends IbatisBaseAction {
 				}else{
 					String mflag=para.getModelflag()==1?"脱机模块":"联机模块";
 					res = res+";ver_"+para.getVersion()+";moduleflag_"+mflag+"\"}";
+					if(!para.getVersion().equals(ReDefSDicMap.getDicItemVal(RedefSDicCodes.MODULEVERSION, f.getBinFileVer()))){
+						res = "{\"error\":\"模块版本错误"+para.getVersion()+"\"}";
+						writeAjaxResponse(response, res);
+						break;
+					}
 					lsvo.setDetectSign((short)1);	
 					prod.setDetectSign((short)1);		
 					stoproductBO.transLsUpdate(prod,lsvo);
@@ -619,7 +627,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		Stoproduct prodvo = new Stoproduct();
 		prodvo.setSamId(f.getOrigSamId());
 		prodvo = stoproductBO.queryObjectBySamId(prodvo.getSamId());
-		if(prodvo==null){
+		if(prodvo==null||prodvo.equals(null)){
 			throw new MessageException("此SAM号找不到原发行记录");
 		}
  		copyProperties(f, prodvo);

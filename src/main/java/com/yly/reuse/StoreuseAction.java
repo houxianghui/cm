@@ -213,7 +213,7 @@ public class StoreuseAction extends IbatisBaseAction {
 		StoreuseForm copyf=new StoreuseForm();
 		copyProperties(copyf, f);
 		Stoproduct prodvo =stoproductBO.queryObjectBySamId(f.getSamId());
-		if(prodvo==null){
+		if(prodvo==null||prodvo.equals(null)){
 			Storeuse storeuse = (Storeuse)((StoreuseBO)bo).queryObjectBySamId(f.getSamId());
 			if(storeuse==null){
 				throw new MessageException("此SAM号找不到原记录");
@@ -237,7 +237,7 @@ public class StoreuseAction extends IbatisBaseAction {
 		StoreuseForm copyf=new StoreuseForm();
 		copyProperties(copyf, f);
 		Stoproduct prodvo =stoproductBO.queryObjectBySamId(f.getSamId());
-		if(prodvo==null){
+		if(prodvo==null||prodvo.equals(null)){
 			Storeuse storeuse = (Storeuse)((StoreuseBO)bo).queryObjectBySamId(f.getSamId());
 			if(storeuse==null){
 				throw new MessageException("此SAM号找不到原记录");

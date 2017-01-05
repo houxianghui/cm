@@ -15,6 +15,7 @@ if (pageResult != null)
 <script language="javascript"> 
 
 function doQuery() {  
+	document.forms[0].formState.value=0;
 	document.forms[0].act.value = "makeupList";
 	document.forms[0].submit(); 
 }

@@ -14,6 +14,7 @@ if (pageResult != null)
 <title>产品退回单管理</title>
 <script language="javascript"> 
 function doQuery() {  
+	document.forms[0].formState.value=0;
 	document.forms[0].act.value = "storeuseList";
 	document.forms[0].submit(); 
 }

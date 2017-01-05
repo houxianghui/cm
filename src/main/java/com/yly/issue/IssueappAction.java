@@ -382,11 +382,11 @@ public class IssueappAction extends IbatisBaseAction {
 			}
 		}else{
 			prodvo = stoproductBO.queryObjectBySamId(prodvo.getSamId());
-			if(prodvo==null){
+			if(prodvo==null||prodvo.equals(null)){
 				prodvo=(Stoproduct)storeuseBO.queryObjectBySamId(prodvo.getSamId());
 			}
 		}
-		if(prodvo==null){
+		if(prodvo==null||prodvo.equals(null)){
 			throw new MessageException("此SAM号找不到原发行记录");
 		}
 		

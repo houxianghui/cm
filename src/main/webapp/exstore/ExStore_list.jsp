@@ -19,6 +19,7 @@ function doAdd(){
 } 
 
 function doQuery() {  
+	document.forms[0].formState.value=0;
 	document.forms[0].act.value = "exlist";
 	document.forms[0].submit(); 
 }

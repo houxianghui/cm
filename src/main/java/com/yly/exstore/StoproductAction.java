@@ -460,7 +460,7 @@ public class StoproductAction extends IbatisBaseAction {
 		StoproductForm copyf=new StoproductForm();
 		copyProperties(copyf, f);
 		Stoproduct prodvo =((StoproductBO)bo).queryObjectBySamId(f.getSamId());
-		if(prodvo==null){
+		if(prodvo==null||prodvo.equals(null)){
 			Storeuse storeuse = (Storeuse)storeuseBO.queryObjectBySamId(f.getSamId());
 			if(storeuse==null){
 				throw new MessageException("此SAM号找不到原记录");
