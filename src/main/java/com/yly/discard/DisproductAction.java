@@ -64,9 +64,7 @@ public class DisproductAction extends IbatisBaseAction {
 			return mapping.findForward("list");
 	    }
 		DisproductForm f = (DisproductForm)form;
-		Disproduct vo = new Disproduct();
-		copyProperties(vo, f);
-		setPageResult(request, ((DisproductBO)bo).queryForList(vo));
+		setPageResult(request, ((DisproductBO)bo).queryForList(f));
 		return mapping.findForward("list");
 	}
 

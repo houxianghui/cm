@@ -44,6 +44,8 @@ function doCardDown(){
 			发行卡号:			
 			从<html:text property="samId_min" styleClass="Textfield" size="12" />
 			到<html:text property="samId_max" styleClass="Textfield" size="12" />
+			印刷卡号:
+			<html:text property="samCsn_f" styleClass="Textfield" size="20" onblur="noChinese(this)"/>
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
 			</td>
        </tr> 

@@ -39,9 +39,11 @@ function turnPage( pagenm ) {
 		align="center" cellpadding="0">
 		<tr>
 			<td>
- 			SAM卡号段:	
+ 			发行卡号:	
 			从<html:text property="samId_min" styleClass="Textfield" size="12" />
 			到<html:text property="samId_max" styleClass="Textfield" size="12" />
+			印刷卡号:
+			<html:text property="samCsn_f" styleClass="Textfield" size="20" onblur="noChinese(this)"/>
 			产品类型:
 			<html:select property="prodId" styleClass="Select">
 				<html:optionsCollection name="disproductForm" property="prodIdcollection"/>

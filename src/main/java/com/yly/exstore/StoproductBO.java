@@ -145,7 +145,9 @@ public class StoproductBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(sto.getSamId_max())){
 			c.andSamIdLessThanOrEqualTo(sto.getSamId_max().trim());
 		}
-		if(!CheckUtil.isEmptry(sto.getSamCSN())){
+		if(!CheckUtil.isEmptry(sto.getSamCsn_f())){
+			c.andSamCSNEqualTo(sto.getSamCsn_f());
+		}else if(!CheckUtil.isEmptry(sto.getSamCSN())){
 			c.andSamCSNEqualTo(sto.getSamCSN());
 		}
 		if(null!=sto.getOperationType()){
@@ -355,8 +357,8 @@ public class StoproductBO extends IbatisBO {
 		return samId;
 	}
 	public void querySamIdValidate(StoproductForm p)throws MessageException{
-		if(CheckUtil.isEmptry(p.getOAappNo()) && (CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max()))){	
-			throw new MessageException("OA申请单号或者开始卡号和结束卡号必须填写");
+		if(CheckUtil.isEmptry(p.getOAappNo()) && (CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max())) && CheckUtil.isEmptry(p.getSamCsn_f()) ){	
+			throw new MessageException("必须录入查询条件(单号/发行卡号/印刷卡号)");
 		}
 		if(!CheckUtil.isEmptry(p.getSamId_min()) && !CheckUtil.isEmptry(p.getSamId_max())){	
 			if(CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max())){	

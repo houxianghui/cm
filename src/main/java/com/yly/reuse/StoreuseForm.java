@@ -14,6 +14,15 @@ public class StoreuseForm extends BaseForm {
 	private String appNo;
 	private Integer taskAmt;
 	private Integer taskAmtLeft;
+	private String samCsn_f;
+	public String getSamCsn_f() {
+		return samCsn_f;
+	}
+
+	public void setSamCsn_f(String samCsn_f) {
+		this.samCsn_f = samCsn_f;
+	}
+
 	private String BatchIdParts;
 
 	public String getBatchIdParts() {

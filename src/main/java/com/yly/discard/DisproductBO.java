@@ -54,11 +54,16 @@ public class DisproductBO extends IbatisBO {
 	 * @see com.eis.base.IbatisBaseBO#queryForList(java.lang.Object)
 	 */
 	public List queryForList(Object obj) throws Exception {
-		Disproduct f=((Disproduct)obj);
+		DisproductForm f=((DisproductForm)obj);
 		DisproductExample e = new DisproductExample();
 		Criteria c = e.createCriteria();
-		if(!CheckUtil.isEmptry(f.getSamCSN()))
+		
+		if(!CheckUtil.isEmptry(f.getSamCsn_f())){
+			c.andSamCSNEqualTo(f.getSamCsn_f());
+		}else if(!CheckUtil.isEmptry(f.getSamCSN())){
 			c.andSamCSNEqualTo(f.getSamCSN());
+		}
+		
 		if(!CheckUtil.isEmptry(f.getSamId_min())){
 			c.andSamIdGreaterThanOrEqualTo(f.getSamId_min().trim());
 		}		

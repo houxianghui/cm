@@ -40,13 +40,15 @@ function doCardDown(){
 	
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
 		align="center" cellpadding="0">
-         <tr > 
+         <tr> 
          <td>
          	OA申请单号:			
 			<html:text property="OAappNo" styleClass="Textfield"  size="16" maxlength="30"  onblur="noChinese(this)"/>
 			发行卡号:			
 			从<html:text property="samId_min" styleClass="Textfield" size="12" />
 			到<html:text property="samId_max" styleClass="Textfield" size="12" />
+			印刷卡号:
+			<html:text property="samCsn_f" styleClass="Textfield" size="20" onblur="noChinese(this)"/>
 			厂商:
 			<html:select property="manufacId" styleClass="Select">
 				<html:optionsCollection name="stoproductForm" property="manufacIdCollection"/>

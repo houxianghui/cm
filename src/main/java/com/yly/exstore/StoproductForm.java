@@ -11,6 +11,15 @@ import com.eis.cache.SingleDicMap;
 public class StoproductForm extends BaseForm {
 	private String beginDate_f;
 	private String endDate_f;
+	private String samCsn_f;
+	public String getSamCsn_f() {
+		return samCsn_f;
+	}
+
+	public void setSamCsn_f(String samCsn_f) {
+		this.samCsn_f = samCsn_f;
+	}
+
 	public String getEndDate_f() {
 		return endDate_f;
 	}

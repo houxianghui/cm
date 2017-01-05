@@ -38,7 +38,16 @@ public class DisproductForm extends BaseForm {
 	}
 
 	private String samId_min;
-    public String getSamId_min() {
+	private String samCsn_f;
+    public String getSamCsn_f() {
+		return samCsn_f;
+	}
+
+	public void setSamCsn_f(String samCsn_f) {
+		this.samCsn_f = samCsn_f;
+	}
+
+	public String getSamId_min() {
 		return samId_min;
 	}
 

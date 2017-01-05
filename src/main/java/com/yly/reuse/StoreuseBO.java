@@ -97,8 +97,12 @@ public class StoreuseBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(f.getSamId_max())){
 			c.andSamIdLessThanOrEqualTo(f.getSamId_max());
 		}		
-		if(!CheckUtil.isEmptry(f.getSamCSN()))
+		if(!CheckUtil.isEmptry(f.getSamCsn_f())){
+			c.andSamCSNEqualTo(f.getSamCsn_f());
+		}else if(!CheckUtil.isEmptry(f.getSamCSN())){
 			c.andSamCSNEqualTo(f.getSamCSN());
+		}
+		
 		if(!CheckUtil.isEmptry(f.getSamId()))
 			c.andSamIdEqualTo(f.getSamId());	
 		if(null!=f.getUnitId() && f.getUnitId()>0)
@@ -169,21 +173,22 @@ public class StoreuseBO extends IbatisBO {
 		new BeanUtilsBean().copyProperties(dest,origin);
 	}
 	public void querySamIdValidate(StoreuseForm p)throws MessageException{
-		if(CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max())){	
-			throw new MessageException("开始卡号和结束卡号必须填写");
+		if((CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max())) && CheckUtil.isEmptry(p.getSamCsn_f())){	
+			throw new MessageException("必须录入查询条件(发行卡号/印刷卡号)");
 		}
-		if(p.getSamId_min().length()!=p.getSamId_max().length()){
-			throw new MessageException("开始卡号长度和结束卡号长度必须一致");
+		if(!CheckUtil.isEmptry(p.getSamId_min()) || !CheckUtil.isEmptry(p.getSamId_max())){
+			if(p.getSamId_min().length()!=p.getSamId_max().length()){
+				throw new MessageException("开始卡号长度和结束卡号长度必须一致");
+			}
+			if(p.getSamId_min().length()!=12 ){
+				throw new MessageException("卡号长度必须满足12位");
+			}
+			if(!p.getSamId_min().substring(0, 5).equals(p.getSamId_max().substring(0, 5)) ){
+				throw new MessageException("卡号前5位必须一致");
+			}		
+			if(p.getSamId_min().compareTo(p.getSamId_max())>0)
+				throw new MessageException("开始卡号不能大于结束卡号");
 		}
-		if(p.getSamId_min().length()!=12 ){
-			throw new MessageException("卡号长度必须满足12位");
-		}
-		if(!p.getSamId_min().substring(0, 5).equals(p.getSamId_max().substring(0, 5)) ){
-			throw new MessageException("卡号前5位必须一致");
-		}		
-		if(p.getSamId_min().compareTo(p.getSamId_max())>0)
-			throw new MessageException("开始卡号不能大于结束卡号");
-		
 	}
 	public List getReStoreReport(Object obj) throws Exception {
 		Stoproduct vo =(Stoproduct)obj;
