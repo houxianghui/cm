@@ -88,6 +88,7 @@ public class StoreuseBO extends IbatisBO {
 	 * @see com.eis.base.IbatisBaseBO#queryForList(java.lang.Object)
 	 */
 	public List queryForList(Object obj) throws Exception {
+		
 		StoreuseForm f=((StoreuseForm)obj);
 		StoreuseExample e = new StoreuseExample();
 		Criteria c = e.createCriteria();
