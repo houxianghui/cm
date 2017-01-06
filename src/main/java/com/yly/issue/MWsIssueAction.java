@@ -560,14 +560,23 @@ public class MWsIssueAction extends IbatisBaseAction {
 					} 
 				}else{
 					String mflag=para.getModelflag()==1?"脱机模块":"联机模块";
+					para.setVersion(StringUtil.trim(para.getVersion()));
+					if(para.getModelflag()!=1){
+						para.setVersion(para.getVersion().substring(0, para.getVersion().length()-12));
+					}
 					res = res+";ver_"+para.getVersion()+";moduleflag_"+mflag+"\"}";
 					if(!para.getVersion().equals(ReDefSDicMap.getDicItemVal(RedefSDicCodes.MODULEVERSION, f.getBinFileVer()))){
-						res = "{\"error\":\"模块版本错误"+para.getVersion()+"\"}";
+						res = res+",\"error\":\"模块版本错误"+para.getVersion()+"\"}";
 						writeAjaxResponse(response, res);
-						break;
+						lsvo.setErrorCode((short)4001);//版本错误
+						lsvo.setDetectSign((short)2);	
+						prod.setDetectSign((short)2);
+					}else{
+						lsvo.setErrorCode((short)0000);//成功
+						lsvo.setDetectSign((short)1);	
+						prod.setDetectSign((short)1);
 					}
-					lsvo.setDetectSign((short)1);	
-					prod.setDetectSign((short)1);		
+		
 					stoproductBO.transLsUpdate(prod,lsvo);
 					writeAjaxResponse(response, res);
 				}

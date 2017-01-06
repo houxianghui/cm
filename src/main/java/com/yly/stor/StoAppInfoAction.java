@@ -203,7 +203,7 @@ public class StoAppInfoAction extends IbatisBaseAction {
 			return mapping.findForward("list");
 	    }
 		StoAppInfoForm f = (StoAppInfoForm)form;
-		setPageResult(request, ((StoAppInfoBO)bo).getAppList(f));
+		setPageResult(request, ((StoAppInfoBO)bo).getInStockAppList(f));
 		return mapping.findForward("list");
 	}
 	public ActionForward backList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{

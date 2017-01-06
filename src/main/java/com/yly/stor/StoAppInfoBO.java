@@ -152,6 +152,50 @@ public class StoAppInfoBO extends IbatisBO {
 	public void delete(Object obj) throws Exception {
 
 	}
+	public List getInStockAppList(StoAppInfoForm obj)throws Exception {
+		
+		StoappinfoExample e = new StoappinfoExample();
+		Criteria c = e.createCriteria();
+		if(!CheckUtil.isEmptry(obj.getProdId())){
+			c.andProdIdEqualTo(obj.getProdId());
+		}
+		if(obj.getOperationType_f()!=null && obj.getOperationType_f()>0){
+			c.andOperationTypeEqualTo(obj.getOperationType_f().shortValue());
+		}else if(obj.getOperationType()!=null && obj.getOperationType()>0){
+			c.andOperationTypeEqualTo(obj.getOperationType().shortValue());
+		}else{
+			 c.andOperationTypeBetween((short)10, (short)19);
+		}
+		if(!CheckUtil.isEmptry(obj.getManufacId())){
+			c.andManufacIdEqualTo(obj.getManufacId());
+		}
+		if(!CheckUtil.isEmptry(obj.getBeginDate_f())){
+			c.andCurrDateGreaterThanOrEqualTo(obj.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(obj.getEndDate_f())){
+			c.andCurrDateLessThanOrEqualTo(obj.getEndDate_f()+"999999");
+		}
+		if(!CheckUtil.isEmptry(obj.getPhiTypeId_f())){
+			c.andPhiTypeIdEqualTo(obj.getPhiTypeId_f());
+		}
+		if(!CheckUtil.isEmptry(String.valueOf(obj.getCurrPeriodAmt_f()))){
+			c.andCurrPeriodAmtGreaterThanOrEqualTo(obj.getCurrPeriodAmt_f());
+		}		
+		if(!CheckUtil.isEmptry(obj.getPhiTypeId())){
+			c.andPhiTypeIdEqualTo(obj.getPhiTypeId());
+		}
+		if(!CheckUtil.isEmptry(obj.getIsPki())){
+			c.andIsPkiEqualTo(obj.getIsPki());
+		}
+		if(!CheckUtil.isEmptry(obj.getIsHTCard())){
+			c.andIsHTCardEqualTo(obj.getIsHTCard());
+		}
+		if(!CheckUtil.isEmptry(String.valueOf(obj.getCurrPeriodAmt()))){
+			c.andCurrPeriodAmtGreaterThanOrEqualTo(obj.getCurrPeriodAmt());
+		}
+		e.setOrderByClause("CurrDate desc");
+		return stoappinfoDAO.selectByExample(e);
+	}	
 	public List getAppList(StoAppInfoForm obj)throws Exception {
 		
 		StoappinfoExample e = new StoappinfoExample();

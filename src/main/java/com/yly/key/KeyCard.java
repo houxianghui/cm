@@ -39,7 +39,7 @@ public class KeyCard extends Product {
 		return checkNum;
 	}
 	private String getStartCard(Presscardapptb vo)	throws Exception {
-		StringBuffer sb = new StringBuffer("select max(PressCardNo) from PressCardTb where PressCardNo like '"+vo.getCardType()+vo.getCommRate()+vo.getManufacId()+"%' and ClassId='K'");
+		StringBuffer sb = new StringBuffer("select max(PressCardNo) from PressCardTb where PressCardNo like '"+vo.getCardType()+vo.getCommRate()+vo.getManufacId()+"%' and ClassId='"+vo.getClassId()+"'");
 		DBUtil db = new DBUtil();
 		String cardno = null;
 		try{

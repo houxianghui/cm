@@ -38,6 +38,8 @@ function doExam(){
 	$.get("Mwsissuetb.do?act=E&operationType=<%=mwsissuetbForm.getOperationType()%>&applyAttr=<%=mwsissuetbForm.getApplyAttr()%>&prodId=<%=mwsissuetbForm.getProdId()%>&manufacId=<%=mwsissuetbForm.getManufacId()%>&phiTypeId=<%=mwsissuetbForm.getPhiTypeId()%>&binFileVer=<%=mwsissuetbForm.getBinFileVer()%>",function(result){
 		var json = $.parseJSON(result);
 		if(json.error!=null){
+			$("#detectSign"+json.flowNo).text("´ÎÆ·");
+			$("#detect"+json.flowNo).hide();	
 			alert(json.error);
 		}else{
 	 		$("#detectSign"+json.flowNo).text("Á¼Æ·");
@@ -265,7 +267,7 @@ if (list != null) {
     while (iter.hasNext()) {
     	Lsinfo vo = (Lsinfo)iter.next();%>
 				<tr align="center" class="dtPanel_Main2" onclick="_clickTr( this )">
-				<%if(vo.getErrorCode()!=null){%>
+				<%if(vo.getErrorCode()!=null && vo.getErrorCode()!=0000){%>
 					<td bgcolor="#FF2400"><%=vo.getFlowNo()%></td>	
 					<td bgcolor="#FF2400"><%=vo.getSamId()%></td>
 					<td bgcolor="#FF2400"><%=vo.getSamCSN()%></td>
