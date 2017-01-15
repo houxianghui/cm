@@ -30,12 +30,19 @@ public class KeyCard extends Product {
 		return cards;
 	}
 	private String getCheckNum(String s)throws Exception{
-		int cc=9999+Integer.parseInt(s);
-		String checkNum =String.valueOf(cc).substring(0,1);
-		
-//		String aa =(s.substring(0,1)+'0'+s.substring(2)).toString();
-//		long bb=Long.parseLong(aa);
-//		String checkNum =Long.toString(bb%7);
+		int singleSum=0;
+		int doubleSum=0;
+		String checkString="0000"+s+"9999";
+		int length=checkString.length();
+		for(int i=0;i<length;i+=2){
+			singleSum=singleSum+Integer.parseInt(checkString.substring(i, i+1))*(length-i-1);	    	   
+      	}
+		for(int i=1;i<length;i+=2){
+			doubleSum=doubleSum+Integer.parseInt(checkString.substring(i, i+1))*(length-i+1);
+		}
+		int k=Math.abs(singleSum-doubleSum);
+		String k_val=String.valueOf(k);
+		String checkNum=k_val.substring(k_val.length()-1);
 		return checkNum;
 	}
 	private String getStartCard(Presscardapptb vo)	throws Exception {
