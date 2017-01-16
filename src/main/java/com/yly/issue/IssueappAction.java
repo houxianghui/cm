@@ -370,20 +370,31 @@ public class IssueappAction extends IbatisBaseAction {
 	public ActionForward show(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		IssueappForm f = (IssueappForm)form;
 		Stoproduct prodvo = new Stoproduct();
+		Storeuse reuseprodvo = new Storeuse();
+		
 		prodvo.setSamId(f.getOrigSamId());
 		if(f.getOperationType()==26){
-			Storeuse reuseprodvo=(Storeuse)storeuseBO.queryObjectBySamId(prodvo.getSamId());
-			if(reuseprodvo==null){
+			reuseprodvo=storeuseBO.queryObjectBySamId(prodvo.getSamId());
+			if(reuseprodvo==null ||reuseprodvo.equals(null)){
 				throw new MessageException("此SAM号没有进行退回操作");
 			}else{
 				if(!reuseprodvo.getAppTypeId().equals("105") && !reuseprodvo.getAppTypeId().equals("106"))
 					throw new MessageException("此卡号不允许做此业务");	
+				prodvo =new Stoproduct();
 				copyProperties(prodvo,reuseprodvo);
 			}
 		}else{
 			prodvo = stoproductBO.queryObjectBySamId(prodvo.getSamId());
 			if(prodvo==null||prodvo.equals(null)){
-				prodvo=(Stoproduct)storeuseBO.queryObjectBySamId(prodvo.getSamId());
+				reuseprodvo=storeuseBO.queryObjectBySamId(f.getOrigSamId());
+				if(reuseprodvo==null||reuseprodvo.equals(null)){
+					prodvo=null;
+				}else{
+					prodvo=new Stoproduct();
+					copyProperties(prodvo,reuseprodvo);
+				}
+
+				
 			}
 		}
 		if(prodvo==null||prodvo.equals(null)){

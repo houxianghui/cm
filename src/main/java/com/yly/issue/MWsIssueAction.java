@@ -403,13 +403,18 @@ public class MWsIssueAction extends IbatisBaseAction {
 						lsvo.setSamIdOld(para.getSamId());
 						String alert="";
 						if(f.getOperationType()==22 ||f.getOperationType()==26){
-							prod =(Stoproduct)storeuseBO.queryObjectBySamId(f.getSamId());
-							alert="该卡片在回收库中未找到,请确认已退回:卡号";
+							Storeuse reuseprodvo =storeuseBO.queryObjectBySamId(f.getSamId());
+							if(reuseprodvo==null||reuseprodvo.equals(null)){
+								alert="该卡片在回收库中未找到,请确认已退回:卡号";
+							}else{
+								prod =new Stoproduct();
+								copyProperties(prod,reuseprodvo);
+							}
 						}else{
 							prod = stoproductBO.queryObjectBySamId(f.getSamId());
 							alert="该卡片在成品库中未找到,请确认:卡号";
 						}
-						if(prod==null){
+						if(prod==null||prod.equals(null)){
 							operSysPort(vo.getProdId(),"close","0");
 							throw new MessageException(alert+f.getSamId());
 						}

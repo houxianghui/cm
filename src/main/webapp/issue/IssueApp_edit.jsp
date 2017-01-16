@@ -226,7 +226,24 @@ function keyType_fun(obj){
  <%=ViewUtil.getTitle("增加发行任务")%> 
 
  <table id="issue" align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0">
+ 	<tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+		<%=ViewUtil.must()%>产品类型:
+		</td>
+		<td colspan="3" class="dtPanel_Main2">&nbsp;
+		<%=SingleDicMap.getRadio_WithFun("prodId", SingleDic.PROD_ID, "1","prodType_fun(this)")%>
+		</td>
+	</tr>	  
+
 	<%if(issueappForm.getOperationType()==24 ||issueappForm.getOperationType()==26){%>
+	<tr>
+		<td width="16%" align="left" class="dtPanel_Left">
+ 		<%=ViewUtil.must()%>产品通信速率:
+		</td>
+		<td colspan="3"  class="dtPanel_Main2">&nbsp;
+		<%=SingleDicMap.getRadio("phiTypeId", SingleDic.COMM_RATE, "1")%> 
+		</td>	
+	</tr>
 	<tr>
 	<td width="16%" align="left" class="dtPanel_Left">
 		<%=ViewUtil.must()%>SAM卡号:
@@ -234,12 +251,11 @@ function keyType_fun(obj){
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<html:text property="origSamId" styleClass="Textfield"  size="12" maxlength="12"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  />&nbsp; 
 		<input	name="read" type="button" class="Button" value="读取SAMID" onClick="doRead()"> &nbsp;<input name="show" type="button" class="Button" value="显示原卡信息" onClick="doShow()"> <div id=module></div> 
-		<input type=hidden name=prodId>	
-		<input type=hidden name=phiTypeId>
 		<input type=hidden name=appTypeId>	
 		<input type=hidden name=keyType>	
-	</td>
+		</td>
 	</tr>	
+	
 	<%}else{%>
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
@@ -248,16 +264,8 @@ function keyType_fun(obj){
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
 		<html:text property="issueAmt" styleClass="Textfield"  size="10" maxlength="10"  onblur="onlyNum(this)" onkeyup="onlyNum(this)" />
 	</td>
-	</tr>	
-	<tr>
-		<td width="16%" align="left" class="dtPanel_Left">
-		<%=ViewUtil.must()%>产品类型:
-		</td>
-		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=SingleDicMap.getRadio_WithFun("prodId", SingleDic.PROD_ID, "1","prodType_fun(this)")%>
-		</td>
-	</tr>	   
-     <tr>
+	</tr>			 
+    <tr>
 		<td width="16%" align="left" class="dtPanel_Left">
 		<%=ViewUtil.must()%>密钥类型:
 		</td>
@@ -266,7 +274,7 @@ function keyType_fun(obj){
 		</td>	
 	</tr>	
 	<tr>
-     <tr>
+	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
 		<div  id="cardname" >
 		<%=ViewUtil.must()%>产品通信速率:
@@ -286,7 +294,7 @@ function keyType_fun(obj){
 		<input type=hidden name=phiTypeId value="1">	
 		</div>
 		</td>	
-	</tr>	
+	</tr>
 	 <tr>
 		<td width="16%" align="left" class="dtPanel_Left">
 		<%=ViewUtil.must()%>产品应用类型:

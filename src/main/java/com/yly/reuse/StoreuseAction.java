@@ -215,7 +215,7 @@ public class StoreuseAction extends IbatisBaseAction {
 		Stoproduct prodvo =stoproductBO.queryObjectBySamId(f.getSamId());
 		if(prodvo==null||prodvo.equals(null)){
 			Storeuse storeuse = (Storeuse)((StoreuseBO)bo).queryObjectBySamId(f.getSamId());
-			if(storeuse==null){
+			if(storeuse==null||storeuse.equals(null)){
 				throw new MessageException("此SAM号找不到原记录");
 			}else{
 				throw new MessageException("此SAM号已经回库,印刷卡号为"+storeuse.getSamCSN());
@@ -238,10 +238,11 @@ public class StoreuseAction extends IbatisBaseAction {
 		copyProperties(copyf, f);
 		Stoproduct prodvo =stoproductBO.queryObjectBySamId(f.getSamId());
 		if(prodvo==null||prodvo.equals(null)){
-			Storeuse storeuse = (Storeuse)((StoreuseBO)bo).queryObjectBySamId(f.getSamId());
-			if(storeuse==null){
+			Storeuse storeuse = ((StoreuseBO)bo).queryObjectBySamId(f.getSamId());
+			if(storeuse==null||storeuse.equals(null)){
 				throw new MessageException("此SAM号找不到原记录");
 			}else{
+				prodvo = new Stoproduct();
 				copyProperties(prodvo, storeuse);
 			}
 		}

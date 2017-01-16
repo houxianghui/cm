@@ -80,7 +80,7 @@ public class StoreuseBO extends IbatisBO {
 	
 	}
 	
-	public Object queryObjectBySamId(String samId) throws Exception {
+	public Storeuse queryObjectBySamId(String samId) throws Exception {
 		return storeuseDAO.selectBySamId(samId);
 	
 	}
