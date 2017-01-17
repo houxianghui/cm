@@ -354,7 +354,7 @@ if (list != null) {
 					<input	name="add" type="button" class="Button" value="提交" onClick="doSub()"> &nbsp; 
 					<input	name="selectBatch" type="button" class="Button" value="分配申请单位" onClick="doAssignUnit()"> &nbsp; 
 		 			<input	name="delete" type="button" class="Button" value="删除" onClick="doDelete()"> &nbsp; 		
-		 			<input type="button" value="返回" class="Button" onClick="doQuery()"/>
+		 			<input  type="button" value="返回" class="Button" onClick="history.back()"/>
 		 			
 		 		</td> 
 	    </tr> 

@@ -285,10 +285,10 @@ function keyType_fun(obj){
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
 		<div  id="cardval" >
-		<%=SingleDicMap.getRadio("phiTypeId", SingleDic.COMM_RATE, "1")%> 
+		&nbsp; <%=SingleDicMap.getRadio("phiTypeId", SingleDic.COMM_RATE, "1")%> 
 		</div>
 		<div  id="moduleval"  style="display:none">
-		<html:select property="binFileVer" styleClass="Select">
+		&nbsp; <html:select property="binFileVer" styleClass="Select">
 				<html:optionsCollection name="issuetaskForm" property="moduleVerEffcollection"/>
 		</html:select>
 		<input type=hidden name=phiTypeId value="1">	
@@ -301,10 +301,10 @@ function keyType_fun(obj){
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
 		<div id="hiddenId">
-		<%=ReDefSDicMap.getRadioWithHiddenId("appTypeId", RedefSDicCodes.APPTYPEID, "101","105","106") %>
+		&nbsp; <%=ReDefSDicMap.getRadioWithHiddenId("appTypeId", RedefSDicCodes.APPTYPEID, "101","105","106") %>
 		</div>
 		<div id="showId"  style="display:none">
-		<%=ReDefSDicMap.getRadio("appTypeId", RedefSDicCodes.APPTYPEID, "101") %>
+		&nbsp; <%=ReDefSDicMap.getRadio("appTypeId", RedefSDicCodes.APPTYPEID, "101") %>
 		</div>
 	
 		</td>	
@@ -384,7 +384,7 @@ if (list != null) {
 					<input	name="selectBatch" type="button" class="Button" value="分配申请单位" onClick="doAssignUnit()"> &nbsp; 
 		 			<input	name="delete" type="button" class="Button" value="删除" onClick="doDelete()"> &nbsp; 		
 		 			<input	name="add" type="button" class="Button" value="提交" onClick="doSub()"> &nbsp; 
-		 			<input type="button" value="返回" class="Button" onClick="doQuery()"/>
+		 			<input type="button" value="返回" class="Button" onClick="history.back()"/>
 		 			
 		 		</td> 
 	    </tr> 

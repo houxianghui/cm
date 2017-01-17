@@ -313,6 +313,7 @@ public class PdfMakerAction extends IbatisBaseAction {
 							reuse.setSamCSN(lslistvo.getSamCSN());
 							reuse.setSamId(lslistvo.getSamId());
 							reuse = (Storeuse)storeuseBO.queryForObject(reuse);
+							stoprod= new Stoproduct();
 							copyProperties(stoprod, reuse);
 						}
 						String prodKey=stoprod.getProdId()+stoprod.getUnitId()+opertype+"0";
@@ -394,6 +395,7 @@ public class PdfMakerAction extends IbatisBaseAction {
 			reuse.setSamCSN(lslistvo.getSamCSN());
 			reuse.setSamId(lslistvo.getSamId());
 			reuse = (Storeuse)storeuseBO.queryForObject(reuse);
+			stoprod= new Stoproduct();
 			copyProperties(stoprod, reuse);
 		}
 		String prodKey=stoprod.getProdId()+stoprod.getUnitId()+opertype+String.valueOf(stoprod.getUnitPrice());

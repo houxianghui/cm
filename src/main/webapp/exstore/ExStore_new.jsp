@@ -117,13 +117,14 @@ function operType_fun(obj){
 		</div>
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		 <div id="unitColl">
-		<html:select property="unitId" styleClass="Select">		
+		
+		<div id="unitColl">
+		&nbsp; <html:select property="unitId" styleClass="Select">		
 			<html:optionsCollection name="issueappForm" property="unitIdcollection"/>	
 		</html:select>
 		</div>
 		<div id="manuIdColl" style="display:none">
-		<html:select property="manufacId" styleClass="Select">		
+		&nbsp; <html:select property="manufacId" styleClass="Select">		
 			<html:optionsCollection name="issueappForm" property="manufacIdCollection"/>
 		</html:select>
 		</div>
