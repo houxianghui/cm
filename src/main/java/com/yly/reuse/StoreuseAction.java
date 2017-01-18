@@ -167,6 +167,9 @@ public class StoreuseAction extends IbatisBaseAction {
 			sto.setDetectSign(sf.getDetectSign());
 			sto.setCardPhyStat(sf.getCardPhyStat());
 			sto.setOAappNo(sf.getOAappNo());
+		}else{
+			if(sto.getIOState()==(short)3)
+				throw new MessageException("该卡号不允许重复退回!");
 		}
 		if(sf.getDetectSign()==2 ||sf.getCardPhyStat()==2){
 			sto.setWkStateChgDate(DateUtil.getTimeStr());
@@ -185,20 +188,29 @@ public class StoreuseAction extends IbatisBaseAction {
 			storeuse.setDetectSign(sf.getDetectSign());
 			storeuse.setCardPhyStat(sf.getCardPhyStat());	
 		}
-
+		List<Lsinfo> lsList= new ArrayList<Lsinfo>();
+		lsList.add(lsinfo);
+		if(sf.getWkState()==(short)15){
+			Lsinfo lsinfo2 =  new Lsinfo();
+			copyProperties(lsinfo2, lsinfo);
+			lsinfo2.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("LsInfo")),20));
+			lsinfo2.setOperationType((short)72);
+			lsList.add(lsinfo2);
+		}
 		Lsinfo vo =  new Lsinfo();
 		vo.setAppNo(sf.getAppNo());
+		vo.setOperationType(sf.getOperationType().shortValue());
 		List<Lsinfo> l=lsinfoBO.queryForList(vo);
 		if((l!=null &&l.size()>0)||sf.getTaskAmt()==1){
 			setPageResult(request,l);
 			if(l.size()+1==sf.getTaskAmt()){
 				Issueapp app=issueappBO.queryForObject(sf.getAppNo());
 				app.setFormState((short)3);
-				((StoreuseBO)bo).transUpdateTB(app,sto,storeuse,lsinfo);
+				((StoreuseBO)bo).transUpdateTB(app,sto,storeuse,lsList);
 				return forwardSuccessPage(request,mapping,"退回成功","Issueapp.do?act=storeuseList");
 			}
 		}
-		((StoreuseBO)bo).transUpdateTB(null,sto,storeuse,lsinfo);
+		((StoreuseBO)bo).transUpdateTB(null,sto,storeuse,lsList);
 		String OAappNo=URLEncoder.encode(sf.getOAappNo(),"GB2312");
 		return forwardSuccessPage(request,mapping,"退回成功","Storeuse.do?act=back_init&appNo="+sf.getAppNo()+"&taskAmt="+sf.getTaskAmt()+"&unitId="+sf.getUnitId()+"&OAappNo="+OAappNo);
 	}

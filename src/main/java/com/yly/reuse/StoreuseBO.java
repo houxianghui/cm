@@ -136,8 +136,12 @@ public class StoreuseBO extends IbatisBO {
 	public void delete(Object obj) throws Exception {
 
 	}
-	public void transUpdateTB(Issueapp app,Stoproduct s,Storeuse storeuse,Lsinfo ls) throws Exception {
-		lsinfoDAO.insert(ls);
+	public void transUpdateTB(Issueapp app,Stoproduct s,Storeuse storeuse,List<Lsinfo> lsl) throws Exception {
+		if(lsl != null && lsl.size()>0){
+			for(Lsinfo vo:lsl){
+				lsinfoDAO.insert(vo);
+			}
+		}
 		if(storeuse!=null){
 			storeuseDAO.insert(storeuse);
 			stoproductDAO.deleteByPrimaryKey(s);

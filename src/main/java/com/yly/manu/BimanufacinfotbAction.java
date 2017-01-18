@@ -9,11 +9,14 @@ package com.yly.manu;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
 import com.eis.portal.UserContext;
+import com.eis.util.DateUtil;
 
 
 
@@ -44,6 +47,8 @@ public class BimanufacinfotbAction extends IbatisBaseAction {
 		Bimanufacinfotb vo = new Bimanufacinfotb();
 		BimanufacinfotbForm f = (BimanufacinfotbForm)form;
 		copyProperties(vo,f);
+		vo.setCurrDate(DateUtil.getDTStr());
+		vo.setOperId(user.getUserID());
 		((BimanufacinfotbBO)bo).insert(vo);		
 		return forwardSuccessPage(request,mapping,"±£´æ³É¹¦","Manuinfo.do?act=list");
 		

@@ -27,6 +27,12 @@ function doRead(){
 function doRepair(){ 
 	document.forms[0].submit(); 
 } 
+function doDown1() {  
+    document.getElementById('down1').style.color="red"; 
+	$.get("Mwsissuetb.do?act=down",function(result){
+ 		return;
+	});
+}
 </script> 
 </head>
 <body> 
@@ -89,9 +95,9 @@ function doRepair(){
     <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
         <tr> 
 				<td height="25" align="center" class="dtPanel_Bottom"> 
+						<input type="button" id="down1" value="联机模块请先下载" class="Button" onClick="doDown1()" /> &nbsp; 
+						<input	name="repair" type="button" class="Button" value="产品修复" onClick="doRepair()"> &nbsp; 
 						<input	name="read" type="button" class="Button" value="读取印刷卡号" onClick="doRead()"> &nbsp; 
-						<input	name="repair" type="button" class="Button" value="产品修复" onClick="doRepair()">
-							
 		 		</td> 
 	    </tr> 
   </table> 

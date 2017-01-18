@@ -160,7 +160,7 @@ function doBack(){
 	<table width="98%" border="0" cellspacing="1" align="center"
 		cellpadding="0">
 		<tr>
-			<td class="dtPanel_L
+			<td class="dtPanel_Line">
 			<table width="100%" border="0" cellpadding="0" cellspacing="1">
 				<tr align="center" class="dtPanel_Top01">
 					<td width="10%">Á÷Ë®ºÅ</td>

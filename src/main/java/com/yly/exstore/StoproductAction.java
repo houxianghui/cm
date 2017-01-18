@@ -138,6 +138,8 @@ public class StoproductAction extends IbatisBaseAction {
 			return reStoreStaticsdown(request,response,form,user); 
 		}else if("restorestatics".equals(act)){		//query active projects
 			return mapping.findForward("restorestatics");
+		}else if("wDisCard".equals(act)){		//query active projects
+			return wDisCard(form,mapping,request,user);
 		}
 
 
@@ -352,6 +354,50 @@ public class StoproductAction extends IbatisBaseAction {
 		return forwardSuccessPage(request,mapping,"作废成功","Stoproduct.do?act=disCardwlist");
 
 	}
+	public ActionForward wDisCard(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		StoproductForm f = (StoproductForm)form;
+		int opertype=f.getOperationType();
+		String reqChecked[]=f.getCx();
+		List<Stoproduct> issueCard = new ArrayList<Stoproduct>();
+		List<Lsinfo> lsList= new ArrayList<Lsinfo>();
+		for(int i=0;i<reqChecked.length;i++){
+			String issue[]=reqChecked[i].split(",");
+			StoproductForm sf=new StoproductForm();
+			sf.setSamCSN(issue[1]);
+			sf.setSamId(issue[0]);
+			List l=((StoproductBO)bo).queryForListAsc(sf);	
+			Stoproduct vo = new Stoproduct();
+			Lsinfo lsvo = new Lsinfo();
+			lsvo.setAppNo(f.getAppNo());
+			lsvo.setCurrDate(DateUtil.getTimeStr());
+			lsvo.setOperId(user.getUserID());
+			lsvo.setOperationType((short)opertype);
+			if (l != null) {
+			    Iterator iter = l.iterator();
+			    while (iter.hasNext()) {//只选择发行日期最早的进行作废
+			    	vo = (Stoproduct)iter.next();			    	
+			    	if(vo.getIOState()==(short)2||vo.getWkState()>(short)14){
+			    		throw new MessageException("出库产品不允许待报废操作或者该产品已经进行了报废操作!");
+			    	}
+			    	vo.setWkState((short)15);//待报废
+			    	vo.setWkStateChgDate(DateUtil.getTimeStr());
+					lsvo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
+					lsvo.setSamCSN(vo.getSamCSN());
+					lsvo.setSamId(vo.getSamId());
+					lsvo.setProdId(vo.getProdId());
+			    	break;
+			    }
+			 }else{
+					throw new MessageException(sf.getSamId()+"该产品异常,请联系系统管理员!");
+			 }
+			issueCard.add(vo);
+			lsList.add(lsvo);
+			
+		}
+		((StoproductBO)bo).transUpdateListInfo(issueCard,lsList);
+		return forwardSuccessPage(request,mapping,"待报废成功","Stoproduct.do?act=cardlist");
+
+	}
 
 	public ActionForward CardList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		
@@ -410,11 +456,11 @@ public class StoproductAction extends IbatisBaseAction {
 	}
 	public ActionForward back(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		StoproductForm sf = (StoproductForm)form;
+		Stoproduct sto = new Stoproduct();
 		sf.setWkStateChgDate(DateUtil.getTimeStr());
 		sf.setIOState((short)3);
 		sf.setIOStateChgDate(DateUtil.getTimeStr());
 		sf.setDetectTime(DateUtil.getTimeStr());
-		
 		if(sf.getOperationType()==41||sf.getOperationType()==42){
 			if(CheckUtil.isEmptry(sf.getSamCSN()) || sf.getSamCSN().equals("0")){
 				sf.setSamCSN("0");
@@ -423,30 +469,56 @@ public class StoproductAction extends IbatisBaseAction {
 				sf.setSamId("0");
 			}
 		}else{
-			if(CheckUtil.isEmptry(sf.getSamId()) ||sf.getSamId().equals("0")){
-				sf.setSamId(((StoproductBO)bo).getMaxBadReturnCard());
-			}
 			if(CheckUtil.isEmptry(sf.getSamCSN())){
 				sf.setSamCSN("0");
 			}
+			if(CheckUtil.isEmptry(sf.getSamId()) ||sf.getSamId().equals("0")){
+				sf.setSamId(((StoproductBO)bo).getMaxBadReturnCard());
+			}else{
+				sto.setSamCSN(sf.getSamCSN());
+				sto.setSamId(sf.getSamId());
+				sto=((StoproductBO)bo).queryForObject(sto);
+				if(sto==null)
+					throw new MessageException("该卡号在成品库不存在,不允许退回!");
+				else if(sto.getIOState()==(short)3)
+					throw new MessageException("该卡号不允许重复退回!");
+			}
+			
 		}
 		Lsinfo vo=new Lsinfo();
 		vo.setAppNo(sf.getAppNo());
 		vo.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("Lsinfo")),20));
 		vo.setCurrDate(DateUtil.getTimeStr());
 		vo.setOperId(user.getUserID());
-		Stoproduct sto = new Stoproduct();
-		copyProperties(sto, sf);
+		if(!CheckUtil.isEmptry(sto.getSamId())){
+			sto.setCardPhyStat(sf.getCardPhyStat());
+			sto.setDetectSign(sf.getDetectSign());
+			sto.setDetectTime(sf.getDetectTime());
+			sto.setWkState(sf.getWkState());
+			sto.setWkStateChgDate(sf.getWkStateChgDate());
+			sto.setIOState(sf.getIOState());
+			sto.setIOStateChgDate(sf.getIOStateChgDate());
+		}else{
+			copyProperties(sto, sf);
+		}
 		copyProperties(vo, sf);		
 		vo.setOperationType((short)61);//退回
+		List<Lsinfo> lsList= new ArrayList<Lsinfo>();
+		lsList.add(vo);
+		if(sf.getWkState()==(short)15){
+			Lsinfo lsinfo2 =  new Lsinfo();
+			copyProperties(lsinfo2, vo);
+			lsinfo2.setFlowNo(StringUtil.addZero(Long.toString(KeyGenerator.getNextKey("LsInfo")),20));
+			lsinfo2.setOperationType((short)72);//待报废
+			lsList.add(lsinfo2);
+		}
 		Storeuse reusevo=new Storeuse();
 		if(sf.getWkState()==(short)12){
 			copyProperties(reusevo,sto);
 		}
-		((StoproductBO)bo).transUpdateSto(sto, vo, reusevo);
+		((StoproductBO)bo).transUpdateSto(sto, lsList, reusevo);
 		Lsinfo queryvo=new Lsinfo();
 		queryvo.setAppNo(sf.getAppNo());
-		queryvo.setOperationType(vo.getOperationType().shortValue());	
 		List<Lsinfo> l=lsinfoBO.queryForList(queryvo);
 		if(l!=null &&l.size()>0){
 			setPageResult(request,l);

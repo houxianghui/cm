@@ -45,6 +45,10 @@ function doBack(){
 			document.forms[0].wkState.value = "15";
 		} 
 	}else{
+		if(document.forms[0].samId.value.length!=12){
+			alert("∫√ø®±ÿ–Î ‰»Îø®∫≈");
+			return;
+		}
 		document.forms[0].wkState.value = "12";
 	}
 	if(document.forms[0].unitId.value == 0){

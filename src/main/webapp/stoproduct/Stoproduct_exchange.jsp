@@ -30,6 +30,7 @@ function doRead(){
 		if(json.error!=null){
 			document.forms[0].samId.value=0;
 			document.forms[0].detectSign.value=2;
+			document.getElementById("back").style.display="";
 			alert(json.error);
 		}else{
 			document.forms[0].samId.value=json.origSamId;
@@ -58,6 +59,14 @@ function doReadCSN(){
 	});
 }
 function doBack(){ 	
+	if(document.forms[0].operationType.value==41 && document.forms[0].prodId.value!=3){
+		alert("该业务只支持产品类型为esam");
+		return;
+	}
+	if(document.forms[0].operationType.value==42 && document.forms[0].prodId.value!=4){
+		alert("该业务只支持产品类型为小模块");
+		return;
+	}
 	if(document.forms[0].detectSign.value == 2 ||document.forms[0].cardPhyStat.value == 2){
 		if(document.forms[0].operationType.value==43){
 			if(!confirm('需要产品待作废处理吗?')) { 
@@ -69,6 +78,13 @@ function doBack(){
 			document.forms[0].wkState.value = "13";
 		}
 	}else{
+		if(document.forms[0].operationType.value==43 && document.forms[0].samId.value.length!=12){
+			alert("好卡必须输入卡号");
+			return;
+		}else if(document.forms[0].operationType.value!=43 && document.forms[0].samCSN.value.length!=14){
+			alert("好卡必须输入卡号");
+			return;
+		}
 		document.forms[0].wkState.value = "12";
 	}
 	
@@ -92,7 +108,15 @@ function prodAttr_fun(obj){
 		alert("该业务只支持产品类型为小模块");
 		return;
 	}
-
+}
+function prodAttr_fun(obj){
+	if(document.forms[0].operationType.value==41 && obj.value!=3){
+		alert("该业务只支持产品类型为esam");
+		return;
+	}else if(document.forms[0].operationType.value==42 && obj.value!=4){
+		alert("该业务只支持产品类型为小模块");
+		return;
+	}
 }
 </script> 
 </head>
@@ -121,7 +145,7 @@ function prodAttr_fun(obj){
 		 <%=ViewUtil.must()%>SAM印刷卡号:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<html:text property="samCSN" styleClass="Textfield"  size="20" maxlength="20"  onblur="onlyNum(this)" onkeyup="onlyNum(this)"  />&nbsp; 	
+		<html:text property="samCSN" styleClass="Textfield"  size="20" maxlength="20"  onblur="noChinese(this)" />&nbsp; 	
 	</td>
 	</tr>	
 	<tr>
@@ -210,7 +234,7 @@ function prodAttr_fun(obj){
 	<table width="98%" border="0" cellspacing="1" align="center"
 		cellpadding="0">
 		<tr>
-			<td class="dtPanel_L
+			<td class="dtPanel_Line">
 			<table width="100%" border="0" cellpadding="0" cellspacing="1">
 				<tr align="center" class="dtPanel_Top01">
 					<td width="10%">流水号</td>
@@ -258,11 +282,12 @@ if (pageResult != null) {%>
 </html:form>
     <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
         <tr> 
-				<td height="25" align="center" class="dtPanel_Bottom"> 
-						<input name="back" type="button" class="Button" value="产品回库" onClick="doBack()">&nbsp; 	  
+        			
+					<td height="25" align="center" class="dtPanel_Bottom"> 
+						<input name="back" type="button" class="Button" value="产品回库" onClick="doBack()">&nbsp;
 						<input name="exchange" type="button" class="Button" value="批量换损" onClick="doExchange()">&nbsp;   
 						<input name="return" type="button" class="Button" value="返回" onClick="history.back()">  
-		 		</td> 
+		 			</td> 
 	    </tr> 
   </table> 
 </body> 

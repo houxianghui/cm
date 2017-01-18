@@ -237,6 +237,14 @@ public class PdfMakerAction extends IbatisBaseAction {
 							stoprod.setSamCSN(lslistvo.getSamCSN());
 							stoprod.setSamId(lslistvo.getSamId());
 							stoprod=stoproductBO.queryForObject(stoprod);
+							if(stoprod==null){
+								Storeuse reuse = new Storeuse();
+								reuse.setSamCSN(lslistvo.getSamCSN());
+								reuse.setSamId(lslistvo.getSamId());
+								reuse = (Storeuse)storeuseBO.queryForObject(reuse);
+								stoprod= new Stoproduct();
+								copyProperties(stoprod, reuse);
+							}
 							String prodKey=stoprod.getProdId()+stoprod.getUnitId()+"610";
 							if(returnMap.size()!=0 && returnMap.get(prodKey)!=null){
 								int cnt=(int)(returnMap.get(prodKey));

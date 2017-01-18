@@ -10,6 +10,7 @@ import org.apache.commons.beanutils.BeanUtilsBean;
 import com.abc.logic.IbatisBO;
 import com.eis.exception.MessageException;
 import com.eis.util.CheckUtil;
+import com.eis.util.DateUtil;
 import com.yly.discard.Disproduct;
 import com.yly.discard.DisproductDAO;
 import com.yly.discard.DisproductExample;
@@ -187,6 +188,12 @@ public class StoproductBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(sto.getProdId())){
 			c.andProdIdEqualTo(sto.getProdId());
 		}
+		if(!CheckUtil.isEmptry(sto.getBeginDate_f())){
+			c.andIssueTimeGreaterThanOrEqualTo(sto.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(sto.getEndDate_f())){
+			c.andIssueTimeLessThanOrEqualTo(sto.getEndDate_f()+"999999");
+		}
 		return e;
 	}
 	/* 
@@ -234,6 +241,19 @@ public class StoproductBO extends IbatisBO {
 				copyProperties(disvo,vo);
 				stoproductDAO.deleteByPrimaryKey(vo);
 				disproductDAO.insert(disvo);
+			}
+		}
+		if(lsl != null && lsl.size()>0){
+			for(Lsinfo vo:lsl){
+				lsinfoDAO.insert(vo);
+			}
+		}
+		
+	}
+	public void transUpdateListInfo(List<Stoproduct> il,List<Lsinfo> lsl) throws Exception {
+		if(il != null && il.size()>0){
+			for(Stoproduct vo:il){
+				stoproductDAO.updateByPrimaryKeySelective(vo);
 			}
 		}
 		if(lsl != null && lsl.size()>0){
@@ -299,7 +319,7 @@ public class StoproductBO extends IbatisBO {
 	//88888退回坏卡修复 samid
 	public String getMaxBadReturnCard() throws Exception{
 		String samId="";
-		String r_samId="";
+	//	String r_samId="";
 		String d_samId="";
 		StoproductExample e = new StoproductExample();
 		Criteria c = e.createCriteria();
@@ -307,11 +327,11 @@ public class StoproductBO extends IbatisBO {
  		e.setOrderByClause("SamId desc");
 		List<Stoproduct> il=stoproductDAO.selectByExample(e);
 		
-		StoreuseExample re = new StoreuseExample();
-		com.yly.reuse.StoreuseExample.Criteria rc = re.createCriteria();
-		rc.andSamIdLike("88888%");
- 		re.setOrderByClause("SamId desc");
-		List<Storeuse> ril=storeuseDAO.selectByExample(re);		
+//		StoreuseExample re = new StoreuseExample();
+//		com.yly.reuse.StoreuseExample.Criteria rc = re.createCriteria();
+//		rc.andSamIdLike("88888%");
+// 		re.setOrderByClause("SamId desc");
+//		List<Storeuse> ril=storeuseDAO.selectByExample(re);		
 		
 		
 		DisproductExample dis=new DisproductExample();
@@ -326,12 +346,12 @@ public class StoproductBO extends IbatisBO {
 				break;
 			}	
 		}
-		if(ril != null && ril.size()>0){
-			for(Storeuse rvo:ril){
-				r_samId=rvo.getSamId();
-				break;
-			}	
-		}
+//		if(ril != null && ril.size()>0){
+//			for(Storeuse rvo:ril){
+//				r_samId=rvo.getSamId();
+//				break;
+//			}	
+//		}
 		
 		if(dl != null && dl.size()>0){
 			for(Disproduct dvo:dl){
@@ -340,15 +360,20 @@ public class StoproductBO extends IbatisBO {
 			}	
 		}
 				
-		if(!CheckUtil.isEmptry(samId) || !CheckUtil.isEmptry(r_samId) || !CheckUtil.isEmptry(d_samId) ){
-			if((samId).compareTo(r_samId)<0)
-				samId=r_samId;	
+//		if(!CheckUtil.isEmptry(samId) || !CheckUtil.isEmptry(r_samId) || !CheckUtil.isEmptry(d_samId) ){
+//			if((samId).compareTo(r_samId)<0)
+//				samId=r_samId;	
+//			if((samId).compareTo(d_samId)<0)
+//				samId=d_samId;
+//		}else{
+//			samId="888880000000";
+//		}
+		if(!CheckUtil.isEmptry(samId) || !CheckUtil.isEmptry(d_samId) ){
 			if((samId).compareTo(d_samId)<0)
 				samId=d_samId;
 		}else{
 			samId="888880000000";
-		}
-	
+		}	
 		Long tmp=Long.parseLong(samId)+1;
 		samId=String.valueOf(tmp);
 		if(samId.compareTo("888890000000")==0){
@@ -357,10 +382,32 @@ public class StoproductBO extends IbatisBO {
 		return samId;
 	}
 	public void querySamIdValidate(StoproductForm p)throws MessageException{
-		if(CheckUtil.isEmptry(p.getOAappNo()) && (CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max())) && CheckUtil.isEmptry(p.getSamCsn_f()) ){	
-			throw new MessageException("必须录入查询条件(单号/发行卡号/印刷卡号)");
+		boolean flag=false;
+		if(!CheckUtil.isEmptry(p.getOAappNo())){	
+			flag=true;
 		}
 		if(!CheckUtil.isEmptry(p.getSamId_min()) && !CheckUtil.isEmptry(p.getSamId_max())){	
+			flag=true;
+		}		
+		if(!CheckUtil.isEmptry(p.getSamCsn_f())){	
+			flag=true;
+		}			
+		if(!CheckUtil.isEmptry(p.getBeginDate_f()) && !CheckUtil.isEmptry(p.getEndDate_f())){
+			flag=true;
+		}
+		if(!flag){
+			throw new MessageException("必须录入任一查询条件(发行日期/单号/发行卡号/印刷卡号)");
+		}
+		if(!CheckUtil.isEmptry(p.getBeginDate_f()) || !CheckUtil.isEmptry(p.getEndDate_f())){
+			if(CheckUtil.isEmptry(p.getBeginDate_f()) || CheckUtil.isEmptry(p.getEndDate_f())){	
+				throw new MessageException("开始日期和结束日期必须填写");
+			}
+			if(p.getBeginDate_f().compareTo(p.getEndDate_f())>0)
+				throw new MessageException("开始日期不能大于结束日期");
+			if(DateUtil.getDays(p.getBeginDate_f(), p.getEndDate_f())>90)
+				throw new MessageException("日期间隔不能超过3个月");
+		}
+		if(!CheckUtil.isEmptry(p.getSamId_min()) || !CheckUtil.isEmptry(p.getSamId_max())){	
 			if(CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max())){	
 				throw new MessageException("开始卡号和结束卡号必须填写");
 			}
@@ -377,6 +424,8 @@ public class StoproductBO extends IbatisBO {
 				throw new MessageException("开始卡号不能大于结束卡号");
 		}
 		
+		
+		
 	}
 	public void transInsert(Stoproduct sto,Lsinfo ls) throws Exception {
 		if(sto != null){		
@@ -386,11 +435,13 @@ public class StoproductBO extends IbatisBO {
 			lsinfoDAO.insert(ls);			
 		}
 	}
-	public void transUpdateSto(Stoproduct sto,Lsinfo ls,Storeuse reusevo) throws Exception {
-		if(ls!=null){
-			lsinfoDAO.insert(ls);			
+	public void transUpdateSto(Stoproduct sto,List<Lsinfo> lsl,Storeuse reusevo) throws Exception {
+		if(lsl != null && lsl.size()>0){
+			for(Lsinfo vo:lsl){
+				lsinfoDAO.insert(vo);
+			}
 		}
-		if(reusevo!=null){
+		if(reusevo!=null && !CheckUtil.isEmptry(reusevo.getSamId())){
 			storeuseDAO.insert(reusevo);
 			stoproductDAO.deleteByPrimaryKey(sto);
 		}else{

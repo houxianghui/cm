@@ -25,6 +25,7 @@ import net.sf.json.JSONArray;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.taglib.nested.bean.NestedDefineTei;
+import org.kie.api.task.model.User;
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
@@ -67,6 +68,8 @@ public class BiunitinfoAction extends IbatisBaseAction {
 		Biunitinfotb vo = new Biunitinfotb();
 		BiunitinfotbForm f = (BiunitinfotbForm)form;
 		copyProperties(vo,f);
+		vo.setCurrDate(DateUtil.getDTStr());
+		vo.setOperId(user.getUserID());
 		((BiunitinfoBO)bo).insert(vo);		
 		return forwardSuccessPage(request,mapping,"±£´æ³É¹¦","Biunitinfo.do?act=list");
 		
