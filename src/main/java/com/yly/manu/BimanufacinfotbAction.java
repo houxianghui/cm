@@ -15,8 +15,10 @@ import org.apache.struts.action.ActionMapping;
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
+import com.eis.key.KeyGenerator;
 import com.eis.portal.UserContext;
 import com.eis.util.DateUtil;
+import com.eis.util.StringUtil;
 
 
 
@@ -47,6 +49,7 @@ public class BimanufacinfotbAction extends IbatisBaseAction {
 		Bimanufacinfotb vo = new Bimanufacinfotb();
 		BimanufacinfotbForm f = (BimanufacinfotbForm)form;
 		copyProperties(vo,f);
+		vo.setManufacId((short)(KeyGenerator.getNextKey("bimanufacinfotb")));
 		vo.setCurrDate(DateUtil.getDTStr());
 		vo.setOperId(user.getUserID());
 		((BimanufacinfotbBO)bo).insert(vo);		
