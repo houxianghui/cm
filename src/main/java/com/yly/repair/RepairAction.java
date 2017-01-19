@@ -158,14 +158,11 @@ public class RepairAction extends IbatisBaseAction {
 		if(CheckUtil.isEmptry(f.getManufacId())){
 			KEY= "BMAC_KEY";
 		}else{
-			if(f.getProdId().equals("4"))
-				KEY="JSB_KEY";
-			else{
-				if(f.getManufacId().equals("1"))
-					KEY="WQ_KEY";
-				else
-					KEY="ALLF_KEY";
-			}
+			if(f.getManufacId().equals("1"))
+				KEY="WQ_KEY";
+			else
+				KEY="ALLF_KEY";
+			
 		}
 		f.setOldTranskey(keyVDatagram.getMainKeyMap(f.getAuthkey()));
 		f.setNewTranskey(keyVDatagram.getMainKeyMap(KEY));

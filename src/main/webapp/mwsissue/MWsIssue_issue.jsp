@@ -70,8 +70,7 @@ function doDown2() {
 <script type="text/javascript" src="js/calendar.js"></script>
 <html:form method="post" action="Mwsissuetb.do">
 <input type=hidden name=act value="pagelist">
-<input type=hidden name=requery> 
-<input type=hidden name=operationType> 
+<html:hidden property="operationType"/>
 <html:hidden property="formNo"/>
 <html:hidden property="manufacId"/>
 <html:hidden property="prodId"/>
@@ -193,7 +192,13 @@ function doDown2() {
 			Åú´ÎºÅ:
 			</td>
 			<td class="dtPanel_Main2">&nbsp;
-			<a href="StoApp.do?act=r&formNo=<%=mwsissuetbForm.getBatchId()%>"><%=mwsissuetbForm.getBatchId()%>&nbsp;&nbsp;Ó¡Ë¢¿¨ºÅ·¶Î§:<%=mwsissuetbForm.getPressCardScale()%>
+			<a href="StoApp.do?act=r&formNo=<%=mwsissuetbForm.getBatchId()%>"><%=mwsissuetbForm.getBatchId()%></a>&nbsp;&nbsp;Ó¡Ë¢¿¨ºÅ·¶Î§:<%=mwsissuetbForm.getPressCardScale()%>
+			&nbsp;&nbsp;
+			<%=ViewUtil.must()%>Ö÷¿ØÃÜÔ¿:
+			<html:select property="authkey" styleClass="Select" >
+				<html:optionsCollection name="mwsissuetbForm" property="authkeycollection"/>
+			</html:select>
+			<html:hidden property="authkey"/>
 			</td>		
 		</tr>
 	<%}%>	

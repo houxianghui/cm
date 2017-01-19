@@ -257,14 +257,11 @@ public class MWsIssueBO extends IbatisBO {
 		if(CheckUtil.isEmptry(f.getPhiTypeId()))
 			f.setPhiTypeId("0");
 		short operType=f.getOperationType();
-		if(operType==21||operType==24||operType==43||operType==53){
-			f.setOldTranskey(keyVDatagram.getMainKeyMap(getMainKey(f)));
+		if(operType==21||operType==24||operType==25||operType==43||operType==53){
+			f.setOldTranskey(keyVDatagram.getMainKeyMap(f.getAuthkey()));
 			f.setNewTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));    
 		}else if(operType==22 || operType==23||operType==26){
 			f.setOldTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));
-			f.setNewTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));    
-		}else if(operType==25){
-			f.setOldTranskey(keyVDatagram.getMainKeyMap(f.getAuthkey()));
 			f.setNewTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));    
 		}else{
 			f.setOldTranskey("");
@@ -305,7 +302,7 @@ public class MWsIssueBO extends IbatisBO {
 			return "BMAC_KEY";
 		}else{
 			if(f.getProdId().equals("4"))
-				KEY="JSB_KEY";
+				KEY="ZJB_KEY";
 			else{
 				if(f.getManufacId().equals("1"))
 					KEY="WQ_KEY";

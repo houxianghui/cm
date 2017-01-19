@@ -333,6 +333,14 @@ public class MWsIssueAction extends IbatisBaseAction {
 		setPageResult(request, lsinfoBO.queryForListByFormNo(vo.getFormNo()));
         request.setAttribute("pageResultLsInfo", request.getAttribute("pageResult"));
 		copyProperties(form, vo);
+		if(vo.getProdId().equals("4"))
+			((MWsIssuetbForm)form).setAuthkey("ZJB_KEY");
+		else{
+			if(f.getManufacId().equals("1"))
+				((MWsIssuetbForm)form).setAuthkey("WQ_KEY");
+			else
+				((MWsIssuetbForm)form).setAuthkey("ALLF_KEY");
+		}	
 		return mapping.findForward("issue");
 	}
 	public ActionForward pageList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
@@ -366,9 +374,21 @@ public class MWsIssueAction extends IbatisBaseAction {
 		}
 	}
 	public ActionForward issue(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
-		MWsIssuetbForm f = (MWsIssuetbForm)form;	
+		MWsIssuetbForm f = (MWsIssuetbForm)form;
+		int operType=f.getOperationType();
+		String partManuId="";
+		String authKey="";
+		if(operType==21||operType==24||operType==25||operType==43||operType==53){
+			if(CheckUtil.isEmptry(f.getAuthkey())){
+				throw new MessageException("此业务类型必须选择主控密钥");
+			}else authKey=f.getAuthkey();
+		} 
+		if(!CheckUtil.isEmptry(f.getPartManufacId())){
+			partManuId=f.getPartManufacId();
+		} 
 		Mwsissuetb vo=((MWsIssueBO)bo).queryIssueTaskCtrl(f.getFormNo());
 		copyProperties(f,vo);
+		f.setAuthkey(authKey);
 		operSysPort(vo.getProdId(),"open",vo.getPhiTypeId());
 		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
@@ -419,8 +439,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 							throw new MessageException(alert+f.getSamId());
 						}
 						if(vo.getProdId().equals("4")){
-							if(!CheckUtil.isEmptry(f.getPartManufacId()))
-								func.setManufacId(f.getPartManufacId());
+							if(!CheckUtil.isEmptry(partManuId))
+								func.setManufacId(partManuId);
 							else if(!CheckUtil.isEmptry(prod.getBatchIdParts())){
 								Stoappinfo part_sto=stoAppBO.queryForObject(prod.getBatchIdParts());
 								if(part_sto!=null)
