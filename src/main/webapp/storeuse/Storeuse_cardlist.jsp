@@ -89,6 +89,7 @@ function doCardDown(){
 			<td>出回库状态</td>
 			<td>申请单位 </td>
 			<td>发行时间 </td>
+			<td>退回时间 </td>
 			<td>检测结果 </td>
 			<td>流水跟踪 </td>	
 		</tr>
@@ -111,6 +112,7 @@ function doCardDown(){
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.IO_STATE,String.valueOf(vo.getIOState()))%></td>
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.UNITID, String.valueOf(vo.getUnitId()))%></td>
 			<td><%=vo.getIssueTime()==null?"":vo.getIssueTime()%></td>		
+			<td><%=vo.getIOStateChgDate()==null?"":vo.getIOStateChgDate()%></td>		
 			<td><%=vo.getDetectSign()==null?"":SingleDicMap.getDicItemVal(SingleDic.DETECSIGN,String.valueOf(vo.getDetectSign()))%></td>		
 			<td><a href="Lsinfo.do?act=list&samId=<%=vo.getSamId()%>&samCSN=<%=vo.getSamCSN()%>">流水</a></td>			
 		</tr>
