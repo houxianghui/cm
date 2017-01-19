@@ -38,7 +38,14 @@ function turnPage( pagenm ) {
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
 		align="center" cellpadding="0">
 		<tr>
-			<td>
+			<td  width="98%" align="left" colspan="4"  class="dtPanel_Main2">&nbsp;
+			报废日期:		
+			从<html:text property="beginDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
+			到<html:text property="endDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
+			</td>
+		 </tr>
+		 <tr> 
+			<td  width="98%" align="left" colspan="4"  class="dtPanel_Main2">&nbsp;	 
  			发行卡号:	
 			从<html:text property="samId_min" styleClass="Textfield" size="12" />
 			到<html:text property="samId_max" styleClass="Textfield" size="12" />
@@ -48,6 +55,10 @@ function turnPage( pagenm ) {
 			<html:select property="prodId" styleClass="Select">
 				<html:optionsCollection name="disproductForm" property="prodIdcollection"/>
 			</html:select>
+			</td>
+		 </tr>
+		 <tr> 
+		 	<td  width="98%" align="left" colspan="4"  class="dtPanel_Main2">&nbsp;	 
 			通信速率:
 			<html:select property="phiTypeId" styleClass="Select">
 				<html:optionsCollection name="disproductForm" property="phiTypeIdcollection"/>
@@ -65,6 +76,7 @@ function turnPage( pagenm ) {
 		align="center" cellpadding="0">
 		<tr align="center" class="dtPanel_Top01" height="28">
 			<td>SAM卡号</td>
+			<td>SAM印刷卡号</td>
 			<td>OA申请号</td>
 			<td>申请单位</td>
 			<td>产品类型</td>
@@ -85,7 +97,8 @@ function turnPage( pagenm ) {
 			Disproduct vo = (Disproduct) iter.next();%>
 		<tr align="left" class="dtPanel_Main" onclick="_clickTr( this )">			 
 			<td><a href="Lsinfo.do?act=list&samId=<%=vo.getSamId()%>&samCSN=<%=vo.getSamCSN()%>&operationType=71"><%=vo.getSamId() %></a></td>	
-			<td><%=vo.getOAappNo()%></td>	
+			<td><%=vo.getSamCSN()%></td>	
+			<td><%=vo.getOAappNo()==null?"":vo.getOAappNo()%></td>	
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.ALL_UNITID, String.valueOf(vo.getUnitId()))%></td>			
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.PROD_ID, vo.getProdId())%></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, vo.getPhiTypeId())%></td>					

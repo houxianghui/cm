@@ -1,7 +1,7 @@
 <%@page import="com.yly.reuse.Storeuse"%>
 <%@ include file = "/includes/common.jsp" %>
 <%@ page  contentType="text/html; charset=GBK" %>
-
+<jsp:useBean id="storeuseForm" scope="request"  class="com.yly.reuse.StoreuseForm" />
 <jsp:useBean id="pageResult" scope="request" class="com.eis.base.PageObject" />
 
 <html>
@@ -39,16 +39,39 @@ function doCardDown(){
 	
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
 		align="center" cellpadding="0">
-         <tr > 
-         <td>
+         <tr> 
+       	   <td  width="98%" align="left" class="dtPanel_Main2">&nbsp;
+       	             退回日期:		
+			从<html:text property="beginDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
+			到<html:text property="endDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
+			</td>
+		 </tr>
+		 <tr> 
+			<td  width="98%" align="left" colspan="4"  class="dtPanel_Main2">&nbsp;	 
 			发行卡号:			
 			从<html:text property="samId_min" styleClass="Textfield" size="12" />
 			到<html:text property="samId_max" styleClass="Textfield" size="12" />
 			印刷卡号:
 			<html:text property="samCsn_f" styleClass="Textfield" size="20" onblur="noChinese(this)"/>
-			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
+			产品类型:
+			<html:select property="prodId" styleClass="Select">
+				<html:optionsCollection name="storeuseForm" property="prodIdcollection"/>
+			</html:select>
 			</td>
-       </tr> 
+		 </tr>
+		 <tr> 
+		 	<td  width="98%" align="left" colspan="4"  class="dtPanel_Main2">&nbsp;	 
+			通信速率:
+			<html:select property="phiTypeId" styleClass="Select">
+				<html:optionsCollection name="storeuseForm" property="phiTypeIdcollection"/>
+			</html:select>
+			应用类型:
+			<html:select property="appTypeId" styleClass="Select">
+				<html:optionsCollection name="storeuseForm" property="appTypeIdcollection"/>
+			</html:select>						
+			<input type="button" value="搜索" class="Button" onclick="doQuery()">
+			</td>
+		</tr>
 	</table>
  
 	<table width="98%" class="dtPanel_Line1" border="0" cellspacing="1"

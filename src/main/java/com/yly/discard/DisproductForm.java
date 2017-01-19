@@ -10,6 +10,24 @@ import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
 
 public class DisproductForm extends BaseForm {
+	private String beginDate_f;
+	private String endDate_f;
+	public String getBeginDate_f() {
+		return beginDate_f;
+	}
+
+	public void setBeginDate_f(String beginDate_f) {
+		this.beginDate_f = beginDate_f;
+	}
+
+	public String getEndDate_f() {
+		return endDate_f;
+	}
+
+	public void setEndDate_f(String endDate_f) {
+		this.endDate_f = endDate_f;
+	}
+
 	private Collection prodIdcollection;
 	private Collection phiTypeIdcollection;
 	private Collection appTypeIdcollection;

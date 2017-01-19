@@ -8,6 +8,7 @@ import org.apache.commons.beanutils.BeanUtilsBean;
 import com.abc.logic.IbatisBO;
 import com.eis.exception.MessageException;
 import com.eis.util.CheckUtil;
+import com.eis.util.DateUtil;
 import com.yly.exstore.Stoproduct;
 import com.yly.exstore.StoproductDAO;
 import com.yly.exstore.StoproductForm;
@@ -98,6 +99,12 @@ public class StoreuseBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(f.getSamId_max())){
 			c.andSamIdLessThanOrEqualTo(f.getSamId_max());
 		}		
+		if(!CheckUtil.isEmptry(f.getBeginDate_f())){
+			c.andIOStateChgDateGreaterThanOrEqualTo(f.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(f.getEndDate_f())){
+			c.andIOStateChgDateLessThanOrEqualTo(f.getEndDate_f()+"999999");
+		}
 		if(!CheckUtil.isEmptry(f.getSamCsn_f())){
 			c.andSamCSNEqualTo(f.getSamCsn_f());
 		}else if(!CheckUtil.isEmptry(f.getSamCSN())){
@@ -108,6 +115,15 @@ public class StoreuseBO extends IbatisBO {
 			c.andSamIdEqualTo(f.getSamId());	
 		if(null!=f.getUnitId() && f.getUnitId()>0)
 			c.andUnitIdEqualTo(f.getUnitId());			
+		if(!CheckUtil.isEmptry(f.getPhiTypeId())){
+			c.andPhiTypeIdEqualTo(f.getPhiTypeId());
+		}		
+		if(!CheckUtil.isEmptry(f.getAppTypeId())){
+			c.andAppTypeIdEqualTo(f.getAppTypeId());
+		}
+		if(!CheckUtil.isEmptry(f.getProdId())){
+			c.andProdIdEqualTo(f.getProdId());
+		}
 		e.setOrderByClause("IOStateChgDate asc");
 		return storeuseDAO.selectByExample(e);
 	}
@@ -178,10 +194,32 @@ public class StoreuseBO extends IbatisBO {
 		new BeanUtilsBean().copyProperties(dest,origin);
 	}
 	public void querySamIdValidate(StoreuseForm p)throws MessageException{
-		if((CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max())) && CheckUtil.isEmptry(p.getSamCsn_f())){	
-			throw new MessageException("必须录入查询条件(发行卡号/印刷卡号)");
+		boolean flag=false;
+		if(!CheckUtil.isEmptry(p.getSamId_min()) && !CheckUtil.isEmptry(p.getSamId_max())){	
+			flag=true;
+		}		
+		if(!CheckUtil.isEmptry(p.getSamCsn_f())){	
+			flag=true;
+		}			
+		if(!CheckUtil.isEmptry(p.getBeginDate_f()) && !CheckUtil.isEmptry(p.getEndDate_f())){
+			flag=true;
+		}
+		if(!flag){
+			throw new MessageException("必须录入任一查询条件(退回日期/发行卡号/印刷卡号)");
+		}
+		if(!CheckUtil.isEmptry(p.getBeginDate_f()) || !CheckUtil.isEmptry(p.getEndDate_f())){
+			if(CheckUtil.isEmptry(p.getBeginDate_f()) || CheckUtil.isEmptry(p.getEndDate_f())){	
+				throw new MessageException("开始日期和结束日期必须填写");
+			}
+			if(p.getBeginDate_f().compareTo(p.getEndDate_f())>0)
+				throw new MessageException("开始日期不能大于结束日期");
+			if(DateUtil.getDays(p.getBeginDate_f(), p.getEndDate_f())>90)
+				throw new MessageException("日期间隔不能超过3个月");
 		}
 		if(!CheckUtil.isEmptry(p.getSamId_min()) || !CheckUtil.isEmptry(p.getSamId_max())){
+			if(CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max())){	
+				throw new MessageException("开始卡号和结束卡号必须填写");
+			}
 			if(p.getSamId_min().length()!=p.getSamId_max().length()){
 				throw new MessageException("开始卡号长度和结束卡号长度必须一致");
 			}

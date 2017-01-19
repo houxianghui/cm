@@ -145,6 +145,7 @@ function doDisCard(){
 		<tr align="center" class="dtPanel_Top01" height="28">
 			<td>多选</td>	
 			<td>SAM卡号</td>
+			<td>SAM印刷卡号</td>
 			<td>OA申请号</td>
 			<td>申请单位</td>
 			<td>产品类型</td>
@@ -170,7 +171,8 @@ function doDisCard(){
 			<input type="checkbox" name="cx" value="<%=vo.getSamId()+","+vo.getSamCSN()%>"> 
 			</label></td> 
 			<td><a href="Stoproduct.do?act=r&samId=<%=vo.getSamId()%>&samCSN=<%=vo.getSamCSN()%>"><%=vo.getSamId() %></a></td>	
-			<td><%=vo.getOAappNo()%></td>	
+			<td><%=vo.getSamCSN()%></td>	
+			<td><%=vo.getOAappNo()==null?"":vo.getOAappNo()%></td>	
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.ALL_UNITID, String.valueOf(vo.getUnitId()))%></td>			
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.PROD_ID, vo.getProdId())%></td>
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, vo.getPhiTypeId())%></td>					

@@ -64,6 +64,7 @@ public class DisproductAction extends IbatisBaseAction {
 			return mapping.findForward("list");
 	    }
 		DisproductForm f = (DisproductForm)form;
+		((DisproductBO)bo).querySamIdValidate(f);
 		setPageResult(request, ((DisproductBO)bo).queryForList(f));
 		return mapping.findForward("list");
 	}

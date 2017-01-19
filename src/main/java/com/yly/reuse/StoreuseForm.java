@@ -11,12 +11,30 @@ import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
 
 public class StoreuseForm extends BaseForm {
+	private String beginDate_f;
+	private String endDate_f;
 	private String appNo;
 	private Integer taskAmt;
 	private Integer taskAmtLeft;
 	private String samCsn_f;
 	public String getSamCsn_f() {
 		return samCsn_f;
+	}
+
+	public String getBeginDate_f() {
+		return beginDate_f;
+	}
+
+	public void setBeginDate_f(String beginDate_f) {
+		this.beginDate_f = beginDate_f;
+	}
+
+	public String getEndDate_f() {
+		return endDate_f;
+	}
+
+	public void setEndDate_f(String endDate_f) {
+		this.endDate_f = endDate_f;
 	}
 
 	public void setSamCsn_f(String samCsn_f) {

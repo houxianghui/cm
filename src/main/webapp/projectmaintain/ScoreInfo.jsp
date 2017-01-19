@@ -58,7 +58,7 @@ function parseResults() {
 		align="center" cellpadding="0">
 		<tr class="dtPanel_Main" align="left">
 			<td>项目编号:<html:hidden property="projectId"/><%=scoreInfoForm.getProjectId()%></td>
-			<td>项目阶段:<html:hidden property="status"/><%=SingleDicMap.getDicItemVal(SingleDic.PROJECT_MANAGE_COLLECTION,scoreInfoForm.getStatus())%></td>
+			<td>项目阶段:<html:hidden property="status"/><%=SingleDicMap.getDicItemVal(SingleDic.PROJECT_STAT,scoreInfoForm.getStatus())%></td>
 			<td>人员：<html:hidden property="userId"/><%=ReDefSDicMap.getDicItemVal("0003",scoreInfoForm.getUserId().trim())%></td>
 		
 			<td align="right">总得分：</td><td align="left"><div id="totalScore">&nbsp;&nbsp;</div></td>
