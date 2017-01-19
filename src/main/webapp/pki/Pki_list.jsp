@@ -20,10 +20,6 @@ function doAdd(){
 } 
 
 function doQuery() {  
-	if(document.forms[0].samId_min.value=="" ||document.forms[0].samId_max.value==""){
-		alert("发行卡号段必须输入!");
-		return;
-	}
 	document.forms[0].act.value = "list";
 	document.forms[0].submit(); 
 }

@@ -83,7 +83,29 @@ public class SecpkitbBO extends IbatisBO {
 
 	}
 	public void querySamIdValidate(SecpkitbForm p)throws MessageException{
+		boolean flag=false;
 		if(!CheckUtil.isEmptry(p.getSamId_min()) && !CheckUtil.isEmptry(p.getSamId_max())){	
+			flag=true;
+		}					
+		if(!CheckUtil.isEmptry(p.getBeginDate_f()) && !CheckUtil.isEmptry(p.getEndDate_f())){
+			flag=true;
+		}
+		if(!flag){
+			throw new MessageException("必须录入任一查询条件(发行日期/发行卡号)");
+		}
+		if(!CheckUtil.isEmptry(p.getBeginDate_f()) || !CheckUtil.isEmptry(p.getEndDate_f())){
+			if(CheckUtil.isEmptry(p.getBeginDate_f()) || CheckUtil.isEmptry(p.getEndDate_f())){	
+				throw new MessageException("开始日期和结束日期必须填写");
+			}
+			if(p.getBeginDate_f().compareTo(p.getEndDate_f())>0)
+				throw new MessageException("开始日期不能大于结束日期");
+			if(DateUtil.getDays(p.getBeginDate_f(), p.getEndDate_f())>90)
+				throw new MessageException("日期间隔不能超过3个月");
+		}
+		if(!CheckUtil.isEmptry(p.getSamId_min()) || !CheckUtil.isEmptry(p.getSamId_max())){	
+			if(CheckUtil.isEmptry(p.getSamId_min()) || CheckUtil.isEmptry(p.getSamId_max())){	
+				throw new MessageException("开始卡号和结束卡号必须填写");
+			}
 			if(p.getSamId_min().length()!=p.getSamId_max().length()){
 				throw new MessageException("开始卡号长度和结束卡号长度必须一致");
 			}
