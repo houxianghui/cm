@@ -11,7 +11,7 @@
 <title>ÐÞ¸´·¢ÐÐ</title> 
 <script language="javascript"> 
 function doExam(){ 
-	$.get("Mwsissuetb.do?act=E&operationType=25&applyAttr="+document.forms[0].appTypeId.value+"&prodId="+document.forms[0].prodId.value+"&manufacId="+document.forms[0].manufacId.value+"&phiTypeId="+document.forms[0].phiTypeId.value,function(result){
+	$.get("Mwsissuetb.do?act=E&operationType=25&applyAttr="+document.forms[0].appTypeId.value+"&prodId="+document.forms[0].prodId.value+"&manufacId="+document.forms[0].manufacId.value+"&binFileVer="+document.forms[0].binFileVer.value+"&phiTypeId="+document.forms[0].phiTypeId.value,function(result){
 		var json = $.parseJSON(result);
 		if(json.error!=null){
 			alert(json.error);

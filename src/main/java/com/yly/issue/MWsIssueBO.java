@@ -313,13 +313,17 @@ public class MWsIssueBO extends IbatisBO {
 		
 		return KEY;
 	}
-	public Stoproduct setSto(Mwsissuetb vo, Lsinfo lsvo) throws Exception {
-		Stoproduct sto= new Stoproduct();
-		copyProperties(sto, vo);
+	public Stoproduct setSto(Mwsissuetb vo, Lsinfo lsvo,boolean flag,Stoproduct prod) throws Exception {
+		Stoproduct sto = new Stoproduct();
 		if(vo.getProdId().equals("4")){
-			Stoappinfo stoapp =stoappinfoDAO.selectByPrimaryKey(vo.getBatchId());
-			sto.setBatchIdParts(stoapp.getRsvd());
+			if(flag)
+				sto.setBatchIdParts(prod.getBatchIdParts());
+			else {
+				Stoappinfo stoapp =stoappinfoDAO.selectByPrimaryKey(vo.getBatchId());
+				sto.setBatchIdParts(stoapp.getRsvd()==null?"":stoapp.getRsvd());
+			}
 		}
+		copyProperties(sto, vo);
 		sto.setAppTypeId(vo.getApplyAttr());
 		sto.setIssueTime(DateUtil.getTimeStr());
 		sto.setWkStateChgDate(DateUtil.getTimeStr());

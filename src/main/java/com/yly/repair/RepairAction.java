@@ -20,6 +20,7 @@ import com.yly.exstore.StoproductBO;
 import com.yly.func.CallFunc;
 import com.yly.func.Para;
 import com.yly.func.ParaTools;
+import com.yly.issue.MWsIssuetbForm;
 
 
 
@@ -82,6 +83,31 @@ public class RepairAction extends IbatisBaseAction {
 			throw new MessageException("Çë¼ì²é¶ÁÐ´Æ÷");
 		}
 	}
+	
+	
+	public void processSysPort(HttpServletResponse response,
+			RepairForm f,String oper) throws Exception, MessageException {
+		
+		int result;
+		Func func=new Func();
+		Para para=new Para();
+		if(oper.equals("open")){
+			func.setFunc("openSystemPort");
+		}else{
+			func.setFunc("closeSystemPort");
+		}
+		if(f.getProdId().equals("4"))//Ä£¿é
+			para.setCardtype(1);
+		else para.setCardtype(0);
+		para.setPhiTypeId(f.getPhiTypeId());
+		result=CallFunc.callId(func, para);
+		if(result!=0 ){
+			String res = "{\"error\":\"¶ÁÐ´Æ÷"+oper+"Ê§°Ü"+result+"\"}";
+			writeAjaxResponse(response, res);
+		}
+	
+		
+	}
 	public void read(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response)throws Exception{
 		RepairForm f = (RepairForm)form;
 		Func func=new Func();
@@ -92,7 +118,7 @@ public class RepairAction extends IbatisBaseAction {
 		funDrools.getFunc(func);	
 		String[] paras=func.getPara().split(",");
 		ParaTools.setRepairPara(para, paras, f);
-		operSysPort(f,"open");
+		processSysPort(response, f,"open");
 		int result=CallFunc.callId(func, para);
 		if(result==0){
 			String cardCsn=para.getCardcsn();
@@ -101,7 +127,7 @@ public class RepairAction extends IbatisBaseAction {
 		}else{
 			res = "{\"error\":\"´íÎó´úÂë"+result+"\"}";
 		}
-		operSysPort(f,"close");
+		processSysPort(response, f,"close");
 		writeAjaxResponse(response, res);
 	}
 

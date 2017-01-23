@@ -370,15 +370,18 @@ public class MWsIssueAction extends IbatisBaseAction {
 		para.setPhiTypeId(phiTypeId);
 		int result=CallFunc.callId(func, para);
 		if(result!=0){
-			throw new MessageException("请检查读写器");
+			throw new MessageException("读卡器操作失败!"); 
 		}
+		
 	}
 	public ActionForward issue(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		boolean flag=true;
 		MWsIssuetbForm f = (MWsIssuetbForm)form;
 		int operType=f.getOperationType();
 		String partManuId="";
 		String authKey="";
 		if(operType==21||operType==24||operType==25||operType==43||operType==53){
+			flag=false;//需要挑选原料的发行业务
 			if(CheckUtil.isEmptry(f.getAuthkey())){
 				throw new MessageException("此业务类型必须选择主控密钥");
 			}else authKey=f.getAuthkey();
@@ -389,144 +392,144 @@ public class MWsIssueAction extends IbatisBaseAction {
 		Mwsissuetb vo=((MWsIssueBO)bo).queryIssueTaskCtrl(f.getFormNo());
 		copyProperties(f,vo);
 		f.setAuthkey(authKey);
-		operSysPort(vo.getProdId(),"open",vo.getPhiTypeId());
-		((MWsIssueBO)bo).initMwsissueToPara(f);
-		Func func=new Func();
-		Para para=new Para();
-		Stoproduct prod=new Stoproduct();
-		((MWsIssueBO)bo).setFunc(f, func);
-		Lsinfo lsvo = ((MWsIssueBO)bo).setLsInfo(user, vo);
-		for(int i=1;i<4;i++){
-			((MWsIssueBO)bo).setOperAct(vo,func,i);//读卡\洗卡\发行
-			funDrools.getFunc(func);
-			String[] paras=func.getPara().split(",");
-			ParaTools.setPara(para, paras, f);
-			int result=CallFunc.callId(func, para);
-			if(result==0){
-				if(i==1){
-					if(func.getOperAct().equals("RC")){
-						if(CheckUtil.isEmptry(para.getCardcsn())){
-							para.setCardcsn("0");
-						}
-						f.setCardcsn(para.getCardcsn());
-						if(vo.getProdId().equals("4")){
-							Stoappinfo sto=stoAppBO.queryForObject(f.getBatchId());
-							Stoappinfo part_sto=stoAppBO.queryForObject(sto.getRsvd().trim());
-							func.setManufacId(part_sto.getManufacId());
-						}
-					}else if(func.getOperAct().equals("R")){
-						if(f.getOperationType()==26 && !f.getSamId().equals(para.getSamId())){
-							operSysPort(vo.getProdId(),"close","0");
-							throw new MessageException("此业务类型必须为同号重发!当前卡片为"+para.getSamId());
-						}
-						f.setSamId(para.getSamId());		
-						lsvo.setSamIdOld(para.getSamId());
-						String alert="";
-						if(f.getOperationType()==22 ||f.getOperationType()==26){
-							Storeuse reuseprodvo =storeuseBO.queryObjectBySamId(f.getSamId());
-							if(reuseprodvo==null||reuseprodvo.equals(null)){
-								alert="该卡片在回收库中未找到,请确认已退回:卡号";
-							}else{
-								prod =new Stoproduct();
-								copyProperties(prod,reuseprodvo);
+		try{
+			operSysPort(vo.getProdId(),"open",vo.getPhiTypeId());
+			((MWsIssueBO)bo).initMwsissueToPara(f);
+			Func func=new Func();
+			Para para=new Para();
+			Stoproduct prod=new Stoproduct();
+			((MWsIssueBO)bo).setFunc(f, func);
+			Lsinfo lsvo = ((MWsIssueBO)bo).setLsInfo(user, vo);
+			for(int i=1;i<4;i++){
+				((MWsIssueBO)bo).setOperAct(vo,func,i);//读卡\洗卡\发行
+				funDrools.getFunc(func);
+				String[] paras=func.getPara().split(",");
+				ParaTools.setPara(para, paras, f);
+				int result=CallFunc.callId(func, para);
+				if(result==0){
+					if(i==1){
+						if(func.getOperAct().equals("RC")){
+							if(CheckUtil.isEmptry(para.getCardcsn())){
+								para.setCardcsn("0");
 							}
-						}else{
-							prod = stoproductBO.queryObjectBySamId(f.getSamId());
-							alert="该卡片在成品库中未找到,请确认:卡号";
-						}
-						if(prod==null||prod.equals(null)){
-							operSysPort(vo.getProdId(),"close","0");
-							throw new MessageException(alert+f.getSamId());
-						}
-						if(vo.getProdId().equals("4")){
-							if(!CheckUtil.isEmptry(partManuId))
-								func.setManufacId(partManuId);
-							else if(!CheckUtil.isEmptry(prod.getBatchIdParts())){
-								Stoappinfo part_sto=stoAppBO.queryForObject(prod.getBatchIdParts());
-								if(part_sto!=null)
-									func.setManufacId(part_sto.getManufacId());
-								else {
-									operSysPort(vo.getProdId(),"close","0");
-									throw new MessageException("无法找到配件批次号的厂商信息!"+prod.getBatchIdParts());
+							f.setCardcsn(para.getCardcsn());
+							if(vo.getProdId().equals("4")){
+								Stoappinfo sto=stoAppBO.queryForObject(f.getBatchId());
+								Stoappinfo part_sto=stoAppBO.queryForObject(sto.getRsvd().trim());
+								func.setManufacId(part_sto.getManufacId());
+							}
+						}else if(func.getOperAct().equals("R")){
+							if(f.getOperationType()==26 && !f.getSamId().equals(para.getSamId())){
+								throw new MessageException("此业务类型必须为同号重发!当前卡片为"+para.getSamId());
+							}
+							f.setSamId(para.getSamId());		
+							lsvo.setSamIdOld(para.getSamId());
+							String alert="";
+							if(f.getOperationType()==22 ||f.getOperationType()==26){
+								Storeuse reuseprodvo =storeuseBO.queryObjectBySamId(f.getSamId());
+								if(reuseprodvo==null||reuseprodvo.equals(null)){
+									alert="该卡片在回收库中未找到,请确认已退回:卡号";
+									prod = null;
+								}else{
+									prod =new Stoproduct();
+									copyProperties(prod,reuseprodvo);
 								}
 							}else{
-								operSysPort(vo.getProdId(),"close","0");
-								throw new MessageException("无法找到配件厂商信息!");
+								prod = stoproductBO.queryObjectBySamId(f.getSamId());
+								alert="该卡片在成品库中未找到,请确认:卡号";
 							}
-						}else{
-							if(!CheckUtil.isEmptry(prod.getManufacId())){
-								func.setManufacId(prod.getManufacId());
+							if(prod==null||prod.equals(null)){
+								throw new MessageException(alert+f.getSamId());
+							}
+							if(vo.getProdId().equals("4")){
+								if(!CheckUtil.isEmptry(partManuId))
+									func.setManufacId(partManuId);
+								else if(!CheckUtil.isEmptry(prod.getBatchIdParts())){
+									Stoappinfo part_sto=stoAppBO.queryForObject(prod.getBatchIdParts());
+									if(part_sto!=null)
+										func.setManufacId(part_sto.getManufacId());
+									else {
+										throw new MessageException("无法找到配件批次号的厂商信息!"+prod.getBatchIdParts());
+									}
+								}else{
+									throw new MessageException("无法找到配件厂商信息!");
+								}
 							}else{
-								operSysPort(vo.getProdId(),"close","0");
-								throw new MessageException("无法找到厂商信息!");
+								if(!CheckUtil.isEmptry(prod.getManufacId())){
+									func.setManufacId(prod.getManufacId());
+								}else{
+									throw new MessageException("无法找到厂商信息!");
+								}
+							}
+
+							vo.setManufacId(prod.getManufacId());
+							f.setCardcsn(prod.getSamCSN());
+							lsvo.setSamCSNOld(f.getCardcsn());
+							prod.setWkState((short)14);//注销
+							prod.setWkStateChgDate(DateUtil.getTimeStr());
+						}
+						lsvo.setSamCSN(f.getCardcsn());
+					}else if (i==3){
+						Stoproduct sto =((MWsIssueBO)bo).setSto(vo,lsvo,flag,prod);
+						Issueapp issuapp = null;
+						if(vo.getSamIdEnd().compareTo(vo.getSamId())>0){ 
+							int cardno=Integer.parseInt(vo.getSamId().substring(7))+1;
+							vo.setSamId(vo.getSamIdEnd().substring(0,7)+StringUtil.addZero(String.valueOf(cardno), 5));
+			 			}else{
+							vo.setSamId(vo.getSamIdEnd());
+						}
+						int done=(vo.getIssueDoneAmt()).intValue();
+						vo.setIssueDoneAmt((long)(++done));
+						if(vo.getIssueDoneAmt().longValue()==vo.getWorkSheetAmt().longValue()){
+							vo.setFormState(DONE);						
+							int cnt = stoproductBO.countIssueByExample(sto);	
+							issuapp = issueappBO.queryForObject(lsvo.getAppNo());
+							if(cnt+1==issuapp.getTaskAmt().intValue()){
+								issuapp.setFormState((short)3);
 							}
 						}
-
-						vo.setManufacId(prod.getManufacId());
-						f.setCardcsn(prod.getSamCSN());
-						lsvo.setSamCSNOld(f.getCardcsn());
-						prod.setWkState((short)14);//注销
-						prod.setWkStateChgDate(DateUtil.getTimeStr());
-					}
-					lsvo.setSamCSN(f.getCardcsn());
-				}else if (i==3){
-					Stoproduct sto = ((MWsIssueBO)bo).setSto(vo, lsvo);
-					Issueapp issuapp = null;
-					if(vo.getSamIdEnd().compareTo(vo.getSamId())>0){ 
-						int cardno=Integer.parseInt(vo.getSamId().substring(7))+1;
-						vo.setSamId(vo.getSamIdEnd().substring(0,7)+StringUtil.addZero(String.valueOf(cardno), 5));
-		 			}else{
-						vo.setSamId(vo.getSamIdEnd());
-					}
-					int done=(vo.getIssueDoneAmt()).intValue();
-					vo.setIssueDoneAmt((long)(++done));
-					if(vo.getIssueDoneAmt().longValue()==vo.getWorkSheetAmt().longValue()){
-						vo.setFormState(DONE);						
-						int cnt = stoproductBO.countIssueByExample(sto);	
-						issuapp = issueappBO.queryForObject(lsvo.getAppNo());
-						if(cnt+1==issuapp.getTaskAmt().intValue()){
-							issuapp.setFormState((short)3);
+						Secpkitb sec=null;
+						if(!CheckUtil.isEmptry(para.getRetpki())&&para.getRetpki().length()==256){
+							sec=new Secpkitb();
+							sec.setSamId(sto.getSamId());
+							sec.setSamCSN(sto.getSamCSN());
+							sec.setCurrPeriod(DateUtil.getCurrDate());
+							sec.setIssueTime(DateUtil.getCurrDate());
+							sec.setPubExponent("");
+							sec.setPubKey(para.getRetpki());
+							sec.setKeyType((short)(sto.getKeyType()));
 						}
+						((MWsIssueBO)bo).transSixTb(vo,sto,lsvo,issuapp,sec,prod);
 					}
-					Secpkitb sec=null;
-					if(!CheckUtil.isEmptry(para.getRetpki())&&para.getRetpki().length()==256){
-						sec=new Secpkitb();
-						sec.setSamId(sto.getSamId());
-						sec.setSamCSN(sto.getSamCSN());
-						sec.setCurrPeriod(DateUtil.getCurrDate());
-						sec.setIssueTime(DateUtil.getCurrDate());
-						sec.setPubExponent("");
-						sec.setPubKey(para.getRetpki());
-						sec.setKeyType((short)(sto.getKeyType()));
+				}else{
+					if(!CheckUtil.isEmptry(lsvo.getSamCSN())){
+						lsvo.setErrorCode((short)result);
+						lsinfoBO.insert(lsvo);
+						request.setAttribute("samCSN", lsvo.getSamCSN());
+						request.setAttribute("prodId", lsvo.getProdId());
+						request.setAttribute("manufacId", func.getManufacId());	
+						request.setAttribute("OAappNo", f.getOAappNo());
+						request.setAttribute("appNo", f.getAppNo());
+						request.setAttribute("phiTypeId", f.getPhiTypeId());
+						request.setAttribute("batchId", f.getBatchId());
+						request.setAttribute("applyAttr", f.getApplyAttr());
+						request.setAttribute("operationType", f.getOperationType());
+						request.setAttribute("formNo", f.getFormNo());
+						request.setAttribute("unitId", f.getUnitId());
+						String badSamId=stoproductBO.getMaxBadCard();
+						request.setAttribute("samId",badSamId);
+						operSysPort(vo.getProdId(),"close","0");
+						return popConfirmClosePage(request, mapping, "印刷卡号"+lsvo.getSamCSN()+"错误卡号"+badSamId+"是否标记为坏卡,错误代码"+func.getFunc()+result,"Mwsissuetb.do?act=issueInit&formNo="+f.getFormNo());
+					}else {
+						throw new MessageException("无法获取印刷卡号!");
 					}
-					((MWsIssueBO)bo).transSixTb(vo,sto,lsvo,issuapp,sec,prod);
+					
 				}
-			}else{
-				if(!CheckUtil.isEmptry(lsvo.getSamCSN())){
-					lsvo.setErrorCode((short)result);
-					lsinfoBO.insert(lsvo);
-					request.setAttribute("samCSN", lsvo.getSamCSN());
-					request.setAttribute("prodId", lsvo.getProdId());
-					request.setAttribute("manufacId", func.getManufacId());	
-					request.setAttribute("OAappNo", f.getOAappNo());
-					request.setAttribute("appNo", f.getAppNo());
-					request.setAttribute("phiTypeId", f.getPhiTypeId());
-					request.setAttribute("batchId", f.getBatchId());
-					request.setAttribute("applyAttr", f.getApplyAttr());
-					request.setAttribute("operationType", f.getOperationType());
-					request.setAttribute("formNo", f.getFormNo());
-					request.setAttribute("unitId", f.getUnitId());
-					String badSamId=stoproductBO.getMaxBadCard();
-					request.setAttribute("samId",badSamId);
-					operSysPort(vo.getProdId(),"close","0");
-					return popConfirmClosePage(request, mapping, "印刷卡号"+lsvo.getSamCSN()+"错误卡号"+badSamId+"是否标记为坏卡,错误代码"+func.getFunc()+result,"Mwsissuetb.do?act=issueInit&formNo="+f.getFormNo());
-				}else {
-					operSysPort(vo.getProdId(),"close","0");
-					throw new MessageException("无法获取印刷卡号!");
-				}
-				
 			}
-		}
+		}catch(Exception e){
+			operSysPort(vo.getProdId(),"close","0");
+			throw e;
+  		}
 		operSysPort(vo.getProdId(),"close","0");
 		setPageResult(request, lsinfoBO.queryForListByFormNo(vo.getFormNo()));
         request.setAttribute("pageResultLsInfo", request.getAttribute("pageResult"));
@@ -543,7 +546,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		f.setBinFileVer(request.getParameter("binFileVer"));
 		Mwsissuetb vo= new Mwsissuetb();
 		copyProperties(vo, f);
-		operSysPort(vo.getProdId(),"open",f.getPhiTypeId());
+		processSysPort(response, f,"open");
 		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
 		((MWsIssueBO)bo).setFunc(f,func);
@@ -589,14 +592,15 @@ public class MWsIssueAction extends IbatisBaseAction {
 					if(para.getModelflag()!=1){
 						para.setVersion(para.getVersion().substring(0, para.getVersion().length()-12));
 					}
-					res = res+";ver_"+para.getVersion()+";moduleflag_"+mflag+"\"}";
+					res = res+";ver_"+para.getVersion()+";moduleflag_"+mflag+"\"";
 					if(!para.getVersion().equals(ReDefSDicMap.getDicItemVal(RedefSDicCodes.MODULEVERSION, f.getBinFileVer()))){
 						res = res+",\"error\":\"模块版本错误"+para.getVersion()+"\"}";
 						writeAjaxResponse(response, res);
 						lsvo.setErrorCode((short)4001);//版本错误
 						lsvo.setDetectSign((short)2);	
 						prod.setDetectSign((short)2);
-					}else{
+					}else {
+						res=res+"}";
 						lsvo.setErrorCode((short)0000);//成功
 						lsvo.setDetectSign((short)1);	
 						prod.setDetectSign((short)1);
@@ -607,7 +611,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 				}
 			}
 		}
-		operSysPort(vo.getProdId(),"close","0");
+ 		processSysPort(response, f,"close");
 	}
 	public void read(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response)throws Exception{
 		MWsIssuetbForm f = new MWsIssuetbForm();
@@ -619,7 +623,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		func.setProdId(f.getProdId());
 		Para para=new Para();
 		String res="";
-		operSysPort(f.getProdId(),"open",f.getPhiTypeId());
+		processSysPort(response, f,"open");
 		for(int i=1;i<3;i++){
 			if(i==1)
 				func.setOperAct("R");
@@ -650,7 +654,31 @@ public class MWsIssueAction extends IbatisBaseAction {
 			
 			}
 		}
-		operSysPort(f.getProdId(),"close","0");
+		processSysPort(response, f,"close");
+	}
+
+	public void processSysPort(HttpServletResponse response,
+			MWsIssuetbForm f,String oper) throws Exception, MessageException {
+		
+		int result;
+		Func func=new Func();
+		Para para=new Para();
+		if(oper.equals("open")){
+			func.setFunc("openSystemPort");
+		}else{
+			func.setFunc("closeSystemPort");
+		}
+		if(f.getProdId().equals("4"))//模块
+			para.setCardtype(1);
+		else para.setCardtype(0);
+		para.setPhiTypeId(f.getPhiTypeId());
+		result=CallFunc.callId(func, para);
+		if(result!=0 ){
+			String res = "{\"error\":\"读写器"+oper+"失败"+result+"\"}";
+			writeAjaxResponse(response, res);
+		}
+	
+		
 	}
 	public ActionForward repair(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		String requery = request.getParameter("requery");
@@ -687,90 +715,93 @@ public class MWsIssueAction extends IbatisBaseAction {
 		f.setApplyAttr(String.valueOf(f.getAppTypeId()));
 		Mwsissuetb vo = new Mwsissuetb();
  		copyProperties(vo,f);
-		operSysPort(vo.getProdId(),"open",f.getPhiTypeId());		
-		Lsinfo lsvo = ((MWsIssueBO)bo).setLsInfo(user, vo);
-		lsvo.setSamId(f.getSamId());
-		lsvo.setSamCSN(f.getCardcsn());
-		lsvo.setOperationType(f.getOperationType());
-		lsvo.setSamCSNOld(f.getCardcsn());
-		lsvo.setSamIdOld(f.getSamId());
-		((MWsIssueBO)bo).initMwsissueToPara(f);
-		initIssueParaByApplyType(f);
-		Func func=new Func();
-		Para para=new Para();
-		((MWsIssueBO)bo).setFunc(f, func);
-		if(vo.getProdId().equals("4")){
-			if(!CheckUtil.isEmptry(f.getPartManufacId()))
-				func.setManufacId(f.getPartManufacId());
-			else if(!CheckUtil.isEmptry(sto.getBatchIdParts())){
-				Stoappinfo part_sto=stoAppBO.queryForObject(sto.getBatchIdParts());
-				if(part_sto!=null)
-					func.setManufacId(part_sto.getManufacId());
-				else {
+ 		try{
+ 			operSysPort(vo.getProdId(),"open",f.getPhiTypeId());
+			Lsinfo lsvo = ((MWsIssueBO)bo).setLsInfo(user, vo);
+			lsvo.setSamId(f.getSamId());
+			lsvo.setSamCSN(f.getCardcsn());
+			lsvo.setOperationType(f.getOperationType());
+			lsvo.setSamCSNOld(f.getCardcsn());
+			lsvo.setSamIdOld(f.getSamId());
+			((MWsIssueBO)bo).initMwsissueToPara(f);
+			initIssueParaByApplyType(f);
+			Func func=new Func();
+			Para para=new Para();
+			((MWsIssueBO)bo).setFunc(f, func);
+			if(vo.getProdId().equals("4")){
+				if(!CheckUtil.isEmptry(f.getPartManufacId()))
+					func.setManufacId(f.getPartManufacId());
+				else if(!CheckUtil.isEmptry(sto.getBatchIdParts())){
+					Stoappinfo part_sto=stoAppBO.queryForObject(sto.getBatchIdParts());
+					if(part_sto!=null)
+						func.setManufacId(part_sto.getManufacId());
+					else {
+						throw new MessageException("无法找到配件批次号的厂商信息!"+sto.getBatchIdParts());
+					}
+				}else{
+					throw new MessageException("无法找到配件厂商信息!");
+				}
+			}else{
+				if(!CheckUtil.isEmptry(sto.getManufacId())){
+					func.setManufacId(sto.getManufacId());
+				}else{
+					throw new MessageException("无法找到厂商信息!");
+				}
+			}
+			for(int i=2;i<4;i++){
+				((MWsIssueBO)bo).setOperAct(vo,func,i);//洗卡\发行
+				funDrools.getFunc(func);
+				String[] paras=func.getPara().split(",");
+				ParaTools.setPara(para, paras, f);
+			    int result=CallFunc.callId(func, para);
+				if(result==0){
+					 if (i==3){
+						 Secpkitb sec = null;
+						 if(!CheckUtil.isEmptry(para.getRetpki())&&para.getRetpki().length()==256){
+							 sec = new Secpkitb();
+							 sec.setSamId(lsvo.getSamId());
+							 sec.setSamCSN(lsvo.getSamCSN());
+							 sec.setCurrPeriod(DateUtil.getCurrDate());
+							 sec.setIssueTime(DateUtil.getCurrDate());
+							 sec.setPubExponent("");
+							 sec.setPubKey(para.getRetpki());
+							 sec.setKeyType((short)(f.getKeyType()));
+						 }
+						 sto.setSamId(lsvo.getSamId());
+						 sto.setSamCSN(lsvo.getSamCSN());
+						 sto.setWkState((short)12);
+						 sto.setWkStateChgDate(DateUtil.getTimeStr());
+						 sto.setIssueTime(DateUtil.getTimeStr());
+						 sto.setIOState((short)2);
+						 sto.setIOStateChgDate(DateUtil.getTimeStr());
+						((MWsIssueBO)bo).transRepairTb(sto,lsvo,sec);
+					}
+				}else{
+					lsvo.setErrorCode((short)result);
+					lsinfoBO.insert(lsvo);
+					request.setAttribute("samCSN", lsvo.getSamCSN());
+					request.setAttribute("prodId", lsvo.getProdId());
+					request.setAttribute("manufacId", func.getManufacId());	
+					request.setAttribute("OAappNo", f.getOAappNo());
+					request.setAttribute("appNo","");
+					request.setAttribute("phiTypeId", f.getPhiTypeId());
+					request.setAttribute("batchId", f.getBatchId());
+					request.setAttribute("applyAttr", f.getApplyAttr());
+					request.setAttribute("operationType", f.getOperationType());
+					request.setAttribute("formNo", "");
+					request.setAttribute("unitId", f.getUnitId());
+					request.setAttribute("samId",lsvo.getSamId());
 					operSysPort(vo.getProdId(),"close","0");
-					throw new MessageException("无法找到配件批次号的厂商信息!"+sto.getBatchIdParts());
+					return popConfirmClosePage(request, mapping, "印刷卡号"+lsvo.getSamCSN()+"发行卡号"+lsvo.getSamId()+"是否标记为坏卡,错误代码"+func.getFunc()+result,"Mwsissuetb.do?act=repair");
+	
 				}
-			}else{
-				operSysPort(vo.getProdId(),"close","0");
-				throw new MessageException("无法找到配件厂商信息!");
 			}
-		}else{
-			if(!CheckUtil.isEmptry(sto.getManufacId())){
-				func.setManufacId(sto.getManufacId());
-			}else{
-				operSysPort(vo.getProdId(),"close","0");
-				throw new MessageException("无法找到厂商信息!");
-			}
-		}
-		for(int i=2;i<4;i++){
-			((MWsIssueBO)bo).setOperAct(vo,func,i);//洗卡\发行
-			funDrools.getFunc(func);
-			String[] paras=func.getPara().split(",");
-			ParaTools.setPara(para, paras, f);
-		    int result=CallFunc.callId(func, para);
-			if(result==0){
-				 if (i==3){
-					 Secpkitb sec = null;
-					 if(!CheckUtil.isEmptry(para.getRetpki())&&para.getRetpki().length()==256){
-						 sec = new Secpkitb();
-						 sec.setSamId(lsvo.getSamId());
-						 sec.setSamCSN(lsvo.getSamCSN());
-						 sec.setCurrPeriod(DateUtil.getCurrDate());
-						 sec.setIssueTime(DateUtil.getCurrDate());
-						 sec.setPubExponent("");
-						 sec.setPubKey(para.getRetpki());
-						 sec.setKeyType((short)(f.getKeyType()));
-					 }
-					 sto.setSamId(lsvo.getSamId());
-					 sto.setSamCSN(lsvo.getSamCSN());
-					 sto.setWkState((short)12);
-					 sto.setWkStateChgDate(DateUtil.getTimeStr());
-					 sto.setIssueTime(DateUtil.getTimeStr());
-					 sto.setIOState((short)2);
-					 sto.setIOStateChgDate(DateUtil.getTimeStr());
-					((MWsIssueBO)bo).transRepairTb(sto,lsvo,sec);
-				}
-			}else{
-				lsvo.setErrorCode((short)result);
-				lsinfoBO.insert(lsvo);
-				request.setAttribute("samCSN", lsvo.getSamCSN());
-				request.setAttribute("prodId", lsvo.getProdId());
-				request.setAttribute("manufacId", func.getManufacId());	
-				request.setAttribute("OAappNo", f.getOAappNo());
-				request.setAttribute("appNo","");
-				request.setAttribute("phiTypeId", f.getPhiTypeId());
-				request.setAttribute("batchId", f.getBatchId());
-				request.setAttribute("applyAttr", f.getApplyAttr());
-				request.setAttribute("operationType", f.getOperationType());
-				request.setAttribute("formNo", "");
-				request.setAttribute("unitId", f.getUnitId());
-				request.setAttribute("samId",lsvo.getSamId());
-				operSysPort(vo.getProdId(),"close","0");
-				return popConfirmClosePage(request, mapping, "印刷卡号"+lsvo.getSamCSN()+"发行卡号"+lsvo.getSamId()+"是否标记为坏卡,错误代码"+func.getFunc()+result,"Mwsissuetb.do?act=repair");
-
-			}
-		}
-		operSysPort(vo.getProdId(),"close","0");
+			
+ 		}catch(Exception e){
+ 			operSysPort(vo.getProdId(),"close","0");
+ 			throw e;
+ 		}
+ 		operSysPort(vo.getProdId(),"close","0");
 		if(!vo.getProdId().equals("4")){
 			return forwardSuccessPage(request,mapping,"修复成功","Mwsissuetb.do?act=repair");
 		}else{
