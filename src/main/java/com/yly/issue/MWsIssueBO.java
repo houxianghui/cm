@@ -257,10 +257,10 @@ public class MWsIssueBO extends IbatisBO {
 		if(CheckUtil.isEmptry(f.getPhiTypeId()))
 			f.setPhiTypeId("0");
 		short operType=f.getOperationType();
-		if(operType==21||operType==24||operType==25||operType==43||operType==53){
+		if(operType==21||operType==24||operType==25||operType==43||operType==53){//空白卡发行，需要根据页面挑选主控密钥
 			f.setOldTranskey(keyVDatagram.getMainKeyMap(f.getAuthkey()));
 			f.setNewTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));    
-		}else if(operType==22 || operType==23||operType==26){
+		}else if(operType==22 || operType==23||operType==26){//已发行卡再发行
 			f.setOldTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));
 			f.setNewTranskey(keyVDatagram.getMainKeyMap("BMAC_KEY"));    
 		}else{
@@ -315,15 +315,16 @@ public class MWsIssueBO extends IbatisBO {
 	}
 	public Stoproduct setSto(Mwsissuetb vo, Lsinfo lsvo,boolean flag,Stoproduct prod) throws Exception {
 		Stoproduct sto = new Stoproduct();
+		copyProperties(sto, vo);
 		if(vo.getProdId().equals("4")){
-			if(flag)
+			if(flag){
 				sto.setBatchIdParts(prod.getBatchIdParts());
-			else {
+				sto.setBatchId(prod.getBatchId());
+			}else {
 				Stoappinfo stoapp =stoappinfoDAO.selectByPrimaryKey(vo.getBatchId());
 				sto.setBatchIdParts(stoapp.getRsvd()==null?"":stoapp.getRsvd());
 			}
 		}
-		copyProperties(sto, vo);
 		sto.setAppTypeId(vo.getApplyAttr());
 		sto.setIssueTime(DateUtil.getTimeStr());
 		sto.setWkStateChgDate(DateUtil.getTimeStr());

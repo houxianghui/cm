@@ -595,7 +595,6 @@ public class MWsIssueAction extends IbatisBaseAction {
 					res = res+";ver_"+para.getVersion()+";moduleflag_"+mflag+"\"";
 					if(!para.getVersion().equals(ReDefSDicMap.getDicItemVal(RedefSDicCodes.MODULEVERSION, f.getBinFileVer()))){
 						res = res+",\"error\":\"Ä£¿é°æ±¾´íÎó"+para.getVersion()+"\"}";
-						writeAjaxResponse(response, res);
 						lsvo.setErrorCode((short)4001);//°æ±¾´íÎó
 						lsvo.setDetectSign((short)2);	
 						prod.setDetectSign((short)2);

@@ -80,7 +80,7 @@ public class RepairAction extends IbatisBaseAction {
 		para.setPhiTypeId(f.getPhiTypeId());
 		int result=CallFunc.callId(func, para);
 		if(result!=0){
-			throw new MessageException("Çë¼ì²é¶ÁÐ´Æ÷");
+			throw new MessageException("¶ÁÐ´Æ÷²Ù×÷Ê§°Ü!");
 		}
 	}
 	
@@ -140,40 +140,46 @@ public class RepairAction extends IbatisBaseAction {
 	
 	public ActionForward repair(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		RepairForm f = (RepairForm)form;	
-		operSysPort(f,"open");
-		initRepairForm(f);
-		for(int i=1;i<3;i++){
-			Func func=new Func();
-			if(i==1)
-				func.setOperAct("W");
-			else func.setOperAct("RP");
-			Para para=new Para();
-			setFunc(f,func);
-			funDrools.getFunc(func);
-			String[] paras=func.getPara().split(",");
-			ParaTools.setRepairPara(para, paras, f);
-		    int result=CallFunc.callId(func, para);
-		    if(result==0){
-		    	if(i==1)
-		    		continue;
-		    }else{
-		    	request.setAttribute("samCSN",f.getCardcsn());
-				request.setAttribute("manufacId",f.getManufacId());
-				request.setAttribute("prodId",f.getProdId());
-				request.setAttribute("OAappNo", "");
-				request.setAttribute("phiTypeId", f.getPhiTypeId());
-				request.setAttribute("batchId", "");
-				request.setAttribute("applyAttr","");
-				request.setAttribute("OAappNo","");
-				request.setAttribute("operationType", f.getOperationType());
-				request.setAttribute("formNo", "");
-				request.setAttribute("unitId", "");
-				String badSamId=stoproductBO.getMaxBadCard();
-				request.setAttribute("samId",badSamId);
-				operSysPort(f,"close");
-				return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+f.getCardcsn()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"Repair.do?act=repairInit");
-		    }
+		try{
+			operSysPort(f,"open");
+			initRepairForm(f);
+			for(int i=1;i<3;i++){
+				Func func=new Func();
+				if(i==1)
+					func.setOperAct("W");
+				else func.setOperAct("RP");
+				Para para=new Para();
+				setFunc(f,func);
+				funDrools.getFunc(func);
+				String[] paras=func.getPara().split(",");
+				ParaTools.setRepairPara(para, paras, f);
+			    int result=CallFunc.callId(func, para);
+			    if(result==0){
+			    	if(i==1)
+			    		continue;
+			    }else{
+			    	request.setAttribute("samCSN",f.getCardcsn());
+					request.setAttribute("manufacId",f.getManufacId());
+					request.setAttribute("prodId",f.getProdId());
+					request.setAttribute("OAappNo", "");
+					request.setAttribute("phiTypeId", f.getPhiTypeId());
+					request.setAttribute("batchId", "");
+					request.setAttribute("applyAttr","");
+					request.setAttribute("OAappNo","");
+					request.setAttribute("operationType", f.getOperationType());
+					request.setAttribute("formNo", "");
+					request.setAttribute("unitId", "");
+					String badSamId=stoproductBO.getMaxBadCard();
+					request.setAttribute("samId",badSamId);
+					operSysPort(f,"close");
+					return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+f.getCardcsn()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"Repair.do?act=repairInit");
+			    }
+			}
+		}catch(Exception e){
+			operSysPort(f,"close");
+			throw e;
 		}
+
 		operSysPort(f,"close");
 		return forwardSuccessPage(request,mapping,"ÐÞ¸´³É¹¦","Repair.do?act=repairInit");
 	}
