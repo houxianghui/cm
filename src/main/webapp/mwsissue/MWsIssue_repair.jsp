@@ -82,7 +82,7 @@ function doDown2() {
 	});
 }
 function applyAttr_fun(obj){
-	if(obj.value==302){
+	if(obj.value==302||obj.value==202){
 		document.getElementById("button_module2").style.display="";
 	}else{
 		document.getElementById("button_module2").style.display="none";

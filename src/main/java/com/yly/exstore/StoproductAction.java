@@ -422,14 +422,13 @@ public class StoproductAction extends IbatisBaseAction {
 	}
 	private ActionForward cardDown(BaseForm form,HttpServletRequest request, HttpServletResponse response)throws Exception{
 		StoproductForm sf = (StoproductForm)form;
-		((StoproductBO)bo).querySamIdValidate(sf);
-		String scale="";
+		String scale=((StoproductBO)bo).querySamIdValidate(sf);
 		List cardList = ((StoproductBO)bo).queryForListAsc(sf);
 		response.setContentType("application/octet-stream");
 		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
-			scale = new String((sf.getSamId_min()+"_"+sf.getSamId_max()).getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
+			scale = new String(scale.getBytes("UTF-8"), "ISO8859-1");//firefoxä¯ÀÀÆ÷
 		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
-			scale = URLEncoder.encode((sf.getSamId_min()+"_"+sf.getSamId_max()), "UTF-8");
+			scale = URLEncoder.encode(scale, "UTF-8");
 		}
 		response.addHeader("Content-Disposition", "attachment; filename="+scale+".txt");
 		OutputStream out = response.getOutputStream();

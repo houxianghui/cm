@@ -319,21 +319,13 @@ public class StoproductBO extends IbatisBO {
 	//88888退回坏卡修复 samid
 	public String getMaxBadReturnCard() throws Exception{
 		String samId="";
-	//	String r_samId="";
 		String d_samId="";
 		StoproductExample e = new StoproductExample();
 		Criteria c = e.createCriteria();
 		c.andSamIdLike("88888%");
  		e.setOrderByClause("SamId desc");
 		List<Stoproduct> il=stoproductDAO.selectByExample(e);
-		
-//		StoreuseExample re = new StoreuseExample();
-//		com.yly.reuse.StoreuseExample.Criteria rc = re.createCriteria();
-//		rc.andSamIdLike("88888%");
-// 		re.setOrderByClause("SamId desc");
-//		List<Storeuse> ril=storeuseDAO.selectByExample(re);		
-		
-		
+
 		DisproductExample dis=new DisproductExample();
 		com.yly.discard.DisproductExample.Criteria dc = dis.createCriteria();
 		dc.andSamIdLike("88888%");
@@ -346,13 +338,7 @@ public class StoproductBO extends IbatisBO {
 				break;
 			}	
 		}
-//		if(ril != null && ril.size()>0){
-//			for(Storeuse rvo:ril){
-//				r_samId=rvo.getSamId();
-//				break;
-//			}	
-//		}
-		
+	
 		if(dl != null && dl.size()>0){
 			for(Disproduct dvo:dl){
 				d_samId=dvo.getSamId();
@@ -360,14 +346,7 @@ public class StoproductBO extends IbatisBO {
 			}	
 		}
 				
-//		if(!CheckUtil.isEmptry(samId) || !CheckUtil.isEmptry(r_samId) || !CheckUtil.isEmptry(d_samId) ){
-//			if((samId).compareTo(r_samId)<0)
-//				samId=r_samId;	
-//			if((samId).compareTo(d_samId)<0)
-//				samId=d_samId;
-//		}else{
-//			samId="888880000000";
-//		}
+
 		if(!CheckUtil.isEmptry(samId) || !CheckUtil.isEmptry(d_samId) ){
 			if((samId).compareTo(d_samId)<0)
 				samId=d_samId;
@@ -381,19 +360,24 @@ public class StoproductBO extends IbatisBO {
 		}
 		return samId;
 	}
-	public void querySamIdValidate(StoproductForm p)throws MessageException{
+	public String querySamIdValidate(StoproductForm p)throws MessageException{
 		boolean flag=false;
+		String scale="";
 		if(!CheckUtil.isEmptry(p.getOAappNo())){	
 			flag=true;
+			scale=p.getOAappNo();
 		}
 		if(!CheckUtil.isEmptry(p.getSamId_min()) && !CheckUtil.isEmptry(p.getSamId_max())){	
 			flag=true;
+			scale=scale+p.getSamId_min()+"_"+p.getSamId_max();
 		}		
 		if(!CheckUtil.isEmptry(p.getSamCsn_f())){	
 			flag=true;
+			scale=scale+p.getSamCsn_f();
 		}			
 		if(!CheckUtil.isEmptry(p.getBeginDate_f()) && !CheckUtil.isEmptry(p.getEndDate_f())){
 			flag=true;
+			scale=scale+p.getBeginDate_f()+"_"+p.getEndDate_f();
 		}
 		if(!flag){
 			throw new MessageException("必须录入任一查询条件(发行日期/单号/发行卡号/印刷卡号)");
@@ -423,7 +407,7 @@ public class StoproductBO extends IbatisBO {
 			if(p.getSamId_min().compareTo(p.getSamId_max())>0)
 				throw new MessageException("开始卡号不能大于结束卡号");
 		}
-		
+		return scale;
 		
 		
 	}

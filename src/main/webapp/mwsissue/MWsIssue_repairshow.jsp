@@ -60,7 +60,7 @@ function doDown2() {
 	});
 }
 function applyAttr_fun(obj){
-	if(obj.value==302){
+	if(obj.value==302 ||obj.value==202){
 		document.getElementById("button_module2").style.display="";
 	}else{
 		document.getElementById("button_module2").style.display="none";
@@ -197,7 +197,7 @@ function applyAttr_fun(obj){
 		 		<td height="25" align="center" class="dtPanel_Bottom"> 
 					<input type="button" id="issue" value="ÐÞ¸´·¢ÐÐ" class="Button" onClick="doIssue()"/>--> 
 		 		</td> 
-		 	<%if(mwsissuetbForm.getAppTypeId()==302){%>
+		 	<%if(mwsissuetbForm.getAppTypeId()==302 ||mwsissuetbForm.getAppTypeId()==202){%>
 		 		<td height="25" align="center" class="dtPanel_Bottom"> 
 					<input type="button"  id="down2" value="ÏÂÔØ" class="Button" onClick="doDown2()" />--> 
 		 		</td> 

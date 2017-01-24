@@ -98,14 +98,18 @@ public class DisproductBO extends IbatisBO {
 	}
 	public void querySamIdValidate(DisproductForm p)throws MessageException{
 		boolean flag=false;
+		String msg="";
 		if(!CheckUtil.isEmptry(p.getSamId_min()) && !CheckUtil.isEmptry(p.getSamId_max())){	
 			flag=true;
+			msg=p.getSamId_min()+"_"+p.getSamId_max();
 		}		
 		if(!CheckUtil.isEmptry(p.getSamCsn_f())){	
 			flag=true;
+			msg=msg+p.getSamCsn_f();
 		}			
 		if(!CheckUtil.isEmptry(p.getBeginDate_f()) && !CheckUtil.isEmptry(p.getEndDate_f())){
 			flag=true;
+			msg=msg+p.getBeginDate_f()+"_"+p.getEndDate_f();
 		}
 		if(!flag){
 			throw new MessageException("必须录入任一查询条件(报废日期/发行卡号/印刷卡号)");
@@ -135,6 +139,7 @@ public class DisproductBO extends IbatisBO {
 			if(p.getSamId_min().compareTo(p.getSamId_max())>0)
 				throw new MessageException("开始卡号不能大于结束卡号");
 		}
+		
 	}
 
 

@@ -374,7 +374,7 @@ if (pageResultLsInfo != null) {%>
 			<%}else{ %>
 			<input type="button" value="发行完成" class="Button" onClick="doIssueDone()"/>-->
 			<%} %>
-			<%if(mwsissuetbForm.getProdId().equals("4") && mwsissuetbForm.getApplyAttr().equals("302")){%>
+			<%if(mwsissuetbForm.getProdId().equals("4") && (mwsissuetbForm.getApplyAttr().equals("302") || mwsissuetbForm.getApplyAttr().equals("202"))){%>
 			<input type="button"  id="down2" value="下载" class="Button" onClick="doDown2()" />-->
 			<%} %>
 			<input type="button"  id="exam" value="检测" class="Button" onClick="doExam()"/>
