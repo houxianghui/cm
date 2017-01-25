@@ -54,7 +54,7 @@ if (pageResultLsInfo != null)
 	</tr>		
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%if(stoproductForm.getProdId().equals("4")){%>
+		<%if(stoproductForm.getAppTypeId().equals("201") ||stoproductForm.getAppTypeId().equals("202")||stoproductForm.getAppTypeId().equals("301") ||stoproductForm.getAppTypeId().equals("302")){%>
 		Ä£¿é°æ±¾:
 		</td>
 		<td class="dtPanel_Main2">&nbsp;

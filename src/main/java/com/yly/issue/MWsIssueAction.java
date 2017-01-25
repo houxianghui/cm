@@ -364,7 +364,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		}else{
 			func.setFunc("closeSystemPort");
 		}
-		if(prodId.equals("4"))//模块
+		if(prodId.equals("4") ||prodId.equals("3") )//模块
 			para.setCardtype(1);
 		else para.setCardtype(0);
 		para.setPhiTypeId(phiTypeId);
@@ -578,7 +578,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 					prod.setDetectSign((short)1);				
 					prod.setDetectTime(DateUtil.getTimeStr());
 					res = "{\"flowNo\":\""+lsvo.getFlowNo()+"\",\"detectSign\":\""+lsvo.getDetectSign()+"\",\"msg\":\"samId_"+para.getSamId()+";samCSN_"+prod.getSamCSN();
-					if(!vo.getProdId().equals("4")){		
+					if(!prod.getAppTypeId().equals("301") &&!prod.getAppTypeId().equals("302")&&!prod.getAppTypeId().equals("201")&&!prod.getAppTypeId().equals("202")){		
 						res =  res+"\"}";  
 						stoproductBO.transLsUpdate(prod,lsvo);
 						writeAjaxResponse(response, res);
@@ -667,7 +667,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		}else{
 			func.setFunc("closeSystemPort");
 		}
-		if(f.getProdId().equals("4"))//模块
+		if(f.getProdId().equals("4")||f.getProdId().equals("3"))//模块
 			para.setCardtype(1);
 		else para.setCardtype(0);
 		para.setPhiTypeId(f.getPhiTypeId());
@@ -801,7 +801,7 @@ public class MWsIssueAction extends IbatisBaseAction {
  			throw e;
  		}
  		operSysPort(vo.getProdId(),"close","0");
-		if(!vo.getProdId().equals("4")){
+		if(!vo.getApplyAttr().equals("301") &&!vo.getApplyAttr().equals("302")&&!vo.getApplyAttr().equals("201")&&!vo.getApplyAttr().equals("202")){
 			return forwardSuccessPage(request,mapping,"修复成功","Mwsissuetb.do?act=repair");
 		}else{
 			throw new MessageException("修复成功");

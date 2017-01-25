@@ -54,7 +54,7 @@ if (pageResultLsInfo != null)
 	</tr>		
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%if(storeuseForm.getProdId().equals("4")){%>
+		<%if(storeuseForm.getAppTypeId().equals("201") ||storeuseForm.getAppTypeId().equals("202")||storeuseForm.getAppTypeId().equals("301") ||storeuseForm.getAppTypeId().equals("302")){%>
 		Ä£¿é°æ±¾:
 		</td>
 		<td class="dtPanel_Main2">&nbsp;

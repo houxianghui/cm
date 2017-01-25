@@ -74,7 +74,7 @@ public class RepairAction extends IbatisBaseAction {
 		}else{
 			func.setFunc("closeSystemPort");
 		}
-		if(f.getProdId().equals("4"))//模块
+		if(f.getProdId().equals("4") ||f.getProdId().equals("3"))//模块
 			para.setCardtype(1);
 		else para.setCardtype(0);
 		para.setPhiTypeId(f.getPhiTypeId());
@@ -96,7 +96,7 @@ public class RepairAction extends IbatisBaseAction {
 		}else{
 			func.setFunc("closeSystemPort");
 		}
-		if(f.getProdId().equals("4"))//模块
+		if(f.getProdId().equals("4")||f.getProdId().equals("3"))//模块
 			para.setCardtype(1);
 		else para.setCardtype(0);
 		para.setPhiTypeId(f.getPhiTypeId());

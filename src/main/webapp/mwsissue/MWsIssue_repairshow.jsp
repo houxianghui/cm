@@ -60,7 +60,7 @@ function doDown2() {
 	});
 }
 function applyAttr_fun(obj){
-	if(obj.value==302 ||obj.value==202){
+	if(obj.value==302 ||obj.value==202||obj.value==201 ||obj.value==20){
 		document.getElementById("button_module2").style.display="";
 	}else{
 		document.getElementById("button_module2").style.display="none";
@@ -189,7 +189,7 @@ function applyAttr_fun(obj){
 </html:form>
     <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
         <tr> 
-        	<%if(mwsissuetbForm.getProdId().equals("4")){%>
+        	<%if(mwsissuetbForm.getAppTypeId()==302 ||mwsissuetbForm.getAppTypeId()==202 || mwsissuetbForm.getAppTypeId()==301 ||mwsissuetbForm.getAppTypeId()==201){%>
 				<td height="25" align="center" class="dtPanel_Bottom"> 
 					<input type="button" id="down1" value="обть" class="Button" onClick="doDown1()" />-->
 		 		</td> 

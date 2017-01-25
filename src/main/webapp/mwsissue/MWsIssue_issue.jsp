@@ -125,7 +125,7 @@ function doDown2() {
 
 	<tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%if(mwsissuetbForm.getProdId().equals("4")){%>
+		<%if(mwsissuetbForm.getApplyAttr().equals("301")||mwsissuetbForm.getApplyAttr().equals("302")||mwsissuetbForm.getApplyAttr().equals("201")||mwsissuetbForm.getApplyAttr().equals("202")){%>
 		模块版本:
 		</td>
 		<td class="dtPanel_Main2">&nbsp;
@@ -366,7 +366,7 @@ if (pageResultLsInfo != null) {%>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td height="25" align="center">
-			<%if(mwsissuetbForm.getProdId().equals("4")){%>
+			<%if(mwsissuetbForm.getApplyAttr().equals("302") || mwsissuetbForm.getApplyAttr().equals("202")||mwsissuetbForm.getApplyAttr().equals("301") || mwsissuetbForm.getApplyAttr().equals("201")){%>
 			<input type="button" id="down1" value="下载" class="Button" onClick="doDown1()" />-->
 			<%} %>
 			<%if(mwsissuetbForm.getFormState()!=3){%>
@@ -374,7 +374,7 @@ if (pageResultLsInfo != null) {%>
 			<%}else{ %>
 			<input type="button" value="发行完成" class="Button" onClick="doIssueDone()"/>-->
 			<%} %>
-			<%if(mwsissuetbForm.getProdId().equals("4") && (mwsissuetbForm.getApplyAttr().equals("302") || mwsissuetbForm.getApplyAttr().equals("202"))){%>
+			<%if(mwsissuetbForm.getApplyAttr().equals("302") || mwsissuetbForm.getApplyAttr().equals("202")){%>
 			<input type="button"  id="down2" value="下载" class="Button" onClick="doDown2()" />-->
 			<%} %>
 			<input type="button"  id="exam" value="检测" class="Button" onClick="doExam()"/>

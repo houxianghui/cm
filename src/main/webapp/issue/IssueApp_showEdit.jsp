@@ -255,7 +255,7 @@ function keyType_fun(obj){
 	
      <tr>
 		<td width="16%" align="left" class="dtPanel_Left">
-		<%if(issueappForm.getProdId().equals("4")){%>
+		<%if(issueappForm.getAppTypeId()==301 ||issueappForm.getAppTypeId()==302 ||issueappForm.getAppTypeId()==202 ||issueappForm.getAppTypeId()==201 ){%>
 		<%=ViewUtil.must()%>Ä£¿é³ÌÐò°æ±¾:
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;

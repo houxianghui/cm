@@ -113,6 +113,20 @@ function doQuery(){
 }
 function prodType_fun(obj){
 	if(obj.value==4){
+		document.getElementById("cardname").style.display="none";
+		document.getElementById("cardval").style.display="none";
+		document.getElementById("modulename").style.display="";
+		document.getElementById("moduleval").style.display="";
+	}else{
+		document.getElementById("cardname").style.display="";
+		document.getElementById("cardval").style.display="";
+		document.getElementById("modulename").style.display="none";
+		document.getElementById("moduleval").style.display="none";
+	}
+	 
+}
+function attrType_fun(obj){
+	if(obj.value==301 ||obj.value==302 ||obj.value==202 ||obj.value==201 ){
 		document.getElementById("modulename").style.display="";
 		document.getElementById("moduleval").style.display="";
 		document.getElementById("cardname").style.display="none";
@@ -301,10 +315,10 @@ function keyType_fun(obj){
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
 		<div id="hiddenId">
-		&nbsp; <%=ReDefSDicMap.getRadioWithHiddenId("appTypeId", RedefSDicCodes.APPTYPEID, "101","105","106") %>
+		&nbsp; <%=ReDefSDicMap.getRadioWith2HiddenIdFun("appTypeId", RedefSDicCodes.APPTYPEID, "101","105","106","attrType_fun(this)") %>
 		</div>
 		<div id="showId"  style="display:none">
-		&nbsp; <%=ReDefSDicMap.getRadio("appTypeId", RedefSDicCodes.APPTYPEID, "101") %>
+		&nbsp; <%=ReDefSDicMap.getRadioWithFun("appTypeId", RedefSDicCodes.APPTYPEID, "101","attrType_fun(this)") %>
 		</div>
 	
 		</td>	

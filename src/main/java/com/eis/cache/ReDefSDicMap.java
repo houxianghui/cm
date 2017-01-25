@@ -327,6 +327,45 @@ public class ReDefSDicMap {
 		return radio.toString();
 
 	}	
+	public static String getRadioWith2HiddenIdFun(String radioName, String typeID, String tagVal,String hiddenId1,String hiddenId2,String func) {
+
+		if (tagVal == null || tagVal.trim().length() <= 0)
+			return getRadio(radioName, typeID);
+
+		StringBuffer radio = new StringBuffer("");
+		ArrayList options = (ArrayList) getOptionCollection(typeID);
+
+		for (int i = 1; i < options.size(); i++) {
+			LabelValueBean bean = (LabelValueBean) (options.get(i));
+			if (hiddenId1.equals(bean.getValue())||hiddenId2.equals(bean.getValue()))
+				continue;
+			else{
+				if (tagVal.equals(bean.getValue()))
+					radio.append(
+						"<input name=\""
+							+ radioName
+							+ "\" type=\"radio\" class=\"Radiobutton\" value=\""
+							+ bean.getValue()
+							+ "\" onclick=\"" + func + "\" checked>"
+							+ bean.getLabel()
+							+ "&nbsp;&nbsp; ");
+
+				else
+					radio.append(
+						"<input name=\""
+							+ radioName
+							+ "\" type=\"radio\" class=\"Radiobutton\" value=\""
+							+ bean.getValue()
+							+ "\"  onclick=\"" + func + "\">"
+							+ bean.getLabel()
+							+ "&nbsp;&nbsp; ");
+			}
+
+		}
+
+		return radio.toString();
+
+	}	
 	/**
 	* 根据字典的规类码输出多个单选钮
 	* @param radioName - 单选钮的名字
