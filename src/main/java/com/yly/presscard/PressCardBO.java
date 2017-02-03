@@ -143,13 +143,13 @@ public class PressCardBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(obj.getPressCard_min()) || !CheckUtil.isEmptry(obj.getPressCard_max())){
 			int loc=-1;
 			if(obj.getPressCard_min().length()==14){
-				loc=6;
+				loc=5;
 			}else{
-				loc=9;
+				loc=8;
 			}
 			c.andPressCardNoLike(obj.getPressCard_min().substring(0,loc)+"%");
-			c.andPressCardNoGreaterThanOrEqualTo((obj.getPressCard_min().substring(loc)), loc);
-			c.andPressCardNoLessThanOrEqualTo((obj.getPressCard_max().substring(loc)), loc);
+			c.andPressCardNoGreaterThanOrEqualTo((obj.getPressCard_min().substring(loc)), loc+1);
+			c.andPressCardNoLessThanOrEqualTo((obj.getPressCard_max().substring(loc)), loc+1);
 		}
 		if(!CheckUtil.isEmptry(obj.getClassId())){
 			c.andClassIdEqualTo(obj.getClassId());
