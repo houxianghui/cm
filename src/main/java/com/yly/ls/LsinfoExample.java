@@ -684,32 +684,32 @@ public class LsinfoExample {
             return this;
         }
 
-        public Criteria andErrorCodeEqualTo(Short value) {
+        public Criteria andErrorCodeEqualTo(Integer value) {
             addCriterion("ErrorCode =", value, "errorCode");
             return this;
         }
 
-        public Criteria andErrorCodeNotEqualTo(Short value) {
+        public Criteria andErrorCodeNotEqualTo(Integer value) {
             addCriterion("ErrorCode <>", value, "errorCode");
             return this;
         }
 
-        public Criteria andErrorCodeGreaterThan(Short value) {
+        public Criteria andErrorCodeGreaterThan(Integer value) {
             addCriterion("ErrorCode >", value, "errorCode");
             return this;
         }
 
-        public Criteria andErrorCodeGreaterThanOrEqualTo(Short value) {
+        public Criteria andErrorCodeGreaterThanOrEqualTo(Integer value) {
             addCriterion("ErrorCode >=", value, "errorCode");
             return this;
         }
 
-        public Criteria andErrorCodeLessThan(Short value) {
+        public Criteria andErrorCodeLessThan(Integer value) {
             addCriterion("ErrorCode <", value, "errorCode");
             return this;
         }
 
-        public Criteria andErrorCodeLessThanOrEqualTo(Short value) {
+        public Criteria andErrorCodeLessThanOrEqualTo(Integer value) {
             addCriterion("ErrorCode <=", value, "errorCode");
             return this;
         }
@@ -724,12 +724,12 @@ public class LsinfoExample {
             return this;
         }
 
-        public Criteria andErrorCodeBetween(Short value1, Short value2) {
+        public Criteria andErrorCodeBetween(Integer value1, Integer value2) {
             addCriterion("ErrorCode between", value1, value2, "errorCode");
             return this;
         }
 
-        public Criteria andErrorCodeNotBetween(Short value1, Short value2) {
+        public Criteria andErrorCodeNotBetween(Integer value1, Integer value2) {
             addCriterion("ErrorCode not between", value1, value2, "errorCode");
             return this;
         }

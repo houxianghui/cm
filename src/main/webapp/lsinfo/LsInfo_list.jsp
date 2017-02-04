@@ -51,6 +51,7 @@ function doLsDown(){
 			<td>SAM印刷卡号</td>
 			<td>检测结果</td>						
 			<td>错误码</td>
+			<td>错误描述</td>
 			<td>原SAM号</td>
 			<td>原SAM印刷号</td>
 			<td>录入员</td>
@@ -72,6 +73,7 @@ function doLsDown(){
 			<td><%=vo.getSamCSN()==null?"":vo.getSamCSN()%></td>					
 			<td><%=vo.getDetectSign()==null?"":SingleDicMap.getDicItemVal(SingleDic.DETECSIGN, String.valueOf(vo.getDetectSign()))%></td>
 			<td><%=vo.getErrorCode()==null?"":SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(vo.getErrorCode()))%></td>
+			<td><%=vo.getErrorDesc()==null?"":vo.getErrorDesc()%></td>
 			<td><%=vo.getSamIdOld()==null?"":vo.getSamIdOld()%></td>	
 			<td><%=vo.getSamCSNOld()==null?"":vo.getSamCSNOld()%></td>	
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, vo.getOperId()) %></td>

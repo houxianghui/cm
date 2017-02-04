@@ -503,7 +503,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 					}
 				}else{
 					if(!CheckUtil.isEmptry(lsvo.getSamCSN())){
-						lsvo.setErrorCode((short)result);
+						lsvo.setErrorCode(result);
+						lsvo.setErrorDesc(func.getFunc());
 						lsinfoBO.insert(lsvo);
 						request.setAttribute("samCSN", lsvo.getSamCSN());
 						request.setAttribute("prodId", lsvo.getProdId());
@@ -519,7 +520,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 						String badSamId=stoproductBO.getMaxBadCard();
 						request.setAttribute("samId",badSamId);
 						operSysPort(vo.getProdId(),"close","0");
-						return popConfirmClosePage(request, mapping, "印刷卡号"+lsvo.getSamCSN()+"错误卡号"+badSamId+"是否标记为坏卡,错误代码"+func.getFunc()+result,"Mwsissuetb.do?act=issueInit&formNo="+f.getFormNo());
+						return popConfirmClosePage(request, mapping, "印刷卡号"+lsvo.getSamCSN()+"错误卡号"+badSamId+"是否标记为坏卡,错误代码"+func.getFunc()+SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(result)),"Mwsissuetb.do?act=issueInit&formNo="+f.getFormNo());
 					}else {
 						throw new MessageException("无法获取印刷卡号!");
 					}
@@ -564,7 +565,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 			ParaTools.setPara(para, paras, f);
 		    int result=CallFunc.callId(func, para);
 			if(result!=0){
-				res = "{\"error\":\"错误代码"+func.getFunc()+result+"\"}";
+				res = "{\"error\":\"错误代码"+func.getFunc()+SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(result))+"\"}";
 				writeAjaxResponse(response, res);
 				break;
 			}else{
@@ -595,12 +596,13 @@ public class MWsIssueAction extends IbatisBaseAction {
 					res = res+";ver_"+para.getVersion()+";moduleflag_"+mflag+"\"";
 					if(!para.getVersion().equals(ReDefSDicMap.getDicItemVal(RedefSDicCodes.MODULEVERSION, f.getBinFileVer()))){
 						res = res+",\"error\":\"模块版本错误"+para.getVersion()+"\"}";
-						lsvo.setErrorCode((short)4001);//版本错误
+						lsvo.setErrorCode(4001);//版本错误
+						lsvo.setErrorDesc("模块版本错误"+para.getVersion());
 						lsvo.setDetectSign((short)2);	
 						prod.setDetectSign((short)2);
 					}else {
 						res=res+"}";
-						lsvo.setErrorCode((short)0000);//成功
+						lsvo.setErrorCode(0);//成功
 						lsvo.setDetectSign((short)1);	
 						prod.setDetectSign((short)1);
 					}
@@ -633,7 +635,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 			ParaTools.setPara(para, paras, f);
 			int result=CallFunc.callId(func, para);
 			if(result!=0){
-				res = "{\"error\":\"错误代码"+func.getFunc()+result+"\"}";
+				res = "{\"error\":\"错误代码"+func.getFunc()+SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(result))+"\"}";
 				writeAjaxResponse(response, res);
 				break;
 			}else{
@@ -776,7 +778,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 						((MWsIssueBO)bo).transRepairTb(sto,lsvo,sec);
 					}
 				}else{
-					lsvo.setErrorCode((short)result);
+					lsvo.setErrorCode(result);
+					lsvo.setErrorDesc(func.getFunc());
 					lsinfoBO.insert(lsvo);
 					request.setAttribute("samCSN", lsvo.getSamCSN());
 					request.setAttribute("prodId", lsvo.getProdId());
@@ -791,7 +794,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 					request.setAttribute("unitId", f.getUnitId());
 					request.setAttribute("samId",lsvo.getSamId());
 					operSysPort(vo.getProdId(),"close","0");
-					return popConfirmClosePage(request, mapping, "印刷卡号"+lsvo.getSamCSN()+"发行卡号"+lsvo.getSamId()+"是否标记为坏卡,错误代码"+func.getFunc()+result,"Mwsissuetb.do?act=repair");
+					return popConfirmClosePage(request, mapping, "印刷卡号"+lsvo.getSamCSN()+"发行卡号"+lsvo.getSamId()+"是否标记为坏卡,错误代码"+func.getFunc()+SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(result)),"Mwsissuetb.do?act=repair");
 	
 				}
 			}

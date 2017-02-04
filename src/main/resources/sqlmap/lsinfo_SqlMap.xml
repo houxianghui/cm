@@ -19,6 +19,7 @@
     <result column="OperId" property="operId" jdbcType="VARCHAR" />
     <result column="CurrDate" property="currDate" jdbcType="VARCHAR" />
     <result column="ProdId" property="prodId" jdbcType="VARCHAR" />    
+    <result column="ErrorDesc" property="errorDesc" jdbcType="VARCHAR" />        
   </resultMap>
    <resultMap class="com.yly.stor.Stoappinfo" id="StockBalReportMap">
     <result column="CurrPeriodAmt" jdbcType="DECIMAL" property="currPeriodAmt" />
@@ -71,7 +72,7 @@
       This element was generated on Wed May 25 09:26:11 CST 2016.
     -->
     select FlowNo, AppNo, FormNo, SamId, SamCSN, OperationType, DetectSign, ErrorCode, SamIdOld,
-      SamCSNOld, OperId, CurrDate,ProdId
+      SamCSNOld, OperId, CurrDate,ProdId,ErrorDesc
     from lsinfo
     <isParameterPresent >
       <include refid="lsinfo.ibatorgenerated_Example_Where_Clause" />
@@ -86,7 +87,7 @@
       This element was generated on Wed May 25 09:26:11 CST 2016.
     -->
     select FlowNo, AppNo, FormNo, SamId, SamCSN, OperationType, DetectSign, ErrorCode, SamIdOld,
-      SamCSNOld, OperId, CurrDate,ProdId
+      SamCSNOld, OperId, CurrDate,ProdId,ErrorDesc
     from lsinfo
     where FlowNo = #flowNo:VARCHAR#
   </select>
@@ -112,10 +113,10 @@
       This element was generated on Wed May 25 09:26:11 CST 2016.
     -->
     insert into lsinfo (FlowNo, AppNo, FormNo, SamId, SamCSN, OperationType, DetectSign, ErrorCode,
-      SamIdOld, SamCSNOld, OperId, CurrDate,ProdId)
+      SamIdOld, SamCSNOld, OperId, CurrDate,ProdId,ErrorDesc)
     values (#flowNo:VARCHAR#, #appNo:VARCHAR#, #formNo:VARCHAR#, #samId:VARCHAR#, #samCSN:VARCHAR#,
       #operationType:DECIMAL#, #detectSign:DECIMAL#, #errorCode:DECIMAL#, #samIdOld:VARCHAR#,
-      #samCSNOld:VARCHAR#, #operId:VARCHAR#, #currDate:VARCHAR#, #prodId:VARCHAR#)
+      #samCSNOld:VARCHAR#, #operId:VARCHAR#, #currDate:VARCHAR#, #prodId:VARCHAR#, #errorDesc:VARCHAR#)
   </insert>
   <insert id="ibatorgenerated_insertSelective" parameterClass="com.yly.ls.Lsinfo" >
     <!--
@@ -163,6 +164,9 @@
        <isNotNull prepend="," property="prodId" >
         ProdId
       </isNotNull>
+       <isNotNull prepend="," property="errorDesc" >
+        ErrorDesc
+      </isNotNull>
       )
     </dynamic>
     values
@@ -205,6 +209,9 @@
       </isNotNull>
       <isNotNull prepend="," property="prodId" >
         #prodId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="errorDesc" >
+        #errorDesc:VARCHAR#
       </isNotNull>
       )
     </dynamic>
@@ -263,6 +270,9 @@
       <isNotNull prepend="," property="record.prodId" >
         ProdId = #record.prodId:VARCHAR#
       </isNotNull>
+      <isNotNull prepend="," property="record.errorDesc" >
+        ErrorDesc = #record.errorDesc:VARCHAR#
+      </isNotNull>      
     </dynamic>
     <isParameterPresent >
       <include refid="lsinfo.ibatorgenerated_Example_Where_Clause" />
@@ -286,7 +296,8 @@
       SamCSNOld = #record.samCSNOld:VARCHAR#,
       OperId = #record.operId:VARCHAR#,
       CurrDate = #record.currDate:VARCHAR#,
-      ProdId = #record.prodId:VARCHAR#
+      ProdId = #record.prodId:VARCHAR#,
+      ErrorDesc = #record.errorDesc:VARCHAR#,
     <isParameterPresent >
       <include refid="lsinfo.ibatorgenerated_Example_Where_Clause" />
     </isParameterPresent>
@@ -334,6 +345,9 @@
       <isNotNull prepend="," property="prodId" >
         ProdId = #prodId:VARCHAR#
       </isNotNull>
+      <isNotNull prepend="," property="errorDesc" >
+        ErrorDesc = #errorDesc:VARCHAR#
+      </isNotNull>
     </dynamic>
     where FlowNo = #flowNo:VARCHAR#
   </update>
@@ -354,7 +368,8 @@
       SamCSNOld = #samCSNOld:VARCHAR#,
       OperId = #operId:VARCHAR#,
       CurrDate = #currDate:VARCHAR#,
-      ProdId = #prodId:VARCHAR#
+      ProdId = #prodId:VARCHAR#,
+      ErrorDesc = #errorDesc:VARCHAR#
     where FlowNo = #flowNo:VARCHAR#
   </update>
   <select id="getStockBalReport" resultMap="StockBalReportMap" parameterClass="com.yly.ls.LsinfoExample" >

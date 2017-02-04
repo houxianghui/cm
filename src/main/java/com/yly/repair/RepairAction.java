@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.eis.base.BaseForm;
 import com.eis.base.IbatisBaseAction;
+import com.eis.cache.SingleDic;
+import com.eis.cache.SingleDicMap;
 import com.eis.exception.MessageException;
 import com.eis.portal.UserContext;
 import com.eis.util.CheckUtil;
@@ -125,7 +127,7 @@ public class RepairAction extends IbatisBaseAction {
 			f.setCardcsn(cardCsn);
 			res = "{\"csn\":\""+cardCsn+"\"}";
 		}else{
-			res = "{\"error\":\"´íÎó´úÂë"+result+"\"}";
+			res = "{\"error\":\"´íÎó´úÂë"+SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(result))+"\"}";
 		}
 		processSysPort(response, f,"close");
 		writeAjaxResponse(response, res);
@@ -172,7 +174,7 @@ public class RepairAction extends IbatisBaseAction {
 					String badSamId=stoproductBO.getMaxBadCard();
 					request.setAttribute("samId",badSamId);
 					operSysPort(f,"close");
-					return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+f.getCardcsn()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+result,"Repair.do?act=repairInit");
+					return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+f.getCardcsn()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(result)),"Repair.do?act=repairInit");
 			    }
 			}
 		}catch(Exception e){

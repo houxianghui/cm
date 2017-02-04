@@ -263,7 +263,7 @@ function doDown2() {
 					<td width="10%">检测结果</td>	
 					<td width="10%">发行员</td>	
 					<td width="10%">发行时间</td>			
-					<td width="10%">错误码</td>				
+					<td width="10%">错误码</td>			
 				</tr>
 				<%List list = pageResultLsInfo.getList();
 
@@ -272,14 +272,14 @@ if (list != null) {
     while (iter.hasNext()) {
     	Lsinfo vo = (Lsinfo)iter.next();%>
 				<tr align="center" class="dtPanel_Main2" onclick="_clickTr( this )">
-				<%if(vo.getErrorCode()!=null && vo.getErrorCode()!=0000){%>
+				<%if(vo.getErrorCode()!=null && vo.getErrorCode()!=0){%>
 					<td bgcolor="#FF2400"><%=vo.getFlowNo()%></td>	
 					<td bgcolor="#FF2400"><%=vo.getSamId()%></td>
 					<td bgcolor="#FF2400"><%=vo.getSamCSN()%></td>
 					<td bgcolor="#FF2400"><div id="detectSign<%=vo.getFlowNo()%>"></div><div id="detect<%=vo.getFlowNo()%>"><%=vo.getDetectSign()==null?"":SingleDicMap.getDicItemVal(SingleDic.DETECSIGN, String.valueOf(vo.getDetectSign()))%></div></td>
 					<td bgcolor="#FF2400"><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, String.valueOf(vo.getOperId())) %></td>
-					<td bgcolor="#FF2400"><%=vo.getCurrDate()%></td>		
-					<td bgcolor="#FF2400"><%=SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(vo.getErrorCode()))%></td>	
+					<td bgcolor="#FF2400"><%=vo.getCurrDate()%></td>	
+					<td bgcolor="#FF2400"><%=(vo.getErrorDesc()==null?"":vo.getErrorDesc())+(SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(vo.getErrorCode())))%></td>				
 				<%}else if(vo.getSamId().startsWith("81")){ %>
 					<td bgcolor="#CFB53B"><%=vo.getFlowNo()%></td>	
 					<td bgcolor="#CFB53B"><%=vo.getSamId()%></td>
