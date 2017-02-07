@@ -563,4 +563,16 @@ public final class StringUtil {
 		}
 		return Integer.parseInt(s);
 	}
+	public static String getLastSpaceByFix(String s){
+		if(CheckUtil.isEmptry(s)){
+			return null;
+		}
+		String s_process="";
+		String[] a = s.split("\\ ");
+		for (int i = 0; i<a.length-1; i++){
+			s_process=s_process+a[i];
+	    }
+		s_process=s_process+a[a.length-1].substring(0, 8);
+		return s_process;
+	}
 }
