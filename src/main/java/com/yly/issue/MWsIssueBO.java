@@ -356,7 +356,7 @@ public class MWsIssueBO extends IbatisBO {
 	public void setFunc(MWsIssuetbForm f, Func func) {
 		func.setApplyAttr(f.getApplyAttr());
 		func.setManufacId(f.getManufacId());
-		func.setProdId(f.getProdId());
+//		func.setProdId(f.getProdId());
 	}
 
 	public void setOperAct(Mwsissuetb vo, Func func,int step) {

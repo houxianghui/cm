@@ -364,7 +364,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		}else{
 			func.setFunc("closeSystemPort");
 		}
-		if(prodId.equals("4") ||prodId.equals("3") )//Ä£¿é
+		if(prodId.equals("4"))//Ä£¿é
 			para.setCardtype(1);
 		else para.setCardtype(0);
 		para.setPhiTypeId(phiTypeId);
@@ -392,11 +392,17 @@ public class MWsIssueAction extends IbatisBaseAction {
 		Mwsissuetb vo=((MWsIssueBO)bo).queryIssueTaskCtrl(f.getFormNo());
 		copyProperties(f,vo);
 		f.setAuthkey(authKey);
+		Func func=new Func();
+		Para para=new Para();
+		if(f.getApplyAttr().equals("201") ||f.getApplyAttr().equals("202")){
+			func.setProdId("4");//Ä£¿é
+		}else{
+			func.setProdId(f.getProdId());
+		}
 		try{
-			operSysPort(vo.getProdId(),"open",vo.getPhiTypeId());
+			operSysPort(func.getProdId(),"open",vo.getPhiTypeId());
 			((MWsIssueBO)bo).initMwsissueToPara(f);
-			Func func=new Func();
-			Para para=new Para();
+
 			Stoproduct prod=new Stoproduct();
 			((MWsIssueBO)bo).setFunc(f, func);
 			Lsinfo lsvo = ((MWsIssueBO)bo).setLsInfo(user, vo);
@@ -519,7 +525,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 						request.setAttribute("unitId", f.getUnitId());
 						String badSamId=stoproductBO.getMaxBadCard();
 						request.setAttribute("samId",badSamId);
-						operSysPort(vo.getProdId(),"close","0");
+						operSysPort(func.getProdId(),"close","0");
 						return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+lsvo.getSamCSN()+"´íÎó¿¨ºÅ"+badSamId+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(result)),"Mwsissuetb.do?act=issueInit&formNo="+f.getFormNo());
 					}else {
 						throw new MessageException("ÎÞ·¨»ñÈ¡Ó¡Ë¢¿¨ºÅ!");
@@ -528,10 +534,10 @@ public class MWsIssueAction extends IbatisBaseAction {
 				}
 			}
 		}catch(Exception e){
-			operSysPort(vo.getProdId(),"close","0");
+			operSysPort(func.getProdId(),"close","0");
 			throw e;
   		}
-		operSysPort(vo.getProdId(),"close","0");
+		operSysPort(func.getProdId(),"close","0");
 		setPageResult(request, lsinfoBO.queryForListByFormNo(vo.getFormNo()));
         request.setAttribute("pageResultLsInfo", request.getAttribute("pageResult"));
 		copyProperties(form, vo);
@@ -547,9 +553,14 @@ public class MWsIssueAction extends IbatisBaseAction {
 		f.setBinFileVer(request.getParameter("binFileVer"));
 		Mwsissuetb vo= new Mwsissuetb();
 		copyProperties(vo, f);
-		processSysPort(response, f,"open");
-		((MWsIssueBO)bo).initMwsissueToPara(f);
 		Func func=new Func();
+		if(f.getApplyAttr().equals("201") ||f.getApplyAttr().equals("202")){
+			func.setProdId("4");
+		}else{
+			func.setProdId(f.getProdId());
+		}
+		processSysPort(response,"open",func.getProdId(),f.getPhiTypeId());
+		((MWsIssueBO)bo).initMwsissueToPara(f);
 		((MWsIssueBO)bo).setFunc(f,func);
 		String res="";
 		Stoproduct prod = new Stoproduct();
@@ -612,7 +623,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 				}
 			}
 		}
- 		processSysPort(response, f,"close");
+		processSysPort(response,"close",func.getProdId(),f.getPhiTypeId());
 	}
 	public void read(BaseForm form,ActionMapping mapping,HttpServletRequest request,HttpServletResponse response)throws Exception{
 		MWsIssuetbForm f = new MWsIssuetbForm();
@@ -624,7 +635,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		func.setProdId(f.getProdId());
 		Para para=new Para();
 		String res="";
-		processSysPort(response, f,"open");
+		processSysPort(response,"open",func.getProdId(),f.getPhiTypeId());		
 		for(int i=1;i<3;i++){
 			if(i==1)
 				func.setOperAct("R");
@@ -658,11 +669,11 @@ public class MWsIssueAction extends IbatisBaseAction {
 			
 			}
 		}
-		processSysPort(response, f,"close");
+		processSysPort(response,"close",func.getProdId(),f.getPhiTypeId());
 	}
 
 	public void processSysPort(HttpServletResponse response,
-			MWsIssuetbForm f,String oper) throws Exception, MessageException {
+			String oper,String prodId,String phiTypeId) throws Exception, MessageException {
 		
 		int result;
 		Func func=new Func();
@@ -672,10 +683,10 @@ public class MWsIssueAction extends IbatisBaseAction {
 		}else{
 			func.setFunc("closeSystemPort");
 		}
-		if(f.getProdId().equals("4")||f.getProdId().equals("3"))//Ä£¿é
+		if(prodId.equals("4"))//Ä£¿é
 			para.setCardtype(1);
 		else para.setCardtype(0);
-		para.setPhiTypeId(f.getPhiTypeId());
+		para.setPhiTypeId(phiTypeId);
 		result=CallFunc.callId(func, para);
 		if(result!=0 ){
 			String res = "{\"error\":\"¶ÁÐ´Æ÷"+oper+"Ê§°Ü"+result+"\"}";
@@ -719,8 +730,15 @@ public class MWsIssueAction extends IbatisBaseAction {
 		f.setApplyAttr(String.valueOf(f.getAppTypeId()));
 		Mwsissuetb vo = new Mwsissuetb();
  		copyProperties(vo,f);
+		Func func=new Func();
+		Para para=new Para();
+ 		if(f.getApplyAttr().equals("201") ||f.getApplyAttr().equals("202")){
+			func.setProdId("4");//Ä£¿é
+		}else{
+			func.setProdId(f.getProdId());
+		}
  		try{
- 			operSysPort(vo.getProdId(),"open",f.getPhiTypeId());
+ 			operSysPort(func.getProdId(),"open",f.getPhiTypeId());
 			Lsinfo lsvo = ((MWsIssueBO)bo).setLsInfo(user, vo);
 			lsvo.setSamId(f.getSamId());
 			lsvo.setSamCSN(f.getCardcsn());
@@ -729,10 +747,9 @@ public class MWsIssueAction extends IbatisBaseAction {
 			lsvo.setSamIdOld(f.getSamId());
 			((MWsIssueBO)bo).initMwsissueToPara(f);
 			initIssueParaByApplyType(f);
-			Func func=new Func();
-			Para para=new Para();
+
 			((MWsIssueBO)bo).setFunc(f, func);
-			if(vo.getProdId().equals("4")){
+			if(func.getProdId().equals("4")){
 				if(!CheckUtil.isEmptry(f.getPartManufacId()))
 					func.setManufacId(f.getPartManufacId());
 				else if(!CheckUtil.isEmptry(sto.getBatchIdParts())){
@@ -796,17 +813,17 @@ public class MWsIssueAction extends IbatisBaseAction {
 					request.setAttribute("formNo", "");
 					request.setAttribute("unitId", f.getUnitId());
 					request.setAttribute("samId",lsvo.getSamId());
-					operSysPort(vo.getProdId(),"close","0");
+					operSysPort(func.getProdId(),"close","0");
 					return popConfirmClosePage(request, mapping, "Ó¡Ë¢¿¨ºÅ"+lsvo.getSamCSN()+"·¢ÐÐ¿¨ºÅ"+lsvo.getSamId()+"ÊÇ·ñ±ê¼ÇÎª»µ¿¨,´íÎó´úÂë"+func.getFunc()+SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(result)),"Mwsissuetb.do?act=repair");
 	
 				}
 			}
 			
  		}catch(Exception e){
- 			operSysPort(vo.getProdId(),"close","0");
+ 			operSysPort(func.getProdId(),"close","0");
  			throw e;
  		}
- 		operSysPort(vo.getProdId(),"close","0");
+ 		operSysPort(func.getProdId(),"close","0");
 		if(!vo.getApplyAttr().equals("301") &&!vo.getApplyAttr().equals("302")&&!vo.getApplyAttr().equals("201")&&!vo.getApplyAttr().equals("202")){
 			return forwardSuccessPage(request,mapping,"ÐÞ¸´³É¹¦","Mwsissuetb.do?act=repair");
 		}else{
