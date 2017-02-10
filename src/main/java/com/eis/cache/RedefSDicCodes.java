@@ -19,7 +19,7 @@ public interface RedefSDicCodes {
 	String STUFF_COLLECTION="9999";	//员工
 	String PM = "9998";	//项目经理
 	String TM = "9997";	//需求经理
-	String UNITID = "1001"; //申请一级单位
+	String UNITID = "1001"; //有效申请一级单位
 	String ALL_UNITID = "1002"; //申请单位
 	String INOPERATIONTYPE="0010"; //入库操作类型
 	String ISSOPERATIONTYPE="0020"; //发行操作类型 配置

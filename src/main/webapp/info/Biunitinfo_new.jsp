@@ -82,12 +82,7 @@ function doAdd(){
 			<html:text property="unitaddr" styleClass="Textfield"  size="20" maxlength="40"  />
   		  </td> 
        </tr> 
-          <tr bgcolor="#FFFFFF"> 
-          <td width="35%" align="right" class="dtPanel_Left">&nbsp;<%=ViewUtil.must()%>测试标记：</td> 
-         <td align="left" class="dtPanel_Main2">&nbsp; 
-			<html:text property="unittestflag" styleClass="Textfield"  size="1" maxlength="1"  />
-  		  </td> 
-       </tr> 
+
         <tr bgcolor="#FFFFFF"> 
           <td width="35%" align="right" class="dtPanel_Left">&nbsp;<%=ViewUtil.must()%>上级机构：</td> 
          <td align="left" class="dtPanel_Main2">&nbsp; 
@@ -101,11 +96,18 @@ function doAdd(){
   		  </td> 
        </tr>     
         <tr bgcolor="#FFFFFF"> 
+          <td width="35%" align="right" class="dtPanel_Left">&nbsp;<%=ViewUtil.must()%>状态：：</td> 
+         <td align="left" class="dtPanel_Main2">&nbsp; 
+        	 <%=SingleDicMap.getRadio("unittestflag", SingleDic.STATE, "1")%>
+  		  </td> 
+       </tr> 
+        <tr bgcolor="#FFFFFF"> 
           <td width="35%" align="right" class="dtPanel_Left">&nbsp;备注：</td> 
          <td align="left" class="dtPanel_Main2">&nbsp; 
         		<html:textarea property="rsvd" cols="50" rows="1" styleClass="Textfield" value=""/>
          </td> 
        </tr> 
+       
   </table> 
  
     <table  class=heightspace_bottom1  border="0" cellspacing="0" cellpadding="0"><tr><td></td></tr></table> 

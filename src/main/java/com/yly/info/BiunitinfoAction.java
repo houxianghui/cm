@@ -53,8 +53,13 @@ public class BiunitinfoAction extends IbatisBaseAction {
 				return add(form,mapping,request,user);
 			}
 			
-		}
-		if("list".equals(act)){		//query active projects
+		}else if ("u".equals(act)) { 								//修改申请资料信息 
+            String step = request.getParameter("step");
+            if (null == step) { 									//初始化阶段，查询明细信息并跳转到修改页面 
+                return initEdit(form,mapping, request); 
+            } else 												//用户已提交修改后的数据，执行数据保存 
+                return update(form,mapping, request, user);
+        }else if("list".equals(act)){		//query active projects
 			return queryList(form,mapping,request,user);
 		}else if("popList".equals(act)){		//query active projects
 			return popList(form,mapping,request,user);
@@ -74,7 +79,21 @@ public class BiunitinfoAction extends IbatisBaseAction {
 		return forwardSuccessPage(request,mapping,"保存成功","Biunitinfo.do?act=list");
 		
 	}
-	
+	public ActionForward initEdit(BaseForm form,ActionMapping mapping,HttpServletRequest request)throws Exception{
+		Biunitinfotb vo =((BiunitinfoBO)bo).queryForObject(Integer.parseInt(request.getParameter("unitId")));
+		copyProperties(form,vo);
+		return mapping.findForward("edit");
+		
+	}
+	public ActionForward update(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
+		Biunitinfotb vo = new Biunitinfotb();
+		BiunitinfotbForm f = (BiunitinfotbForm)form;
+		copyProperties(vo,f);
+		vo.setOperId(user.getUserID());		
+		vo.setCurrDate(DateUtil.getTimeStr());
+		((BiunitinfoBO)bo).update(vo);	
+		return forwardSuccessPage(request,mapping,"更新成功","Biunitinfo.do?act=list");
+	}
 	public ActionForward queryList(BaseForm form,ActionMapping mapping,HttpServletRequest request,UserContext user)throws Exception{
 		String requery = request.getParameter("requery");
 		if (requery == null) {			

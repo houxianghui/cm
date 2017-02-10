@@ -94,6 +94,7 @@
 			<forward name="list" path="/info/Biunitinfo_popList.jsp" />
 			<forward name="qlist" path="/info/Biunitinfo_list.jsp" />
 			<forward name="new" path="/info/Biunitinfo_new.jsp" />
+			<forward name="edit" path="/info/Biunitinfo_edit.jsp" />
 		</action>
 		<action path="/Stoproduct" type="org.springframework.web.struts.DelegatingActionProxy" name="stoproductForm"
 			scope="request" validate="false">

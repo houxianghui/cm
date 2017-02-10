@@ -17,7 +17,20 @@ function doAdd(){
 	//增加 
 	window.location="Biunitinfo.do?act=c"; 
 } 
-
+function setPKey(unitId_var) { 
+	document.forms[0].unitId.value=unitId_var; 
+} 
+function doEdit(){ 
+	//修改 
+	//检查是否有选中的纪录 
+	if(document.forms[0].unitId.value == null ||document.forms[0].unitId.value == "") { 
+		alert('请先选择纪录'); 
+		return; 
+	} 
+	//提交表单 
+	document.forms[0].act.value='u'; 
+	document.forms[0].submit(); 
+} 
 function doQuery() {  
 	document.forms[0].act.value = "list";
 	document.forms[0].submit(); 
@@ -28,7 +41,10 @@ function turnPage( pagenm ) {
     	document.forms[0].pageNO.value = pagenm;     
     	document.forms[0].submit(); 
 } 
- 
+function doNoUse() {  
+	document.forms[0].act.value = "disUse";
+	document.forms[0].submit(); 
+}
 </script>
 </head>
 <body>
@@ -36,6 +52,7 @@ function turnPage( pagenm ) {
 <html:form method="post" action="Biunitinfo.do">
 <input type=hidden name=act value="list">
 <input type=hidden name=requery>
+<input type=hidden name=unitId>
 <%=ViewUtil.getTitle("申请单位列表信息列表")%>
 	
 	<table class=heightspace_top3 width="98%" border="0" cellspacing="1"
@@ -62,12 +79,14 @@ function turnPage( pagenm ) {
 			<td>联系人</td>	
 			<td>电话</td>	
 			<td>地址</td>	
-			<td>测试标记</td>						
 			<td>上级机构</td>
 			<td>单位等级</td>
 			<td>录入员</td>
 			<td>录入日期</td>
 			<td>备注</td>
+			<td>状态</td>
+			<td>选择</td>
+			
 		</tr>
 		<%if (pageResult != null) {
 	List list = pageResult.getList();
@@ -85,12 +104,13 @@ function turnPage( pagenm ) {
 			<td><%=vo.getUnitperson()%></td>	
 			<td><%=vo.getUnittel()%></td>	
 			<td><%=vo.getUnitaddr()%></td>	
-			<td><%=vo.getUnittestflag()%></td>	
 			<td><%=vo.getLeadStore()%></td>	
 			<td><%=SingleDicMap.getDicItemVal(SingleDic.UNIT_LEVEL,vo.getUnitlevel())%></td>				
 			<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, vo.getOperId()) %></td>
 			<td><%=vo.getCurrDate()%></td>		
-			<td><%=vo.getRsvd()%></td>				
+			<td><%=vo.getRsvd()%></td>
+			<td><%=SingleDicMap.getDicItemVal(SingleDic.STATE, vo.getUnittestflag())%></td>	
+			<td align="center"><label><input type="radio" name="param"	onClick="setPKey('<%=vo.getUnitid()%>')">		
 		</tr>
 
 		<%}
@@ -113,7 +133,8 @@ if (pageResult != null) {%>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td height="25" align="center">
-			<input type="button" value="增加单位信息" class="Button" onClick="doAdd()"/>
+			<input type="button" value="增加" class="Button" onClick="doAdd()"/>
+			<input type="button" value="修改" class="Button" onClick="doEdit()"/>
 			</td>
 		</tr>
 	</table>

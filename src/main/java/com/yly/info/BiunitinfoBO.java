@@ -28,7 +28,8 @@ public class BiunitinfoBO extends IbatisBO {
 	 * @see com.eis.base.IbatisBaseBO#update(java.lang.Object)
 	 */
 	public void update(Object obj) throws Exception {
-
+		Biunitinfotb p = (Biunitinfotb)obj;
+		biunitinfoDAO.updateByPrimaryKey(p);
 	}
 
 	/* 
