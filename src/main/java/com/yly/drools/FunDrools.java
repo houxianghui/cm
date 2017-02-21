@@ -13,6 +13,7 @@ public class FunDrools {
 
 	public void getFunc(Func func) throws MessageException {
         try { 
+        	func.setFunc(null);
     	    kSession.execute(func);
             System.out.println("Func is "+func.getFunc());
             System.out.println("Para is "+func.getPara());

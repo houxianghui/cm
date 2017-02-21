@@ -566,17 +566,48 @@ public class MWsIssueAction extends IbatisBaseAction {
 		Stoproduct prod = new Stoproduct();
 		Lsinfo lsvo = new Lsinfo();
 		Para para=new Para();
-		for(int i=1;i<3;i++){
+		for(int i=1;i<4;i++){
 			if(i==1)
 				func.setOperAct("R");
 			else if(i==2)
 				func.setOperAct("RV");
+			else if(i==3)
+				func.setOperAct("TV");
 			funDrools.getFunc(func);
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
 		    int result=CallFunc.callId(func, para);
 			if(result!=0){
-				res = "{\"error\":\"错误代码"+func.getFunc()+SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(result))+"\"}";
+				if(i==1){
+					res = "{\"error\":\"错误代码"+func.getFunc()+SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(result))+"\"}";
+				}else if(i==2){
+					res=res+",\"error\":\"错误代码"+func.getFunc()+SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(result))+"\"}";
+					lsvo.setErrorCode(4003);//版本找不到
+					lsvo.setErrorDesc("模块版本未发现");
+					lsvo.setDetectSign((short)2);	
+					prod.setDetectSign((short)2);
+					stoproductBO.transLsUpdate(prod,lsvo);
+				}else{
+//					String resultStr=para.getResult();
+//					String errorType="";
+//					String errorDs[]={"读卡测试","扣费测试","密钥测试","初始化"};
+//					if(resultStr.equals("9999"))
+//						errorType="不支持此检测";
+//					else{
+//						for(int j=0;j<4;j++){
+//							if(!resultStr.substring(j, j+1).equals("1")){
+//								errorType=errorDs[j];
+//								break;
+//							}else continue;
+//						}
+//					}
+					res = res+",\"error\":\"模块检测失败\"}";
+					lsvo.setErrorCode(4002);//模块检测错误
+					lsvo.setErrorDesc("模块检测失败");
+					lsvo.setDetectSign((short)2);	
+					prod.setDetectSign((short)2);
+					stoproductBO.transLsUpdate(prod,lsvo);
+				}
 				writeAjaxResponse(response, res);
 				break;
 			}else{
@@ -598,9 +629,9 @@ public class MWsIssueAction extends IbatisBaseAction {
 					}else{
 						continue;
 					} 
-				}else{
+				}else if(i==2){
 					String mflag=para.getModelflag()==1?"脱机模块":"联机模块";
-					if(para.getModelflag()!=1){
+					if(para.getModelflag()!=1){//联机
 						para.setVersion(StringUtil.getLastSpaceByFix(para.getVersion()));
 					}
 					para.setVersion(StringUtil.trim(para.getVersion()));
@@ -611,16 +642,32 @@ public class MWsIssueAction extends IbatisBaseAction {
 						lsvo.setErrorDesc("模块版本错误"+para.getVersion());
 						lsvo.setDetectSign((short)2);	
 						prod.setDetectSign((short)2);
+						stoproductBO.transLsUpdate(prod,lsvo);
+						writeAjaxResponse(response, res);
+						break;
 					}else {
-						res=res+"}";
+						if(testModule(para.getVersion())){
+							continue;
+						}else{
+							res=res+"}";  
+							lsvo.setErrorCode(0);//成功
+							lsvo.setDetectSign((short)1);	
+							prod.setDetectSign((short)1);
+							stoproductBO.transLsUpdate(prod,lsvo);
+							writeAjaxResponse(response, res);
+							break;
+						}
+
+					}
+				}else {
+						res=res+"}";  
 						lsvo.setErrorCode(0);//成功
 						lsvo.setDetectSign((short)1);	
 						prod.setDetectSign((short)1);
-					}
-		
-					stoproductBO.transLsUpdate(prod,lsvo);
-					writeAjaxResponse(response, res);
+						stoproductBO.transLsUpdate(prod,lsvo);
+						writeAjaxResponse(response, res);
 				}
+				
 			}
 		}
 		processSysPort(response,"close",func.getProdId(),f.getPhiTypeId());
@@ -636,17 +683,38 @@ public class MWsIssueAction extends IbatisBaseAction {
 		Para para=new Para();
 		String res="";
 		processSysPort(response,"open",func.getProdId(),f.getPhiTypeId());		
-		for(int i=1;i<3;i++){
+		for(int i=1;i<4;i++){
 			if(i==1)
 				func.setOperAct("R");
 			else if(i==2)
 				func.setOperAct("RV");
+			else if(i==3)
+				func.setOperAct("TV");
 			funDrools.getFunc(func);
 			String[] paras=func.getPara().split(",");
 			ParaTools.setPara(para, paras, f);
 			int result=CallFunc.callId(func, para);
 			if(result!=0){
-				res = "{\"error\":\"错误代码"+func.getFunc()+SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(result))+"\"}";
+				if(i==1){
+					res = "{\"error\":\"错误代码"+func.getFunc()+SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(result))+"\"}";
+				}else if(i==2){
+					res = res+",\"error\":\"错误代码"+func.getFunc()+SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(result))+"\"}";
+				}else{
+//					String resultStr=para.getResult();
+//					String errorType="";
+//					String errorDs[]={"读卡测试","扣费测试","密钥测试","初始化"};
+//					if(resultStr.equals("9999"))
+//						errorType="不支持此检测";
+//					else{
+//						for(int j=0;j<4;j++){
+//							if(!resultStr.substring(j, j+1).equals("1")){
+//								errorType=errorDs[j];
+//								break;
+//							}else continue;
+//						}
+//					}
+					res = res+",\"error\":\"模块检测失败\"}";
+				}
 				writeAjaxResponse(response, res);
 				break;
 			}else{
@@ -659,11 +727,20 @@ public class MWsIssueAction extends IbatisBaseAction {
 					}else{//模块修复需要读出卡号和模块版本
 						continue;
 					} 
-				}else{
+				}else if(i==2){
 					if(para.getModelflag()!=1){
 						para.setVersion(StringUtil.getLastSpaceByFix(para.getVersion()));
 					}
-					res = res+"\",\"module\":\""+para.getVersion()+"\"}";
+					res = res+"\",\"module\":\""+para.getVersion()+"\"";
+					if(testModule(para.getVersion())){
+						continue;
+					}else{
+						res=res+"}";  
+						writeAjaxResponse(response, res);
+						break;
+					}
+				}else{
+					res=res+"}";  
 					writeAjaxResponse(response, res);
 				}
 			
@@ -867,6 +944,16 @@ public class MWsIssueAction extends IbatisBaseAction {
 		f.setIsPki(Integer.parseInt(apply.getIsPki()));
 		f.setZeroExauthFlag(Integer.parseInt(CheckUtil.isEmptry(apply.getIsIsamTestAllO())?"0":apply.getIsIsamTestAllO()));
 		return f;
+	}
+	private boolean testModule(String version){
+		boolean flag=false;
+		if (version.startsWith("小消费"))
+			flag=true;
+		else if (version.startsWith("停车场"))
+			flag=true;
+		else if (version.startsWith("PR车场"))
+			flag=true;
+		return flag;
 	}
 
 }

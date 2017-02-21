@@ -2,6 +2,9 @@ package com.yly.func;
 
 import java.io.UnsupportedEncodingException;
 
+import javax.naming.spi.DirStateFactory.Result;
+
+import com.eis.util.CheckUtil;
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.Dispatch;
 import com.jacob.com.Variant;
@@ -488,5 +491,21 @@ public class JacobInter {
 		disp.safeRelease();
 		return i;
     }			
-	
+	public static int testModelProgram(Para para){
+		ActiveXComponent com = new ActiveXComponent("OCXISSUESAM.OCXIssueSAMCtrl.1") ;
+		Dispatch disp = (Dispatch)com.getObject();
+		byte[] b = new byte[20];
+		byte[] c = new byte[2];
+		int i=-1;
+		try {
+			Variant v1 = new Variant (new String(b, "UNICODE"), true) ;		
+			Variant v2 = new Variant (new String(c, "UNICODE"), true) ;		
+		    i=Dispatch.call(disp,"testModelProgram",v1,v2).getInt();
+		    
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		disp.safeRelease();
+		return i;
+    }	
 }
