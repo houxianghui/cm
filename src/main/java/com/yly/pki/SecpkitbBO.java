@@ -41,8 +41,7 @@ public class SecpkitbBO extends IbatisBO {
 	 * @see com.eis.base.IbatisBaseBO#queryForObject(java.lang.Object)
 	 */
 	public Object queryForObject(Object obj) throws Exception {
-		Secpkitb vo=((Secpkitb)obj);
-		String samId=((Secpkitb)obj).getSamId();
+ 		String samId=((Secpkitb)obj).getSamId();
 		return secpkitbDAO.selectByPrimaryKey(samId);
 	
 	}
