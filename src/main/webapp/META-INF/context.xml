@@ -23,6 +23,6 @@
 		  password="abc123"
 		  factory="org.apache.naming.factory.BeanFactory"
 		  type="com.mchange.v2.c3p0.ComboPooledDataSource"
-		  jdbcUrl="jdbc:mysql://192.168.1.93:3306/djkwgdb?characterEncoding=gbk&amp;autoReconnect=true"/>
+		  jdbcUrl="jdbc:mysql://192.168.2.74:3306/djkwgdb?characterEncoding=gbk&amp;autoReconnect=true"/>
 		  
 </Context>
