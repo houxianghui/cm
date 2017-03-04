@@ -56,7 +56,7 @@ public class SecpkitbBO extends IbatisBO {
 			c.andSamCSNEqualTo(vo.getSamCSN());
 		if(!CheckUtil.isEmptry(vo.getSamId()))
 			c.andSamIdEqualTo(vo.getSamId());	
-		e.setOrderByClause("IssueTime desc");
+		e.setOrderByClause("SamId desc");
 		return secpkitbDAO.selectByExample(e);
 	}
 	public List queryForListByScale(SecpkitbForm f) throws Exception {
@@ -72,7 +72,7 @@ public class SecpkitbBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(f.getEndDate_f())){
 			c.andIssueTimeLessThanOrEqualTo(DateUtil.parseDate(f.getEndDate_f()));
 		}
-		e.setOrderByClause("IssueTime desc");
+		e.setOrderByClause("SamId desc");
 		return secpkitbDAO.selectByExample(e);
 	}
 	/* 
