@@ -1,4 +1,3 @@
-
 <%@page import="com.yly.ls.Lsinfo"%>
 <%@ page import="com.yly.issue.Mwsissuetb"%>
 <%@ page  contentType="text/html; charset=GBK" %>
@@ -250,6 +249,24 @@ function doDown2() {
 
 
 </table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td height="25" align="center">
+			<%if(mwsissuetbForm.getApplyAttr().equals("302") || mwsissuetbForm.getApplyAttr().equals("202")||mwsissuetbForm.getApplyAttr().equals("301") || mwsissuetbForm.getApplyAttr().equals("201")){%>
+			<input type="button" id="down1" value="下载" class="Button" onClick="doDown1()" />-->
+			<%} %>
+			<%if(mwsissuetbForm.getFormState()!=3){%>
+			<input type="button" id="issue" value="发行" class="Button" onClick="doIssue()"/>-->
+			<%}else{ %>
+			<input type="button" value="发行完成" class="Button" onClick="doIssueDone()"/>-->
+			<%} %>
+			<%if(mwsissuetbForm.getApplyAttr().equals("302") || mwsissuetbForm.getApplyAttr().equals("202")){%>
+			<input type="button"  id="down2" value="下载" class="Button" onClick="doDown2()" />-->
+			<%} %>
+			<input type="button"  id="exam" value="检测" class="Button" onClick="doExam()"/>
+			</td>
+		</tr>
+</table>
  <%=ViewUtil.getTitle("发行流水信息")%> 		
 	<table width="98%" border="0" cellspacing="1" align="center"
 		cellpadding="0">
@@ -305,51 +322,6 @@ if (list != null) {
 		</tr>
 
 	</table>
-  <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
-  <script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-  <link rel="stylesheet" href="jqueryui/style.css">
-  <style>
-  .ui-progressbar {
-    position: relative;
-    width:98%; 
-   }
-  .progress-label {
-    position: absolute;
-    left: 50%;
-    top: 4px;
-    font-weight: bold;
-    text-shadow: 1px 1px 0 #fff;
-    width:98%; 
-  }
-  </style>
-  <script>
-  $(function() {
-    var progressbar = $( "#progressbar" ),
-      progressLabel = $( ".progress-label" );
- 
-    progressbar.progressbar({
-      value: false,
-      change: function() {
-        progressLabel.text( progressbar.progressbar( "value" ) + "%" );
-      },
-      complete: function() {
-        progressLabel.text( "完成！" );
-      }
-    });
- 
-    function progress() {
-      var val=<%=mwsissuetbForm.getIssueDoneAmt()*100/mwsissuetbForm.getWorkSheetAmt()%>;
-      progressbar.progressbar( "value", val );
-    }
- 
-    setTimeout( progress, 0 );
-  });
-  </script>
-</head>
-<body>
-<div id="progressbar"><div class="progress-label">加载...</div></div>
-</body>
 	
 	<%
 //产生翻页脚注 
@@ -363,24 +335,7 @@ if (pageResultLsInfo != null) {%>
 	<%}%>
 	<br>
 
-	<table width="100%" border="0" cellspacing="0" cellpadding="0">
-		<tr>
-			<td height="25" align="center">
-			<%if(mwsissuetbForm.getApplyAttr().equals("302") || mwsissuetbForm.getApplyAttr().equals("202")||mwsissuetbForm.getApplyAttr().equals("301") || mwsissuetbForm.getApplyAttr().equals("201")){%>
-			<input type="button" id="down1" value="下载" class="Button" onClick="doDown1()" />-->
-			<%} %>
-			<%if(mwsissuetbForm.getFormState()!=3){%>
-			<input type="button" id="issue" value="发行" class="Button" onClick="doIssue()"/>-->
-			<%}else{ %>
-			<input type="button" value="发行完成" class="Button" onClick="doIssueDone()"/>-->
-			<%} %>
-			<%if(mwsissuetbForm.getApplyAttr().equals("302") || mwsissuetbForm.getApplyAttr().equals("202")){%>
-			<input type="button"  id="down2" value="下载" class="Button" onClick="doDown2()" />-->
-			<%} %>
-			<input type="button"  id="exam" value="检测" class="Button" onClick="doExam()"/>
-			</td>
-		</tr>
-	</table>
+
 
 </html:form>
 

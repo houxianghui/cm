@@ -1,6 +1,5 @@
 <%@ include file = "/includes/common.jsp" %> 
 <%@ page contentType="text/html; charset=GBK"%> 
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <jsp:useBean id="repairForm" scope="request"  class="com.yly.repair.RepairForm" />
 
 

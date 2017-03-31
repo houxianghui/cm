@@ -2,7 +2,6 @@
 <%@ page contentType="text/html; charset=GBK"%> 
 <jsp:useBean id="pageResultIssuetask" scope="request"	class="com.eis.base.PageObject" />
 <jsp:useBean id="mwsissuetbForm" scope="request"  class="com.yly.issue.MWsIssuetbForm" />
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <html> 
 <head>
 <title>ÐÞ¸´·¢ÐÐ</title> 

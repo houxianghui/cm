@@ -233,7 +233,11 @@ public class MWsIssueAction extends IbatisBaseAction {
 						  vos[i].setSamId(String.valueOf(f.getSamIdBegin()));
 					}else{
 					    long samId=Long.parseLong(f.getSamIdBegin())+tot;
-					    vos[i].setSamId(String.valueOf(samId));
+					    if(String.valueOf(samId).length()!=12){
+						    vos[i].setSamId(StringUtil.addZeroB(String.valueOf(samId), 12-String.valueOf(samId).length()));
+					    }else{
+						    vos[i].setSamId(String.valueOf(samId));
+					    }
 					    vos[i].setSamIdBegin(vos[i].getSamId());
 					    long samIdEnd=samId+vos[i].getWorkSheetAmt()-1;
 					    if(String.valueOf(samIdEnd).length()!=12){

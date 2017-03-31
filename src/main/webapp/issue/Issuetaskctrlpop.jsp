@@ -25,7 +25,7 @@ function addIssue(){
 	innerHtml1 = "<input name='issue_"+rowID+"' id='issue_"+rowID+"' type='text' class='TextField' size='9' maxLength='9'  value=''/>";
 	innerHtml2 = "<input name='issue_"+rowID+"_Amt' id='issue_"+rowID+"_Amt' type='text' class='TextField' size='10' maxLength='10' onblur=onlyNum(this) onkeyup=onlyNum(this) onkeydown=onlyNum(this) value='0'/>";
 	innerHtml3 = "<input name='issue_"+rowID+"_Ctp' id='issue_"+rowID+"_Ctp' type='text' class='TextField' size='2' maxLength='2' onblur=onlyNum(this) onkeyup=onlyNum(this) onkeydown=onlyNum(this) value='1'/>";
-	innerHtml4 = "<input name='issue_"+rowID+"_Ptp' id='issue_"+rowID+"_Ptp' type='text' class='TextField' size='2' maxLength='2' onblur=onlyNum(this) onkeyup=onlyNum(this) onkeydown=onlyNum(this) value='1'/>";
+	innerHtml4 = "<input name='issue_"+rowID+"_Ptp' id='issue_"+rowID+"_Ptp' type='text' class='TextField' size='2' maxLength='2' onblur=onlyNum(this) onkeyup=onlyNum(this) onkeydown=onlyNum(this) value='3'/>";
 	innerHtml5 = "<input name='issue_"+rowID+"_Pri' id='issue_"+rowID+"_Pri' type='text' class='TextField' size='10' maxLength='10' onblur=onlyNum(this) onkeyup=onlyNum(this) onkeydown=onlyNum(this) value='0'/>";
 	addRow(tbName,new Array(innerHtml1,innerHtml2,innerHtml3,innerHtml4,innerHtml5));
 }

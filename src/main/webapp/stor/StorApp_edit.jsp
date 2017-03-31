@@ -1,7 +1,6 @@
 <%@ include file = "/includes/common.jsp" %> 
 <%@ page contentType="text/html; charset=GBK"%> 
 <jsp:useBean id="stoAppForm" scope="request" class="com.yly.stor.StoAppInfoForm" />
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 
 
 <html> 

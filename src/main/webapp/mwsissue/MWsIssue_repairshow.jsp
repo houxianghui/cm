@@ -2,7 +2,6 @@
 <%@ page contentType="text/html; charset=GBK"%> 
 <jsp:useBean id="pageResultIssuetask" scope="request"	class="com.eis.base.PageObject" />
 <jsp:useBean id="mwsissuetbForm" scope="request"  class="com.yly.issue.MWsIssuetbForm" />
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 
 
 
@@ -113,7 +112,7 @@ function applyAttr_fun(obj){
 		…Í«Îµ•Œª:
 		</td>
 		<td colspan="3" class="dtPanel_Main2">&nbsp;
-		<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.UNITID,  String.valueOf(mwsissuetbForm.getUnitId())) %>
+		<%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.ALL_UNITID,  String.valueOf(mwsissuetbForm.getUnitId())) %>
 		</td>
 	</tr>	   	
      <tr>

@@ -3,7 +3,6 @@
 <%@ page contentType="text/html; charset=GBK"%> 
 <jsp:useBean id="pageResult" scope="request"	class="com.eis.base.PageObject" />
 <jsp:useBean id="storeuseForm" scope="request"  class="com.yly.reuse.StoreuseForm" />
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 
 
 

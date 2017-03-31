@@ -100,7 +100,8 @@ public class LsinfoBO extends IbatisBO {
 		if(!CheckUtil.isEmptry(vo.getSamCSN()))
 			c.andSamCSNEqualTo(vo.getSamCSN());
 		if(!CheckUtil.isEmptry(vo.getSamId()))
-			c.andSamIdEqualTo(vo.getSamId());		
+			c.andSamIdEqualTo(vo.getSamId());	
+		e.setOrderByClause("CurrDate desc");
 		return lsinfoDAO.selectByExample(e);
 	}
 
