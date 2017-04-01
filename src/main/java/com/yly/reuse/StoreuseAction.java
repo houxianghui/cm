@@ -168,10 +168,11 @@ public class StoreuseAction extends IbatisBaseAction {
 			sto.setCardPhyStat(sf.getCardPhyStat());
 			sto.setOAappNo(sf.getOAappNo());
 		}else{
+			sto.setWkState(sf.getWkState());
 			if(sto.getIOState()==(short)3)
 				throw new MessageException("该卡号不允许重复退回!");
 		}
-		if(sf.getDetectSign()==2 ||sf.getCardPhyStat()==2){
+		if(sf.getDetectSign()==2 ||sf.getCardPhyStat()==2){			
 			sto.setWkStateChgDate(DateUtil.getTimeStr());
 			sto.setIOState((short)3);
 			sto.setIOStateChgDate(DateUtil.getTimeStr());

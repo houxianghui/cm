@@ -172,6 +172,13 @@ function doBack(){
 		</td>	
 	</tr>	
 </table>
+    <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
+        <tr> 
+				<td height="25" align="center" class="dtPanel_Bottom"> 
+						<input name="back" type="button" class="Button" value="产品退回" onClick="doBack()">
+		 		</td> 
+	    </tr> 
+  </table> 
  <%=ViewUtil.getTitle("退回流水信息")%> 		
 	<table width="98%" border="0" cellspacing="1" align="center"
 		cellpadding="0">
@@ -215,13 +222,7 @@ if (list != null) {
 	</table>
 
 </html:form>
-    <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
-        <tr> 
-				<td height="25" align="center" class="dtPanel_Bottom"> 
-						<input name="back" type="button" class="Button" value="产品退回" onClick="doBack()">
-		 		</td> 
-	    </tr> 
-  </table> 
+
 </body> 
 </html> 
  
