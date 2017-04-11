@@ -170,6 +170,13 @@ function doBack(){
 		</td>	
 	</tr>	
 </table>
+	<table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
+        <tr> 
+				<td height="25" align="center" class="dtPanel_Bottom"> 
+						<input name="back" type="button" class="Button" value="产品退回" onClick="doBack()">
+				</td> 
+	    </tr> 
+	</table> 
  <%=ViewUtil.getTitle("退回流水信息")%> 		
 	<table width="98%" border="0" cellspacing="1" align="center"
 		cellpadding="0">
@@ -181,6 +188,7 @@ function doBack(){
 					<td width="10%">SAM卡号</td>
 					<td width="10%">SAM印刷卡号</td>
 					<td width="10%">业务类型</td>
+					<td width="10%">产品类型</td>
 					<td width="10%">检测结果</td>	
 					<td width="10%">错误码</td>						
 					<td width="10%">操作员</td>	
@@ -197,6 +205,7 @@ if (list != null) {
 					<td><%=vo.getSamId()%></td>
 					<td><%=vo.getSamCSN()%></td>
 					<td><%=SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(vo.getOperationType())) %></td>
+					<td><%=SingleDicMap.getDicItemVal(SingleDic.PROD_ID, vo.getProdId()) %></td>	
 					<td><%=SingleDicMap.getDicItemVal(SingleDic.DETECSIGN, String.valueOf(vo.getDetectSign())) %></td>
 					<td><%=(vo.getErrorDesc()==null?"":vo.getErrorDesc())+(vo.getErrorCode()==null?"":SingleDicMap.getDicItemVal(SingleDic.ERRORCODE, String.valueOf(vo.getErrorCode())))%></td>
 					<td><%=ReDefSDicMap.getDicItemVal(RedefSDicCodes.USER, String.valueOf(vo.getOperId())) %></td>
@@ -220,13 +229,7 @@ if (pageResult != null) {%>
 	</table>
 	<%}%>	
 </html:form>
-    <table align="center" width="98%" border="0" cellspacing="0" cellpadding="0"> 
-        <tr> 
-				<td height="25" align="center" class="dtPanel_Bottom"> 
-						<input name="back" type="button" class="Button" value="产品退回" onClick="doBack()">
-				</td> 
-	    </tr> 
-  </table> 
+
 </body> 
 </html> 
  
