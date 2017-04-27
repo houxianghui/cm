@@ -406,7 +406,6 @@ public class MWsIssueAction extends IbatisBaseAction {
 		try{
 			operSysPort(func.getProdId(),"open",vo.getPhiTypeId());
 			((MWsIssueBO)bo).initMwsissueToPara(f);
-
 			Stoproduct prod=new Stoproduct();
 			((MWsIssueBO)bo).setFunc(f, func);
 			Lsinfo lsvo = ((MWsIssueBO)bo).setLsInfo(user, vo);

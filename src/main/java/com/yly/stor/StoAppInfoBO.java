@@ -208,7 +208,7 @@ public class StoAppInfoBO extends IbatisBO {
 		}else if(obj.getOperationType()!=null && obj.getOperationType()>0){
 			c.andOperationTypeEqualTo(obj.getOperationType().shortValue());
 		}else{
-			if(obj.getProdId().equals("4")){
+			if(obj.getProdId().equals("4") ||obj.getProdId().equals("3") ){
 				c.andOperationTypeNotEqualTo((short)94);
 			}
 			else c.andOperationTypeBetween((short)10, (short)19);

@@ -7,7 +7,7 @@
     <!--Resource name="djkwg/jdbc/djkwgds" type="javax.sql.DataSource"
 						password="djkwgdbo" driverClassName="com.mysql.jdbc.Driver"
 						maxIdle="5" maxWait="10" username="djkwgdbo"
-						url="jdbc:mysql://172.16.46.205:3306/djkwgdb?characterEncoding=gbk" maxActive="10" /-->
+						url="jdbc:mysql://172.16.46.2:3306/djkwgdb?characterEncoding=gbk" maxActive="10" /-->
 	<Resource auth="Container"
 	          description="DB Connection"
 		  driverClass="com.mysql.jdbc.Driver"
@@ -23,6 +23,6 @@
 		  password="abc123"
 		  factory="org.apache.naming.factory.BeanFactory"
 		  type="com.mchange.v2.c3p0.ComboPooledDataSource"
-		  jdbcUrl="jdbc:mysql://172.16.46.205:3306/djkwgdb?characterEncoding=gbk&amp;autoReconnect=true"/>
+		  jdbcUrl="jdbc:mysql://172.16.46.2:3306/djkwgdb?characterEncoding=gbk&amp;autoReconnect=true"/>
 		  
 </Context>
