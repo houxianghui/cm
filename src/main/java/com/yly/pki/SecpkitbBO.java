@@ -45,6 +45,18 @@ public class SecpkitbBO extends IbatisBO {
 		return secpkitbDAO.selectByPrimaryKey(samId);
 	
 	}
+	public Secpkitb queryForObjectBySamAndCsn(Object obj) throws Exception {
+		SecpkitbForm f=((SecpkitbForm)obj);
+		SecpkitbExample e = new SecpkitbExample();
+		Criteria c = e.createCriteria();
+		if(!CheckUtil.isEmptry(f.getSamCSN()))
+			c.andSamCSNEqualTo(f.getSamCSN());
+		if(!CheckUtil.isEmptry(f.getSamId()))
+			c.andSamIdEqualTo(f.getSamId());	
+		e.setOrderByClause("SamId desc");
+		return secpkitbDAO.selectBySamAndCsn(e);
+	
+	}
 	/* 
 	 * @see com.eis.base.IbatisBaseBO#queryForList(java.lang.Object)
 	 */

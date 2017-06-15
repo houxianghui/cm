@@ -33,12 +33,13 @@ function doCardDown(){
 	document.forms[0].act.value = "cardDown";
 	document.forms[0].submit(); 
 } 
+
 </script>
 </head>
 <body>
 <script type="text/javascript" src="js/calendar.js"></script>
-<html:form method="post" action="Secpkitb.do">
-<input type=hidden name=act value="list">
+<html:form method="post" enctype="multipart/form-data" action="Secpkitb.do">
+<input type=hidden name=act value="upload">
 <input type=hidden name=requery>
 <%=ViewUtil.getTitle("公钥信息列表")%>
 	
@@ -52,13 +53,20 @@ function doCardDown(){
 			发行日期:
 			从<html:text property="beginDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
 			到<html:text property="endDate_f" styleClass="Textfield" size="8" readonly="true" onclick="new Calendar().show(this);"/>
-			
-			
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">
 			</td>
-       </tr> 
+		</tr> 		
 	</table>
- 
+      <table align="center" width="98%" class="dtPanel_Line3" border="0" cellspacing="1" cellpadding="0"> 
+
+        <tr > 
+          <td >批量上传文件： 
+			<html:file property="file"></html:file>
+       		<html:submit value="批量导出公钥(samid,samcsn)" styleClass="Button"/>
+         </td> 
+       </tr>     
+      
+  </table>  
 	<table width="98%" class="dtPanel_Line1" border="0" cellspacing="1"
 		align="center" cellpadding="0" style=“table-layout:fixed;”>
 		<tr align="center" class="dtPanel_Top01" height="28">

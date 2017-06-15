@@ -19,7 +19,16 @@ public class BiunitinfotbForm  extends BaseForm  {
      */
     private Short hyid;
     private Short hyid_f;
-    public Short getHyid_f() {
+    private Integer unitid_f;
+    public Integer getUnitid_f() {
+		return unitid_f;
+	}
+
+	public void setUnitid_f(Integer unitid_f) {
+		this.unitid_f = unitid_f;
+	}
+
+	public Short getHyid_f() {
 		return hyid_f;
 	}
 

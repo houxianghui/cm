@@ -85,6 +85,8 @@ public class BiunitinfoBO extends IbatisBO {
 		Criteria c = e.createCriteria();
 		if(!CheckUtil.isEmptry(obj.getChnshort_f()))
 			c.andChnshortLike("%"+obj.getChnshort_f().trim()+"%");
+		if(obj.getUnitid_f()>0)
+			c.andUnitidEqualTo(obj.getUnitid_f());
 		if(obj.getHyid_f()>0)
 			c.andHyidEqualTo(obj.getHyid_f());
 		return biunitinfoDAO.selectByExample(e);

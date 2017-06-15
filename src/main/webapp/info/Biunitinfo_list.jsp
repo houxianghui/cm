@@ -60,6 +60,8 @@ function doNoUse() {
          <tr > 
           <td>单位名称：
 			<html:text property="chnshort_f" styleClass="Textfield" size="16" maxlength="16"  />
+			单位代码：
+			<html:text property="unitid_f" styleClass="Textfield" size="8" maxlength="10"  />
   			行业代码：
 			<html:text property="hyid_f" styleClass="Textfield" size="4" maxlength="4"  />
 			<input	name="query" type="button" class="Button_Search"  onclick="doQuery()">

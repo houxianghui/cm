@@ -3,6 +3,8 @@ package com.yly.pki;
 import java.util.Collection;
 import java.util.Date;
 
+import org.apache.struts.upload.FormFile;
+
 import com.eis.base.BaseForm;
 import com.eis.cache.ReDefSDicMap;
 import com.eis.cache.RedefSDicCodes;
@@ -14,7 +16,14 @@ public class SecpkitbForm extends BaseForm {
 	private String samId_max;
     private String beginDate_f;
     private String endDate_f;
-	
+	private FormFile file;
+	public FormFile getFile() {
+		return file;
+	}
+
+	public void setFile(FormFile file) {
+		this.file = file;
+	}
     public String getBeginDate_f() {
 		return beginDate_f;
 	}
