@@ -314,7 +314,7 @@ function keyType_fun(obj){
 		</td>
 		<td colspan="3"  class="dtPanel_Main2">&nbsp;
 		<div id="hiddenId">
-		&nbsp; <%=ReDefSDicMap.getRadioWith2HiddenIdFun("appTypeId", RedefSDicCodes.APPTYPEID, "101","105","106","attrType_fun(this)") %>
+		&nbsp; <%=ReDefSDicMap.getRadioWithTestHiddenIdFun("appTypeId", RedefSDicCodes.APPTYPEID, "101","attrType_fun(this)") %>
 		</div>
 		<div id="showId"  style="display:none">
 		&nbsp; <%=ReDefSDicMap.getRadioWithFun("appTypeId", RedefSDicCodes.APPTYPEID, "101","attrType_fun(this)") %>

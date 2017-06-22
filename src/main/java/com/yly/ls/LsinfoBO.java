@@ -48,6 +48,25 @@ public class LsinfoBO extends IbatisBO {
 		return lsinfoDAO.selectByPrimaryKey(vo.getFlowNo());
 	
 	}
+	public Lsinfo queryLsByAppNoAndOperType(Lsinfo vo) throws Exception {
+		LsinfoExample e = new LsinfoExample();
+		Criteria c = e.createCriteria();
+		if(!CheckUtil.isEmptry(vo.getAppNo()))
+			c.andAppNoEqualTo(vo.getAppNo());		
+		if(vo.getOperationType()!=null && vo.getOperationType()!=0)
+			c.andOperationTypeEqualTo(vo.getOperationType());
+		e.setOrderByClause("CurrDate desc");
+		Lsinfo result=new Lsinfo();
+		List list=lsinfoDAO.selectByExample(e);
+		if (list != null) {
+			Iterator iter = list.iterator();
+			if (iter.hasNext()) {
+				result = (Lsinfo) iter.next();
+			}
+		}
+		return result;
+		
+	}
 	public Lsinfo queryLastObject(Lsinfo vo) throws Exception {
 		LsinfoExample e = new LsinfoExample();
 		Criteria c = e.createCriteria();

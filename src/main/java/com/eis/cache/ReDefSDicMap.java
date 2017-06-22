@@ -327,8 +327,8 @@ public class ReDefSDicMap {
 		return radio.toString();
 
 	}	
-	public static String getRadioWith2HiddenIdFun(String radioName, String typeID, String tagVal,String hiddenId1,String hiddenId2,String func) {
-
+	public static String getRadioWithTestHiddenIdFun(String radioName, String typeID, String tagVal,String func) {
+		String hidden[]={"105","106","114","116"};
 		if (tagVal == null || tagVal.trim().length() <= 0)
 			return getRadio(radioName, typeID);
 
@@ -336,10 +336,16 @@ public class ReDefSDicMap {
 		ArrayList options = (ArrayList) getOptionCollection(typeID);
 
 		for (int i = 1; i < options.size(); i++) {
+			boolean flag = true;
 			LabelValueBean bean = (LabelValueBean) (options.get(i));
-			if (hiddenId1.equals(bean.getValue())||hiddenId2.equals(bean.getValue()))
-				continue;
-			else{
+			
+			for(int j=0;j<hidden.length-1;j++){
+				if(hidden[j].equals(bean.getValue())){
+					flag = false;
+					break;
+				}
+			}
+			if(flag){
 				if (tagVal.equals(bean.getValue()))
 					radio.append(
 						"<input name=\""

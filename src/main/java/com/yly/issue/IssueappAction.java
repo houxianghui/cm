@@ -310,7 +310,7 @@ public class IssueappAction extends IbatisBaseAction {
 		Lsinfo ls= new Lsinfo();
 		ls.setAppNo(f.getAppNo());
 		ls.setOperationType(f.getOperationType().shortValue());
-		ls=lsinfoBO.queryLastObject(ls);
+		ls=lsinfoBO.queryLsByAppNoAndOperType(ls);
 		
 		Lsinfo query_ls= new Lsinfo();
 		query_ls.setAppNo(ls.getAppNo());
