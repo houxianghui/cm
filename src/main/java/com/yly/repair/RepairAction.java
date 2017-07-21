@@ -187,7 +187,7 @@ public class RepairAction extends IbatisBaseAction {
 	}
 	private void initRepairForm(RepairForm f){
 		f.setSJL05IP(6666);        
-		f.setSJL05PORT("172.16.46.204");      
+		f.setSJL05PORT("192.168.1.9");      
 		String KEY;
 		if(CheckUtil.isEmptry(f.getManufacId())){
 			KEY= "BMAC_KEY";

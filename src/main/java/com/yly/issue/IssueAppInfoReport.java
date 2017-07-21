@@ -33,7 +33,7 @@ public class IssueAppInfoReport extends BaseReport {
 				throw new MessageException("不存在数据");
 			}
 			for(MWsIssuetbForm p : l){
-				tools.setCell(rowIndex, colIndex++, p.getTaskCtrlNo());
+				tools.setCell(rowIndex, colIndex++, p.getTaskNo());
 				tools.setCell(rowIndex, colIndex++, p.getAppUnitId());
 				tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.UNITID, String.valueOf(p.getUnitId())));
 				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PROD_ID, String.valueOf(p.getProdId())));
