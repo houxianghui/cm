@@ -7,7 +7,8 @@
 		<cell rowIndex="0" colIndex="2" colSpan="1" value="可用数量"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
 		<cell rowIndex="0" colIndex="3" colSpan="1" value="出库数量"     fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
 		<cell rowIndex="0" colIndex="4" colSpan="1" value="退回数量"  fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
-		<cell rowIndex="0" colIndex="5" colSpan="1" value="报废"   fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="5" colSpan="1" value="发行数量"   fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
+		<cell rowIndex="0" colIndex="6" colSpan="1" value="报废"   fontName="宋体" bolder="true" hight="841" fontSize="15" bgColor="PALE_BLUE"/>
 	</cells>
 	<properties>
 		<cell property="list" rowIndex="1" colIndex="0"/>		

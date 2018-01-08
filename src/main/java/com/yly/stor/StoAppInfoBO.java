@@ -442,41 +442,46 @@ public class StoAppInfoBO extends IbatisBO {
 	}
 	public List getOutStockBalReport(Object obj) throws Exception {		
 		Stoappinfo vo =(Stoappinfo)obj;
-		LsinfoExample o_back = new LsinfoExample();
-		com.yly.ls.LsinfoExample.Criteria c_back = o_back.createCriteria();
+		Lsinfo lsinfo = new Lsinfo();
 		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
-			c_back.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+			lsinfo.setBeginDate_f(vo.getBeginDate_f()+"000000");
 		}
 		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
-			c_back.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+			lsinfo.setEndDate_f(vo.getEndDate_f()+"999999");
 		}
-		
- 		return lsinfoDAO.getStockBalReport(o_back);
+  		return lsinfoDAO.getStockBalReport(lsinfo);
+	}
+	public List getIssueStockBalReport(Object obj) throws Exception {	
+		Stoappinfo vo =(Stoappinfo)obj;
+		Lsinfo lsinfo = new Lsinfo();
+		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
+			lsinfo.setBeginDate_f(vo.getBeginDate_f()+"000000");
+		}
+		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
+			lsinfo.setEndDate_f(vo.getEndDate_f()+"999999");
+		}
+ 		return lsinfoDAO.getLSIssueReport(lsinfo);		
 	}
 	public List getBackStockBalReport(Object obj) throws Exception {	
 		Stoappinfo vo =(Stoappinfo)obj;
-		LsinfoExample e_back = new LsinfoExample();
-		com.yly.ls.LsinfoExample.Criteria c_back = e_back.createCriteria();
+		Lsinfo lsinfo = new Lsinfo();
 		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
-			c_back.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+			lsinfo.setBeginDate_f(vo.getBeginDate_f()+"000000");
 		}
 		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
-			c_back.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+			lsinfo.setEndDate_f(vo.getEndDate_f()+"999999");
 		}
-		c_back.andApplyAndLsOper((short)60,(short)70);
- 		return lsinfoDAO.getLSBackReport(e_back);		
+ 		return lsinfoDAO.getLSBackReport(lsinfo);		
 	}
 	public List getDisStockBalReport(Object obj) throws Exception {	
 		Stoappinfo vo =(Stoappinfo)obj;
-		LsinfoExample e_dis = new LsinfoExample();
-		com.yly.ls.LsinfoExample.Criteria c_dis = e_dis.createCriteria();
+		Lsinfo lsinfo = new Lsinfo();
 		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
-			c_dis.andCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+			lsinfo.setBeginDate_f(vo.getBeginDate_f()+"000000");
 		}
 		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
-			c_dis.andCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+			lsinfo.setEndDate_f(vo.getEndDate_f()+"999999");
 		}
-		c_dis.andOperationTypeEqualTo((short)71);
- 		return lsinfoDAO.getLsDisCardReport(e_dis);		
+ 		return lsinfoDAO.getLsDisCardReport(lsinfo);		
 	}
 }

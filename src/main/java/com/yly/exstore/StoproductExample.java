@@ -1113,7 +1113,10 @@ public class StoproductExample {
             addCriterion("IOStateChgDate >=", value, "IOStateChgDate");
             return this;
         }
-
+        public Criteria andLsCurrDateGreaterThanOrEqualTo(String value) {
+            addCriterion("lsinfo.CurrDate >=", value, "CurrDate");
+            return this;
+        }
         public Criteria andIOStateChgDateLessThan(String value) {
             addCriterion("IOStateChgDate <", value, "IOStateChgDate");
             return this;
@@ -1124,6 +1127,10 @@ public class StoproductExample {
             return this;
         }
 
+        public Criteria andLsCurrDateLessThanOrEqualTo(String value) {
+            addCriterion("lsinfo.CurrDate <=", value, "CurrDate");
+            return this;
+        }
         public Criteria andIOStateChgDateLike(String value) {
             addCriterion("IOStateChgDate like", value, "IOStateChgDate");
             return this;
@@ -2043,10 +2050,6 @@ public class StoproductExample {
             addCriterion("Remarks not between", value1, value2, "remarks");
             return this;
         }
-        public Criteria andAsscoTbs() {
-            addCriterion("stoproduct.OAappNo = applyinfotb.OAappNo and applyinfotb.OperationType=31 and applyinfotb.FormState=3 ");
-            return this;
-        }
         public Criteria andExchangeAsscoTbs() {
             addCriterion("lsinfo.AppNo = applyinfotb.AppNo and Stoproduct.SamId=lsinfo.SamId and Stoproduct.SamCSN=lsinfo.SamCSN and applyinfotb.OperationType=43 and applyinfotb.FormState=3");
             return this;
@@ -2055,9 +2058,5 @@ public class StoproductExample {
             addCriterion("lsinfo.AppNo = applyinfotb.AppNo and Stoproduct.SamId=lsinfo.SamId and Stoproduct.SamCSN=lsinfo.SamCSN and applyinfotb.OperationType=53 and applyinfotb.FormState=3");
             return this;
         }
-        public Criteria andReStoreAsscoTbs() {
-            addCriterion("lsinfo.AppNo = applyinfotb.AppNo and Stoproduct.SamId=lsinfo.SamId and Stoproduct.SamCSN=lsinfo.SamCSN and applyinfotb.OperationType=61 and applyinfotb.FormState=3");
-            return this;
-        }        
     }
 }

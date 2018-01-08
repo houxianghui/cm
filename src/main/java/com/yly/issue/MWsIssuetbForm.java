@@ -927,7 +927,7 @@ public class MWsIssuetbForm  extends BaseForm {
 
 	private int zeroExauthFlag;
     private int isPki;
-	private int isHTCard;
+	private String isHTCard;
 
 	public int getZeroExauthFlag() {
 		return zeroExauthFlag;
@@ -945,11 +945,11 @@ public class MWsIssuetbForm  extends BaseForm {
 		this.isPki = isPki;
 	}
 
-	public int getIsHTCard() {
+	public String getIsHTCard() {
 		return isHTCard;
 	}
 
-	public void setIsHTCard(int isHTCard) {
+	public void setIsHTCard(String isHTCard) {
 		this.isHTCard = isHTCard;
 	}
     private String appNo;

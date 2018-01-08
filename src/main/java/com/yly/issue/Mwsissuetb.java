@@ -737,18 +737,18 @@ public class Mwsissuetb {
 		this.isPki = isPki;
 	}
 
-	public Integer getIsHTCard() {
+	public String getIsHTCard() {
 		return isHTCard;
 	}
 
-	public void setIsHTCard(Integer isHTCard) {
+	public void setIsHTCard(String isHTCard) {
 		this.isHTCard = isHTCard;
 	}
     
     private Integer w2Limit;
 	private Integer zeroExauthFlag;
     private Integer isPki;
-	private Integer isHTCard;
+	private String isHTCard;
 
 	public String getAppNo() {
 		return appNo;

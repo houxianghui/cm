@@ -1012,5 +1012,12 @@ public class StoreuseForm extends BaseForm {
 	public void setCardPhyStat(Short cardPhyStat) {
 		this.cardPhyStat = cardPhyStat;
 	}
+	private String isHTCard;
+	public String getIsHTCard() {
+		return isHTCard;
+	}
 
+	public void setIsHTCard(String isHTCard) {
+		this.isHTCard = isHTCard;
+	}
 }

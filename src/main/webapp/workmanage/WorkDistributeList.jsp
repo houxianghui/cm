@@ -108,10 +108,10 @@ function setPKey(projectId_var,status_var,id_var) {
 			<td><a href="ProjectMaintain.do?act=qp&projectId=<%=vo.getProjectId()%>"><%=vo.getProjectId()%></a></td>
 			<td><%=vo.getStartDate()%></td>
 			<td><%=vo.getEndDate()%></td>
-			<td><%=SingleDicMap.getDicItemVal(SingleDic.PROJECT_MANAGE_COLLECTION,vo.getStatus())%> </td>
+			<td></td>
 			<td><%=vo.getMemo()%></td>
 			<td><%=msg%></td>
-			<td><label><input type="radio" name="param"	onClick="setPKey('<%=vo.getProjectId()%>','<%=vo.getStatus()%>','<%=vo.getId()%>')">
+			<td><label><input type="radio" name="param"	onClick="setPKey('<%=vo.getProjectId()%>','<%=vo.getProjectId()%>','<%=vo.getId()%>')">
 			</label></td>
 		</tr>
 

@@ -889,5 +889,12 @@ public class Disproduct {
 	public void setBatchIdParts(String batchIdParts) {
 		BatchIdParts = batchIdParts;
 	}
+	private String isHTCard;
+	public String getIsHTCard() {
+		return isHTCard;
+	}
 
+	public void setIsHTCard(String isHTCard) {
+		this.isHTCard = isHTCard;
+	}
 }

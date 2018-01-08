@@ -33,7 +33,43 @@ public class ReStoreInfoReport extends BaseReport {
 		this.stoproductBO = stoproductBO;
 	}
 
-	protected void setValue(HashMap map, Object obj) throws Exception{
+//	protected void setValue(HashMap map, Object obj) throws Exception{
+//		Tools tools = makeExcel(map);
+//		CellAttributes ca = (CellAttributes)map.get("list");
+//		int rowIndex = ca.getRowIndex();
+//		int colIndex = ca.getColIndex();
+//		int colIndexBegin=colIndex;
+//		try{
+//			List<StoproductForm> l = (List)stoproductBO.getReStoreReport(obj);
+//			List<StoproductForm> l_raw= (List)storeuseBO.getReStoreReport(obj);
+//			if(l.size()<1 && l_raw.size()<1){
+//				throw new MessageException("不存在数据");
+//			}
+//			for(StoproductForm p : l){
+//				tools.setCell(rowIndex, colIndex++, p.getUnitId());
+//				tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.UNITID, String.valueOf(p.getExUnitId())));
+//				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PROD_ID, String.valueOf(p.getProdId())));
+//				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(p.getKeyType())));
+//				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PHY_STAT, String.valueOf(p.getIssueAmt())));
+//				tools.setCell(rowIndex, colIndex++, p.getExAmt());
+//				rowIndex++;
+//				colIndex=colIndexBegin;
+//			}
+//			for(StoproductForm p_raw : l_raw){
+//				tools.setCell(rowIndex, colIndex++, p_raw.getUnitId());
+//				tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.UNITID, String.valueOf(p_raw.getExUnitId())));
+//				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PROD_ID, String.valueOf(p_raw.getProdId())));
+//				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(p_raw.getKeyType())));
+//				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PHY_STAT, String.valueOf(p_raw.getIssueAmt())));
+//				tools.setCell(rowIndex, colIndex++, p_raw.getExAmt());
+//				rowIndex++;
+//				colIndex=colIndexBegin;
+//			}
+//		}finally{
+//			;
+//		}
+//	}
+	protected void setValueMultiSheet(HashMap map, Object obj,String i) throws Exception{
 		Tools tools = makeExcel(map);
 		CellAttributes ca = (CellAttributes)map.get("list");
 		int rowIndex = ca.getRowIndex();
@@ -41,36 +77,26 @@ public class ReStoreInfoReport extends BaseReport {
 		int colIndexBegin=colIndex;
 		try{
 			List<StoproductForm> l = (List)stoproductBO.getReStoreReport(obj);
-			List<StoproductForm> l_raw= (List)storeuseBO.getReStoreReport(obj);
-			if(l.size()<1 && l_raw.size()<1){
+			if(l.size()<1){
 				throw new MessageException("不存在数据");
 			}
 			for(StoproductForm p : l){
-				tools.setCell(rowIndex, colIndex++, p.getUnitId());
-				tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.UNITID, String.valueOf(p.getExUnitId())));
-				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PROD_ID, String.valueOf(p.getProdId())));
-				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(p.getKeyType())));
-				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PHY_STAT, String.valueOf(p.getIssueAmt())));
-				tools.setCell(rowIndex, colIndex++, p.getExAmt());
-				rowIndex++;
-				colIndex=colIndexBegin;
-			}
-			for(StoproductForm p_raw : l_raw){
-				tools.setCell(rowIndex, colIndex++, p_raw.getUnitId());
-				tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.UNITID, String.valueOf(p_raw.getExUnitId())));
-				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PROD_ID, String.valueOf(p_raw.getProdId())));
-				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(p_raw.getKeyType())));
-				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PHY_STAT, String.valueOf(p_raw.getIssueAmt())));
-				tools.setCell(rowIndex, colIndex++, p_raw.getExAmt());
-				rowIndex++;
-				colIndex=colIndexBegin;
+				if(p.getProdId().equals(i)){
+					tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.UNITID, String.valueOf(p.getExUnitId())));
+					tools.setCell(rowIndex, colIndex++, p.getProdId().equals("5")?"互通卡":SingleDicMap.getDicItemVal(SingleDic.PROD_ID, String.valueOf(p.getProdId())));
+					tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.KEYTYPE, String.valueOf(p.getKeyType())));
+					tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PHY_STAT, String.valueOf(p.getIssueAmt())));
+					tools.setCell(rowIndex, colIndex++, p.getExAmt());
+					rowIndex++;
+					colIndex=colIndexBegin;
+				}
 			}
 		}finally{
 			;
 		}
 	}
-	protected void setValueMultiSheet(HashMap map, Object obj,String i) throws Exception{
+	protected void setValue(HashMap map, Object obj) throws Exception{
 		;
-	}	
+	}
 		
 }

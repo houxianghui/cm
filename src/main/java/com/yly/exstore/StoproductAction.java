@@ -555,9 +555,15 @@ public class StoproductAction extends IbatisBaseAction {
 		Stoproduct vo = new Stoproduct();
 		vo.setBeginDate_f(f.getBeginDate_f());
 		vo.setEndDate_f(f.getEndDate_f());
-		exStoreInfoReport.createExcel(vo, false);
+		List<String> l=new ArrayList<String>();
+		l.add("出库-ISAM");
+		l.add("出库-PSAM");
+		l.add("出库-ESAM");
+		l.add("出库-小模块");
+		l.add("出库-互通卡");
+		exStoreInfoReport.createExcelSheet(vo, false,l);
 		response.setContentType("application/octet-stream");
-		String filename = exStoreInfoReport.getEt().getSheetName()+".xls";
+		String filename = "出库统计.xls";
 		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
 			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefox浏览器
 		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
@@ -612,9 +618,15 @@ public class StoproductAction extends IbatisBaseAction {
 		Stoproduct vo = new Stoproduct();
 		vo.setBeginDate_f(f.getBeginDate_f());
 		vo.setEndDate_f(f.getEndDate_f());
-		reStoreInfoReport.createExcel(vo, false);
+		List<String> l=new ArrayList<String>();
+		l.add("退回-ISAM");
+		l.add("退回-PSAM");
+		l.add("退回-ESAM");
+		l.add("退回-小模块");
+		l.add("退回-互通卡");
+		reStoreInfoReport.createExcelSheet(vo, false,l);
 		response.setContentType("application/octet-stream");
-		String filename = reStoreInfoReport.getEt().getSheetName()+".xls";
+		String filename = "退回统计.xls";
 		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
 			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefox浏览器
 		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){

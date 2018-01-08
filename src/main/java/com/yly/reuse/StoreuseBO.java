@@ -244,10 +244,10 @@ public class StoreuseBO extends IbatisBO {
 		Criteria c = e.createCriteria();
 		c.andReStoreAsscoTbs();
 		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
-			c.andIOStateChgDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+			c.andLsCurrDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
 		}
 		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
-			c.andIOStateChgDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+			c.andLsCurrDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
 		}
 		List<StoproductForm> result=storeuseDAO.getReStoreReport(e);
 		return  result;

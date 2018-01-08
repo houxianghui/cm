@@ -410,7 +410,7 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		l.add("出入库账本-小模块");
 		stockReport.createExcelSheet(vo, false,l);
 		response.setContentType("application/octet-stream");
-		String filename = "出入库账本.xls";
+		String filename ="出入库账本"+vo.getBeginDate_f()+"_"+vo.getEndDate_f()+".xls";
 		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
 			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefox浏览器
 		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
@@ -427,9 +427,12 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		Stoappinfo vo = new Stoappinfo();
 		vo.setBeginDate_f(f.getBeginDate_f());
 		vo.setEndDate_f(f.getEndDate_f());
-		stockBalReport.createExcel(vo, false);
+		List<String> l=new ArrayList<String>();
+		l.add("非互通卡");
+		l.add("互通卡");
+		stockBalReport.createExcelSheet(vo, false,l);
 		response.setContentType("application/octet-stream");
-		String filename = stockBalReport.getEt().getSheetName()+".xls";
+		String filename ="库存统计"+vo.getBeginDate_f()+"_"+vo.getEndDate_f()+".xls";
 		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
 			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefox浏览器
 		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
@@ -441,14 +444,19 @@ public class StoAppInfoAction extends IbatisBaseAction {
 		out.close();
 		return null;
 	}
-	private ActionForward staticsdown(HttpServletRequest request,HttpServletResponse response,  BaseForm form,UserContext user) throws Exception{
+	private ActionForward staticsdown(HttpServletRequest request,HttpServletResponse response,  BaseForm form,UserContext user) throws Exception{		
 		StoAppInfoForm f = (StoAppInfoForm)form;
 		Stoappinfo vo = new Stoappinfo();
 		vo.setBeginDate_f(f.getBeginDate_f());
 		vo.setEndDate_f(f.getEndDate_f());
-		stoAppInfoReport.createExcel(vo, false);
+		List<String> l=new ArrayList<String>();
+		l.add("入库-ISAM");
+		l.add("入库-PSAM");
+		l.add("入库-ESAM");
+		l.add("入库-小模块");
+		stoAppInfoReport.createExcelSheet(vo, false,l);
 		response.setContentType("application/octet-stream");
-		String filename = stoAppInfoReport.getEt().getSheetName()+".xls";
+		String filename ="入库统计"+vo.getBeginDate_f()+"_"+vo.getEndDate_f()+".xls";
 		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
 			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefox浏览器
 		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){

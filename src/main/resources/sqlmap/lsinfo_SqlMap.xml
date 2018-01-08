@@ -19,12 +19,15 @@
     <result column="OperId" property="operId" jdbcType="VARCHAR" />
     <result column="CurrDate" property="currDate" jdbcType="VARCHAR" />
     <result column="ProdId" property="prodId" jdbcType="VARCHAR" />    
-    <result column="ErrorDesc" property="errorDesc" jdbcType="VARCHAR" />        
+    <result column="ErrorDesc" property="errorDesc" jdbcType="VARCHAR" />
+    <result column="IsHTCard" property="isHTCard" jdbcType="VARCHAR" />
   </resultMap>
    <resultMap class="com.yly.stor.Stoappinfo" id="StockBalReportMap">
     <result column="CurrPeriodAmt" jdbcType="DECIMAL" property="currPeriodAmt" />
     <result column="PurchaseAmt" jdbcType="DECIMAL" property="purchaseAmt" />
     <result column="ProdId" jdbcType="VARCHAR" property="prodId" />   
+    <result column="IsHTCard" jdbcType="VARCHAR" property="isHTCard" />   
+    
   </resultMap>    
    <resultMap class="com.yly.stor.Stoappinfo" id="StockLsByProdReport">   
     <result column="CurrPeriodAmt" jdbcType="DECIMAL" property="currPeriodAmt" />
@@ -372,43 +375,89 @@
       ErrorDesc = #errorDesc:VARCHAR#
     where FlowNo = #flowNo:VARCHAR#
   </update>
-  <select id="getStockBalReport" resultMap="StockBalReportMap" parameterClass="com.yly.ls.LsinfoExample" >
-   select sum(PurchaseAmt) as PurchaseAmt,0 as CurrPeriodAmt,ProdId from (select count(SamId) as PurchaseAmt,0 as CurrPeriodAmt,ProdId
-	from applyinfotb,lsinfo                      
-    <isParameterPresent >
-      <include refid="lsinfo.ibatorgenerated_Example_Where_Clause" />
-	</isParameterPresent>
-	and   lsinfo.AppNo=applyinfotb.AppNo and lsinfo.SamId is not null and (lsinfo.OperationType=31 or lsinfo.OperationType=33 or lsinfo.OperationType=35) and applyinfotb.formstate='3'
-	group by ProdId
-	union
-	select sum(TaskAmt) as PurchaseAmt ,0 as CurrPeriodAmt,ProdId      
-	from applyinfotb,lsinfo                    
-    <isParameterPresent >
-      <include refid="lsinfo.ibatorgenerated_Example_Where_Clause" />
-	</isParameterPresent>
-    and   lsinfo.AppNo=applyinfotb.AppNo and lsinfo.SamId is null and (lsinfo.OperationType =32 or lsinfo.OperationType=34 or lsinfo.OperationType=41 or lsinfo.OperationType=51 or lsinfo.OperationType=42 or lsinfo.OperationType=52)  and applyinfotb.formstate='3'   
-    group by ProdId ) tb1 
-    group by ProdId 
+  <select id="getStockBalReport" resultMap="StockBalReportMap" parameterClass="com.yly.ls.Lsinfo" >
+		select sum(num) as PurchaseAmt,0 as CurrPeriodAmt,ProdId,IsHTCard 
+		from
+		(select count(*) as num,lsinfo.ProdId as ProdId,IsHTCard  
+ 		from Stoproduct,lsinfo
+ 		where lsinfo.samid =stoproduct.samid and Stoproduct.SamCSN=lsinfo.SamCSN and lsinfo.OperationType like'3%' 
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		group by ProdId,IsHTCard
+ 		union
+		select count(*) as num,lsinfo.ProdId as ProdId,IsHTCard  
+ 		from storeuse,lsinfo	  
+ 		where lsinfo.samid =storeuse.samid and storeuse.SamCSN=lsinfo.SamCSN and lsinfo.OperationType like'3%' 
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		group by ProdId,IsHTCard
+ 	 	union
+		select count(*) as num,lsinfo.ProdId as ProdId,IsHTCard  
+ 		from disproduct,lsinfo
+ 		where lsinfo.samid =disproduct.samid and disproduct.SamCSN=lsinfo.SamCSN and lsinfo.OperationType like'3%' 
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		group by ProdId,IsHTCard
+ 		) tb1
+ 		group by ProdId,IsHTCard
   </select>
-  <select id="getLSBackReport" resultMap="StockBalReportMap" parameterClass="com.yly.ls.LsinfoExample" >
-    select  count(*) as PurchaseAmt ,0 as CurrPeriodAmt,ProdId 
-    from applyinfotb,lsinfo  
-    <isParameterPresent >
-      <include refid="lsinfo.ibatorgenerated_Example_Where_Clause" />
-      group by ProdId 
-      <isNotNull property="orderByClause" >
-        order by $orderByClause$
-      </isNotNull>
-    </isParameterPresent>
-</select>
-  <select id="getLsDisCardReport" resultMap="StockBalReportMap" parameterClass="com.yly.ls.LsinfoExample" >
-    select count(*) as PurchaseAmt ,0 as CurrPeriodAmt,ProdId 
-    from lsinfo  
-    <isParameterPresent >
-      <include refid="lsinfo.ibatorgenerated_Example_Where_Clause" />
-      group by ProdId 
-    </isParameterPresent>
-</select>  
+  
+  <select id="getLSBackReport" resultMap="StockBalReportMap" parameterClass="com.yly.ls.Lsinfo" >
+   		select sum(num) as PurchaseAmt,0 as CurrPeriodAmt,ProdId,IsHTCard 
+		from
+		(select count(*) as num,lsinfo.ProdId as ProdId,IsHTCard  
+ 		from Stoproduct,lsinfo
+ 		where lsinfo.samid =stoproduct.samid and Stoproduct.SamCSN=lsinfo.SamCSN and lsinfo.OperationType like'6%' 
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		group by ProdId,IsHTCard
+ 		union
+		select count(*) as num,lsinfo.ProdId as ProdId,IsHTCard  
+ 		from storeuse,lsinfo	  
+ 		where lsinfo.samid =storeuse.samid and storeuse.SamCSN=lsinfo.SamCSN and lsinfo.OperationType like'6%' 
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		group by ProdId,IsHTCard
+ 	 	union
+		select count(*) as num,lsinfo.ProdId as ProdId,IsHTCard  
+ 		from disproduct,lsinfo
+ 		where lsinfo.samid =disproduct.samid and disproduct.SamCSN=lsinfo.SamCSN and lsinfo.OperationType like'6%' 
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		group by ProdId,IsHTCard
+ 		) tb1
+ 		group by ProdId,IsHTCard
+  </select>
+  <select id="getLSIssueReport" resultMap="StockBalReportMap" parameterClass="com.yly.ls.Lsinfo" >
+ 		select sum(num) as PurchaseAmt,0 as CurrPeriodAmt,ProdId,IsHTCard 
+		from
+		(select count(*) as num,lsinfo.ProdId as ProdId,IsHTCard  
+ 		from Stoproduct,lsinfo
+ 		where lsinfo.samid =stoproduct.samid and Stoproduct.SamCSN=lsinfo.SamCSN and lsinfo.OperationType like'2%' 
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		and ErrorCode is null
+		and lsinfo.samid not Like("81%")
+		group by ProdId,IsHTCard		
+ 		union
+		select count(*) as num,lsinfo.ProdId as ProdId,IsHTCard  
+ 		from storeuse,lsinfo	  
+ 		where lsinfo.samid =storeuse.samid and storeuse.SamCSN=lsinfo.SamCSN and lsinfo.OperationType like'2%' 
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		and ErrorCode is null
+		and lsinfo.samid not Like("81%")
+		group by ProdId,IsHTCard		
+ 	 	union
+		select count(*) as num,lsinfo.ProdId as ProdId,IsHTCard  
+ 		from disproduct,lsinfo
+ 		where lsinfo.samid =disproduct.samid and disproduct.SamCSN=lsinfo.SamCSN and lsinfo.OperationType like'2%' 
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		and ErrorCode is null
+		and lsinfo.samid not Like("81%")
+		group by ProdId,IsHTCard
+ 		) tb1
+ 		group by ProdId,IsHTCard
+	</select>
+ 	 <select id="getLsDisCardReport" resultMap="StockBalReportMap" parameterClass="com.yly.ls.Lsinfo" >
+    	select count(*) as PurchaseAmt,0 as CurrPeriodAmt,lsinfo.ProdId as ProdId,IsHTCard 
+ 		from disproduct,lsinfo
+ 		where lsinfo.samid =disproduct.samid and disproduct.SamCSN=lsinfo.SamCSN and lsinfo.OperationType='71' 
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		group by lsinfo.ProdId,IsHTCard	
+	</select>  
   <select id="getStockLsByProd" resultMap="StockLsByProdReport" parameterClass="com.yly.ls.LsinfoExample" >
   	select oaappno as BatchId,ProjName,applyinfotb.CurrDate,count(SamId) as PurchaseAmt,0 as CurrPeriodAmt,ProdId,lsinfo.OperationType,TotalPrice as UnitPrice
 	from applyinfotb,lsinfo                      

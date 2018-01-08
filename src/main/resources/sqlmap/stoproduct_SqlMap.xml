@@ -34,15 +34,18 @@
 	    <result column="CardPhyStat" property="cardPhyStat" jdbcType="DECIMAL" />
 	    <result column="BatchIdParts" property="batchIdParts" jdbcType="VARCHAR" /> 
 	    <result column="Remarks" property="remarks" jdbcType="VARCHAR" />
+	    <result column="IsHTCard" property="isHTCard" jdbcType="VARCHAR" />
+	    
 	  </resultMap>
 	  
 	  <resultMap id="getReportResMap" class="com.yly.exstore.StoproductForm" >
 	    <result column="ProdId" property="prodId" jdbcType="VARCHAR" />
 	    <result column="KeyType" property="keyType" jdbcType="DECIMAL" />
-	    <result column="UnitId" property="unitId" jdbcType="DECIMAL" />
 	    <result column="ExUnitId" property="exUnitId" jdbcType="DECIMAL" />
 	 	<result column="ExAmt" property="exAmt" jdbcType="DECIMAL" />
 	 	<result column="IssueAmt" property="issueAmt" jdbcType="DECIMAL" />
+	    <result column="IsHTCard" property="isHTCard" jdbcType="VARCHAR" />
+	 	
 	  </resultMap>	  
 	  
 	  <sql id="ibatorgenerated_Example_Where_Clause" >
@@ -83,7 +86,7 @@
 	    select SamId, SamCSN, OAappNo, ProdId, PhiTypeId, AppTypeId, KeyType, BinFileVer, ManufacId,
 	      BatchId, WkState, WkStateChgDate, IOState, IOStateChgDate, ReuseTime, UnitId, IssueTime,
 	      DetectSign, DetectTime, PaymentType, ConsumeType, W2Sign, AuthSign, UnitPrice, PurchuseDate,CardPhyStat,BatchIdParts,
-	      Remarks
+	      Remarks,IsHTCard
 	    from stoproduct
 	    <isParameterPresent >
 	      <include refid="stoproduct.ibatorgenerated_Example_Where_Clause" />
@@ -100,7 +103,7 @@
 	    select SamId, SamCSN, OAappNo, ProdId, PhiTypeId, AppTypeId, KeyType, BinFileVer, ManufacId,
 	      BatchId, WkState, WkStateChgDate, IOState, IOStateChgDate, ReuseTime, UnitId, IssueTime,
 	      DetectSign, DetectTime, PaymentType, ConsumeType, W2Sign, AuthSign, UnitPrice, PurchuseDate,CardPhyStat,BatchIdParts,
-	      Remarks
+	      Remarks,IsHTCard
 	    from stoproduct
 	    where SamId = #samId:VARCHAR# and SamCSN = #samCSN:VARCHAR# 
 	  </select>
@@ -112,7 +115,7 @@
 	    select  SamId, SamCSN, OAappNo, ProdId, PhiTypeId, AppTypeId, KeyType, BinFileVer, ManufacId,
 	      BatchId, WkState, WkStateChgDate, IOState, IOStateChgDate, ReuseTime, UnitId, IssueTime,
 	      DetectSign, DetectTime, PaymentType, ConsumeType, W2Sign, AuthSign, UnitPrice, PurchuseDate,CardPhyStat,BatchIdParts,
-	      Remarks
+	      Remarks,IsHTCard
 	    from stoproduct
 	    where SamId = #samId:VARCHAR# 
 	    order by  IssueTime desc limit 1
@@ -141,14 +144,14 @@
 	    insert into stoproduct (SamId, SamCSN, OAappNo, ProdId, PhiTypeId, AppTypeId, KeyType,
 	      BinFileVer, ManufacId, BatchId, WkState, WkStateChgDate, IOState, IOStateChgDate, ReuseTime,
 	      UnitId, IssueTime, DetectSign, DetectTime, PaymentType, ConsumeType, W2Sign, AuthSign,
-	      UnitPrice, PurchuseDate, CardPhyStat,BatchIdParts,Remarks)
+	      UnitPrice, PurchuseDate, CardPhyStat,BatchIdParts,Remarks,IsHTCard)
 	    values (#samId:VARCHAR#, #samCSN:VARCHAR#, #OAappNo:VARCHAR#, #prodId:VARCHAR#,
 	      #phiTypeId:VARCHAR#, #appTypeId:VARCHAR#, #keyType:DECIMAL#, #binFileVer:VARCHAR#,
 	      #manufacId:VARCHAR#, #batchId:VARCHAR#, #wkState:DECIMAL#, #wkStateChgDate:VARCHAR#,
 	      #IOState:DECIMAL#, #IOStateChgDate:VARCHAR#, #reuseTime:DECIMAL#, #unitId:DECIMAL#,
 	      #issueTime:VARCHAR#, #detectSign:DECIMAL#, #detectTime:VARCHAR#, #paymentType:DECIMAL#,
 	      #consumeType:DECIMAL#, #w2Sign:DECIMAL#, #authSign:DECIMAL#, #unitPrice:DECIMAL#,
-	      #purchuseDate:VARCHAR#, #cardPhyStat:DECIMAL#,  #batchIdParts:VARCHAR#,#remarks:VARCHAR#)
+	      #purchuseDate:VARCHAR#, #cardPhyStat:DECIMAL#,  #batchIdParts:VARCHAR#,#remarks:VARCHAR#,#isHTCard:VARCHAR#)
 	  </insert>
 	  <insert id="ibatorgenerated_insertSelective" parameterClass="com.yly.exstore.Stoproduct" >
 	    <!--
@@ -241,7 +244,9 @@
 	      <isNotNull prepend="," property="remarks" >
 	        Remarks
 	      </isNotNull>
-	
+	      <isNotNull prepend="," property="isHTCard" >
+	        IsHTCard
+	      </isNotNull>	
 	      )
 	    </dynamic>
 	    values
@@ -330,6 +335,9 @@
 	      <isNotNull prepend="," property="remarks" >
 	        #remarks:VARCHAR#
 	      </isNotNull>
+	      <isNotNull prepend="," property="isHTCard" >
+	        #isHTCard:VARCHAR#
+	      </isNotNull>	      
 	
 	      )
 	    </dynamic>
@@ -433,7 +441,6 @@
 	      <isNotNull prepend="," property="record.remarks" >
 	        Remarks = #record.remarks:VARCHAR#
 	      </isNotNull>
-	
 	    </dynamic>
 	    <isParameterPresent >
 	      <include refid="stoproduct.ibatorgenerated_Example_Where_Clause" />
@@ -472,7 +479,8 @@
 	      PurchuseDate = #record.purchuseDate:VARCHAR#,
 	      CardPhyStat = #record.cardPhyStat:DECIMAL#,    
 	      BatchIdParts = #record.batchIdParts:VARCHAR#,
-	      Remarks = #record.remarks:VARCHAR#
+	      Remarks = #record.remarks:VARCHAR#,
+	      IsHTCard = #record.isHTCard:VARCHAR#	      
 	    <isParameterPresent >
 	      <include refid="stoproduct.ibatorgenerated_Example_Where_Clause" />
 	    </isParameterPresent>
@@ -562,6 +570,9 @@
 	      <isNotNull prepend="," property="remarks" >
 	        Remarks = #remarks:VARCHAR#
 	      </isNotNull>
+	      <isNotNull prepend="," property="remarks" >
+	        IsHTCard = #isHTCard:VARCHAR#
+	      </isNotNull>	      
 	    </dynamic>
 	    where SamId = #samId:VARCHAR# and  SamCSN = #samCSN:VARCHAR# 
 	  </update>
@@ -597,7 +608,8 @@
 	      PurchuseDate = #purchuseDate:VARCHAR#,
 	      CardPhyStat = #cardPhyStat:DECIMAL#,
 	      BatchIdParts = #batchIdParts:VARCHAR#,      
-	      Remarks = #remarks:VARCHAR#
+	      Remarks = #remarks:VARCHAR#,
+	      IsHTCard = #isHTCard:VARCHAR#	      	      
 	    where SamId = #samId:VARCHAR# and   SamCSN = #samCSN:VARCHAR# 
 	  </update>
 	    <select id="queryCardListByOa" resultMap="ibatorgenerated_BaseResultMap" parameterClass="String" >
@@ -608,7 +620,7 @@
 	    select SamId, SamCSN, OAappNo, ProdId, PhiTypeId, AppTypeId, KeyType, BinFileVer, ManufacId,
 	      BatchId, WkState, WkStateChgDate, IOState, IOStateChgDate, ReuseTime, UnitId, IssueTime,
 	      DetectSign, DetectTime, PaymentType, ConsumeType, W2Sign, AuthSign, UnitPrice, PurchuseDate,CardPhyStat,BatchIdParts,
-	      Remarks
+	      Remarks,IsHTCard
 	    from stoproduct
 	    where OAappNo = #value#
 	  </select>
@@ -697,45 +709,77 @@
 	      <isNotNull prepend="," property="remarks" >
 	        Remarks = #remarks:VARCHAR#
 	      </isNotNull>
+	      <isNotNull prepend="," property="isHTCard" >
+	        IsHTCard = #isHTCard:VARCHAR#
+	      </isNotNull>	      
 	    </dynamic>
 	    where SamCSN = #samCSN:VARCHAR# and SamId = #samId:VARCHAR# 	
 	  </update>
-	  <select id="getReport" resultMap="getReportResMap" parameterClass="com.yly.exstore.StoproductExample" >
- 		select Stoproduct.UnitId,applyinfotb.UnitId as ExUnitId,Stoproduct.ProdId,KeyType,
- 		sum(case when iostate=2 then 1 else 0 end)as ExAmt ,sum(case when wkstate=12 then 1 else 0 end) as IssueAmt   
- 		from Stoproduct,applyinfotb                     
-	    <isParameterPresent >
-	      <include refid="stoproduct.ibatorgenerated_Example_Where_Clause" />
-	    </isParameterPresent>
-		group by Stoproduct.UnitId,applyinfotb.UnitId,Stoproduct.ProdId,KeyType 
-	  </select>	  
+	  <select id="getReport" resultMap="getReportResMap" parameterClass="com.yly.exstore.Stoproduct" > 
+	  	select ExUnitId,(case when isHTCard=1 then 5 else ProdId end)as ProdId,KeyType,sum(IssueAmt) as IssueAmt,isHTCard,sum(num) as ExAmt 
+	    from 
+ 		(select count(*) as num,UnitId as ExUnitId,lsinfo.ProdId as ProdId,KeyType,isHTCard,sum(case when wkstate!=11 then 1 else 0 end) as IssueAmt
+ 		from Stoproduct,lsinfo
+ 		where lsinfo.samid =stoproduct.samid and Stoproduct.SamCSN=lsinfo.SamCSN and lsinfo.OperationType like'3%' 
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		group by ExUnitId,ProdId,KeyType,isHTCard
+ 		union
+ 	 	select  count(*) as num,UnitId as ExUnitId,lsinfo.ProdId,KeyType,isHTCard,sum(case when wkstate!=11 then 1 else 0 end) as IssueAmt 
+ 		from storeuse,lsinfo	  
+ 		where lsinfo.samid =storeuse.samid and storeuse.SamCSN=lsinfo.SamCSN and lsinfo.OperationType like'3%' 
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		group by ExUnitId,ProdId,KeyType,isHTCard
+ 	 	union
+ 	 	select  count(*) as num,UnitId as ExUnitId,lsinfo.ProdId,KeyType,isHTCard,sum(case when wkstate!=11 then 1 else 0 end) as IssueAmt  
+ 		from disproduct,lsinfo
+ 		where lsinfo.samid =disproduct.samid and disproduct.SamCSN=lsinfo.SamCSN and lsinfo.OperationType like'3%' 
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		group by ExUnitId,ProdId,KeyType,isHTCard
+ 		) tb1
+ 		group by ExUnitId,ProdId,KeyType,isHTCard	 
+	  </select>	 	  
 	  <select id="getExchangeReport" resultMap="getReportResMap" parameterClass="com.yly.exstore.StoproductExample" >
  		select Stoproduct.UnitId,applyinfotb.UnitId as ExUnitId,Stoproduct.ProdId,KeyType,
- 		sum(case when iostate=2 then 1 else 0 end)as ExAmt ,applyinfotb.OperationType as IssueAmt    
+ 		sum(case when iostate=2 then 1 else 0 end)as ExAmt ,applyinfotb.OperationType as IssueAmt,isHTCard    
  		from Stoproduct,applyinfotb,lsinfo                    
 	    <isParameterPresent >
 	      <include refid="stoproduct.ibatorgenerated_Example_Where_Clause" />
 	    </isParameterPresent>
-		group by Stoproduct.UnitId,applyinfotb.UnitId,Stoproduct.ProdId,KeyType 
+		group by Stoproduct.UnitId,applyinfotb.UnitId,Stoproduct.ProdId,KeyType,isHTCard 
 	  </select>	  	 
 	  <select id="getMakeUpReport" resultMap="getReportResMap" parameterClass="com.yly.exstore.StoproductExample" >
  		select Stoproduct.UnitId,applyinfotb.UnitId as ExUnitId,Stoproduct.ProdId,KeyType,
- 		sum(case when iostate=2 then 1 else 0 end)as ExAmt ,sum(applyinfotb.TotalPrice) as IssueAmt    
+ 		sum(case when iostate=2 then 1 else 0 end)as ExAmt ,sum(applyinfotb.TotalPrice) as IssueAmt,isHTCard    
  		from Stoproduct,applyinfotb,lsinfo                 
 	    <isParameterPresent >
 	      <include refid="stoproduct.ibatorgenerated_Example_Where_Clause" />
 	    </isParameterPresent>
-		group by Stoproduct.UnitId,applyinfotb.UnitId,Stoproduct.ProdId,KeyType 
+		group by Stoproduct.UnitId,applyinfotb.UnitId,Stoproduct.ProdId,KeyType,isHTCard 
 	  </select>	 	 
-	  <select id="getRestoreReport" resultMap="getReportResMap" parameterClass="com.yly.exstore.StoproductExample" >
- 		select Stoproduct.UnitId,applyinfotb.UnitId as ExUnitId,Stoproduct.ProdId,KeyType,
- 		CardPhyStat as IssueAmt,sum(case when iostate=3 then 1 else 0 end)as ExAmt   
- 		from Stoproduct,applyinfotb,lsinfo                    
-	    <isParameterPresent >
-	      <include refid="stoproduct.ibatorgenerated_Example_Where_Clause" />
-	    </isParameterPresent>
-		group by Stoproduct.UnitId,applyinfotb.UnitId,Stoproduct.ProdId,KeyType,CardPhyStat 
-	  </select>	 	 	      
+	  <select id="getRestoreReport" resultMap="getReportResMap" parameterClass="com.yly.exstore.Stoproduct" >
+	    select ExUnitId,(case when isHTCard=1 then 5 else ProdId end)as ProdId,KeyType,CardPhyStat as IssueAmt,isHTCard,sum(num) as ExAmt 
+	    from 
+ 		(select  count(*) as num,UnitId as ExUnitId,lsinfo.ProdId as ProdId,KeyType,isHTCard,CardPhyStat 
+ 		from Stoproduct,lsinfo
+ 		where lsinfo.samid =stoproduct.samid and Stoproduct.SamCSN=lsinfo.SamCSN and lsinfo.OperationType='61' 
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		group by ExUnitId,ProdId,KeyType,CardPhyStat,isHTCard
+ 		union
+ 	 	select  count(*) as num,UnitId as ExUnitId,lsinfo.ProdId,KeyType,isHTCard,CardPhyStat 
+ 		from storeuse,lsinfo	  
+ 		where lsinfo.samid =storeuse.samid and storeuse.SamCSN=lsinfo.SamCSN and lsinfo.OperationType='61'
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		group by ExUnitId,ProdId,KeyType,CardPhyStat,isHTCard
+ 	 	union
+ 	 	select  count(*) as num,UnitId as ExUnitId,lsinfo.ProdId,KeyType,isHTCard,CardPhyStat  
+ 		from disproduct,lsinfo
+ 		where lsinfo.samid =disproduct.samid and disproduct.SamCSN=lsinfo.SamCSN and lsinfo.OperationType='61'
+ 		and CurrDate &gt;= #beginDate_f:VARCHAR# and CurrDate &lt;= #endDate_f:VARCHAR# 
+ 		group by ExUnitId,ProdId,KeyType,CardPhyStat,isHTCard
+ 		) tb1
+ 		group by ExUnitId,ProdId,KeyType,CardPhyStat,isHTCard	 
+	  </select>	 	 	   
+	     
 	  <select id="getMaxCard" parameterClass="string" resultClass="long" >
     	select max(SamId) from(
     	select max(SamId) as SamId from StoProduct where SamId like #value#

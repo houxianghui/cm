@@ -172,8 +172,8 @@ public class StoproductDAOImpl extends SqlMapClientDaoSupport implements Stoprod
     	List list = getSqlMapClientTemplate().queryForList("stoproduct.queryCardListByOa",appNo);
         return list;
     }
-    public List getReport(StoproductExample example){
-    	List list = getSqlMapClientTemplate().queryForList("stoproduct.getReport",example);
+    public List getReport(Stoproduct record){
+    	List list = getSqlMapClientTemplate().queryForList("stoproduct.getReport",record);
         return list;
     }
     public List getExchangeReport(StoproductExample example){
@@ -183,13 +183,13 @@ public class StoproductDAOImpl extends SqlMapClientDaoSupport implements Stoprod
     public List getMakeUpReport(StoproductExample example){
     	List list = getSqlMapClientTemplate().queryForList("stoproduct.getMakeUpReport",example);
         return list;
-    }
-    public List getReStoreReport(StoproductExample example){
-    	List list = getSqlMapClientTemplate().queryForList("stoproduct.getRestoreReport",example);
-        return list;
-    }    
+    } 
     public int getIssueNumByOaAppNo(String OAappNo){
     	int num= (int)getSqlMapClientTemplate().queryForObject("stoproduct.getIssueNumByOaAppNo",OAappNo);
         return num;
     }
+	public List getReStoreReport(Stoproduct record) {
+    	List list = getSqlMapClientTemplate().queryForList("stoproduct.getRestoreReport",record);
+        return list;
+	}
 }

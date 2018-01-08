@@ -83,17 +83,17 @@ public class LsinfoDAOImpl extends SqlMapClientDaoSupport implements LsinfoDAO {
         return list;
     }
     
-    public List getStockBalReport(LsinfoExample example) {
-        List list = getSqlMapClientTemplate().queryForList("lsinfo.getStockBalReport", example);
+    public List getStockBalReport(Lsinfo record) {
+        List list = getSqlMapClientTemplate().queryForList("lsinfo.getStockBalReport", record);
         return list;
     }
     
-    public List getLSBackReport(LsinfoExample example) {
-        List list = getSqlMapClientTemplate().queryForList("lsinfo.getLSBackReport", example);
+    public List getLSBackReport(Lsinfo record) {
+        List list = getSqlMapClientTemplate().queryForList("lsinfo.getLSBackReport", record);
         return list;
     }
-    public List getLsDisCardReport(LsinfoExample example) {
-        List list = getSqlMapClientTemplate().queryForList("lsinfo.getLsDisCardReport", example);
+    public List getLsDisCardReport(Lsinfo record) {
+        List list = getSqlMapClientTemplate().queryForList("lsinfo.getLsDisCardReport", record);
         return list;
     }
     /**
@@ -177,5 +177,10 @@ public class LsinfoDAOImpl extends SqlMapClientDaoSupport implements LsinfoDAO {
         List list = getSqlMapClientTemplate().queryForList("lsinfo.getStockLsByProd", example);
         return list;
     }
+
+	public List getLSIssueReport(Lsinfo record) {
+        List list = getSqlMapClientTemplate().queryForList("lsinfo.getLSIssueReport", record);
+		return list;
+	}
     
 }

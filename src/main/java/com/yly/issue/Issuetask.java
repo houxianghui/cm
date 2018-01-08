@@ -445,14 +445,14 @@ public class Issuetask {
 		this.isPki = isPki;
 	}
 
-	public Integer getIsHTCard() {
+	public String getIsHTCard() {
 		return isHTCard;
 	}
 
-	public void setIsHTCard(Integer isHTCard) {
+	public void setIsHTCard(String isHTCard) {
 		this.isHTCard = isHTCard;
 	}
-	private Integer isHTCard;
+	private String isHTCard;
 
 
 }

@@ -378,7 +378,7 @@ public class IssueappAction extends IbatisBaseAction {
 			if(reuseprodvo==null ||reuseprodvo.equals(null)){
 				throw new MessageException("此SAM号没有进行退回操作");
 			}else{
-				if(!reuseprodvo.getAppTypeId().equals("105") && !reuseprodvo.getAppTypeId().equals("106"))
+				if(!reuseprodvo.getAppTypeId().equals("105") && !reuseprodvo.getAppTypeId().equals("106")  && !reuseprodvo.getAppTypeId().equals("115")  && !reuseprodvo.getAppTypeId().equals("116"))
 					throw new MessageException("此卡号不允许做此业务");	
 				prodvo =new Stoproduct();
 				copyProperties(prodvo,reuseprodvo);

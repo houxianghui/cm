@@ -9,6 +9,14 @@ import com.eis.cache.SingleDic;
 import com.eis.cache.SingleDicMap;
 
 public class StoproductForm extends BaseForm {
+	private String isHTCard;
+	public String getIsHTCard() {
+		return isHTCard;
+	}
+
+	public void setIsHTCard(String isHTCard) {
+		this.isHTCard = isHTCard;
+	}
 	private String beginDate_f;
 	private String endDate_f;
 	private String samCsn_f;

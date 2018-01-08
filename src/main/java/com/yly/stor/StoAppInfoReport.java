@@ -25,8 +25,38 @@ public class StoAppInfoReport extends BaseReport {
 		this.stoAppBO = stoAppBO;
 	}
 
-
 	protected void setValue(HashMap map, Object obj) throws Exception{
+		;
+	}
+//	protected void setValue(HashMap map, Object obj) throws Exception{
+//		Tools tools = makeExcel(map);
+//		CellAttributes ca = (CellAttributes)map.get("list");
+//		int rowIndex = ca.getRowIndex();
+//		int colIndex = ca.getColIndex();
+//		int colIndexBegin=colIndex;
+//		try{
+//			List<Stoappinfo> l = (List)stoAppBO.getReport(obj);
+//			if(l.size()<1){
+//				throw new MessageException("不存在数据");
+//			}
+//			for(Stoappinfo p : l){
+//				tools.setCell(rowIndex, colIndex++, p.getProjContNum());
+//				tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.MAUN_ID, p.getManufacId()));
+//				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PROD_ID, p.getProdId()));
+//				tools.setCell(rowIndex, colIndex++, p.getPhiTypeId()==null?"":SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, p.getPhiTypeId()));
+//				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(p.getOperationType())));
+//				tools.setCell(rowIndex, colIndex++, p.getFormNo());
+//				tools.setCell(rowIndex, colIndex++, p.getPurchaseAmt());
+//				tools.setCell(rowIndex, colIndex++, p.getRemarks());
+//				rowIndex++;
+//				colIndex=colIndexBegin;
+//			}					
+//			
+//		}finally{
+//			;
+//		}
+//	}
+	protected void setValueMultiSheet(HashMap map, Object obj,String i) throws Exception{
 		Tools tools = makeExcel(map);
 		CellAttributes ca = (CellAttributes)map.get("list");
 		int rowIndex = ca.getRowIndex();
@@ -34,25 +64,27 @@ public class StoAppInfoReport extends BaseReport {
 		int colIndexBegin=colIndex;
 		try{
 			List<Stoappinfo> l = (List)stoAppBO.getReport(obj);
+			
 			if(l.size()<1){
 				throw new MessageException("不存在数据");
 			}
 			for(Stoappinfo p : l){
-				tools.setCell(rowIndex, colIndex++, p.getProjContNum());
-				tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.MAUN_ID, p.getManufacId()));
-				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PROD_ID, p.getProdId()));
-				tools.setCell(rowIndex, colIndex++, p.getPhiTypeId()==null?"":SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, p.getPhiTypeId()));
-				tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(p.getOperationType())));
-				tools.setCell(rowIndex, colIndex++, p.getFormNo());
-				tools.setCell(rowIndex, colIndex++, p.getPurchaseAmt());
-				rowIndex++;
-				colIndex=colIndexBegin;
+				if(p.getProdId().equals(i)){
+					tools.setCell(rowIndex, colIndex++, p.getProjContNum());
+					tools.setCell(rowIndex, colIndex++, ReDefSDicMap.getDicItemVal(RedefSDicCodes.MAUN_ID, p.getManufacId()));
+					tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.PROD_ID, p.getProdId()));
+					tools.setCell(rowIndex, colIndex++, p.getPhiTypeId()==null?"":SingleDicMap.getDicItemVal(SingleDic.COMM_RATE, p.getPhiTypeId()));
+					tools.setCell(rowIndex, colIndex++, SingleDicMap.getDicItemVal(SingleDic.OPERATIONTYPE, String.valueOf(p.getOperationType())));
+					tools.setCell(rowIndex, colIndex++, p.getFormNo());
+					tools.setCell(rowIndex, colIndex++, p.getPurchaseAmt());
+					tools.setCell(rowIndex, colIndex++, p.getRemarks());
+					rowIndex++;
+					colIndex=colIndexBegin;
+				}
 			}
+
 		}finally{
 			;
 		}
 	}
-	protected void setValueMultiSheet(HashMap map, Object obj,String i) throws Exception{
-		;
-	}	
 }

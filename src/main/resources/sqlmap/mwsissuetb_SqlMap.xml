@@ -32,7 +32,7 @@
     <result column="W2limit" jdbcType="DECIMAL" property="w2Limit" />
     <result column="ZeroExauthFlag" jdbcType="DECIMAL" property="zeroExauthFlag" />
     <result column="IsPki" jdbcType="DECIMAL" property="isPki" />
-    <result column="IsHTCard" jdbcType="DECIMAL" property="isHTCard" />
+    <result column="IsHTCard" jdbcType="VARCHAR" property="isHTCard" />
     <result column="OAappNo" property="OAappNo" jdbcType="VARCHAR" />
     
   </resultMap>
@@ -66,7 +66,7 @@
     <result column="W2limit" jdbcType="DECIMAL" property="w2Limit" />
     <result column="ZeroExauthFlag" jdbcType="DECIMAL" property="zeroExauthFlag" />
     <result column="IsPki" jdbcType="DECIMAL" property="isPki" />
-    <result column="IsHTCard" jdbcType="DECIMAL" property="isHTCard" />
+    <result column="IsHTCard" jdbcType="VARCHAR" property="isHTCard" />
     <result column="AppNo" jdbcType="VARCHAR" property="appNo" />
     <result column="TaskNo" jdbcType="VARCHAR" property="taskNo" />
     <result column="UnitId" jdbcType="DECIMAL" property="unitId" />
@@ -176,7 +176,7 @@
       #applyAttr:VARCHAR#, #authSign:DECIMAL#, #w2Sign:DECIMAL#, #batchId:VARCHAR#,
       #pressCardScale:VARCHAR#, #workSheetAmt:DECIMAL#, #samIdBegin:VARCHAR#, #samIdEnd:VARCHAR#,
       #samId:VARCHAR#, #issueDoneAmt:DECIMAL#, #formState:DECIMAL#, #issueOperID:VARCHAR#, #manufacId:VARCHAR#,  
-      #operationType:DECIMAL#,#w2Limit:DECIMAL#,#zeroExauthFlag:DECIMAL#,#isPki:DECIMAL#,#isHTCard:DECIMAL#, #remarks:VARCHAR#, #OAappNo:VARCHAR#)
+      #operationType:DECIMAL#,#w2Limit:DECIMAL#,#zeroExauthFlag:DECIMAL#,#isPki:DECIMAL#,#isHTCard:VARCHAR#, #remarks:VARCHAR#, #OAappNo:VARCHAR#)
   </insert>
   <insert id="ibatorgenerated_insertSelective" parameterClass="com.yly.issue.Mwsissuetb" >
     <!--
@@ -352,7 +352,7 @@
         #isPki:DECIMAL#
       </isNotNull>
        <isNotNull prepend="," property="isHTCard">
-        #isHTCard:DECIMAL#
+        #isHTCard:VARCHAR#
       </isNotNull>
       <isNotNull prepend="," property="OAappNo">
          #OAappNo:VARCHAR#
@@ -454,7 +454,7 @@
         IsPki = #record.isPki:DECIMAL#
       </isNotNull>
       <isNotNull prepend="," property="record.isHTCard">
-        IsHTCard = #record.isHTCard:DECIMAL#
+        IsHTCard = #record.isHTCard:VARCHAR#
       </isNotNull>
        <isNotNull prepend="," property="record.OAappNo">
         OAappNo = #record.OAappNo:VARCHAR#
@@ -496,7 +496,7 @@
       W2limit = #record.w2Limit:DECIMAL#,
       ZeroExauthFlag = #record.zeroExauthFlag:DECIMAL#,
       IsPki = #record.isPki:DECIMAL#,
-      IsHTCard = #record.isHTCard:DECIMAL#,
+      IsHTCard = #record.isHTCard:VARCHAR#,
       OAappNo = #record.OAappNo:VARCHAR#
     <isParameterPresent >
       <include refid="mwsissuetb.ibatorgenerated_Example_Where_Clause" />
@@ -585,7 +585,7 @@
         IsPki = #isPki:DECIMAL#
       </isNotNull>
       <isNotNull prepend="," property="isHTCard">
-        IsHTCard = #isHTCard:DECIMAL#
+        IsHTCard = #isHTCard:VARCHAR#
       </isNotNull>
        <isNotNull prepend="," property="OAappNo">
         OAappNo = #OAappNo:VARCHAR#
@@ -624,7 +624,7 @@
       W2limit = #w2Limit:DECIMAL#,
       ZeroExauthFlag = #zeroExauthFlag:DECIMAL#,
       IsPki = #isPki:DECIMAL#,
-      IsHTCard = #isHTCard:DECIMAL#,
+      IsHTCard = #isHTCard:VARCHAR#,
       OAappNo= #OAappNo:VARCHAR#
     where FormNo = #formNo:VARCHAR#
   </update>
@@ -642,10 +642,10 @@
       where mwsissuetb.TaskCtrlNo=IssueTaskCtrl.TaskCtrlNo and FormNo = #formNo:VARCHAR#
   </select>
    <select id="getReport" resultMap="getReportResMap" parameterClass="java.lang.String" >
-	 select sum(mwsissuetb.IssueDoneAmt) as IssueDoneAmt,count(FormNo) as WorkSheetAmt,ProdId,KeyType,TaskNo,issuetaskctrl.unitid
+	 select sum(mwsissuetb.IssueDoneAmt) as IssueDoneAmt,count(FormNo) as WorkSheetAmt,(case when IsHTCard=1 then 5 else ProdId end) as ProdId,KeyType,TaskNo,issuetaskctrl.unitid,IsHTCard
 	 from mwsissuetb,issuetaskctrl 
 	 where issuetaskctrl.TaskCtrlNo=mwsissuetb.TaskCtrlNo and issuetaskctrl.TaskNo= #taskNo:VARCHAR#
- 	 group by ProdId,KeyType,TaskNo
+ 	 group by ProdId,KeyType,TaskNo,IsHTCard
   </select> 
    <select id="getMyIssueTask"  resultClass="java.lang.Integer"  parameterClass="java.lang.String" >
 	 select count(*)

@@ -404,4 +404,12 @@ public class LsinfoForm extends BaseForm {
     public void setCurrDate(String currDate) {
         this.currDate = currDate == null ? null : currDate.trim();
     }
+    private String isHTCard;
+	public String getIsHTCard() {
+		return isHTCard;
+	}
+
+	public void setIsHTCard(String isHTCard) {
+		this.isHTCard = isHTCard;
+	}
 }

@@ -37,6 +37,7 @@
     <result column="CurrPeriodAmt" jdbcType="DECIMAL" property="currPeriodAmt" />
     <result column="PurchaseAmt" jdbcType="DECIMAL" property="purchaseAmt" />
     <result column="ProdId" jdbcType="VARCHAR" property="prodId" />   
+    <result column="isHTCard" jdbcType="VARCHAR" property="isHTCard" />      
   </resultMap>   
   <sql id="ibatorgenerated_Example_Where_Clause">
     <!--
@@ -493,9 +494,9 @@
     where BatchId = #formNo:VARCHAR#
   </update>
    <select id="getReport" parameterClass="com.yly.stor.StoappinfoExample" resultMap="ibatorgenerated_BaseResultMap">
-     select SUM(PurchaseAmt) AS PurchaseAmt,ProjContNum,ManufacId,ProdId,PhiTypeId,OperationType,BatchId, "" as ProjName,
+     select  PurchaseAmt,ProjContNum,ManufacId,ProdId,PhiTypeId,OperationType,BatchId, Remarks,"" as ProjName,
       "" as ExFormNo, "" as PurchasePerson, 0 as CurrPeriodAmt, "" as PressCardScale, "" as OperId,"" as purchaseType,0 as UnitPrice,
-     "" as  CurrDate,"" as isHTCard, "" as isPki,"" as  ModuleVersion,"" as ModuleBatchId,"" as Remarks, "" as Rsvd
+     "" as  CurrDate,"" as isHTCard, "" as isPki,"" as  ModuleVersion,"" as ModuleBatchId , "" as Rsvd
      from stoappinfo 
     <isParameterPresent>
      	<include refid="stoappinfo.ibatorgenerated_Example_Where_Clause" />
@@ -511,12 +512,12 @@
 	group by AppNo 
   </select>  
    <select id="getStockBalReport" parameterClass="com.yly.stor.StoappinfoExample" resultMap="StockBalReportMap">
-   	select sum(PurchaseAmt) as PurchaseAmt,sum(CurrPeriodAmt) as CurrPeriodAmt,ProdId
+   	select sum(PurchaseAmt) as PurchaseAmt,sum(CurrPeriodAmt) as CurrPeriodAmt,ProdId,isHTCard
    	from stoappinfo
     <isParameterPresent>
      	<include refid="stoappinfo.ibatorgenerated_Example_Where_Clause" />
     </isParameterPresent>
-	group by ProdId 
+	group by ProdId,isHTCard 
 	order by ProdId
   </select>    
 </sqlMap>

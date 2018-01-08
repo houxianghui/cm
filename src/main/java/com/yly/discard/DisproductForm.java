@@ -945,4 +945,12 @@ public class DisproductForm extends BaseForm {
     public void setRemarks(String remarks) {
         this.remarks = remarks == null ? null : remarks.trim();
     }
+	private String isHTCard;
+	public String getIsHTCard() {
+		return isHTCard;
+	}
+
+	public void setIsHTCard(String isHTCard) {
+		this.isHTCard = isHTCard;
+	}
 }

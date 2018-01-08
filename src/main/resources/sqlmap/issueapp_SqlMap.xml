@@ -51,7 +51,7 @@
     <result column="IsPki" jdbcType="DECIMAL" property="isPki" />
 	<result column="W2limit" jdbcType="DECIMAL" property="w2Limit" />
 	<result column="ZeroExauthFlag" jdbcType="DECIMAL" property="zeroExauthFlag" />
-	<result column="IsHTCard" jdbcType="DECIMAL" property="isHTCard" />
+	<result column="IsHTCard" jdbcType="VARCHAR" property="isHTCard" />
   </resultMap> 
   <resultMap class="com.yly.issue.Issueapp" id="selectTaskNoByExampleResMap">
     <result column="AppNo" jdbcType="VARCHAR" property="appNo" />

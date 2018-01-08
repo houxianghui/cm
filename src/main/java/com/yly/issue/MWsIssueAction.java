@@ -3,6 +3,7 @@ package com.yly.issue;
 import java.io.File;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -922,9 +923,15 @@ public class MWsIssueAction extends IbatisBaseAction {
 		Mwsissuetb vo = new Mwsissuetb();
 		vo.setBeginDate_f(f.getBeginDate_f());
 		vo.setEndDate_f(f.getEndDate_f());
-		issueAppInfoReport.createExcel(vo, false);
+		List<String> l=new ArrayList<String>();
+		l.add("发行-ISAM");
+		l.add("发行-PSAM");
+		l.add("发行-ESAM");
+		l.add("发行-小模块");
+		l.add("发行-互通卡");
+		issueAppInfoReport.createExcelSheet(vo, false,l);
 		response.setContentType("application/octet-stream");
-		String filename = issueAppInfoReport.getEt().getSheetName()+".xls";
+		String filename = "发行统计.xls";
 		if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0){
 			filename = new String(filename.getBytes("UTF-8"), "ISO8859-1");//firefox浏览器
 		}else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0){
@@ -936,6 +943,8 @@ public class MWsIssueAction extends IbatisBaseAction {
 		out.close();
 		return null;
 	}
+	
+	
 	private MWsIssuetbForm initIssueParaByApplyType(MWsIssuetbForm f)throws Exception{
 		Applytypeinfo apply = new Applytypeinfo();
 		apply.setApplyTypeId(f.getApplyAttr());
@@ -943,7 +952,7 @@ public class MWsIssueAction extends IbatisBaseAction {
 		f.setW2Sign(Short.valueOf(apply.getIsV2()));
 		f.setAuthSign(Short.valueOf(CheckUtil.isEmptry(apply.getIsIsamSign())?"0":apply.getIsIsamSign()));
 		f.setW2Limit(Integer.parseInt(apply.getIsV2Sign()));
-		f.setIsHTCard(Integer.parseInt(apply.getIsHLCard()));
+		f.setIsHTCard(apply.getIsHLCard());
 		f.setIsPki(Integer.parseInt(apply.getIsPki()));
 		f.setZeroExauthFlag(Integer.parseInt(CheckUtil.isEmptry(apply.getIsIsamTestAllO())?"0":apply.getIsIsamTestAllO()));
 		return f;

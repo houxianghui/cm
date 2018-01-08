@@ -440,19 +440,15 @@ public class StoproductBO extends IbatisBO {
 	
 	public List getReport(Object obj) throws Exception {
 		Stoproduct vo =(Stoproduct)obj;
-		StoproductExample e = new StoproductExample();
-		Criteria c = e.createCriteria();
-		c.andAsscoTbs();
+		vo.setBeginDate_f(vo.getBeginDate_f()+"000000");
+		vo.setEndDate_f(vo.getEndDate_f()+"999999");
 		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
-			c.andIOStateChgDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+			vo.setBeginDate_f(vo.getBeginDate_f()+"000000");
 		}
 		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
-			c.andIOStateChgDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+			vo.setEndDate_f(vo.getEndDate_f()+"999999");
 		}
-		List<StoproductForm> result=stoproductDAO.getReport(e);
-		if(result.size()<1){
-			throw new MessageException("不存在数据");
-		}
+		List<StoproductForm> result=stoproductDAO.getReport(vo);
 		return  result;
 	}
 	public List getExchangeReport(Object obj) throws Exception {
@@ -487,16 +483,15 @@ public class StoproductBO extends IbatisBO {
 	}	
 	public List getReStoreReport(Object obj) throws Exception {
 		Stoproduct vo =(Stoproduct)obj;
-		StoproductExample e = new StoproductExample();
-		Criteria c = e.createCriteria();
-		c.andReStoreAsscoTbs();
+		vo.setBeginDate_f(vo.getBeginDate_f()+"000000");
+		vo.setEndDate_f(vo.getEndDate_f()+"999999");
 		if(!CheckUtil.isEmptry(vo.getBeginDate_f())){
-			c.andIOStateChgDateGreaterThanOrEqualTo(vo.getBeginDate_f()+"000000");
+			vo.setBeginDate_f(vo.getBeginDate_f()+"000000");
 		}
 		if(!CheckUtil.isEmptry(vo.getEndDate_f())){
-			c.andIOStateChgDateLessThanOrEqualTo(vo.getEndDate_f()+"999999");
+			vo.setEndDate_f(vo.getEndDate_f()+"999999");
 		}
-		List<StoproductForm> result=stoproductDAO.getReStoreReport(e);
+		List<StoproductForm> result=stoproductDAO.getReStoreReport(vo);
 		return  result;
 	}	
 	public void copyProperties(Object dest,Object origin) throws Exception {

@@ -34,6 +34,8 @@
     <result column="CardPhyStat" property="cardPhyStat" jdbcType="DECIMAL" />
     <result column="BatchIdParts" property="batchIdParts" jdbcType="VARCHAR" /> 
     <result column="Remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="IsHTCard" property="isHTCard" jdbcType="VARCHAR" />
+    
   </resultMap>
   <sql id="ibatorgenerated_Example_Where_Clause" >
     <!--
@@ -73,7 +75,7 @@
     select SamId, SamCSN, OAappNo, ProdId, PhiTypeId, AppTypeId, KeyType, BinFileVer, ManufacId,
       BatchId, WkState, WkStateChgDate, IOState, IOStateChgDate, ReuseTime, UnitId, IssueTime,
       DetectSign, DetectTime, PaymentType, ConsumeType, W2Sign, AuthSign, UnitPrice, PurchuseDate,
-      CardPhyStat,BatchIdParts, Remarks
+      CardPhyStat,BatchIdParts, Remarks,IsHTCard
     from disproduct
     <isParameterPresent >
       <include refid="disproduct.ibatorgenerated_Example_Where_Clause" />
@@ -90,7 +92,7 @@
     select SamId, SamCSN, OAappNo, ProdId, PhiTypeId, AppTypeId, KeyType, BinFileVer, ManufacId,
       BatchId, WkState, WkStateChgDate, IOState, IOStateChgDate, ReuseTime, UnitId, IssueTime,
       DetectSign, DetectTime, PaymentType, ConsumeType, W2Sign, AuthSign, UnitPrice, PurchuseDate,
-      CardPhyStat,BatchIdParts, Remarks
+      CardPhyStat,BatchIdParts, Remarks,IsHTCard
     from disproduct
    where SamId = #samId:VARCHAR# and   SamCSN = #samCSN:VARCHAR# 
   </select>
@@ -118,14 +120,14 @@
     insert into disproduct (SamId, SamCSN, OAappNo, ProdId, PhiTypeId, AppTypeId, KeyType,
       BinFileVer, ManufacId, BatchId, WkState, WkStateChgDate, IOState, IOStateChgDate, ReuseTime,
       UnitId, IssueTime, DetectSign, DetectTime, PaymentType, ConsumeType, W2Sign, AuthSign,
-      UnitPrice, PurchuseDate, CardPhyStat,BatchIdParts, Remarks)
+      UnitPrice, PurchuseDate, CardPhyStat,BatchIdParts, Remarks,IsHTCard)
     values (#samId:VARCHAR#, #samCSN:VARCHAR#, #OAappNo:VARCHAR#, #prodId:VARCHAR#,
       #phiTypeId:VARCHAR#, #appTypeId:VARCHAR#, #keyType:DECIMAL#, #binFileVer:VARCHAR#,
       #manufacId:VARCHAR#, #batchId:VARCHAR#, #wkState:DECIMAL#, #wkStateChgDate:VARCHAR#,
       #IOState:DECIMAL#, #IOStateChgDate:VARCHAR#, #reuseTime:DECIMAL#, #unitId:DECIMAL#,
       #issueTime:VARCHAR#, #detectSign:DECIMAL#, #detectTime:VARCHAR#, #paymentType:DECIMAL#,
       #consumeType:DECIMAL#, #w2Sign:DECIMAL#, #authSign:DECIMAL#, #unitPrice:DECIMAL#,
-      #purchuseDate:VARCHAR#, #cardPhyStat:DECIMAL#,  #batchIdParts:VARCHAR#,#remarks:VARCHAR#)
+      #purchuseDate:VARCHAR#, #cardPhyStat:DECIMAL#,  #batchIdParts:VARCHAR#,#remarks:VARCHAR#,#isHTCard:VARCHAR#)
   </insert>
   <insert id="ibatorgenerated_insertSelective" parameterClass="com.yly.discard.Disproduct" >
     <!--
@@ -218,6 +220,9 @@
       <isNotNull prepend="," property="remarks" >
         Remarks
       </isNotNull>
+      <isNotNull prepend="," property="isHTCard" >
+        IsHTCard
+      </isNotNull>      
       )
     </dynamic>
     values
@@ -306,6 +311,9 @@
       <isNotNull prepend="," property="remarks" >
         #remarks:VARCHAR#
       </isNotNull>
+      <isNotNull prepend="," property="isHTCard" >
+        #isHTCard:VARCHAR#
+      </isNotNull>      
       )
     </dynamic>
   </insert>
@@ -408,6 +416,9 @@
       <isNotNull prepend="," property="record.remarks" >
         Remarks = #record.remarks:VARCHAR#
       </isNotNull>
+      <isNotNull prepend="," property="record.isHTCard" >
+        IsHTCard = #record.isHTCard:VARCHAR#
+      </isNotNull>      
     </dynamic>
     <isParameterPresent >
       <include refid="disproduct.ibatorgenerated_Example_Where_Clause" />
@@ -446,7 +457,8 @@
       PurchuseDate = #record.purchuseDate:VARCHAR#,
       CardPhyStat = #record.cardPhyStat:DECIMAL#,
       BatchIdParts = #record.batchIdParts:VARCHAR#,
-      Remarks = #record.remarks:VARCHAR#
+      Remarks = #record.remarks:VARCHAR#,
+      IsHTCard = #record.isHTCard:VARCHAR#
     <isParameterPresent >
       <include refid="disproduct.ibatorgenerated_Example_Where_Clause" />
     </isParameterPresent>
@@ -539,6 +551,9 @@
       <isNotNull prepend="," property="remarks" >
         Remarks = #remarks:VARCHAR#
       </isNotNull>
+      <isNotNull prepend="," property="isHTCard" >
+        IsHTCard = #isHTCard:VARCHAR#
+      </isNotNull>      
     </dynamic>
    where SamId = #samId:VARCHAR# and   SamCSN = #samCSN:VARCHAR# 
   </update>
@@ -574,7 +589,8 @@
       PurchuseDate = #purchuseDate:VARCHAR#,
       CardPhyStat = #cardPhyStat:DECIMAL#,
       BatchIdParts = #batchIdParts:VARCHAR#,      
-      Remarks = #remarks:VARCHAR#
+      Remarks = #remarks:VARCHAR#,
+      IsHTCard = #isHTCard:VARCHAR#  
    where SamId = #samId:VARCHAR# and   SamCSN = #samCSN:VARCHAR# 
   </update>
 </sqlMap>

@@ -83,7 +83,7 @@ function turnPage( pagenm ) {
 			<td>产品通信速率</td>
 			<td>产品应用类型</td>
 			<td>密钥类型</td>
-			<td>认证方式</td>
+			<td>充值密钥使用权限不需要认证</td>
 			<td>发行时间</td>
 			<td>作废时间</td>
 			<td>检测结果</td>

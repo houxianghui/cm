@@ -34,14 +34,16 @@
     <result column="CardPhyStat" property="cardPhyStat" jdbcType="DECIMAL" />
     <result column="BatchIdParts" property="batchIdParts" jdbcType="VARCHAR" />
     <result column="Remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="IsHTCard" property="isHTCard" jdbcType="VARCHAR" />
+    
   </resultMap>
   	  <resultMap id="getStoreuseReportResMap" class="com.yly.exstore.StoproductForm" >
 	    <result column="ProdId" property="prodId" jdbcType="VARCHAR" />
 	    <result column="KeyType" property="keyType" jdbcType="DECIMAL" />
-	    <result column="UnitId" property="unitId" jdbcType="DECIMAL" />
 	    <result column="ExUnitId" property="exUnitId" jdbcType="DECIMAL" />
 	 	<result column="ExAmt" property="exAmt" jdbcType="DECIMAL" />
 	 	<result column="IssueAmt" property="issueAmt" jdbcType="DECIMAL" />
+	 	<result column="IsHTCard" property="isHTCard" jdbcType="DECIMAL" />	 	
 	  </resultMap>	 
   <sql id="ibatorgenerated_Example_Where_Clause" >
     <!--
@@ -81,7 +83,7 @@
     select SamId, SamCSN, OAappNo, ProdId, PhiTypeId, AppTypeId, KeyType, BinFileVer, ManufacId,
       BatchId, WkState, WkStateChgDate, IOState, IOStateChgDate, ReuseTime, UnitId, IssueTime,
       DetectSign, DetectTime, PaymentType, ConsumeType, W2Sign, AuthSign, UnitPrice, PurchuseDate,
-      CardPhyStat, BatchIdParts, Remarks
+      CardPhyStat, BatchIdParts, Remarks,IsHTCard
     from storeuse 
     <isParameterPresent >
       <include refid="storeuse.ibatorgenerated_Example_Where_Clause" />
@@ -98,7 +100,7 @@
     select SamId, SamCSN, OAappNo, ProdId, PhiTypeId, AppTypeId, KeyType, BinFileVer, ManufacId,
       BatchId, WkState, WkStateChgDate, IOState, IOStateChgDate, ReuseTime, UnitId, IssueTime,
       DetectSign, DetectTime, PaymentType, ConsumeType, W2Sign, AuthSign, UnitPrice, PurchuseDate,
-      CardPhyStat, BatchIdParts, Remarks
+      CardPhyStat, BatchIdParts, Remarks,IsHTCard
     from storeuse
      where SamId = #samId:VARCHAR# and SamCSN = #samCSN:VARCHAR# 
   </select>
@@ -110,7 +112,7 @@
     select SamId, SamCSN, OAappNo, ProdId, PhiTypeId, AppTypeId, KeyType, BinFileVer, ManufacId,
       BatchId, WkState, WkStateChgDate, IOState, IOStateChgDate, ReuseTime, UnitId, IssueTime,
       DetectSign, DetectTime, PaymentType, ConsumeType, W2Sign, AuthSign, UnitPrice, PurchuseDate,
-      CardPhyStat, BatchIdParts, Remarks
+      CardPhyStat, BatchIdParts, Remarks,IsHTCard
     from storeuse
      where SamId = #samId:VARCHAR# 
      order by IssueTime desc limit 1 
@@ -139,14 +141,14 @@
     insert into storeuse (SamId, SamCSN, OAappNo, ProdId, PhiTypeId, AppTypeId, KeyType, BinFileVer,
       ManufacId, BatchId, WkState, WkStateChgDate, IOState, IOStateChgDate, ReuseTime, UnitId,
       IssueTime, DetectSign, DetectTime, PaymentType, ConsumeType, W2Sign, AuthSign, UnitPrice,
-      PurchuseDate, CardPhyStat, BatchIdParts, Remarks)
+      PurchuseDate, CardPhyStat, BatchIdParts, Remarks,IsHTCard)
     values (#samId:VARCHAR#, #samCSN:VARCHAR#, #OAappNo:VARCHAR#, #prodId:VARCHAR#,
       #phiTypeId:VARCHAR#, #appTypeId:VARCHAR#, #keyType:DECIMAL#, #binFileVer:VARCHAR#,
       #manufacId:VARCHAR#, #batchId:VARCHAR#, #wkState:DECIMAL#, #wkStateChgDate:VARCHAR#,
       #IOState:DECIMAL#, #IOStateChgDate:VARCHAR#, #reuseTime:DECIMAL#, #unitId:DECIMAL#,
       #issueTime:VARCHAR#, #detectSign:DECIMAL#, #detectTime:VARCHAR#, #paymentType:DECIMAL#,
       #consumeType:DECIMAL#, #w2Sign:DECIMAL#, #authSign:DECIMAL#, #unitPrice:DECIMAL#,
-      #purchuseDate:VARCHAR#, #cardPhyStat:DECIMAL#, #batchIdParts:VARCHAR#, #remarks:VARCHAR#)
+      #purchuseDate:VARCHAR#, #cardPhyStat:DECIMAL#, #batchIdParts:VARCHAR#, #remarks:VARCHAR#, #isHTCard:VARCHAR#)
   </insert>
   <insert id="ibatorgenerated_insertSelective" parameterClass="com.yly.reuse.Storeuse" >
     <!--
@@ -239,6 +241,9 @@
       <isNotNull prepend="," property="remarks" >
         Remarks
       </isNotNull>
+       <isNotNull prepend="," property="isHTCard" >
+        IsHTCard
+      </isNotNull>
       )
     </dynamic>
     values
@@ -327,6 +332,9 @@
       <isNotNull prepend="," property="remarks" >
         #remarks:VARCHAR#
       </isNotNull>
+      <isNotNull prepend="," property="isHTCard" >
+        #isHTCard:VARCHAR#
+      </isNotNull>      
       )
     </dynamic>
   </insert>
@@ -429,6 +437,9 @@
       <isNotNull prepend="," property="record.remarks" >
         Remarks = #record.remarks:VARCHAR#
       </isNotNull>
+      <isNotNull prepend="," property="record.isHTCard" >
+        IsHTCard = #record.isHTCard:VARCHAR#
+      </isNotNull>      
     </dynamic>
     <isParameterPresent >
       <include refid="storeuse.ibatorgenerated_Example_Where_Clause" />
@@ -467,7 +478,8 @@
       PurchuseDate = #record.purchuseDate:VARCHAR#,
       CardPhyStat = #record.cardPhyStat:DECIMAL#,
       BatchIdParts = #record.batchIdParts:VARCHAR#,
-      Remarks = #record.remarks:VARCHAR#
+      Remarks = #record.remarks:VARCHAR#,
+      IsHTCard = #isHTCard:VARCHAR#	      	      
     <isParameterPresent >
       <include refid="storeuse.ibatorgenerated_Example_Where_Clause" />
     </isParameterPresent>
@@ -560,6 +572,9 @@
       <isNotNull prepend="," property="remarks" >
         Remarks = #remarks:VARCHAR#
       </isNotNull>
+	  <isNotNull prepend="," property="isHTCard" >
+	    IsHTCard = #isHTCard:VARCHAR#
+	  </isNotNull>	          
     </dynamic>
     where SamId = #samId:VARCHAR# and  SamCSN = #samCSN:VARCHAR#
   </update>
@@ -595,16 +610,17 @@
       PurchuseDate = #purchuseDate:VARCHAR#,
       CardPhyStat = #cardPhyStat:DECIMAL#,
       BatchIdParts = #batchIdParts:VARCHAR#,
-      Remarks = #remarks:VARCHAR#
+      Remarks = #remarks:VARCHAR#,
+ 	  IsHTCard = #isHTCard:VARCHAR#	      	      
    where SamId = #samId:VARCHAR# and   SamCSN = #samCSN:VARCHAR# 
   </update>
   	  <select id="getRestoreReport" resultMap="getStoreuseReportResMap" parameterClass="com.yly.reuse.StoreuseExample" >
- 		select storeuse.UnitId,applyinfotb.UnitId as ExUnitId,storeuse.ProdId,KeyType,
- 		CardPhyStat as IssueAmt,sum(case when iostate=3 then 1 else 0 end)as ExAmt   
- 		from storeuse,applyinfotb,lsinfo                    
+ 		select storeuse.UnitId as ExUnitId,(case when isHTCard=1 then 5 else storeuse.ProdId end)as ProdId,KeyType,isHTCard,
+ 		CardPhyStat as IssueAmt,count(*) as ExAmt   
+ 		from storeuse,lsinfo                    
 	    <isParameterPresent >
 	      <include refid="storeuse.ibatorgenerated_Example_Where_Clause" />
 	    </isParameterPresent>
-		group by storeuse.UnitId,applyinfotb.UnitId,storeuse.ProdId,KeyType,CardPhyStat 
+		group by storeuse.UnitId,storeuse.ProdId,KeyType,CardPhyStat,isHTCard 
 	  </select>	 	 	      
 </sqlMap>

@@ -2045,8 +2045,16 @@ public class StoreuseExample {
             addCriterion("Remarks not between", value1, value2, "remarks");
             return this;
         }
+        public Criteria andLsCurrDateGreaterThanOrEqualTo(String value) {
+            addCriterion("lsinfo.CurrDate >=", value, "CurrDate");
+            return this;
+        }        
+        public Criteria andLsCurrDateLessThanOrEqualTo(String value) {
+            addCriterion("lsinfo.CurrDate <=", value, "CurrDate");
+            return this;
+        }
         public Criteria andReStoreAsscoTbs() {
-            addCriterion("lsinfo.AppNo = applyinfotb.AppNo and storeuse.SamId=lsinfo.SamId and storeuse.SamCSN=lsinfo.SamCSN and applyinfotb.OperationType=61 ");
+            addCriterion("lsinfo.samid =storeuse.samid and storeuse.SamCSN=lsinfo.SamCSN and lsinfo.OperationType='61'");
             return this;
         }        
     }

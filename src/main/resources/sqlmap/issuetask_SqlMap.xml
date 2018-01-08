@@ -22,7 +22,7 @@
     <result column="W2limit" jdbcType="DECIMAL" property="w2Limit" />
     <result column="ZeroExauthFlag" jdbcType="DECIMAL" property="zeroExauthFlag" />
     <result column="IsPki" jdbcType="DECIMAL" property="isPki" />
-    <result column="IsHTCard" jdbcType="DECIMAL" property="isHTCard" />
+    <result column="IsHTCard" jdbcType="VARCHAR" property="isHTCard" />
   </resultMap>
   <sql id="ibatorgenerated_Example_Where_Clause">
     <!--
@@ -104,7 +104,7 @@
       PhiTypeId, AppTypeId, BinFileVer, AuthSign, W2Sign, W2limit,ZeroExauthFlag,IsPki,IsHTCard,Remarks)
     values (#taskNo:VARCHAR#, #OAappNo:VARCHAR#, #appNo:VARCHAR#, #operationType:DECIMAL#,
       #prodId:VARCHAR#, #issueAmt:DECIMAL#, #keyType:DECIMAL#, #phiTypeId:VARCHAR#,
-      #appTypeId:DECIMAL#, #binFileVer:VARCHAR#, #authSign:DECIMAL#, #w2Sign:DECIMAL#,#w2Limit:DECIMAL#,#zeroExauthFlag:DECIMAL#,#isPki:DECIMAL#,#isHTCard:DECIMAL#, 
+      #appTypeId:DECIMAL#, #binFileVer:VARCHAR#, #authSign:DECIMAL#, #w2Sign:DECIMAL#,#w2Limit:DECIMAL#,#zeroExauthFlag:DECIMAL#,#isPki:DECIMAL#,#isHTCard:VARCHAR#, 
        #remarks:VARCHAR#)
   </insert>
   <insert id="ibatorgenerated_insertSelective" parameterClass="com.yly.issue.Issuetask">
@@ -215,7 +215,7 @@
         #isPki:DECIMAL#
       </isNotNull>
        <isNotNull prepend="," property="isHTCard">
-        #isHTCard:DECIMAL#
+        #isHTCard:VARCHAR#
       </isNotNull>
       <isNotNull prepend="," property="remarks">
         #remarks:VARCHAR#
@@ -284,7 +284,7 @@
         IsPki = #record.isPki:DECIMAL#
       </isNotNull>
       <isNotNull prepend="," property="record.isHTCard">
-        IsHTCard = #record.isHTCard:DECIMAL#
+        IsHTCard = #record.isHTCard:VARCHAR#
       </isNotNull>
       <isNotNull prepend="," property="record.remarks">
         Remarks = #record.remarks:VARCHAR#
@@ -315,7 +315,7 @@
       W2limit = #record.w2Limit:DECIMAL#,
       ZeroExauthFlag = #record.zeroExauthFlag:DECIMAL#,
       IsPki = #record.isPki:DECIMAL#,
-      IsHTCard = #record.isHTCard:DECIMAL#,
+      IsHTCard = #record.isHTCard:VARCHAR#,
       Remarks = #record.remarks:VARCHAR#
     <isParameterPresent>
       <include refid="issuetask.ibatorgenerated_Example_Where_Clause" />
@@ -371,7 +371,7 @@
         IsPki = #isPki:DECIMAL#
       </isNotNull>
       <isNotNull prepend="," property="isHTCard">
-        IsHTCard = #isHTCard:DECIMAL#
+        IsHTCard = #isHTCard:VARCHAR#
       </isNotNull>
      <isNotNull prepend="," property="remarks">
         Remarks = #remarks:VARCHAR#
@@ -399,7 +399,7 @@
       W2limit = #w2Limit:DECIMAL#,
       ZeroExauthFlag = #zeroExauthFlag:DECIMAL#,
       IsPki = #isPki:DECIMAL#,
-      IsHTCard = #isHTCard:DECIMAL#,
+      IsHTCard = #isHTCard:VARCHAR#,
       Remarks = #remarks:VARCHAR#
     where TaskNo = #taskNo:VARCHAR#
   </update>

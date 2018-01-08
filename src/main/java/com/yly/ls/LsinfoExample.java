@@ -1014,10 +1014,17 @@ public class LsinfoExample {
             return this;
         }
 
-        public Criteria andApplyAndLsOper(short value1, short value2) {
-            addCriterion("applyinfotb.formstate='3' and lsinfo.AppNo=applyinfotb.AppNo and lsinfo.SamId is not null and lsinfo.OperationType between", value1, value2, "operationType");
+        public Criteria andLsOper(short value1, short value2) {
+            addCriterion("lsinfo.OperationType between", value1, value2, "operationType");
             return this;
         }
-        
+        public Criteria andLsErrCDIsNull(){
+            addCriterion("lsinfo.ErrorCode is null");
+            return this;
+        }
+        public Criteria andLsSamIdNotLike(String value){
+            addCriterion("lsinfo.samId not like", value, "samId");
+            return this;
+        }
     }
 }
